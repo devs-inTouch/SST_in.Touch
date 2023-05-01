@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8" />
+    <title>homepage</title>
+   <script type="text/javascript" src="app.js"></script>
+</head>
+<body onload="showUserInfo()">
+    <label id="welcome">Welcome <span id="userID"></span></label><br>
+    <label id="role">Role: <span id="userRole"></span></label>
+    <br><br><br><br>
+    <img id="profileImg" src="" alt="No Photo."> 
+    <br><br>
+    <input type="button" value="Remove User" onclick="window.location.href='remove.html';">
+    <input type="button" value="Modify Attributes" onclick="window.location.href='modify.html';">
+    <input type="button" value="Change password" onclick="window.location.href='changePwd.html';">
+    <br><br>
+    <input type="button" value="List Users" onclick = "processInputListUser()">
+    <input type="button" value="Show Token" onclick = 'processInputShowToken()'>
+    <input type="button" value="Show User Profile" onclick = 'processInputShowProfile()'>
+    <br><br><br><br>
+    <input type="button" value="Logout" onclick="processInputLogout()">
+
+</body>
+</html>
