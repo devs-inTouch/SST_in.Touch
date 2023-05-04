@@ -59,6 +59,7 @@ public class RegisterResource {
 					.set("name", data.name)
 					.set("password", DigestUtils.sha512Hex(data.pwd))
 					.set("department", data.department)
+					.set("Email verification", "no")
 					.build();
 
 			txn.add(user);

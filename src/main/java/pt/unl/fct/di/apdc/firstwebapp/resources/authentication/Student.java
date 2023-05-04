@@ -10,28 +10,4 @@ public class Student extends AuthenticationResource {
         super();
     }
 
-
-    @Override
-    public void activateUser(String usernameToActivate) {
-
-        Transaction txn = getDatastore().newTransaction();
-        try {
-            Key userKeyToActive = super.getDatastore().newKeyFactory().setKind("User").newKey(usernameToActivate);
-            Entity userToActive = txn.get(userKeyToActive);
-            Entity newUser = Entity.newBuilder(userToActive)
-                    .set("password", userToActive.getString("pwd"))
-                    .set("name", userToActive.getString("name"))
-                    .set("email", userToActive.getString("email"))
-                    .set("state", "Active")
-                    .set("department", userToActive.getString("department"))
-                    .set("role", "Aluno")
-                    .build();
-
-            txn.put(newUser);
-            txn.commit();
-        } finally {
-            if (txn.isActive())
-                txn.rollback();
-        }
-    }
 }
