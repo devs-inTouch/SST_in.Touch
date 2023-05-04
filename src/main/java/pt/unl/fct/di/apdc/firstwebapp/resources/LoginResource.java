@@ -16,16 +16,22 @@ import com.google.cloud.datastore.*;
 import com.google.gson.Gson;
 import org.apache.commons.codec.digest.DigestUtils;
 
+import pt.unl.fct.di.apdc.firstwebapp.resources.authentication.AuthenticationInterface;
+import pt.unl.fct.di.apdc.firstwebapp.resources.authentication.AuthenticationResource;
 import pt.unl.fct.di.apdc.firstwebapp.util.AuthToken;
 import pt.unl.fct.di.apdc.firstwebapp.util.LoginData;
-
-
+import pt.unl.fct.di.apdc.firstwebapp.util.UsernameData;
 
 
 @Path("/login")
 @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 public class LoginResource {
 	private static final String STATE = "Inactive";
+	private static final String USER_NOT_REGISTERED = "Utilizador nao esta registado";
+	private static final String USER_NOT_ACTIVATED = "Utilizador nao esta activo";
+	private static final String WRONG_PASSWORD = "Password errada";
+	private static final String LINK_ALREADY_USED = "Link já foi utilizado";
+	private static final String USER_ACTIVATED = "Utilizador activado";
 
 	private static final String ROLE = "User";
 
@@ -36,6 +42,7 @@ public class LoginResource {
 
 	private final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
 	private final Gson g = new Gson();
+
 	public LoginResource() {} // Nothing to be done here
 	
 	@POST
@@ -46,13 +53,13 @@ public class LoginResource {
 		Key key = datastore.newKeyFactory().setKind("User").newKey(data.username);
 		Entity user = datastore.get(key);
 		if(user == null)
-			return Response.status(Status.BAD_REQUEST).entity("User is not registered").build();
+			return Response.status(Status.BAD_REQUEST).entity(USER_NOT_REGISTERED).build();
 		if(user.getString("state").equals(STATE))
-			return Response.status(Status.FORBIDDEN).entity("User not Activated").build();
+			return Response.status(Status.FORBIDDEN).entity(USER_NOT_ACTIVATED).build();
 
 		String pwd = DigestUtils.sha512Hex(data.password);
 		if(!pwd.equals(user.getString("password")))
-			return Response.status(Status.UNAUTHORIZED).entity("Wrong Password").build();
+			return Response.status(Status.UNAUTHORIZED).entity(WRONG_PASSWORD).build();
 
 		String role = user.getString("role");
 		List<String> info = new ArrayList<>();
@@ -70,5 +77,27 @@ public class LoginResource {
 		datastore.put(userToken);
 		return Response.ok(g.toJson(info)).build();
 	}
+
+	@POST
+	@Path("/activateUser")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response activateUser(UsernameData data) {
+		Key userKey = datastore.newKeyFactory().setKind("User").newKey(data.username);
+		Entity user = datastore.get(userKey);
+
+		if(user == null)
+			return Response.status(Status.FORBIDDEN).entity(USER_NOT_REGISTERED).build();
+
+		if(user.getString("Email verification").equals("yes") && user.getString("state").equals("Inactive"))
+			return Response.status(Status.UNAUTHORIZED).entity(LINK_ALREADY_USED).build();
+
+		if(user.getString("Email verification").equals("yes") && user.getString("state").equals("Active"))
+			return Response.status(Status.FORBIDDEN).entity(LINK_ALREADY_USED).build();
+
+		AuthenticationInterface auth = new AuthenticationResource();
+		auth.activateUser(data.username);
+
+		return Response.status(Status.OK).entity(USER_ACTIVATED).build();
 	
+	}
 }
