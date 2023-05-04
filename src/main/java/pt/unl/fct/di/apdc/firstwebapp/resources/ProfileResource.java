@@ -26,46 +26,35 @@ public class ProfileResource {
     @Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response showProfile(LogoutData data) {
-        Key kUserToken = datastore.newKeyFactory().setKind("Token").newKey(data.username);
-        Entity userToken = datastore.get(kUserToken);
+        Key userKeyToken = datastore.newKeyFactory().setKind("Token").newKey(data.usernameClip);
+        Entity userToken = datastore.get(userKeyToken);
         if(userToken.getLong("expiration_time") < System.currentTimeMillis())
             return Response.status(Response.Status.EXPECTATION_FAILED).entity("Token Expired").build();
-        Key kUser = datastore.newKeyFactory().setKind("User").newKey(data.username);
-        Entity user = datastore.get(kUser);
-        if (user == null)
-            return Response.status(Response.Status.FORBIDDEN).entity("User not in database!").build();
+        Key kUser = datastore.newKeyFactory().setKind("User").newKey(data.usernameClip);
 
-        String userID = user.getKey().getName();
-        String role = user.getString("role");
-        String email = user.getString("email");
-        String name = user.getString("name");
-        String profile = user.getString("profile");
-        String cellPhone = user.getString("cellPhone");
-        String fixPhone = user.getString("fixPhone");
-        String occupation = user.getString("occupation");
-        String workplace = user.getString("workplace");
-        String address1 = user.getString("address 1");
-        String address2 = user.getString("address 2");
-        String city = user.getString("city");
-        String outCode = user.getString("outCode");
-        String inCode = user.getString("inCode");
-        String NIF = user.getString("NIF");
-        List<String> info = new ArrayList<>();
-        info.add(userID);
-        info.add(name);
-        info.add(role);
-        info.add(email);
-        info.add(profile);
-        info.add(cellPhone);
-        info.add(fixPhone);
-        info.add(occupation);
-        info.add(workplace);
-        info.add(address1);
-        info.add(address2);
-        info.add(city);
-        info.add(outCode);
-        info.add(inCode);
-        info.add(NIF);
-        return Response.ok(g.toJson(info)).build();
+        Transaction txt = datastore.newTransaction();
+        try{
+            Entity user = txt.get(kUser);
+            if (user == null)
+                return Response.status(Response.Status.FORBIDDEN).entity("User not in database!").build();
+            String userID = user.getKey().getName();
+            String role = user.getString("role");
+            String email = user.getString("email");
+            String name = user.getString("name");
+            String department = user.getString("department");
+            //Add fields to an array to be returned as a json
+            List<String> info = new ArrayList<>();
+            info.add(userID);
+            info.add(role);
+            info.add(email);
+            info.add(name);
+            info.add(department);
+
+            txt.commit();
+            return Response.ok(g.toJson(info)).build();
+        }finally {
+            if(txt.isActive())
+                txt.rollback();
+        }
     }
 }

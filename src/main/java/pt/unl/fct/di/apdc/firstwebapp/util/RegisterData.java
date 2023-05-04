@@ -6,6 +6,7 @@ public class RegisterData {
             confPwd, department, role;
 
 
+    //ATENCION: If added a new field here, remember to added in ProfileResource
     public  RegisterData(){}
     public RegisterData(String usernameClip, String email, String name, String pwd,
                         String confPwd, String role, String department) {

@@ -37,7 +37,7 @@ public class RegisterResource {
 	@Path("")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response doRegister(RegisterData data){
-
+		//ATENCION: If added a new field here, remember to added in ProfileResource
 		if (data.hasMandatoryInputs())
 			return Response.status(Status.BAD_REQUEST).entity(MANDATORY_FIELDS).build();
 

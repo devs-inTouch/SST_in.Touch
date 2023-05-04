@@ -1,11 +1,11 @@
 package pt.unl.fct.di.apdc.firstwebapp.util;
 
 public class LogoutData {
-    public String username;
+    public String usernameClip;
 
     public LogoutData(){}
 
-    public LogoutData(String username){
-        this.username = username;
+    public LogoutData(String usernameClip){
+        this.usernameClip = usernameClip;
     }
 }
