@@ -4,7 +4,8 @@ import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.Key;
-import pt.unl.fct.di.apdc.firstwebapp.util.LoginData;
+
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.LoginData;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;

@@ -18,9 +18,9 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 import pt.unl.fct.di.apdc.firstwebapp.resources.authentication.AuthenticationInterface;
 import pt.unl.fct.di.apdc.firstwebapp.resources.authentication.AuthenticationResource;
-import pt.unl.fct.di.apdc.firstwebapp.util.AuthToken;
-import pt.unl.fct.di.apdc.firstwebapp.util.LoginData;
-import pt.unl.fct.di.apdc.firstwebapp.util.UsernameData;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.AuthToken;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.LoginData;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.old.UsernameData;
 
 
 @Path("/login")

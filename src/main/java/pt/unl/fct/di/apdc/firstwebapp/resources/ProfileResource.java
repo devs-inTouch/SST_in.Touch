@@ -9,7 +9,7 @@ import javax.ws.rs.core.Response;
 import com.google.cloud.datastore.*;
 import com.google.gson.Gson;
 
-import pt.unl.fct.di.apdc.firstwebapp.util.LogoutData;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.old.LogoutData;
 
 import java.util.ArrayList;
 import java.util.List;

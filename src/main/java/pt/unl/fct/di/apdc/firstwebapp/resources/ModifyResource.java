@@ -4,8 +4,10 @@ import com.google.cloud.Timestamp;
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.gson.Gson;
+
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.old.ModifyData;
+
 import org.apache.commons.codec.digest.DigestUtils;
-import pt.unl.fct.di.apdc.firstwebapp.util.ModifyData;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;

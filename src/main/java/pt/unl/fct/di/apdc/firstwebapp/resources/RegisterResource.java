@@ -11,9 +11,9 @@ import com.google.cloud.Timestamp;
 import com.google.cloud.datastore.*;
 import com.google.gson.Gson;
 
-import org.apache.commons.codec.digest.DigestUtils;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.RegisterData;
 
-import pt.unl.fct.di.apdc.firstwebapp.util.RegisterData;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import java.util.logging.Logger;
 

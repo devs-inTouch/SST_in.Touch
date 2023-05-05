@@ -1,7 +1,8 @@
 package pt.unl.fct.di.apdc.firstwebapp.resources;
 
 import com.google.cloud.datastore.*;
-import pt.unl.fct.di.apdc.firstwebapp.util.LoginData;
+
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.LoginData;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;

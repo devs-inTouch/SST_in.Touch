@@ -12,8 +12,9 @@ import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.PathElement;
 
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.old.RemoveData;
+
 import org.apache.commons.codec.digest.DigestUtils;
-import pt.unl.fct.di.apdc.firstwebapp.util.RemoveData;
 
 @Path("/remove")
 public class RemoveResource {

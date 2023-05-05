@@ -4,8 +4,10 @@ import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.Key;
+
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.PasswordChangeData;
+
 import org.apache.commons.codec.digest.DigestUtils;
-import pt.unl.fct.di.apdc.firstwebapp.util.ChangePwdData;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -23,7 +25,7 @@ public class ChangePwdResource {
     @POST
     @Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response changePwd(ChangePwdData data){
+    public Response changePwd(PasswordChangeData data){
         Key kToken = datastore.newKeyFactory().setKind("Token").newKey(data.username);
         Entity userToken = datastore.get(kToken);
         if(userToken.getLong("expiration_time") < System.currentTimeMillis())
