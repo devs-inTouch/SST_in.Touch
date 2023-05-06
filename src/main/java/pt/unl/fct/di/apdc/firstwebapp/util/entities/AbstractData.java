@@ -1,17 +1,17 @@
 package pt.unl.fct.di.apdc.firstwebapp.util.entities;
 
-public abstract class AbstractChangeData {
+public abstract class AbstractData {
     
     private TokenData token;
 
-    public AbstractChangeData() {
+    public AbstractData() {
 
     }
 
     /**
      * @param token
      */
-    public AbstractChangeData(TokenData token) {
+    public AbstractData(TokenData token) {
         this.token = token;
     }
 

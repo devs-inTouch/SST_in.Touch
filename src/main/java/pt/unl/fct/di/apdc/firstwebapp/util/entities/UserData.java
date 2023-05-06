@@ -7,7 +7,7 @@ package pt.unl.fct.di.apdc.firstwebapp.util.entities;
  * 
  * @author fjaleao
  */
-public class UserData extends AbstractChangeData {
+public class UserData extends AbstractData {
 
     private String targetUsername;
 
