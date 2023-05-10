@@ -48,7 +48,7 @@ public class ModifyResource {
         Entity managerToken = datastore.get(tokenKey);
 
         if(!TokenUtil.isTokenValid(LOG, givenTokenData, managerToken))
-            return Response.status(Status.EXPECTATION_FAILED).entity("Token Expired").build();
+            return Response.status(Status.FORBIDDEN).build();
 
 
         Key managerKey = datastore.newKeyFactory().setKind("User").newKey(givenTokenData.getUsername());
