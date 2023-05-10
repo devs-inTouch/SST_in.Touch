@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_basic/registerPage.dart';
 
 
 void main() {
@@ -9,17 +10,15 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-
-
   @override
   Widget build(BuildContext context) {
 
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme:ThemeData(
-        primaryColor: Colors.blue
-      ),
-     home: Login()
+        debugShowCheckedModeBanner: false,
+        theme:ThemeData(
+            primaryColor: Colors.blue
+        ),
+        home: Login()
     );
 
 
@@ -28,7 +27,20 @@ class MyApp extends StatelessWidget {
 
 }
 
-class Login extends StatelessWidget {
+
+
+ class Login extends StatefulWidget {
+
+
+   @override
+   State<Login> createState() => LoginHomePage();
+
+
+ }
+
+class LoginHomePage extends State<Login> {
+
+  bool passwordVisible = true;
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +50,7 @@ class Login extends StatelessWidget {
     return Scaffold(
 
       body: Container(
+
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           decoration: const BoxDecoration(
@@ -49,12 +62,13 @@ class Login extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            SizedBox(height: 20,),
             Align(
                 alignment: Alignment.topCenter,
                 child:
-                Image.asset('assets/logo-1-RBH.png', height: 150,)
+                Image.asset('assets/logo-1-RBH.png', height: 100,)
             ),
-
+            SizedBox(height: 30,),
             Align(
               alignment: Alignment.center,
               child: Container(
@@ -90,9 +104,23 @@ class Login extends StatelessWidget {
                   Container(
                       width: 250,
                       child: TextField(
+                        obscureText: passwordVisible,
                         decoration: InputDecoration(
                             border: OutlineInputBorder(),
-                            labelText: 'Password'
+                            labelText: 'Password',
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              passwordVisible ? Icons.visibility : Icons.visibility_off,
+
+                            ),
+                            onPressed: () {
+                              setState( () {
+                                passwordVisible = !passwordVisible;
+                              });
+
+                            },
+
+                          )
                         ),
 
                       )
@@ -135,7 +163,10 @@ class Login extends StatelessWidget {
                   ),
                   TextButton(
                       onPressed: () {
-                        debugPrint('Received click');
+
+
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const Register()));
+
                       },
                       child: Text('Regista-te')
                   )
@@ -159,5 +190,16 @@ class Login extends StatelessWidget {
 
 
   }
+
+
+
+
+
+
+
+
+
+
+
 
 }
