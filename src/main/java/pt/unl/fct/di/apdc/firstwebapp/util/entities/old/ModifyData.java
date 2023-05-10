@@ -1,5 +1,9 @@
-package pt.unl.fct.di.apdc.firstwebapp.util;
+package pt.unl.fct.di.apdc.firstwebapp.util.entities.old;
 
+/**
+ * @deprecated
+ * @see AttributeChangeData
+ */
 public class ModifyData {
     public String username, modUsername, state, role, email, name, password,
             profile, cellPhone, fixPhone, occupation, workplace, address1,

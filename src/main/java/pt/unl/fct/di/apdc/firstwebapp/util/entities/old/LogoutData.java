@@ -1,5 +1,9 @@
-package pt.unl.fct.di.apdc.firstwebapp.util;
+package pt.unl.fct.di.apdc.firstwebapp.util.entities.old;
 
+/**
+ * @deprecated
+ * @see UserData
+ */
 public class LogoutData {
     public String usernameClip;
 
