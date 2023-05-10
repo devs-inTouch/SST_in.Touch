@@ -1,5 +1,7 @@
 package pt.unl.fct.di.apdc.firstwebapp.resources;
 
+import java.util.logging.Logger;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -14,6 +16,7 @@ import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.Key;
 
+import pt.unl.fct.di.apdc.firstwebapp.util.TokenUtil;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.AttributeChangeData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.TokenData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.old.ModifyData;
@@ -27,6 +30,7 @@ public class ModifyResource {
     private static final String USER = "USER";
 
     private final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
+	private static final Logger LOG = Logger.getLogger(ModifyResource.class.getName());
 
     public ModifyResource() {}
 
@@ -43,7 +47,7 @@ public class ModifyResource {
         Key tokenKey = datastore.newKeyFactory().setKind("Token").newKey(givenTokenData.getUsername());
         Entity managerToken = datastore.get(tokenKey);
 
-        if(managerToken.getLong("expiration_time") < System.currentTimeMillis())
+        if(!TokenUtil.isTokenValid(LOG, givenTokenData, managerToken))
             return Response.status(Status.EXPECTATION_FAILED).entity("Token Expired").build();
 
 
