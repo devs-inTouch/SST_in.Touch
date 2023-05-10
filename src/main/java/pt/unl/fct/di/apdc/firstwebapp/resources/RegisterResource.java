@@ -23,7 +23,7 @@ public class RegisterResource {
 	/**
 	 * Logger Object
 	 */
-	private static final Logger LOG = Logger.getLogger(LoginResource.class.getName());
+	private static final Logger LOG = Logger.getLogger(RegisterResource.class.getName());
 
 	private static final String USER_ALREADY_EXISTS = "Utilizador já criado";
 

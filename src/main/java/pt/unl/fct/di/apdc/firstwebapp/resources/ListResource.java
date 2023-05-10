@@ -37,7 +37,7 @@ public class ListResource {
     
     private final Gson g = new Gson();
     private final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
-    private static final Logger LOG = Logger.getLogger(LoginResource.class.getName());
+    private static final Logger LOG = Logger.getLogger(ListResource.class.getName());
 
     public ListResource() {}
 
