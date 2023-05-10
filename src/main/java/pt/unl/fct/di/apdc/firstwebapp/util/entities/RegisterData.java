@@ -37,9 +37,7 @@ public class RegisterData {
 	private String nif;
 
 	
-	public RegisterData() {
-		
-	}
+	public RegisterData() {}
 
 	public RegisterData(String username, String name, String email, String password, boolean visible, String mobilePhoneNumber,
 			String phoneNumber, String department, String workAddress, String address, String secondAddress,

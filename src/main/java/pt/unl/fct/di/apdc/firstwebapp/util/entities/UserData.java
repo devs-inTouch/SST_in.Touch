@@ -11,10 +11,7 @@ public class UserData extends AbstractData {
 
     private String targetUsername;
 
-    public UserData() {
-
-    }
-
+    public UserData() {}
     
     public UserData(TokenData token, String targetUsername) {
         super(token);

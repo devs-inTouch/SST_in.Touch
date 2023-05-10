@@ -1,14 +1,14 @@
 package pt.unl.fct.di.apdc.firstwebapp.util.entities;
 
-public class PasswordChangeData extends AbstractData {
+public class PasswordChangeData extends UserData {
     
     private String newPassword;
 
     public PasswordChangeData() {}
 
     
-    public PasswordChangeData(String newPassword, TokenData token) {
-        super(token);
+    public PasswordChangeData(String newPassword, String targetUsername, TokenData token) {
+        super(token, targetUsername);
         this.newPassword = newPassword;
     }
 

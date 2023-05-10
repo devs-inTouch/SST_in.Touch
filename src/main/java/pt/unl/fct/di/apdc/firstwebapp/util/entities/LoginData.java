@@ -1,12 +1,12 @@
 package pt.unl.fct.di.apdc.firstwebapp.util.entities;
 
 public class LoginData {
+	
 	private String username;
 	private String password;
 	
-	public LoginData() {
-		
-	}
+
+	public LoginData() {}
 	
 	public LoginData(String username, String password) {
 		this.username = username;

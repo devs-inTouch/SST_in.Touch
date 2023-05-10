@@ -5,12 +5,6 @@ import java.util.UUID;
 import com.google.cloud.Timestamp;
 
 public class AuthToken {
-
-	public static final String USERNAME = "token_user_id";
-	public static final String ID = "token_id";
-	public static final String CREATION_TIME = "token_creation_time";
-	public static final String EXPIRATION_TIME = "token_expiration_time";
-	public static final String VERIFICATION = "token_verification";
 	
 	public static final long TTL = 60*60*2; //2h in seconds
 	
@@ -20,9 +14,8 @@ public class AuthToken {
 	private long expirationDate;
 	private String verification; //TODO change to better fit security specs
 	
-	public AuthToken() {
-		
-	}
+
+	public AuthToken() {}
 	
 	public AuthToken(String username, String verification) {
 		

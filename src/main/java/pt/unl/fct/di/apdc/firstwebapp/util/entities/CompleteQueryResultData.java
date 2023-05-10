@@ -1,10 +1,17 @@
 package pt.unl.fct.di.apdc.firstwebapp.util.entities;
 
-public class AttributeChangeData extends UserData {
+import com.google.cloud.Timestamp;
 
+public class CompleteQueryResultData {
+
+    private String username;
     private String name;
     private String email;
-    private boolean visible;
+    private String password;
+    private Timestamp creationTime;
+    private String type;
+    private boolean state;
+	private boolean visible;
 	private String mobilePhoneNumber;
 	private String phoneNumber;
 	private String occupation;
@@ -14,15 +21,20 @@ public class AttributeChangeData extends UserData {
 	private String postCode;
 	private String nif;
 
-    
-    public AttributeChangeData() {}
+    public CompleteQueryResultData() {
 
-    public AttributeChangeData(TokenData token, String targetUsername, String name, String email, boolean visible, String mobilePhoneNumber,
-            String phoneNumber, String occupation, String workAddress, String address, String secondAddress,
-            String postCode, String nif) {
-        super(token, targetUsername);
+    }
+
+    public CompleteQueryResultData(String username, String name, String email, String password, Timestamp creationTime,
+            String type, boolean state, boolean visible, String mobilePhoneNumber, String phoneNumber,
+            String occupation, String workAddress, String address, String secondAddress, String postCode, String nif) {
+        this.username = username;
         this.name = name;
         this.email = email;
+        this.password = password;
+        this.creationTime = creationTime;
+        this.type = type;
+        this.state = state;
         this.visible = visible;
         this.mobilePhoneNumber = mobilePhoneNumber;
         this.phoneNumber = phoneNumber;
@@ -32,6 +44,13 @@ public class AttributeChangeData extends UserData {
         this.secondAddress = secondAddress;
         this.postCode = postCode;
         this.nif = nif;
+    }
+
+    /**
+     * @return the username
+     */
+    public String getUsername() {
+        return username;
     }
 
     /**
@@ -46,6 +65,34 @@ public class AttributeChangeData extends UserData {
      */
     public String getEmail() {
         return email;
+    }
+
+    /**
+     * @return the password
+     */
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * @return the creationTime
+     */
+    public Timestamp getCreationTime() {
+        return creationTime;
+    }
+
+    /**
+     * @return the type
+     */
+    public String getType() {
+        return type;
+    }
+
+    /**
+     * @return the state
+     */
+    public boolean isState() {
+        return state;
     }
 
     /**

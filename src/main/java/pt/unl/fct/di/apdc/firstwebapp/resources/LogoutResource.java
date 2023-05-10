@@ -1,8 +1,6 @@
 package pt.unl.fct.di.apdc.firstwebapp.resources;
 
-import com.google.cloud.datastore.*;
-
-import pt.unl.fct.di.apdc.firstwebapp.util.entities.LoginData;
+import java.util.logging.Logger;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -12,19 +10,29 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import com.google.cloud.datastore.Datastore;
+import com.google.cloud.datastore.DatastoreOptions;
+import com.google.cloud.datastore.Entity;
+import com.google.cloud.datastore.Key;
+import com.google.cloud.datastore.Transaction;
+
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.TokenData;
+
 @Path("/logout")
 @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 public class LogoutResource {
 
     private final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
 
+    private static final Logger LOG = Logger.getLogger(LoginResource.class.getName());
+
     public LogoutResource(){}
 
     @POST
     @Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response doLogout(LoginData data) {
-        Key keyToken = datastore.newKeyFactory().setKind("Token").newKey(data.username);
+    public Response logout(TokenData data) {
+        Key keyToken = datastore.newKeyFactory().setKind("Token").newKey(data.getUsername());
         Transaction txn = datastore.newTransaction();
         try{
             Entity user = txn.get(keyToken);
@@ -33,7 +41,11 @@ public class LogoutResource {
             txn.delete(keyToken);
             txn.commit();
             return Response.status(Status.OK).build();
-        }finally {
+		} catch (Exception e) {
+			txn.rollback();
+			LOG.severe(e.getMessage());
+			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+        } finally {
             if(txn.isActive())
                 txn.rollback();
         }

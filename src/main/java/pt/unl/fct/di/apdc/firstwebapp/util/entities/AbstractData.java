@@ -4,14 +4,13 @@ public abstract class AbstractData {
     
     private TokenData token;
 
-    public AbstractData() {
-
-    }
+    
+    public AbstractData() {}
 
     /**
      * @param token
      */
-    public AbstractData(TokenData token) {
+    protected AbstractData(TokenData token) {
         this.token = token;
     }
 

@@ -6,33 +6,38 @@ package pt.unl.fct.di.apdc.firstwebapp.util.enums;
  * @author fjaleao
  */
 public enum UserAttributes {
+
+    // TODO check indexes
     
     // Mandatory fields
-    USERNAME("user_id"),
-    NAME("user_name"),
-    PASSWORD("user_password"),
-    EMAIL("user_email"),
-    CREATION_TIME("user_creation_time"),
-    TYPE("user_type"),
-    STATE("user_state_activated"),
+    USERNAME("user_id", String.class),
+    NAME("user_name", String.class),
+    PASSWORD("user_password", String.class),
+    EMAIL("user_email", String.class),
+    CREATION_TIME("user_creation_time", Long.class),
+    ROLE("user_role", String.class),
+    STATE("user_is_activated", Boolean.class),
 
     // Optional fields
-    VISIBILITY("user_visibility"),
-    MOBILE("user_mobile_phone_number"),
-    PHONE("user_phone_number"),
-    OCCUPATION("user_occupation"),
-    WORK_ADDRESS("user_work_address"),
-    ADDRESS("user_address"),
-    SECOND_ADDRESS("user_second_address"),
-    POST_CODE("user_post_code"),
-    NIF("user_nif");
+    VISIBILITY("user_is_visible", Boolean.class),
+    MOBILE("user_mobile_phone_number", String.class),
+    PHONE("user_phone_number", String.class),
+    DEPARTMENT("user_department", String.class),
+    WORK_ADDRESS("user_work_address", String.class),
+    ADDRESS("user_address", String.class),
+    SECOND_ADDRESS("user_second_address", String.class),
+    POST_CODE("user_post_code", String.class),
+    NIF("user_nif", String.class);
 
 
 
     public final String value;
 
-    private UserAttributes(String value) {
+    public final String type;
+
+    private UserAttributes(String value, Class<?> type) {
         this.value = value;
+        this.type = type.getSimpleName();
     }
     
 }
