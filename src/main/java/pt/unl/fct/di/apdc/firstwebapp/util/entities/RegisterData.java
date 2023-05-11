@@ -9,6 +9,9 @@ public class RegisterData {
 	public static final String CREATION_TIME = "user_creation_time";
 	public static final String TYPE = "user_type";
 	public static final String STATE = "user_state_activated";
+	public static final String STUDENT_NUMBER = "user_student_number";
+	public static final String COURSE = "user_course";
+	public static final String DESCRIPTION = "user_description";
 
 	public static final String VISIBILITY = "user_visibility";
 	public static final String MOBILE = "user_mobile_phone_number";
@@ -25,37 +28,34 @@ public class RegisterData {
 	private String name;
 	private String email;
 	private String password;
+	private String studentNumber;
+	private String course;
+	private String description;
+	private String department;
 
-	private boolean visible;
+	/*private boolean visible;
 	private String mobilePhoneNumber;
 	private String phoneNumber;
-	private String department;
 	private String workAddress;
 	private String address;
 	private String secondAddress;
 	private String postCode;
-	private String nif;
+	private String nif;*/
 
 	
 	public RegisterData() {}
 
-	public RegisterData(String username, String name, String email, String password, boolean visible, String mobilePhoneNumber,
-			String phoneNumber, String department, String workAddress, String address, String secondAddress,
-			String postCode, String nif) {
+	public RegisterData(String username, String name, String email, String password, String studentNumber,
+						String course, String description, String department) {
 		this.username = username;
 		this.name = name;
 		this.email = email;
 		this.password = password;
-		
-		this.visible = visible;
-		this.mobilePhoneNumber = mobilePhoneNumber;
-		this.phoneNumber = phoneNumber;
+		this.studentNumber = studentNumber;
+		this.course = course;
+		this.description = description;
 		this.department = department;
-		this.workAddress = workAddress;
-		this.address = address;
-		this.secondAddress = secondAddress;
-		this.postCode = postCode;
-		this.nif = nif;
+
 	}
 
 	public boolean isValid() {
@@ -91,25 +91,19 @@ public class RegisterData {
 	}
 
 	/**
-	 * @return the visible
+	 * @return the student number
 	 */
-	public boolean isVisible() {
-		return visible;
-	}
+	public String getStudentNumber() { return studentNumber; }
 
 	/**
-	 * @return the mobilePhoneNumber
+	 * @return the course
 	 */
-	public String getMobilePhoneNumber() {
-		return mobilePhoneNumber;
-	}
+	public String getCourse() { return course; }
 
 	/**
-	 * @return the phoneNumber
+	 * @return the description
 	 */
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
+	public String getDescription() { return description; }
 
 	/**
 	 * @return the department
@@ -117,42 +111,5 @@ public class RegisterData {
 	public String getDepartment() {
 		return department;
 	}
-
-	/**
-	 * @return the workAddress
-	 */
-	public String getWorkAddress() {
-		return workAddress;
-	}
-
-	/**
-	 * @return the address
-	 */
-	public String getAddress() {
-		return address;
-	}
-
-	/**
-	 * @return the secondAddress
-	 */
-	public String getSecondAddress() {
-		return secondAddress;
-	}
-
-	/**
-	 * @return the postCode
-	 */
-	public String getPostCode() {
-		return postCode;
-	}
-
-	/**
-	 * @return the nif
-	 */
-	public String getNif() {
-		return nif;
-	}
-	
-	
 
 }

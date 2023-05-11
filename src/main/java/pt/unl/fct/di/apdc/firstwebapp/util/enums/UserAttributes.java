@@ -27,7 +27,10 @@ public enum UserAttributes {
     ADDRESS("user_address", String.class),
     SECOND_ADDRESS("user_second_address", String.class),
     POST_CODE("user_post_code", String.class),
-    NIF("user_nif", String.class);
+    NIF("user_nif", String.class),
+    STUDENT_NUMBER("user_student_number", String.class),
+    COURSE("user_course", String.class),
+    DESCRIPTION("user_description", String.class);
 
 
 
