@@ -7,13 +7,13 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import com.google.cloud.Timestamp;
 import com.google.cloud.datastore.*;
-import com.google.gson.Gson;
+
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.RegisterData;
+import pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes;
+import pt.unl.fct.di.apdc.firstwebapp.util.enums.UserRole;
 
 import org.apache.commons.codec.digest.DigestUtils;
-
-import pt.unl.fct.di.apdc.firstwebapp.util.RegisterData;
 
 import java.util.logging.Logger;
 
@@ -23,28 +23,27 @@ public class RegisterResource {
 	/**
 	 * Logger Object
 	 */
-	private static final String STATE = "Inactive";
-	private static final String ROLE = "Aluno";
-	private static final String MANDATORY_FIELDS = "Tem de preencher os campos obrigatórios";
-	private static final String INVALID_INPUTS = "Inputs inválidos";
+	private static final Logger LOG = Logger.getLogger(RegisterResource.class.getName());
+
 	private static final String USER_ALREADY_EXISTS = "Utilizador já criado";
 
 	private final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
-	private final Gson g = new Gson();
+
+
 	public RegisterResource() {}
 
 	@POST
-	@Path("")
+	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response doRegister(RegisterData data){
+	public Response registerUser(RegisterData data){
+		//ATENCION: If added a new field here, remember to added in ProfileResource
+		// if (data.hasMandatoryInputs())
+		// 	return Response.status(Status.BAD_REQUEST).entity(MANDATORY_FIELDS).build();
 
-		if (data.hasMandatoryInputs())
-			return Response.status(Status.BAD_REQUEST).entity(MANDATORY_FIELDS).build();
+		// if(!data.validPwd() || !data.validEmail())
+		// 	return Response.status(Status.BAD_REQUEST).entity(INVALID_INPUTS).build();
 
-		if(!data.validPwd() || !data.validEmail())
-			return Response.status(Status.BAD_REQUEST).entity(INVALID_INPUTS).build();
-
-		Key userKey = datastore.newKeyFactory().setKind("User").newKey(data.usernameClip);
+		Key userKey = datastore.newKeyFactory().setKind("User").newKey(data.getUsername());
 
 		Transaction txn = datastore.newTransaction();
 		try {
@@ -52,17 +51,22 @@ public class RegisterResource {
 			if(user != null)
 				return Response.status(Status.BAD_REQUEST).entity(USER_ALREADY_EXISTS).build();
 			user = Entity.newBuilder(userKey)
-					.set("state", STATE)
-					.set("role", ROLE)
-					.set("user_creation_time", System.currentTimeMillis())
-					.set("email", data.email)
-					.set("name", data.name)
-					.set("password", DigestUtils.sha512Hex(data.pwd))
-					.set("department", data.department)
+					.set(UserAttributes.USERNAME.value, data.getUsername())
+					.set(UserAttributes.NAME.value, data.getName())
+					.set(UserAttributes.PASSWORD.value, DigestUtils.sha512Hex(data.getPassword()))
+					.set(UserAttributes.CREATION_TIME.value, System.currentTimeMillis())
+					.set(UserAttributes.EMAIL.value, data.getEmail())
+					.set(UserAttributes.STUDENT_NUMBER.value, data.getStudentNumber())
+					.set(UserAttributes.ROLE.value, UserRole.UNASSIGNED.type)
+					.set(UserAttributes.DEPARTMENT.value, data.getDepartment())
+					.set(UserAttributes.DESCRIPTION.value, data.getDescription())
+					.set(UserAttributes.STATE.value, false)
+					.set(UserAttributes.VISIBILITY.value, false)
 					.build();
 
 			txn.add(user);
 			txn.commit();
+			LOG.fine("User registered" + data.getUsername());
 			return Response.status(Status.OK).entity("Utilizador registado").build();
 
 		} finally {
