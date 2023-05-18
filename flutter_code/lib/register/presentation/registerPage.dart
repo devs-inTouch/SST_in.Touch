@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/login/presentation/loginPage.dart';
-import 'package:flutter_basic/register/application/registerRequest.dart';
+import 'package:flutter_basic/register/application/registerAuth.dart';
 
 const List<String> list = <String>['STUDENT', 'TEACHER', 'STAFF'];
 
@@ -300,9 +300,92 @@ class RegisterHome extends State<Register> {
                                 ),
 
                                 onPressed: () {
-                                  RegisterButtonPressed(usernameControl.text, emailControl.text, nameControl.text, pwdControl.text
-                                      , numberControl.text, courseControl.text,  descrpControl.text, departmentControl.text);
-                                  debugPrint('Received click');
+                                  if(RegisterAuth.emptyFields(usernameControl.text, emailControl.text,
+                                      nameControl.text, pwdControl.text, pwdConfirmControl.text)) {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: Text('Preenchas pelo menos os campos: '
+                                              'Username, nome, password e email'),
+                                          actions: <Widget>[
+                                            TextButton(
+                                              child: Text('Ok'),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  }
+                                  else if(RegisterAuth.hasSpecialChars(pwdControl.text)) {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: Text('Password contém caracteres inválidos'),
+                                          actions: <Widget>[
+                                            TextButton(
+                                              child: Text('Ok'),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  }else if(pwdConfirmControl.text != pwdControl.text) {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: Text('Passwords são diferentes!'),
+                                          actions: <Widget>[
+                                            TextButton(
+                                              child: Text('Ok'),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  }
+                                  else if(!RegisterAuth.isPasswordCompliant(pwdControl.text)) {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: Text('Password tem de ter no mínimo 5 caracteres,'
+                                              'letra maiuscula e um número'),
+                                          actions: <Widget>[
+                                            TextButton(
+                                              child: Text('Ok'),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  } else {
+                                    RegisterButtonPressed(
+                                        usernameControl.text,
+                                        emailControl.text,
+                                        nameControl.text,
+                                        pwdControl.text
+                                        ,
+                                        numberControl.text,
+                                        courseControl.text,
+                                        descrpControl.text,
+                                        departmentControl.text);
+                                    debugPrint('Received click');
+                                  }
                                 },
                                 child: Text('Register',
                                     style: TextStyle(
