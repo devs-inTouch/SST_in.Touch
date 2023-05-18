@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_basic/register/application/registerRequest.dart';
+import 'package:flutter_basic/register/application/registerAuth.dart';
 import 'package:flutter_basic/register/presentation/registerPage.dart';
 import 'package:flutter_basic/login/application/loginAuth.dart';
+import 'package:flutter_basic/responsive_mainpage/responsive_page.dart';
+import 'package:flutter_basic/responsive_mainpage/tablet_scaffold.dart';
+import 'package:flutter_basic/responsive_mainpage/desktop_scaffold.dart';
+import 'package:flutter_basic/responsive_mainpage/mobile_scaffold.dart';
 
 
 
@@ -45,21 +49,40 @@ class LoginHomePage extends State<Login> {
   bool passwordVisible = true;
 
   void loginButtonPressed(String username, String pwd) {
-    if(LoginAuth.userLogin(username, pwd) == true) {
-      showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return const AlertDialog(
-                title: Text('Login efetuado'));});
-     debugPrint('Funcionou');
-    }
+    LoginAuth.userLogin(username, pwd).then((isLogged) {
+      if(isLogged) {
+        print(LoginAuth.userLogin(username, pwd));
+        Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => MainPage(desktopScaffold: const DesktopScaffold(), mobileScaffold: const MobileScaffold(), tabletScaffold: const TabletScaffold())
+            ));
+      }else {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+        return AlertDialog(
+        title: Text('Username e password incorretos'),
+        actions: <Widget>[
+        TextButton(
+        child: Text('Ok'),
+        onPressed: () {
+        Navigator.of(context).pop();
+        },
+        ),
+        ],
+        );
+        },
+        );
+        }
+    });
+
+
   }
 
   @override
   Widget build(BuildContext context) {
     double baseWidth = 1440;
     double fem = MediaQuery.of(context).size.width / baseWidth;
-    double ffem = fem * 0.97;
     return Scaffold(
 
       body: Container(
