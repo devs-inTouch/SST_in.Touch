@@ -29,6 +29,7 @@ public class ProfileResource {
 
     private static final Logger LOG = Logger.getLogger(ProfileResource.class.getName());
 
+    private static final String USER_NOT_FOUND = "User not in database!";
 
     private final Gson g = new Gson();
 
@@ -39,10 +40,43 @@ public class ProfileResource {
     @POST
     @Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response showProfile(TokenData data) {
-        Key tokenKey = datastore.newKeyFactory().setKind("Token").newKey(data.getUsername());
+        public Response showProfile(TokenData data) {
+            LOG.fine("Attempt to show profile: " + data.getUsername());
+            verifyToken(data);
+            //send data to the client
+            Key userKey = datastore.newKeyFactory().setKind("User").newKey(data.getUsername());
+            Transaction txn = datastore.newTransaction();
+            try {
+                Entity user = txn.get(userKey);
+                if (user == null)
+                    return Response.status(Status.BAD_REQUEST).entity(USER_NOT_FOUND).build();
+
+                List<String> info = new ArrayList<>();
+                info.add(user.getString(UserAttributes.USERNAME.value));
+                info.add(user.getString(UserAttributes.DEPARTMENT.value));
+                info.add(user.getString(UserAttributes.DESCRIPTION.value));
+                info.add(user.getString(UserAttributes.EMAIL.value));
+                info.add(user.getString(UserAttributes.NAME.value));
+                info.add(user.getString(UserAttributes.STUDENT_NUMBER.value));
+                /*info.add(user.getString(UserAttributes.ROLE.value));
+                info.add(user.getString(UserAttributes.DEPARTMENT.value));
+                info.add(user.getString(UserAttributes.WORK_ADDRESS.value));
+                */
+
+                txn.commit();
+                return Response.ok(g.toJson(info)).build();
+            }catch (Exception e) {
+                LOG.severe(e.getMessage());
+                return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+            }
+            finally {
+                if (txn.isActive())
+                    txn.rollback();
+            }
+
+        /*Key tokenKey = datastore.newKeyFactory().setKind("Token").newKey(data.getUsername());
         Entity token = datastore.get(tokenKey);
-        
+
         if(!TokenUtil.isTokenValid(LOG, data, token))
             return Response.status(Status.FORBIDDEN).build(); //o leitao disse que este era o codigo mais correto para esta situacao
 
@@ -71,5 +105,10 @@ public class ProfileResource {
         info.add(user.getString(UserAttributes.NIF.value));
 
         return Response.ok(g.toJson(info)).build();
+    }*/
+        
+    }
+
+    private void verifyToken(TokenData data) {
     }
 }
