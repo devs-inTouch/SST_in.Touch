@@ -7,11 +7,11 @@ class LoginAuth {
 
 
 
-  static bool userLogin(String username,String pwd) {
+  static Future<bool> userLogin(String username,String pwd) async {
+    print("aqui");
+    bool res = await fetchAuthenticate(username, pwd);
 
-    fetchAuthenticate( username, pwd);
-
-    return true;
+    return res;
 
   }
 
@@ -28,9 +28,10 @@ class LoginAuth {
 
       }),
     );
-
+    print(response.statusCode);
     if(response.statusCode == 200) {
-        debugPrint(json.decode(response.body));
+      final jsonResponse = json.decode(response.body);
+        print("RESPOSTA: $jsonResponse");
         window.sessionStorage["Token"] = json.encode(json.decode(response.body));
         return true;
     } else {

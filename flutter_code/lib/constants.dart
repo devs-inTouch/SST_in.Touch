@@ -1,14 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/responsive_mainpage/responsive_page.dart';
+<<<<<<< Updated upstream
+=======
+import 'package:flutter_basic/responsive_messages/chatScreen.dart';
+>>>>>>> Stashed changes
 import 'package:flutter_basic/responsive_profile/desktop_profile_scaffold.dart';
 import 'package:flutter_basic/responsive_mainpage/tablet_scaffold.dart';
 import 'package:flutter_basic/responsive_profile/mobile_profile_scaffold.dart';
 import 'package:flutter_basic/responsive_profile/tablet_profile_scaffold.dart';
 
+<<<<<<< Updated upstream
 import 'message_chat/chatScreen.dart';
 
 var myBackground = Colors.white;
 
+=======
+import 'package:flutter_basic/responsive_messages/desktop_messages_scaffold.dart';
+import 'package:flutter_basic/responsive_messages/tablet_messages_scaffold.dart';
+import 'package:flutter_basic/responsive_messages/mobile_messages_scaffold.dart';
+
+var myBackground = Colors.white;
+
+var textStyleBar= TextStyle(
+fontSize: 22,
+fontWeight: FontWeight.bold,
+);
+final buttonStyle =ElevatedButton.styleFrom(
+  backgroundColor: Colors.blue.withOpacity(0.3),
+  shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(10.0),
+  ),
+);
+>>>>>>> Stashed changes
 
 
 var topBarDecoration = BoxDecoration(
@@ -19,6 +42,14 @@ var topBarDecoration = BoxDecoration(
   ),
 );
 
+<<<<<<< Updated upstream
+=======
+var boxMainMenuDecoration = BoxDecoration(
+  border: Border.all(color: Colors.black),
+  color: Colors.blue.withOpacity(0.3),
+  borderRadius: BorderRadius.circular(10),
+);
+>>>>>>> Stashed changes
 
 var boxDecoration = BoxDecoration(
   border: Border.all(color: Colors.black),
@@ -86,7 +117,11 @@ var myDrawer = Drawer(
                     Navigator.push(
                       context,
                       MaterialPageRoute(
+<<<<<<< Updated upstream
                         builder: (context) => ResponsiveLayout(
+=======
+                        builder: (context) => MainPage(
+>>>>>>> Stashed changes
                           mobileScaffold: const MobileProfileScaffold(
                             name: 'John Doe',
                             imageAssetPath: 'assets/images/profile.jpg',
@@ -149,10 +184,42 @@ var myDrawer = Drawer(
             onTap: () {
               Navigator.push(
                 context,
+<<<<<<< Updated upstream
                 MaterialPageRoute(
                     builder: (context) => ChatScreen(
                           conversation: null,
                         )),
+=======
+                MaterialPageRoute(builder: (context) => ChatScreen(conversation: null, onConversationSelected: (Conversation ) {  },)
+
+
+
+                       /** MaterialPageRoute(
+                           builder: (context) => ResponsiveLayout(
+                           mobileMessagesScaffold: MobileMessagesScaffold(
+                           conversation: Conversation(
+                           name: 'John Doe',
+                           message: 'assets/images/profile.jpg',
+                           isGroupChat: false,
+                           ),
+                           ),
+                           tabletMessagesScaffold: TabletMessagesScaffold(
+                           conversation: Conversation(
+                           name: 'John Doe',
+                           message: 'assets/images/profile.jpg',
+                           isGroupChat: false,
+                           ),
+                           ),
+                           desktopMessagesScaffold: DesktopMessagesScaffold(
+                           conversation: Conversation(
+                           name: 'John Doe',
+                           message: 'assets/images/profile.jpg',
+                           isGroupChat: false,
+                           ),
+                           ),
+                  **/
+                ),
+>>>>>>> Stashed changes
               );
             },
             child: ListTile(
@@ -187,3 +254,9 @@ var myDrawer = Drawer(
     },
   ),
 );
+<<<<<<< Updated upstream
+=======
+
+
+
+>>>>>>> Stashed changes
