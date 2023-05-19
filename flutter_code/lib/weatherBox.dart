@@ -65,9 +65,10 @@ class _WeatherBoxState extends State<WeatherBox> {
               style: textStyleBar,
             ),
           ),
-          SizedBox(height: 16.0),
-          Container(
-            padding: EdgeInsets.all(16.0),
+    Expanded(
+    child: SingleChildScrollView(
+    child: Container(
+    padding: EdgeInsets.all(16.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -132,7 +133,9 @@ class _WeatherBoxState extends State<WeatherBox> {
                 ),
               ],
             ),
-          ),
+    ),
+    ),
+    ),
         ],
       ),
     );

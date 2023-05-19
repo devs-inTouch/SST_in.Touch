@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'constants.dart';
-import 'dailyInfo.dart';
 
 
 class HojeNaFctBox extends StatefulWidget {
@@ -35,8 +34,6 @@ class HojeNaFctBox extends StatefulWidget {
 
   @override
   Widget build(BuildContext context) {
-
-
     return Container(
       decoration: boxMainMenuDecoration,
       child: Column(
@@ -46,51 +43,52 @@ class HojeNaFctBox extends StatefulWidget {
             width: double.infinity,
             decoration: topBarDecoration,
             padding: EdgeInsets.all(16.0),
-              child: Text(
-                '-Hoje na FCT-',
-                style: textStyleBar,
-              ),
-
+            child: Text(
+              '-Hoje na FCT-',
+              style: textStyleBar,
+            ),
           ),
           SizedBox(height: 16),
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 8.0),
-            child: ElevatedButton(
-              onPressed: () {
-                _showPopup('Provas Académicas', 'Text for Provas Académicas');
-              },
-              style: buttonStyle,
-              child: Text('Provas Académicas'),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 8.0),
-            child: ElevatedButton(
-              onPressed: () {
-                _showPopup('Avisos', 'Text for Avisos');
-              },
-              style: buttonStyle,
-              child: Text('Avisos'),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 8.0),
-            child: ElevatedButton(
-              onPressed: () {
-                _showPopup('Exposições', '123');
-              },
-              style: buttonStyle,
-              child: Text('Exposições'),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 8.0),
-            child: ElevatedButton(
-              onPressed: () {
-                _showPopup('Restauração','123' );
-              },
-              style: buttonStyle,
-              child: Text('Restauração'),
+          Expanded(
+            child: ListView(
+              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              children: [
+                Wrap(
+                  spacing: 8.0,
+                  runSpacing: 8.0,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        _showPopup(
+                            'Provas Académicas', 'Text for Provas Académicas');
+                      },
+                      style: buttonStyle,
+                      child: Text('Provas Académicas'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        _showPopup('Avisos', 'Text for Avisos');
+                      },
+                      style: buttonStyle,
+                      child: Text('Avisos'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        _showPopup('Exposições', '123');
+                      },
+                      style: buttonStyle,
+                      child: Text('Exposições'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        _showPopup('Restauração', '123');
+                      },
+                      style: buttonStyle,
+                      child: Text('Restauração'),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         ],
