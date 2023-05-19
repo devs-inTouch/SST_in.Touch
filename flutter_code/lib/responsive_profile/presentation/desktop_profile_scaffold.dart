@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_basic/utils/my_box.dart';
-import 'package:flutter_basic/utils/my_tile.dart';
+import 'package:flutter_basic/responsive_profile/viewUtils.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
-import '../eventCalendar.dart';
+import '../../constants.dart';
+import '../../eventCalendar.dart';
 
-import '../constants.dart';
-
-class TabletProfileScaffold extends StatefulWidget {
+class DesktopProfileScaffold extends StatefulWidget {
   final String name;
   final String imageAssetPath;
   final String role;
   final String year;
   final String nucleos;
 
-  const TabletProfileScaffold({
+  const DesktopProfileScaffold({
     required this.name,
     required this.imageAssetPath,
     required this.role,
@@ -26,18 +24,18 @@ class TabletProfileScaffold extends StatefulWidget {
   _ProfilePageState createState() => _ProfilePageState();
 }
 
-class _ProfilePageState extends State<TabletProfileScaffold> {
+class _ProfilePageState extends State<DesktopProfileScaffold> {
   bool _isEditing = false;
   List<Event> events = [];
-  DateTime today=DateTime.now();
+  DateTime today = DateTime.now();
   Map<DateTime, List<Event>> eventsByDay = {};
+
 
   void _onDaySelected(DateTime day, DateTime focusedDay) {
     setState(() {
       today = day;
     });
   }
-
   void _showAddEventDialog() {
     String title = '';
     DateTime date = DateTime.now();
@@ -174,10 +172,11 @@ class _ProfilePageState extends State<TabletProfileScaffold> {
     );
   }
 
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final fem = size.width / 1440;  // 1440 is the reference width
+    final fem = size.width / 1440; // 1440 is the reference width
 
     return Scaffold(
       appBar: myAppBar,
@@ -188,14 +187,15 @@ class _ProfilePageState extends State<TabletProfileScaffold> {
           Container(
             width: size.width,
             height: size.height,
+
             child: Stack(
               children: [
                 Positioned(
-                  left: 1030 * fem,
-                  top: 50 * fem,
+                  left: 1045 * fem,
+                  top: 40 * fem,
                   child: SizedBox(
-                    width: 150 * (fem*1.5),
-                    height: 150 * (fem*1.5),
+                    width: 160 * fem,
+                    height: 160 * fem,
                     child: Container(
                       decoration: boxDecoration,
                       child: Column(
@@ -224,7 +224,8 @@ class _ProfilePageState extends State<TabletProfileScaffold> {
                     width: size.width * 0.5,
                     height: size.height * 0.8,
                     decoration: boxDecoration,
-                    child: Column(
+                    // topBar
+                    child:Column(
                       children: [
                         topBarProfile(text: "Profile"),
                         SizedBox(height: 16 * fem),
@@ -405,7 +406,6 @@ class _ProfilePageState extends State<TabletProfileScaffold> {
                     ),
                   ),
                 ),
-
                 //calendario
                 Positioned(
                   // rectangle6JN6 (42:4)
@@ -415,6 +415,9 @@ class _ProfilePageState extends State<TabletProfileScaffold> {
                     width: size.width * 0.35,
                     height: size.height * 0.55,
                     decoration: boxDecoration,
+
+
+
                     child:Column(
                       children: [
                         topBarCalendar(text: "Calendar"),
@@ -464,5 +467,4 @@ class _ProfilePageState extends State<TabletProfileScaffold> {
       ),
     );
   }
-
 }

@@ -1,17 +1,13 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_basic/responsive_mainpage/application/logoutRequest.dart';
-import 'package:flutter_basic/responsive_mainpage/presentation/desktop_scaffold.dart';
-import 'package:flutter_basic/responsive_mainpage/presentation/mobile_scaffold.dart';
-import 'package:flutter_basic/responsive_mainpage/presentation/responsive_page.dart';
+import 'package:flutter_basic/responsive_mainpage/desktop_scaffold.dart';
+import 'package:flutter_basic/responsive_mainpage/mobile_scaffold.dart';
+import 'package:flutter_basic/responsive_mainpage/responsive_page.dart';
 import 'package:flutter_basic/responsive_messages/chatScreen.dart';
-import 'package:flutter_basic/responsive_profile/desktop_profile_scaffold.dart';
-import 'package:flutter_basic/responsive_mainpage/presentation/tablet_scaffold.dart';
-import 'package:flutter_basic/responsive_profile/mobile_profile_scaffold.dart';
-import 'package:flutter_basic/responsive_profile/tablet_profile_scaffold.dart';
+import 'package:flutter_basic/responsive_profile/presentation/desktop_profile_scaffold.dart';
+import 'package:flutter_basic/responsive_mainpage/tablet_scaffold.dart';
+import 'package:flutter_basic/responsive_profile/presentation/mobile_profile_scaffold.dart';
+import 'package:flutter_basic/responsive_profile/presentation/tablet_profile_scaffold.dart';
 import 'login/presentation/loginPage.dart';
-import 'dart:html';
 
 var myBackground = Colors.white;
 
@@ -162,7 +158,7 @@ var myDrawer = Drawer(
             child: ListTile(
               leading: Icon(Icons.home),
               title: Text(
-                'HOME  PAGE',
+                'H O M E  P A G E',
                 style: TextStyle(color: Colors.white),
               ),
               tileColor: Colors.blue[900],
@@ -211,7 +207,7 @@ var myDrawer = Drawer(
             child: ListTile(
               leading: Icon(Icons.chat),
               title: Text(
-                'MESSAGES',
+                'M E S S A G E S',
                 style: TextStyle(color: Colors.white),
               ),
               tileColor: Colors.blue[900],
@@ -223,41 +219,15 @@ var myDrawer = Drawer(
           InkWell(
             onTap: () {
               // Function to execute when the "Logout" button is tapped
-              print("aqui");
-
-
-              Logout.userLogout()
-                  .then((Logged) {
-                    if(Logged) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const MyApp()),
-                      );
-                    } else {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text('Não foi possível fazer logout'),
-                            actions: <Widget>[
-                              TextButton(
-                                child: Text('Ok'),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    }
-              });
-
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Login()),
+              );
             },
             child: ListTile(
               leading: Icon(Icons.logout),
               title: Text(
-                'LOGOUT',
+                'L O G O U T',
                 style: TextStyle(color: Colors.white),
               ),
               tileColor: Colors.blue[900],
