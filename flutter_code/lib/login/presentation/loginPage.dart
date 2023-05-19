@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_basic/register/application/registerAuth.dart';
 import 'package:flutter_basic/register/presentation/registerPage.dart';
 import 'package:flutter_basic/login/application/loginAuth.dart';
-import 'package:flutter_basic/responsive_mainpage/responsive_page.dart';
-import 'package:flutter_basic/responsive_mainpage/tablet_scaffold.dart';
-import 'package:flutter_basic/responsive_mainpage/desktop_scaffold.dart';
-import 'package:flutter_basic/responsive_mainpage/mobile_scaffold.dart';
+import 'package:flutter_basic/responsive_mainpage/presentation/responsive_page.dart';
+import 'package:flutter_basic/responsive_mainpage/presentation/tablet_scaffold.dart';
+import 'package:flutter_basic/responsive_mainpage/presentation/desktop_scaffold.dart';
+import 'package:flutter_basic/responsive_mainpage/presentation/mobile_scaffold.dart';
 
 
 
@@ -54,7 +54,7 @@ class LoginHomePage extends State<Login> {
         print(LoginAuth.userLogin(username, pwd));
         Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => MainPage(desktopScaffold: const DesktopScaffold(), mobileScaffold: const MobileScaffold(), tabletScaffold: const TabletScaffold())
+            MaterialPageRoute(builder: (context) => ResponsiveLayout(desktopScaffold: const DesktopScaffold(), mobileScaffold: const MobileScaffold(), tabletScaffold: const TabletScaffold())
             ));
       }else {
     showDialog(

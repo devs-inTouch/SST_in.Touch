@@ -1,38 +1,31 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_basic/responsive_mainpage/responsive_page.dart';
-<<<<<<< Updated upstream
-=======
+import 'package:flutter_basic/responsive_mainpage/application/logoutRequest.dart';
+import 'package:flutter_basic/responsive_mainpage/presentation/desktop_scaffold.dart';
+import 'package:flutter_basic/responsive_mainpage/presentation/mobile_scaffold.dart';
+import 'package:flutter_basic/responsive_mainpage/presentation/responsive_page.dart';
 import 'package:flutter_basic/responsive_messages/chatScreen.dart';
->>>>>>> Stashed changes
 import 'package:flutter_basic/responsive_profile/desktop_profile_scaffold.dart';
-import 'package:flutter_basic/responsive_mainpage/tablet_scaffold.dart';
+import 'package:flutter_basic/responsive_mainpage/presentation/tablet_scaffold.dart';
 import 'package:flutter_basic/responsive_profile/mobile_profile_scaffold.dart';
 import 'package:flutter_basic/responsive_profile/tablet_profile_scaffold.dart';
-
-<<<<<<< Updated upstream
-import 'message_chat/chatScreen.dart';
-
-var myBackground = Colors.white;
-
-=======
-import 'package:flutter_basic/responsive_messages/desktop_messages_scaffold.dart';
-import 'package:flutter_basic/responsive_messages/tablet_messages_scaffold.dart';
-import 'package:flutter_basic/responsive_messages/mobile_messages_scaffold.dart';
+import 'login/presentation/loginPage.dart';
+import 'dart:html';
 
 var myBackground = Colors.white;
 
-var textStyleBar= TextStyle(
-fontSize: 22,
-fontWeight: FontWeight.bold,
+var textStyleBar = TextStyle(
+  fontSize: 22,
+  fontWeight: FontWeight.bold,
 );
-final buttonStyle =ElevatedButton.styleFrom(
+
+final buttonStyle = ElevatedButton.styleFrom(
   backgroundColor: Colors.blue.withOpacity(0.3),
   shape: RoundedRectangleBorder(
     borderRadius: BorderRadius.circular(10.0),
   ),
 );
->>>>>>> Stashed changes
-
 
 var topBarDecoration = BoxDecoration(
   color: Colors.grey[300],
@@ -42,14 +35,11 @@ var topBarDecoration = BoxDecoration(
   ),
 );
 
-<<<<<<< Updated upstream
-=======
 var boxMainMenuDecoration = BoxDecoration(
   border: Border.all(color: Colors.black),
   color: Colors.blue.withOpacity(0.3),
   borderRadius: BorderRadius.circular(10),
 );
->>>>>>> Stashed changes
 
 var boxDecoration = BoxDecoration(
   border: Border.all(color: Colors.black),
@@ -117,11 +107,7 @@ var myDrawer = Drawer(
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-<<<<<<< Updated upstream
                         builder: (context) => ResponsiveLayout(
-=======
-                        builder: (context) => MainPage(
->>>>>>> Stashed changes
                           mobileScaffold: const MobileProfileScaffold(
                             name: 'John Doe',
                             imageAssetPath: 'assets/images/profile.jpg',
@@ -164,14 +150,19 @@ var myDrawer = Drawer(
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => TabletScaffold(),
+                  builder: (context) =>ResponsiveLayout(
+                    mobileScaffold: const MobileScaffold(),
+                    tabletScaffold: const TabletScaffold(),
+                    desktopScaffold: const DesktopScaffold(),
+
+                  ),
                 ),
               );
             },
             child: ListTile(
               leading: Icon(Icons.home),
               title: Text(
-                'H O M E  P A G E',
+                'HOME  PAGE',
                 style: TextStyle(color: Colors.white),
               ),
               tileColor: Colors.blue[900],
@@ -184,48 +175,43 @@ var myDrawer = Drawer(
             onTap: () {
               Navigator.push(
                 context,
-<<<<<<< Updated upstream
                 MaterialPageRoute(
                     builder: (context) => ChatScreen(
                           conversation: null,
-                        )),
-=======
-                MaterialPageRoute(builder: (context) => ChatScreen(conversation: null, onConversationSelected: (Conversation ) {  },)
+                          onConversationSelected: (Conversation) {},
+                        )
 
-
-
-                       /** MaterialPageRoute(
-                           builder: (context) => ResponsiveLayout(
-                           mobileMessagesScaffold: MobileMessagesScaffold(
-                           conversation: Conversation(
-                           name: 'John Doe',
-                           message: 'assets/images/profile.jpg',
-                           isGroupChat: false,
-                           ),
-                           ),
-                           tabletMessagesScaffold: TabletMessagesScaffold(
-                           conversation: Conversation(
-                           name: 'John Doe',
-                           message: 'assets/images/profile.jpg',
-                           isGroupChat: false,
-                           ),
-                           ),
-                           desktopMessagesScaffold: DesktopMessagesScaffold(
-                           conversation: Conversation(
-                           name: 'John Doe',
-                           message: 'assets/images/profile.jpg',
-                           isGroupChat: false,
-                           ),
-                           ),
-                  **/
-                ),
->>>>>>> Stashed changes
+                    /** MaterialPageRoute(
+                      builder: (context) => ResponsiveLayout(
+                      mobileMessagesScaffold: MobileMessagesScaffold(
+                      conversation: Conversation(
+                      name: 'John Doe',
+                      message: 'assets/images/profile.jpg',
+                      isGroupChat: false,
+                      ),
+                      ),
+                      tabletMessagesScaffold: TabletMessagesScaffold(
+                      conversation: Conversation(
+                      name: 'John Doe',
+                      message: 'assets/images/profile.jpg',
+                      isGroupChat: false,
+                      ),
+                      ),
+                      desktopMessagesScaffold: DesktopMessagesScaffold(
+                      conversation: Conversation(
+                      name: 'John Doe',
+                      message: 'assets/images/profile.jpg',
+                      isGroupChat: false,
+                      ),
+                      ),
+                   **/
+                    ),
               );
             },
             child: ListTile(
               leading: Icon(Icons.chat),
               title: Text(
-                'M E S S A G E S',
+                'MESSAGES',
                 style: TextStyle(color: Colors.white),
               ),
               tileColor: Colors.blue[900],
@@ -237,11 +223,41 @@ var myDrawer = Drawer(
           InkWell(
             onTap: () {
               // Function to execute when the "Logout" button is tapped
+              print("aqui");
+
+
+              Logout.userLogout()
+                  .then((Logged) {
+                    if(Logged) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const MyApp()),
+                      );
+                    } else {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Não foi possível fazer logout'),
+                            actions: <Widget>[
+                              TextButton(
+                                child: Text('Ok'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    }
+              });
+
             },
             child: ListTile(
               leading: Icon(Icons.logout),
               title: Text(
-                'L O G O U T',
+                'LOGOUT',
                 style: TextStyle(color: Colors.white),
               ),
               tileColor: Colors.blue[900],
@@ -254,9 +270,3 @@ var myDrawer = Drawer(
     },
   ),
 );
-<<<<<<< Updated upstream
-=======
-
-
-
->>>>>>> Stashed changes
