@@ -19,6 +19,7 @@ import com.google.cloud.datastore.Key;
 import pt.unl.fct.di.apdc.firstwebapp.util.TokenUtil;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.AttributeChangeData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.TokenData;
+
 import pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes;
 
 @Path("/modify")
@@ -87,7 +88,6 @@ public class ModifyResource {
         return Response.status(Status.OK).entity("NAO CHEGA AQUII").build();
 
     }
-
 /*
     private void modifyUser(ModifyData data, Key kUserMod, Entity userMod){
         Entity newUser = Entity.newBuilder(kUserMod)
@@ -134,6 +134,5 @@ public class ModifyResource {
                 .build();
         datastore.put(newUser);
     }
-*/
-
+ */
 }

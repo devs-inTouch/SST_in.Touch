@@ -8,11 +8,9 @@ public class DatastoreUtil {
 /**
      * 
      * @return
-     *//*
 
     public E getAttribute(Entity entity) {
         return null;
     }
 */
-
 }
