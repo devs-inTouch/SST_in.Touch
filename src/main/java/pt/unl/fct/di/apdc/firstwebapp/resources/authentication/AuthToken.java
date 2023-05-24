@@ -1,4 +1,4 @@
-package pt.unl.fct.di.apdc.firstwebapp.util.entities;
+package pt.unl.fct.di.apdc.firstwebapp.resources.authentication;
 
 import java.util.UUID;
 
@@ -12,7 +12,6 @@ public class AuthToken {
 	private String tokenID;
 	private long creationDate;
 	private long expirationDate;
-	private String verification; //TODO change to better fit security specs
 	
 
 	public AuthToken() {}
@@ -23,7 +22,6 @@ public class AuthToken {
 		this.tokenID = UUID.randomUUID().toString();
 		this.creationDate = Timestamp.now().getSeconds();
 		this.expirationDate = this.creationDate + TTL;
-		this.verification = verification;
 		
 	}
 
@@ -48,14 +46,5 @@ public class AuthToken {
 	public long getExpirationDate() {
 		return expirationDate;
 	}
-
-	/**
-	 * @return the verification
-	 */
-	public String getVerification() {
-		return verification;
-	}
-
-	
 
 }

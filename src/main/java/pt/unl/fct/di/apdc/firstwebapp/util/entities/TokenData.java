@@ -6,7 +6,6 @@ public class TokenData {
 	private String tokenID;
 	private long creationDate;
 	private long expirationDate;
-	private String verification;
 	
 	public TokenData() {}
 
@@ -15,7 +14,6 @@ public class TokenData {
         this.tokenID = tokenID;
         this.creationDate = creationDate;
         this.expirationDate = expirationDate;
-        this.verification = verification;
     }
 
     /**
@@ -46,12 +44,4 @@ public class TokenData {
         return expirationDate;
     }
 
-    /**
-     * @return the verification
-     */
-    public String getVerification() {
-        return verification;
-    }
-
-		
 }

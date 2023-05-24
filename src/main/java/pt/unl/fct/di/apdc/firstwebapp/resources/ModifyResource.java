@@ -9,8 +9,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.apache.commons.codec.digest.DigestUtils;
-
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
@@ -24,10 +22,6 @@ import pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes;
 
 @Path("/modify")
 public class ModifyResource {
-    private static final String SU = "SU";
-    private static final String GS = "GS";
-    private static final String GBO = "GBO";
-    private static final String USER = "USER";
 
     private final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
 	private static final Logger LOG = Logger.getLogger(ModifyResource.class.getName());
@@ -38,9 +32,6 @@ public class ModifyResource {
     @Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response modifyUser(AttributeChangeData data){
-        // if (data.hasMandatoryInputs())
-        //     return Response.status(Status.BAD_REQUEST).entity("Mandatory fields are empty").build();
-        // !FRONTEND
 
         TokenData givenTokenData = data.getToken();
 
