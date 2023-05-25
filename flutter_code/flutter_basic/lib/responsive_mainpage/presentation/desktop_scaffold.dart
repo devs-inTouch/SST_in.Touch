@@ -98,10 +98,10 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(),
+      appBar: const MyAppBar(),
       backgroundColor: Colors.white,
       body: Padding(
-        padding: EdgeInsets.all(50.0),
+        padding: const EdgeInsets.all(50.0),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -120,42 +120,42 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(16.0),
                   child: Text(
                     pages[_currentPageIndex],
-                    style: TextStyle(fontSize: 24),
+                    style: const TextStyle(fontSize: 24),
                   ),
                 ),
                 if (pages[_currentPageIndex] == 'Restauração')
                   Expanded(
                     child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
-                      child: RestauracaoPage(),
+                      padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+                      child: const RestauracaoPage(),
                     ),
                   )
                  else if (pages[_currentPageIndex] == 'Avisos')
                    Expanded(
                      child: Container(
-                       padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
-                       child: AvisosPage(),
+                       padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+                       child: const AvisosPage(),
                      ),
                    )
                  else if (pages[_currentPageIndex] == 'Exposições')
                    Expanded(
                      child: Container(
-                       padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
-                       child: ExposicoesPage(),
+                       padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+                       child: const ExposicoesPage(),
                      ),
                    )
                  else if (pages[_currentPageIndex] == 'Notícias')
                    Expanded(
                      child: Container(
-                       padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
-                       child: NoticiasPage(),
+                       padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+                       child: const NoticiasPage(),
                      ),
                    ),
                 Padding(
-                  padding: EdgeInsets.only(bottom: 20.0),
+                  padding: const EdgeInsets.only(bottom: 20.0),
                   child: Align(
                     alignment: Alignment.bottomCenter,
                     child: Row(
@@ -163,12 +163,12 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                       children: [
                         IconButton(
                           onPressed: goToPreviousPage,
-                          icon: Icon(Icons.arrow_back),
+                          icon: const Icon(Icons.arrow_back),
                         ),
-                        SizedBox(width: 30.0),
+                        const SizedBox(width: 30.0),
                         IconButton(
                           onPressed: goToNextPage,
-                          icon: Icon(Icons.arrow_forward),
+                          icon: const Icon(Icons.arrow_forward),
                         ),
                       ],
                     ),
@@ -181,7 +181,7 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
 
 
 
-          Spacer(),
+          const Spacer(),
             Expanded(
               flex: 2,
               child: Column(
@@ -195,7 +195,7 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                             width: 200,
                             height: 200,
                             decoration: boxDecoration,
-                            child: Center(
+                            child: const Center(
                               child: Text(
                                 "Content goes here",
                                 style: TextStyle(fontSize: 24),
@@ -217,7 +217,7 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                           ),
                         ],
                       ),
-                      SizedBox(width: 150.0),
+                      const SizedBox(width: 150.0),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -227,7 +227,7 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                                 width: 200,
                                 height: 200,
                                 decoration: boxDecoration,
-                                child: Center(
+                                child: const Center(
                                   child: Text(
                                     "Box 2",
                                     style: TextStyle(fontSize: 16),
@@ -253,7 +253,7 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 25.0), // Adjust the spacing between the row of boxes and the "Agenda" box
+                  const SizedBox(height: 25.0), // Adjust the spacing between the row of boxes and the "Agenda" box
                   Align(
                     alignment: Alignment.bottomRight,
                     child: FractionallySizedBox(
@@ -268,7 +268,7 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                                 Container(
                                   height: 50,
                                   decoration: topBarDecoration,
-                                  child: Row(
+                                  child: const Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
 
@@ -305,7 +305,7 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                                 // Add your functionality for adding new activities here
                                 addNewActivity(context);
                               },
-                              icon: Icon(Icons.add),
+                              icon: const Icon(Icons.add),
                               color: Colors.black,
                             ),
                           ),
@@ -356,26 +356,26 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Adicionar evento'),
+            title: const Text('Adicionar evento'),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 TextField(
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Nome',
                   ),
                   onChanged: (value) {
                     eventName = value;
                   },
                 ),
-                SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 Text(
                   'Data selecionada: ${DateFormat('MMMM dd, yyyy').format(selectedDate)}',
-                  style: TextStyle(fontSize: 16.0),
+                  style: const TextStyle(fontSize: 16.0),
                 ),
-                SizedBox(height: 8.0),
+                const SizedBox(height: 8.0),
 
-                SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 ElevatedButton(
                   onPressed: () {
                     setState(() {
@@ -396,7 +396,7 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                       Navigator.pop(context);
                     });
                   },
-                  child: Text('Adicionar'),
+                  child: const Text('Adicionar'),
                 ),
               ],
             ),
@@ -412,13 +412,13 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
 class EventCard extends StatelessWidget {
   final Map<String, dynamic> event;
 
-  const EventCard({required this.event});
+  const EventCard({super.key, required this.event});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 8.0),
-      padding: EdgeInsets.all(16.0),
+      margin: const EdgeInsets.symmetric(vertical: 8.0),
+      padding: const EdgeInsets.all(16.0),
       decoration: boxEventDecoration,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -427,12 +427,12 @@ class EventCard extends StatelessWidget {
             'Data: ${DateFormat('MMMM dd, yyyy').format(event['Data'])}',
             style: textStyleEvents,
           ),
-          SizedBox(height: 8.0),
+          const SizedBox(height: 8.0),
           Text(
             'Evento: ${event['Evento']}',
             style: textStyleEvents,
           ),
-          SizedBox(height: 8.0),
+          const SizedBox(height: 8.0),
           Text(
             'Dias Restantes: ${event['DiasRestantesTexto']}',
             style: textStyleEvents,

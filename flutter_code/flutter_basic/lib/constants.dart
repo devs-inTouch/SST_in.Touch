@@ -11,11 +11,11 @@ import 'login/presentation/loginPage.dart';
 
 var myBackground = Colors.white;
 
-var textStyleBar = TextStyle(
+var textStyleBar = const TextStyle(
   fontSize: 22,
   fontWeight: FontWeight.bold,
 );
-var textStyleEvents = TextStyle(
+var textStyleEvents = const TextStyle(
   color: Colors.white,
   fontSize: 14.0,
 );
@@ -26,7 +26,7 @@ var textStyleEvents = TextStyle(
 Widget textTopBar(String text) {
   return Text(
     text,
-    style: TextStyle(
+    style: const TextStyle(
       color: Colors.white,
       fontWeight: FontWeight.bold,
       fontSize: 20,
@@ -43,7 +43,7 @@ final buttonStyle = ElevatedButton.styleFrom(
 
 var topBarDecoration = BoxDecoration(
   color: Colors.blue[300],
-  borderRadius: BorderRadius.only(
+  borderRadius: const BorderRadius.only(
     topLeft: Radius.circular(10),
     topRight: Radius.circular(10),
   ),
@@ -73,13 +73,13 @@ var topBarProfile = ({
         height: 50,
         child: Container(
           decoration: topBarDecoration,
-          padding: EdgeInsets.only(left: 16),
+          padding: const EdgeInsets.only(left: 16),
           // Add padding to align text to the left
           child: Align(
             alignment: Alignment.centerLeft,
             child: Text(
               text,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -143,28 +143,28 @@ var myDrawer = Drawer(
                   width: 50,
                   height: 50,
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 InkWell(
                   onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ResponsiveLayout(
-                          mobileScaffold: const MobileProfileScaffold(
+                        builder: (context) => const ResponsiveLayout(
+                          mobileScaffold: MobileProfileScaffold(
                             name: 'John Doe',
                             imageAssetPath: 'assets/images/profile.jpg',
                             role: 'Developer',
                             year: '2002',
                             nucleos: 'Engineering',
                           ),
-                          tabletScaffold: const TabletProfileScaffold(
+                          tabletScaffold: TabletProfileScaffold(
                             name: 'John Doe',
                             imageAssetPath: 'assets/images/profile.jpg',
                             role: 'Developer',
                             year: '2002',
                             nucleos: 'Engineering',
                           ),
-                          desktopScaffold: const DesktopProfileScaffold(
+                          desktopScaffold: DesktopProfileScaffold(
                             name: 'John Doe',
                             imageAssetPath: 'assets/images/profile.jpg',
                             role: 'Developer',
@@ -175,7 +175,7 @@ var myDrawer = Drawer(
                       ),
                     );
                   },
-                  child: Text(
+                  child: const Text(
                     'Profile',
                     style: TextStyle(
                       color: Colors.white,
@@ -186,24 +186,24 @@ var myDrawer = Drawer(
               ],
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           InkWell(
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>ResponsiveLayout(
-                    mobileScaffold: const MobileScaffold(),
-                    tabletScaffold: const TabletScaffold(),
-                    desktopScaffold: const DesktopScaffold(),
+                  builder: (context) =>const ResponsiveLayout(
+                    mobileScaffold: MobileScaffold(),
+                    tabletScaffold: TabletScaffold(),
+                    desktopScaffold: DesktopScaffold(),
 
                   ),
                 ),
               );
             },
             child: ListTile(
-              leading: Icon(Icons.home),
-              title: Text(
+              leading: const Icon(Icons.home),
+              title: const Text(
                 'H O M E  P A G E',
                 style: TextStyle(color: Colors.white),
               ),
@@ -212,7 +212,7 @@ var myDrawer = Drawer(
               selected: true,
             ),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           InkWell(
             onTap: () {
               Navigator.push(
@@ -226,8 +226,8 @@ var myDrawer = Drawer(
               );
             },
             child: ListTile(
-              leading: Icon(Icons.chat),
-              title: Text(
+              leading: const Icon(Icons.chat),
+              title: const Text(
                 'M E S S A G E S',
                 style: TextStyle(color: Colors.white),
               ),
@@ -236,18 +236,18 @@ var myDrawer = Drawer(
               selected: false, // Change to true if this is the current page
             ),
           ),
-          Spacer(),
+          const Spacer(),
           InkWell(
             onTap: () {
               // Function to execute when the "Logout" button is tapped
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Login()),
+                MaterialPageRoute(builder: (context) => const Login()),
               );
             },
             child: ListTile(
-              leading: Icon(Icons.logout),
-              title: Text(
+              leading: const Icon(Icons.logout),
+              title: const Text(
                 'L O G O U T',
                 style: TextStyle(color: Colors.white),
               ),

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/responsive_mainpage/presentation/desktop_scaffold.dart';
 import 'package:flutter_basic/responsive_mainpage/presentation/mobile_scaffold.dart';
@@ -10,8 +9,10 @@ import 'package:flutter_basic/responsive_profile/presentation/mobile_profile_sca
 import 'package:flutter_basic/responsive_profile/presentation/tablet_profile_scaffold.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const MyAppBar({super.key});
+
   @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 
   @override
   Widget build(BuildContext context) {
@@ -22,18 +23,18 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) =>ResponsiveLayout(
-                mobileScaffold: const MobileScaffold(),
-                tabletScaffold: const TabletScaffold(),
-                desktopScaffold: const DesktopScaffold(),
+              builder: (context) =>const ResponsiveLayout(
+                mobileScaffold: MobileScaffold(),
+                tabletScaffold: TabletScaffold(),
+                desktopScaffold: DesktopScaffold(),
 
               ),
             ),
           );
         },
         child: Padding(
-          padding: EdgeInsets.only(left: 20.0), // Adjust the left padding as needed
-          child: Container(
+          padding: const EdgeInsets.only(left: 20.0), // Adjust the left padding as needed
+          child: SizedBox(
             height: 150,
             width: 150,
 
@@ -54,42 +55,42 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
             );
           },
-          icon: Icon(Icons.chat),
+          icon: const Icon(Icons.chat),
         ),
         IconButton(
           onPressed: () {
             // Handle notification icon click
           },
-          icon: Icon(Icons.notifications),
+          icon: const Icon(Icons.notifications),
         ),
         PopupMenuButton(
-          icon: Icon(Icons.person),
-          offset: Offset(0, kToolbarHeight),
+          icon: const Icon(Icons.person),
+          offset: const Offset(0, kToolbarHeight),
           itemBuilder: (BuildContext context) => [
             PopupMenuItem(
               child: ListTile(
-                leading: Icon(Icons.person),
-                title: Text('Profile'),
+                leading: const Icon(Icons.person),
+                title: const Text('Profile'),
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ResponsiveLayout(
-                        mobileScaffold: const MobileProfileScaffold(
+                      builder: (context) => const ResponsiveLayout(
+                        mobileScaffold: MobileProfileScaffold(
                           name: 'John Doe',
                           imageAssetPath: 'assets/images/profile.jpg',
                           role: 'Developer',
                           year: '2002',
                           nucleos: 'Engineering',
                         ),
-                        tabletScaffold: const TabletProfileScaffold(
+                        tabletScaffold: TabletProfileScaffold(
                           name: 'John Doe',
                           imageAssetPath: 'assets/images/profile.jpg',
                           role: 'Developer',
                           year: '2002',
                           nucleos: 'Engineering',
                         ),
-                        desktopScaffold: const DesktopProfileScaffold(
+                        desktopScaffold: DesktopProfileScaffold(
                           name: 'John Doe',
                           imageAssetPath: 'assets/images/profile.jpg',
                           role: 'Developer',
@@ -104,8 +105,8 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
             PopupMenuItem(
               child: ListTile(
-                leading: Icon(Icons.logout),
-                title: Text('Logout'),
+                leading: const Icon(Icons.logout),
+                title: const Text('Logout'),
                 onTap: () {
                   // Handle logout button click
                   Navigator.pop(context); // Close the menu

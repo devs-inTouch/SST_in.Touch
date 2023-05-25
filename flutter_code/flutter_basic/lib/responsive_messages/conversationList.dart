@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'chatScreen.dart';
@@ -7,7 +6,7 @@ class ConversationList extends StatelessWidget {
   final List<Conversation> conversations;
   final Function(Conversation) onConversationSelected; // Add a new property here
 
-  ConversationList({required this.conversations, required this.onConversationSelected});
+  const ConversationList({super.key, required this.conversations, required this.onConversationSelected});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +23,7 @@ class ConversationList extends StatelessWidget {
           );
         },
         itemCount: conversations.length,
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
       ),
     );
   }

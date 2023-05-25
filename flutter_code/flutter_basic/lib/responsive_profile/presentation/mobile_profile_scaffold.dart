@@ -11,7 +11,7 @@ class MobileProfileScaffold extends StatefulWidget {
   final String year;
   final String nucleos;
 
-  const MobileProfileScaffold({
+  const MobileProfileScaffold({super.key, 
     required this.name,
     required this.imageAssetPath,
     required this.role,
@@ -24,7 +24,7 @@ class MobileProfileScaffold extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<MobileProfileScaffold> {
-  bool _isEditing = false;
+  final bool _isEditing = false;
   List<Event> events = [];
   DateTime today=DateTime.now();
   Map<DateTime, List<Event>> eventsByDay = {};
@@ -36,13 +36,13 @@ class _ProfilePageState extends State<MobileProfileScaffold> {
     double fem = 1;
 
     return Scaffold(
-      appBar: MyAppBar(),
+      appBar: const MyAppBar(),
       drawer: myDrawer,
       backgroundColor: Colors.white,
 
       body: Column(
         children: [
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           SizedBox(
             width: 150 * fem,
             height: 150 * fem,
@@ -51,7 +51,7 @@ class _ProfilePageState extends State<MobileProfileScaffold> {
               child:buildProfileImage(),
             ),
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           Expanded(
             child: Container(
               height: 200*fem,
@@ -60,7 +60,7 @@ class _ProfilePageState extends State<MobileProfileScaffold> {
               child:buildProfileText(context),
             ),
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
 
           SingleChildScrollView(
             child: Container(

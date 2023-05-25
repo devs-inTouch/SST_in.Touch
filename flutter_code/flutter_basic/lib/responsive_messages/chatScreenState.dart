@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'chatScreen.dart';
-import 'conversationList.dart';
 import 'message.dart';
 
 class ChatScreenState extends StatefulWidget {
+  const ChatScreenState({super.key});
+
   @override
   _ChatScreenState createState() => _ChatScreenState();
 }
@@ -33,7 +34,7 @@ class _ChatScreenState extends State<ChatScreenState> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Chat Screen'),
+        title: const Text('Chat Screen'),
       ),
       body: Column(
         children: [
