@@ -1,17 +1,13 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_basic/responsive_mainpage/application/logoutRequest.dart';
 import 'package:flutter_basic/responsive_mainpage/presentation/desktop_scaffold.dart';
 import 'package:flutter_basic/responsive_mainpage/presentation/mobile_scaffold.dart';
 import 'package:flutter_basic/responsive_mainpage/presentation/responsive_page.dart';
-import 'package:flutter_basic/responsive_messages/chatScreen.dart';
-import 'package:flutter_basic/responsive_profile/desktop_profile_scaffold.dart';
 import 'package:flutter_basic/responsive_mainpage/presentation/tablet_scaffold.dart';
-import 'package:flutter_basic/responsive_profile/mobile_profile_scaffold.dart';
-import 'package:flutter_basic/responsive_profile/tablet_profile_scaffold.dart';
+import 'package:flutter_basic/responsive_messages/chatScreen.dart';
+import 'package:flutter_basic/responsive_profile/presentation/desktop_profile_scaffold.dart';
+import 'package:flutter_basic/responsive_profile/presentation/mobile_profile_scaffold.dart';
+import 'package:flutter_basic/responsive_profile/presentation/tablet_profile_scaffold.dart';
 import 'login/presentation/loginPage.dart';
-import 'dart:html';
 
 var myBackground = Colors.white;
 
@@ -19,6 +15,24 @@ var textStyleBar = TextStyle(
   fontSize: 22,
   fontWeight: FontWeight.bold,
 );
+var textStyleEvents = TextStyle(
+  color: Colors.white,
+  fontSize: 14.0,
+);
+
+
+
+
+Widget textTopBar(String text) {
+  return Text(
+    text,
+    style: TextStyle(
+      color: Colors.white,
+      fontWeight: FontWeight.bold,
+      fontSize: 20,
+    ),
+  );
+}
 
 final buttonStyle = ElevatedButton.styleFrom(
   backgroundColor: Colors.blue.withOpacity(0.3),
@@ -28,7 +42,7 @@ final buttonStyle = ElevatedButton.styleFrom(
 );
 
 var topBarDecoration = BoxDecoration(
-  color: Colors.grey[300],
+  color: Colors.blue[300],
   borderRadius: BorderRadius.only(
     topLeft: Radius.circular(10),
     topRight: Radius.circular(10),
@@ -42,11 +56,13 @@ var boxMainMenuDecoration = BoxDecoration(
 );
 
 var boxDecoration = BoxDecoration(
-  border: Border.all(color: Colors.black),
-  color: Colors.grey[100],
-  borderRadius: BorderRadius.circular(10),
+  color: Colors.grey.shade200,
+  borderRadius: BorderRadius.circular(8.0),
 );
-
+var boxEventDecoration = BoxDecoration(
+color: Colors.lightBlueAccent,
+borderRadius: BorderRadius.circular(8.0),
+);
 var topBarProfile = ({
   required String text,
 }) =>
@@ -73,18 +89,44 @@ var topBarProfile = ({
         ),
       ),
     );
-
+/**
 var myAppBar = AppBar(
   backgroundColor: Colors.blue[800],
-  flexibleSpace: FlexibleSpaceBar(
-    centerTitle: true,
-    title: Container(
-      height: 60, // set height of the container
-      width: 60, // set width of the container
-      child: Image.asset('assets/logo-1-RBH.png', fit: BoxFit.contain),
+  leading: GestureDetector(
+    onTap: () {
+      // Handle logo click
+    },
+    child: Padding(
+      padding: EdgeInsets.only(left: 20.0), // Adjust the left padding as needed
+      child: Container(
+        height: 150,
+        width: 150,
+        child: Image.asset('assets/logo-1-RBH.png', fit: BoxFit.contain),
+      ),
     ),
   ),
+  actions: [
+    IconButton(
+      onPressed: () {
+        // Handle chat icon click
+      },
+      icon: Icon(Icons.chat),
+    ),
+    IconButton(
+      onPressed: () {
+        // Handle notification icon click
+      },
+      icon: Icon(Icons.notifications),
+    ),
+    IconButton(
+      onPressed: () {
+        // Handle profile icon click
+      },
+      icon: Icon(Icons.person),
+    ),
+  ],
 );
+**/
 var myDrawer = Drawer(
   backgroundColor: Colors.blue[600],
   width: 220,
@@ -162,7 +204,7 @@ var myDrawer = Drawer(
             child: ListTile(
               leading: Icon(Icons.home),
               title: Text(
-                'HOME  PAGE',
+                'H O M E  P A G E',
                 style: TextStyle(color: Colors.white),
               ),
               tileColor: Colors.blue[900],
@@ -180,38 +222,13 @@ var myDrawer = Drawer(
                           conversation: null,
                           onConversationSelected: (Conversation) {},
                         )
-
-                    /** MaterialPageRoute(
-                      builder: (context) => ResponsiveLayout(
-                      mobileMessagesScaffold: MobileMessagesScaffold(
-                      conversation: Conversation(
-                      name: 'John Doe',
-                      message: 'assets/images/profile.jpg',
-                      isGroupChat: false,
-                      ),
-                      ),
-                      tabletMessagesScaffold: TabletMessagesScaffold(
-                      conversation: Conversation(
-                      name: 'John Doe',
-                      message: 'assets/images/profile.jpg',
-                      isGroupChat: false,
-                      ),
-                      ),
-                      desktopMessagesScaffold: DesktopMessagesScaffold(
-                      conversation: Conversation(
-                      name: 'John Doe',
-                      message: 'assets/images/profile.jpg',
-                      isGroupChat: false,
-                      ),
-                      ),
-                   **/
                     ),
               );
             },
             child: ListTile(
               leading: Icon(Icons.chat),
               title: Text(
-                'MESSAGES',
+                'M E S S A G E S',
                 style: TextStyle(color: Colors.white),
               ),
               tileColor: Colors.blue[900],
@@ -223,41 +240,15 @@ var myDrawer = Drawer(
           InkWell(
             onTap: () {
               // Function to execute when the "Logout" button is tapped
-              print("aqui");
-
-
-              Logout.userLogout()
-                  .then((Logged) {
-                    if(Logged) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const MyApp()),
-                      );
-                    } else {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text('Não foi possível fazer logout'),
-                            actions: <Widget>[
-                              TextButton(
-                                child: Text('Ok'),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    }
-              });
-
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Login()),
+              );
             },
             child: ListTile(
               leading: Icon(Icons.logout),
               title: Text(
-                'LOGOUT',
+                'L O G O U T',
                 style: TextStyle(color: Colors.white),
               ),
               tileColor: Colors.blue[900],

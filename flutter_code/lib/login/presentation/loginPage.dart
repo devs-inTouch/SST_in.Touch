@@ -7,10 +7,6 @@ import 'package:flutter_basic/responsive_mainpage/presentation/tablet_scaffold.d
 import 'package:flutter_basic/responsive_mainpage/presentation/desktop_scaffold.dart';
 import 'package:flutter_basic/responsive_mainpage/presentation/mobile_scaffold.dart';
 
-
-
-
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 

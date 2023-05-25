@@ -4,6 +4,7 @@ import '../../hojeNaFct.dart';
 import '../../utils/my_box.dart';
 import '../../weatherBox.dart';
 
+
 class ViewUtil {
   static Widget buildListView() {
     return ListView.builder(

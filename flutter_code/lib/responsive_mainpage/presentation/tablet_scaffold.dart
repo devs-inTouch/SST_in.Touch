@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/constants.dart';
-import 'package:flutter_basic/utils/my_box.dart';
-import 'package:flutter_basic/utils/my_tile.dart';
-
-import '../../hojeNaFct.dart';
-import '../../weatherBox.dart';
+import '../../myAppBar.dart';
 import 'buildViews.dart';
 
 class TabletScaffold extends StatefulWidget {
@@ -18,7 +14,7 @@ class _TabletScaffoldState extends State<TabletScaffold> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: myAppBar,
+      appBar: MyAppBar(),
       backgroundColor: myBackground,
       drawer: myDrawer,
       body: Column(
