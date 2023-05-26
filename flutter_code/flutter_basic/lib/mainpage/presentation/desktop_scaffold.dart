@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/constants.dart';
-import 'package:flutter_basic/utils/my_box.dart';
-import 'package:flutter_basic/utils/my_tile.dart';
 import 'package:intl/intl.dart';
-
-
 import '../../hojeNaFCT/avisos_info.dart';
 import '../../hojeNaFCT/exposicoes_info.dart';
 import '../../hojeNaFCT/noticias_info.dart';
 import '../../hojeNaFCT/restauração_info.dart';
 import '../../myAppBar.dart';
 import '../../weatherBox.dart';
-import 'buildViews.dart';
 
-//comment
 class DesktopScaffold extends StatefulWidget {
   const DesktopScaffold({Key? key}) : super(key: key);
 
@@ -368,7 +362,7 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
         daysRemainingText = daysRemaining.toString();
       }
 
-      showD ialog(
+      showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
