@@ -1,4 +1,5 @@
   import 'package:flutter/material.dart';
+  import 'conversationList.dart';
   import 'message.dart';
 
   class Conversation {
@@ -13,7 +14,7 @@
     final Conversation? conversation; // Define the conversation parameter here
     final Function(Conversation) onConversationSelected; // Add a new property here
 
-    const ChatScreen({super.key, this.conversation, required this.onConversationSelected});
+    ChatScreen({this.conversation, required this.onConversationSelected});
 
 
     @override
@@ -57,26 +58,26 @@
             );
           },
           itemCount: _conversations.length,
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(8.0),
         ),
       );
     }
     Widget _buildTextComposer() {
       return Container(
-        margin: const EdgeInsets.symmetric(horizontal: 8.0),
+        margin: EdgeInsets.symmetric(horizontal: 8.0),
         child: Row(
           children: [
             Flexible(
               child: TextField(
                 controller: _textController,
                 onSubmitted: _handleSubmitted,
-                decoration: const InputDecoration.collapsed(
+                decoration: InputDecoration.collapsed(
                   hintText: 'Send a message',
                 ),
               ),
             ),
             IconButton(
-              icon: const Icon(Icons.send),
+              icon: Icon(Icons.send),
               onPressed: () => _handleSubmitted(_textController.text),
             ),
           ],
@@ -87,7 +88,7 @@
 
     Widget _buildCreateConversationButton() {
       return Container(
-        margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
+        margin: EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
         child: ElevatedButton(
           onPressed: () {
             showDialog(
@@ -96,18 +97,18 @@
                 String name = '';
                 String email = '';
                 return AlertDialog(
-                  title: const Text('Create a new conversation'),
+                  title: Text('Create a new conversation'),
                   content: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       TextField(
-                        decoration: const InputDecoration(labelText: 'Name'),
+                        decoration: InputDecoration(labelText: 'Name'),
                         onChanged: (value) {
                           name = value;
                         },
                       ),
                       TextField(
-                        decoration: const InputDecoration(labelText: 'Email'),
+                        decoration: InputDecoration(labelText: 'Email'),
                         onChanged: (value) {
                           email = value;
                         },
@@ -119,7 +120,7 @@
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: const Text('Cancel'),
+                      child: Text('Cancel'),
                     ),
                     ElevatedButton(
                       onPressed: () {
@@ -141,7 +142,7 @@
                             builder: (context) {
                               return Scaffold(
                                 appBar: AppBar(
-                                  title: const Text('Conversation Screen'),
+                                  title: Text('Conversation Screen'),
                                 ),
                                 body: Center(
                                   child: Text(
@@ -152,26 +153,26 @@
                           ),
                         );
                       },
-                      child: const Text('Create'),
+                      child: Text('Create'),
                     ),
                   ],
                 );
               },
             );
           },
-          child: const Text('Create a new conversation'),
+          child: Text('Create a new conversation'),
         ),
       );
     }
 
     Widget _buildCreateGroupButton() {
       return Container(
-        margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
+        margin: EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
         child: ElevatedButton(
           onPressed: () {
   // Navigate to create conversation screen
           },
-          child: const Text('Create a new group'),
+          child: Text('Create a new group'),
         ),
       );
     }
@@ -198,7 +199,7 @@
                 ),
               ),
             ),
-            const VerticalDivider(width: 1.0),
+            VerticalDivider(width: 1.0),
             Flexible(
               flex: 3,
               child: Container(
@@ -218,7 +219,7 @@
                         reverse: true,
                       ),
                     ),
-                    const Divider(height: 1.0),
+                    Divider(height: 1.0),
                     Container(
                       decoration:
                           BoxDecoration(color: Theme.of(context).cardColor),

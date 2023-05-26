@@ -1,4 +1,5 @@
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:weather/weather.dart';
@@ -31,20 +32,20 @@ class _WeatherBoxState extends State<WeatherBox> {
 
   Icon _getWeatherIcon() {
     if (_weather == null) {
-      return const Icon(Icons.cloud, color: Colors.white);
+      return Icon(Icons.cloud, color: Colors.white);
     }
 
     switch (_weather?.weatherMain) {
       case 'Clear':
-        return const Icon(Icons.wb_sunny, color: Colors.white);
+        return Icon(Icons.wb_sunny, color: Colors.white);
       case 'Clouds':
-        return const Icon(Icons.cloud, color: Colors.white);
+        return Icon(Icons.cloud, color: Colors.white);
       case 'Rain':
-        return const Icon(Icons.beach_access, color: Colors.white);
+        return Icon(Icons.beach_access, color: Colors.white);
       case 'Snow':
-        return const Icon(Icons.ac_unit, color: Colors.white);
+        return Icon(Icons.ac_unit, color: Colors.white);
       default:
-        return const Icon(Icons.cloud, color: Colors.white);
+        return Icon(Icons.cloud, color: Colors.white);
     }
   }
 
@@ -58,7 +59,7 @@ class _WeatherBoxState extends State<WeatherBox> {
           Container(
             width: double.infinity,
             decoration: topBarDecoration,
-            padding: const EdgeInsets.all(16.0),
+            padding: EdgeInsets.all(16.0),
             child: Text(
               '-Meteorologia-',
               style: textStyleBar,
@@ -67,23 +68,23 @@ class _WeatherBoxState extends State<WeatherBox> {
     Expanded(
     child: SingleChildScrollView(
     child: Container(
-    padding: const EdgeInsets.all(16.0),
+    padding: EdgeInsets.all(16.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Center(
                   child: _weather == null
-                      ? const CircularProgressIndicator()
+                      ? CircularProgressIndicator()
                       : Column(
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           _getWeatherIcon(),
-                          const SizedBox(width: 16.0),
+                          SizedBox(width: 16.0),
                           Text(
                             '${_weather?.temperature?.celsius?.toStringAsFixed(1)}°C',
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 24.0,
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
@@ -91,28 +92,28 @@ class _WeatherBoxState extends State<WeatherBox> {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 16.0),
+                      SizedBox(height: 16.0),
                       Text(
                         '${_weather?.weatherDescription}',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 16.0,
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(height: 16.0),
+                      SizedBox(height: 16.0),
                       Text(
                         'Wind: ${_weather?.windSpeed} m/s',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 16.0,
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(height: 16.0),
+                      SizedBox(height: 16.0),
                       Text(
                         'Humidity: ${_weather?.humidity}%',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 16.0,
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -121,10 +122,10 @@ class _WeatherBoxState extends State<WeatherBox> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 16.0),
+                SizedBox(height: 16.0),
                 Text(
-                  DateFormat('HH:mm').format(DateTime.now()),
-                  style: const TextStyle(
+                  '${DateFormat('HH:mm').format(DateTime.now())}',
+                  style: TextStyle(
                     fontSize: 16.0,
                     color: Colors.white,
                     fontWeight: FontWeight.bold,

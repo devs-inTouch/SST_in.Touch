@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_basic/register/application/registerAuth.dart';
 import 'package:flutter_basic/register/presentation/registerPage.dart';
 import 'package:flutter_basic/login/application/loginAuth.dart';
 import 'package:flutter_basic/responsive_mainpage/presentation/responsive_page.dart';
@@ -17,14 +18,12 @@ class MyApp extends StatelessWidget {
         theme:ThemeData(
             primaryColor: Colors.blue
         ),
-        home: const Login()
+        home: Login()
     );
   }
 }
 
  class Login extends StatefulWidget {
-  const Login({super.key});
-
 
    @override
    State<Login> createState() => LoginHomePage();
@@ -51,17 +50,17 @@ class LoginHomePage extends State<Login> {
         print(LoginAuth.userLogin(username, pwd));
         Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const ResponsiveLayout(desktopScaffold: DesktopScaffold(), mobileScaffold: MobileScaffold(), tabletScaffold: TabletScaffold())
+            MaterialPageRoute(builder: (context) => ResponsiveLayout(desktopScaffold: const DesktopScaffold(), mobileScaffold: const MobileScaffold(), tabletScaffold: const TabletScaffold())
             ));
       }else {
     showDialog(
         context: context,
         builder: (BuildContext context) {
         return AlertDialog(
-        title: const Text('Username e password incorretos'),
+        title: Text('Username e password incorretos'),
         actions: <Widget>[
         TextButton(
-        child: const Text('Ok'),
+        child: Text('Ok'),
         onPressed: () {
         Navigator.of(context).pop();
         },
@@ -95,38 +94,38 @@ class LoginHomePage extends State<Login> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const SizedBox(height: 20,),
+            SizedBox(height: 20,),
             Align(
                 alignment: Alignment.topCenter,
                 child:
                 Image.asset('assets/logo-1-RBH.png', height: 100,)
             ),
-            const SizedBox(height: 30,),
+            SizedBox(height: 30,),
             Align(
               alignment: Alignment.center,
               child: Container(
               height: 475,
               width: 450,
               decoration: BoxDecoration(
-                color: const Color(0xd8ffffff),
+                color: Color(0xd8ffffff),
                 borderRadius: BorderRadius.circular(10.0)
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children:  [
-                  const SizedBox(height: 30,),
+                  SizedBox(height: 30,),
 
-                  const Text('Login',
+                  Text('Login',
                   style: TextStyle(
                     fontSize: 35,
                     fontWeight: FontWeight.bold
                   )),
-                  const SizedBox(height: 40,),
-                  SizedBox(
+                  SizedBox(height: 40,),
+                  Container(
                     width: 250,
                     child: TextField(
                       controller: usernameControl,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'Username',
 
@@ -134,14 +133,14 @@ class LoginHomePage extends State<Login> {
 
                     )
                   ),
-                  const SizedBox(height: 25,),
-                  SizedBox(
+                  SizedBox(height: 25,),
+                  Container(
                       width: 250,
                       child: TextField(
                         controller: pwdControl,
                         obscureText: passwordVisible,
                         decoration: InputDecoration(
-                            border: const OutlineInputBorder(),
+                            border: OutlineInputBorder(),
                             labelText: 'Password',
                           suffixIcon: IconButton(
                             icon: Icon(
@@ -160,13 +159,13 @@ class LoginHomePage extends State<Login> {
 
                       )
                   ),
-                  const SizedBox(height: 25,),
+                  SizedBox(height: 25,),
 
 
 
                   OutlinedButton(
                     style: OutlinedButton.styleFrom(
-                      fixedSize: const Size(200,50),
+                      fixedSize: Size(200,50),
                       backgroundColor: Colors.blue
 
                     ),
@@ -177,7 +176,7 @@ class LoginHomePage extends State<Login> {
                         debugPrint('Received click');
 
                       },
-                      child: const Text('Login',
+                      child: Text('Login',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 20,
@@ -186,15 +185,15 @@ class LoginHomePage extends State<Login> {
                       )
 
                     ),
-                  const SizedBox(height: 5,),
+                  SizedBox(height: 5,),
                   TextButton(
                       onPressed: () {
                         debugPrint('Received click');
                       },
-                      child: const Text('Esqueceste a senha?')
+                      child: Text('Esqueceste a senha?')
                   ),
-                  const SizedBox(height: 20,),
-                  const Text('Não tens conta?',
+                  SizedBox(height: 20,),
+                  Text('Não tens conta?',
                     style: TextStyle(
                       fontSize: 15
                     ) ,
@@ -206,7 +205,7 @@ class LoginHomePage extends State<Login> {
                         Navigator.push(context, MaterialPageRoute(builder: (context) => const Register()));
 
                       },
-                      child: const Text('Regista-te')
+                      child: Text('Regista-te')
                   )
                   
 

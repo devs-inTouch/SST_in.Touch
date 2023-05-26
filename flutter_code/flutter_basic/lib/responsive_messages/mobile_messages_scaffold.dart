@@ -12,7 +12,7 @@ class Conversation {
 class MobileMessagesScaffold extends StatefulWidget {
   final Conversation? conversation; // Define the conversation parameter here
 
-  const MobileMessagesScaffold({super.key, this.conversation});
+  MobileMessagesScaffold({this.conversation});
   @override
   _MobileMessagesScaffold createState() => _MobileMessagesScaffold();
 }
@@ -36,20 +36,20 @@ class _MobileMessagesScaffold extends State<MobileMessagesScaffold> {
 
   Widget _buildTextComposer() {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 8.0),
+      margin: EdgeInsets.symmetric(horizontal: 8.0),
       child: Row(
         children: [
           Flexible(
             child: TextField(
               controller: _textController,
               onSubmitted: _handleSubmitted,
-              decoration: const InputDecoration.collapsed(
+              decoration: InputDecoration.collapsed(
                 hintText: 'Send a message',
               ),
             ),
           ),
           IconButton(
-            icon: const Icon(Icons.send),
+            icon: Icon(Icons.send),
             onPressed: () => _handleSubmitted(_textController.text),
           ),
         ],
@@ -75,14 +75,14 @@ class _MobileMessagesScaffold extends State<MobileMessagesScaffold> {
           );
         },
         itemCount: _conversations.length,
-        padding: const EdgeInsets.all(8.0),
+        padding: EdgeInsets.all(8.0),
       ),
     );
   }
 
   Widget _buildCreateConversationButton() {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
+      margin: EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
       child: ElevatedButton(
         onPressed: () {
           showDialog(
@@ -91,18 +91,18 @@ class _MobileMessagesScaffold extends State<MobileMessagesScaffold> {
               String name = '';
               String email = '';
               return AlertDialog(
-                title: const Text('Create a new conversation'),
+                title: Text('Create a new conversation'),
                 content: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     TextField(
-                      decoration: const InputDecoration(labelText: 'Name'),
+                      decoration: InputDecoration(labelText: 'Name'),
                       onChanged: (value) {
                         name = value;
                       },
                     ),
                     TextField(
-                      decoration: const InputDecoration(labelText: 'Email'),
+                      decoration: InputDecoration(labelText: 'Email'),
                       onChanged: (value) {
                         email = value;
                       },
@@ -114,7 +114,7 @@ class _MobileMessagesScaffold extends State<MobileMessagesScaffold> {
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: const Text('Cancel'),
+                    child: Text('Cancel'),
                   ),
                   ElevatedButton(
                     onPressed: () {
@@ -136,7 +136,7 @@ class _MobileMessagesScaffold extends State<MobileMessagesScaffold> {
                           builder: (context) {
                             return Scaffold(
                               appBar: AppBar(
-                                title: const Text('Conversation Screen'),
+                                title: Text('Conversation Screen'),
                               ),
                               body: Center(
                                 child: Text('Conversation: ${newConversation.toString()}'),
@@ -146,14 +146,14 @@ class _MobileMessagesScaffold extends State<MobileMessagesScaffold> {
                         ),
                       );
                     },
-                    child: const Text('Create'),
+                    child: Text('Create'),
                   ),
                 ],
               );
             },
           );
         },
-        child: const Text('Create a new conversation'),
+        child: Text('Create a new conversation'),
       ),
 
     );
@@ -161,12 +161,12 @@ class _MobileMessagesScaffold extends State<MobileMessagesScaffold> {
 
   Widget _buildCreateGroupButton() {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
+      margin: EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
       child: ElevatedButton(
         onPressed: () {
           // Navigate to create conversation screen
         },
-        child: const Text('Create a new group'),
+        child: Text('Create a new group'),
       ),
     );
   }
@@ -194,7 +194,7 @@ class _MobileMessagesScaffold extends State<MobileMessagesScaffold> {
             ),
           ),
 
-          const VerticalDivider(width: 1.0),
+          VerticalDivider(width: 1.0),
 
           Flexible(
             flex: 3,
@@ -215,7 +215,7 @@ class _MobileMessagesScaffold extends State<MobileMessagesScaffold> {
                       reverse: true,
                     ),
                   ),
-                  const Divider(height: 1.0),
+                  Divider(height: 1.0),
                   Container(
                     decoration: BoxDecoration(color: Theme
                         .of(context)

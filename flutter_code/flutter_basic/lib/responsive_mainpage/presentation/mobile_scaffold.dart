@@ -14,7 +14,7 @@ class _MobileScaffoldState extends State<MobileScaffold> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const MyAppBar(),
+      appBar: MyAppBar(),
       backgroundColor: myBackground,
       drawer: myDrawer,
       body: Column(

@@ -40,6 +40,9 @@ dependencies:
   google_fonts: ^4.0.4
   intl: ^0.18.1
   table_calendar: ^3.0.9
+  google_maps_flutter: ^2.2.8
+  google_maps_flutter_web: ^0.4.0+9
+  http: ^0.13.6
 
 dev_dependencies:
   flutter_test:

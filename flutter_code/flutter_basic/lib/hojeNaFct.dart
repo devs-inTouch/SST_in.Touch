@@ -23,7 +23,7 @@ class HojeNaFctBox extends StatefulWidget {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: const Text('Close'),
+              child: Text('Close'),
             ),
           ],
         );
@@ -42,16 +42,16 @@ class HojeNaFctBox extends StatefulWidget {
           Container(
             width: double.infinity,
             decoration: topBarDecoration,
-            padding: const EdgeInsets.all(16.0),
+            padding: EdgeInsets.all(16.0),
             child: Text(
               '-Hoje na FCT-',
               style: textStyleBar,
             ),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
           Expanded(
             child: ListView(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              padding: EdgeInsets.symmetric(horizontal: 16.0),
               children: [
                 Wrap(
                   spacing: 8.0,
@@ -63,28 +63,28 @@ class HojeNaFctBox extends StatefulWidget {
                             'Provas Académicas', 'Text for Provas Académicas');
                       },
                       style: buttonStyle,
-                      child: const Text('Provas Académicas'),
+                      child: Text('Provas Académicas'),
                     ),
                     ElevatedButton(
                       onPressed: () {
                         _showPopup('Avisos', 'Text for Avisos');
                       },
                       style: buttonStyle,
-                      child: const Text('Avisos'),
+                      child: Text('Avisos'),
                     ),
                     ElevatedButton(
                       onPressed: () {
                         _showPopup('Exposições', '123');
                       },
                       style: buttonStyle,
-                      child: const Text('Exposições'),
+                      child: Text('Exposições'),
                     ),
                     ElevatedButton(
                       onPressed: () {
                         _showPopup('Restauração', '123');
                       },
                       style: buttonStyle,
-                      child: const Text('Restauração'),
+                      child: Text('Restauração'),
                     ),
                   ],
                 ),

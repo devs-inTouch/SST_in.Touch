@@ -14,7 +14,7 @@ class _TabletScaffoldState extends State<TabletScaffold> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const MyAppBar(),
+      appBar: MyAppBar(),
       backgroundColor: myBackground,
       drawer: myDrawer,
       body: Column(

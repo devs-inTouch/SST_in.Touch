@@ -86,7 +86,7 @@ class RegisterHome extends State<Register> {
             child: Stack(
               children: [
                 Align(
-                    alignment: const Alignment(-0.9,-0.9),
+                    alignment: Alignment(-0.9,-0.9),
                     child:
 
                     Image.asset('assets/logo-1-RBH.png', height: 75,)
@@ -97,7 +97,7 @@ class RegisterHome extends State<Register> {
                         height: MediaQuery.of(context).size.height/1.3,
                         width: MediaQuery.of(context).size.width/2.5,
                         decoration: BoxDecoration(
-                            color: const Color(0xd8ffffff),
+                            color: Color(0xd8ffffff),
                             borderRadius: BorderRadius.circular(10.0)
                         ),
                           child: Scrollbar(
@@ -105,19 +105,19 @@ class RegisterHome extends State<Register> {
                             child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children:  [
-                            const SizedBox(height: 20,),
+                            SizedBox(height: 20,),
 
-                            const Text('Registo',
+                            Text('Registo',
                                 style: TextStyle(
                                     fontSize: 35,
                                     fontWeight: FontWeight.bold
                                 )),
-                            const SizedBox(height: 20 ,),
-                            SizedBox(
+                            SizedBox(height: 20 ,),
+                            Container(
                                 width: MediaQuery.of(context).size.width/3.8,
                                 child: TextField(
                                   controller: usernameControl,
-                                  decoration: const InputDecoration(
+                                  decoration: InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Username',
 
@@ -125,12 +125,12 @@ class RegisterHome extends State<Register> {
 
                                 )
                             ),
-                            const SizedBox(height: 13 ,),
-                            SizedBox(
+                            SizedBox(height: 13 ,),
+                            Container(
                                 width: MediaQuery.of(context).size.width/3.8,
                                 child: TextField(
                                   controller: nameControl,
-                                  decoration: const InputDecoration(
+                                  decoration: InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Nome',
 
@@ -138,14 +138,14 @@ class RegisterHome extends State<Register> {
 
                                 )
                             ),
-                            const SizedBox(height: 13 ,),
-                            SizedBox(
+                            SizedBox(height: 13 ,),
+                            Container(
                                 width: MediaQuery.of(context).size.width/3.8,
                                 child: TextField(
                                   obscureText: passwordVisible,
                                   controller: pwdControl,
                                   decoration: InputDecoration(
-                                      border: const OutlineInputBorder(),
+                                      border: OutlineInputBorder(),
                                       labelText: 'Password',
                                       suffixIcon: IconButton(
                                         icon: Icon(
@@ -164,14 +164,14 @@ class RegisterHome extends State<Register> {
 
                                 )
                             ),
-                            const SizedBox(height: 13 ,),
-                            SizedBox(
+                            SizedBox(height: 13 ,),
+                            Container(
                                 width: MediaQuery.of(context).size.width/3.8,
                                 child: TextField(
                                   obscureText: passwordConfVisible,
                                   controller: pwdConfirmControl,
                                   decoration: InputDecoration(
-                                      border: const OutlineInputBorder(),
+                                      border: OutlineInputBorder(),
                                       labelText: 'Confirma Password',
                                       suffixIcon: IconButton(
                                         icon: Icon(
@@ -191,36 +191,36 @@ class RegisterHome extends State<Register> {
 
                                 )
                             ),
-                            const SizedBox(height: 13 ,),
-                            SizedBox(
+                            SizedBox(height: 13 ,),
+                            Container(
                                 width: MediaQuery.of(context).size.width/3.8,
                                 child: TextField(
                                   controller: emailControl,
-                                  decoration: const InputDecoration(
+                                  decoration: InputDecoration(
                                       border: OutlineInputBorder(),
                                       labelText: 'Email'
                                   ),
 
                                 )
                             ),
-                            const SizedBox(height: 13,),
+                            SizedBox(height: 13,),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center ,
                               children: [
-                                SizedBox(
+                                Container(
 
                                 width: MediaQuery.of(context).size.width/7.75,
                                 child: TextField(
                                   controller: numberControl,
-                                  decoration: const InputDecoration(
+                                  decoration: InputDecoration(
                                       border: OutlineInputBorder(),
                                       labelText: 'Número de Aluno'
                                   ),
 
                                 )
                             ),
-                            const SizedBox(width: 10,),
-                            SizedBox(
+                            SizedBox(width: 10,),
+                            Container(
                               width: MediaQuery.of(context).size.width/7.75,
                             child: DropdownButton(
 
@@ -249,34 +249,34 @@ class RegisterHome extends State<Register> {
 
 
 
-                            const SizedBox(height: 13 ,),
+                            SizedBox(height: 13 ,),
 
 
-                            SizedBox(
+                            Container(
                                 width: MediaQuery.of(context).size.width/3.8,
                                 child: TextField(
                                   controller: departmentControl,
-                                  decoration: const InputDecoration(
+                                  decoration: InputDecoration(
                                       border: OutlineInputBorder(),
                                       labelText: 'Departamento'
                                   ),
 
                                 )
                             ),
-                            const SizedBox(height: 13 ,),
+                            SizedBox(height: 13 ,),
 
-                            SizedBox(
+                            Container(
                                 width: MediaQuery.of(context).size.width/3.8,
                                 child: TextField(
                                   controller: courseControl,
-                                  decoration: const InputDecoration(
+                                  decoration: InputDecoration(
                                       border: OutlineInputBorder(),
                                       labelText: 'Curso'
                                   ),
 
                                 )
-                            ),const SizedBox(height: 13,),
-                            SizedBox(
+                            ),SizedBox(height: 13,),
+                            Container(
                                 width: MediaQuery.of(context).size.width/3.8,
 
                                 child: TextField(
@@ -285,16 +285,16 @@ class RegisterHome extends State<Register> {
                                   keyboardType: TextInputType.multiline,
                                   maxLines: 10,
                                   maxLength: 400,
-                                  decoration: const InputDecoration(
+                                  decoration: InputDecoration(
                                       border: OutlineInputBorder(),
                                       labelText: 'Descrição'
                                   ),
 
                                 )
-                            ),const SizedBox(height: 13,),
+                            ),SizedBox(height: 13,),
                             OutlinedButton(
                                 style: OutlinedButton.styleFrom(
-                                    fixedSize: const Size(200,50),
+                                    fixedSize: Size(200,50),
                                     backgroundColor: Colors.blue
 
                                 ),
@@ -306,11 +306,11 @@ class RegisterHome extends State<Register> {
                                       context: context,
                                       builder: (BuildContext context) {
                                         return AlertDialog(
-                                          title: const Text('Preenchas pelo menos os campos: '
+                                          title: Text('Preenchas pelo menos os campos: '
                                               'Username, nome, password e email'),
                                           actions: <Widget>[
                                             TextButton(
-                                              child: const Text('Ok'),
+                                              child: Text('Ok'),
                                               onPressed: () {
                                                 Navigator.of(context).pop();
                                               },
@@ -325,10 +325,10 @@ class RegisterHome extends State<Register> {
                                       context: context,
                                       builder: (BuildContext context) {
                                         return AlertDialog(
-                                          title: const Text('Password contém caracteres inválidos'),
+                                          title: Text('Password contém caracteres inválidos'),
                                           actions: <Widget>[
                                             TextButton(
-                                              child: const Text('Ok'),
+                                              child: Text('Ok'),
                                               onPressed: () {
                                                 Navigator.of(context).pop();
                                               },
@@ -342,10 +342,10 @@ class RegisterHome extends State<Register> {
                                       context: context,
                                       builder: (BuildContext context) {
                                         return AlertDialog(
-                                          title: const Text('Passwords são diferentes!'),
+                                          title: Text('Passwords são diferentes!'),
                                           actions: <Widget>[
                                             TextButton(
-                                              child: const Text('Ok'),
+                                              child: Text('Ok'),
                                               onPressed: () {
                                                 Navigator.of(context).pop();
                                               },
@@ -360,11 +360,11 @@ class RegisterHome extends State<Register> {
                                       context: context,
                                       builder: (BuildContext context) {
                                         return AlertDialog(
-                                          title: const Text('Password tem de ter no mínimo 5 caracteres,'
+                                          title: Text('Password tem de ter no mínimo 5 caracteres,'
                                               'letra maiuscula e um número'),
                                           actions: <Widget>[
                                             TextButton(
-                                              child: const Text('Ok'),
+                                              child: Text('Ok'),
                                               onPressed: () {
                                                 Navigator.of(context).pop();
                                               },
@@ -387,7 +387,7 @@ class RegisterHome extends State<Register> {
                                     debugPrint('Received click');
                                   }
                                 },
-                                child: const Text('Register',
+                                child: Text('Register',
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 20,
@@ -397,7 +397,7 @@ class RegisterHome extends State<Register> {
 
 
                             )
-                              ,const SizedBox(height: 13,),
+                              ,SizedBox(height: 13,),
 
 
 

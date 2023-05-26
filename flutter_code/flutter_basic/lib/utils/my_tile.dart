@@ -23,15 +23,15 @@
             children: [
               Text(
                 title!,
-                style: const TextStyle(
+                style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
                 ),
               ),
-              const SizedBox(height: 5),
+              SizedBox(height: 5),
               Text(
                 content!,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 14,
                 ),
               ),

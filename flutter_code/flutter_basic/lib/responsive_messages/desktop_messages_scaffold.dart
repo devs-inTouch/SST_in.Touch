@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'message.dart';
+import 'package:flutter_basic/responsive_messages/desktop_messages_scaffold.dart';
 class Conversation {
   final String name;
   final String? message;
@@ -11,7 +12,7 @@ class Conversation {
 class DesktopMessagesScaffold extends StatefulWidget {
   final Conversation? conversation; // Define the conversation parameter here
 
-  const DesktopMessagesScaffold({super.key, this.conversation});
+  DesktopMessagesScaffold({this.conversation});
   @override
   _DesktopMessagesScaffold createState() => _DesktopMessagesScaffold();
 }
@@ -35,20 +36,20 @@ class _DesktopMessagesScaffold extends State<DesktopMessagesScaffold> {
 
   Widget _buildTextComposer() {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 8.0),
+      margin: EdgeInsets.symmetric(horizontal: 8.0),
       child: Row(
         children: [
           Flexible(
             child: TextField(
               controller: _textController,
               onSubmitted: _handleSubmitted,
-              decoration: const InputDecoration.collapsed(
+              decoration: InputDecoration.collapsed(
                 hintText: 'Send a message',
               ),
             ),
           ),
           IconButton(
-            icon: const Icon(Icons.send),
+            icon: Icon(Icons.send),
             onPressed: () => _handleSubmitted(_textController.text),
           ),
         ],
@@ -74,14 +75,14 @@ class _DesktopMessagesScaffold extends State<DesktopMessagesScaffold> {
           );
         },
         itemCount: _conversations.length,
-        padding: const EdgeInsets.all(8.0),
+        padding: EdgeInsets.all(8.0),
       ),
     );
   }
 
   Widget _buildCreateConversationButton() {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
+      margin: EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
       child: ElevatedButton(
         onPressed: () {
           showDialog(
@@ -90,18 +91,18 @@ class _DesktopMessagesScaffold extends State<DesktopMessagesScaffold> {
               String name = '';
               String email = '';
               return AlertDialog(
-                title: const Text('Create a new conversation'),
+                title: Text('Create a new conversation'),
                 content: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     TextField(
-                      decoration: const InputDecoration(labelText: 'Name'),
+                      decoration: InputDecoration(labelText: 'Name'),
                       onChanged: (value) {
                         name = value;
                       },
                     ),
                     TextField(
-                      decoration: const InputDecoration(labelText: 'Email'),
+                      decoration: InputDecoration(labelText: 'Email'),
                       onChanged: (value) {
                         email = value;
                       },
@@ -113,7 +114,7 @@ class _DesktopMessagesScaffold extends State<DesktopMessagesScaffold> {
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: const Text('Cancel'),
+                    child: Text('Cancel'),
                   ),
                   ElevatedButton(
                     onPressed: () {
@@ -135,7 +136,7 @@ class _DesktopMessagesScaffold extends State<DesktopMessagesScaffold> {
                           builder: (context) {
                             return Scaffold(
                               appBar: AppBar(
-                                title: const Text('Conversation Screen'),
+                                title: Text('Conversation Screen'),
                               ),
                               body: Center(
                                 child: Text('Conversation: ${newConversation.toString()}'),
@@ -145,14 +146,14 @@ class _DesktopMessagesScaffold extends State<DesktopMessagesScaffold> {
                         ),
                       );
                     },
-                    child: const Text('Create'),
+                    child: Text('Create'),
                   ),
                 ],
               );
             },
           );
         },
-        child: const Text('Create a new conversation'),
+        child: Text('Create a new conversation'),
       ),
 
     );
@@ -160,12 +161,12 @@ class _DesktopMessagesScaffold extends State<DesktopMessagesScaffold> {
 
   Widget _buildCreateGroupButton() {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
+      margin: EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
       child: ElevatedButton(
         onPressed: () {
           // Navigate to create conversation screen
         },
-        child: const Text('Create a new group'),
+        child: Text('Create a new group'),
       ),
     );
   }
@@ -193,7 +194,7 @@ class _DesktopMessagesScaffold extends State<DesktopMessagesScaffold> {
             ),
           ),
 
-          const VerticalDivider(width: 1.0),
+          VerticalDivider(width: 1.0),
 
           Flexible(
             flex: 3,
@@ -214,7 +215,7 @@ class _DesktopMessagesScaffold extends State<DesktopMessagesScaffold> {
                       reverse: true,
                     ),
                   ),
-                  const Divider(height: 1.0),
+                  Divider(height: 1.0),
                   Container(
                     decoration: BoxDecoration(color: Theme
                         .of(context)

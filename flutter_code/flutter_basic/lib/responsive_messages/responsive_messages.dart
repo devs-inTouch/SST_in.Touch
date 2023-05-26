@@ -5,7 +5,7 @@ class ResponsiveLayout extends StatelessWidget{
   final Widget tabletMessagesScaffold;
   final Widget desktopMessagesScaffold;
 
-  const ResponsiveLayout ({super.key, 
+  ResponsiveLayout ({
     required this.desktopMessagesScaffold,
     required this.mobileMessagesScaffold,
     required this.tabletMessagesScaffold,
