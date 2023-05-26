@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/constants.dart';
+import 'package:flutter_basic/utils/my_box.dart';
+import 'package:flutter_basic/utils/my_tile.dart';
 import 'package:intl/intl.dart';
 
-import '../hojeNaFCT/avisos_info.dart';
-import '../hojeNaFCT/exposicoes_info.dart';
-import '../hojeNaFCT/noticias_info.dart';
-import '../hojeNaFct.dart';
-import '../myAppBar.dart';
-import '../hojeNaFCT/restauração_info.dart';
-import '../weatherBox.dart';
+
+import '../../hojeNaFCT/avisos_info.dart';
+import '../../hojeNaFCT/exposicoes_info.dart';
+import '../../hojeNaFCT/noticias_info.dart';
+import '../../hojeNaFCT/restauração_info.dart';
+import '../../myAppBar.dart';
+import '../../weatherBox.dart';
+import 'buildViews.dart';
 
 class DesktopScaffold extends StatefulWidget {
   const DesktopScaffold({Key? key}) : super(key: key);
@@ -103,80 +106,44 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
       appBar: MyAppBar(),
       backgroundColor: Colors.white,
       body: Padding(
-        padding: const EdgeInsets.all(50.0),
+        padding: EdgeInsets.all(50.0),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-          Expanded(
-          flex: 1,
-          child: Container(
-            width: 500,
-            decoration: boxDecoration,
-            child: Column(
-              children: [
-                Container(
-                  height: 50,
-                  decoration: topBarDecoration,
-                  child: Center(
-                    child: textTopBar('Hoje Na FCT'),
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    pages[_currentPageIndex],
-                    style: const TextStyle(fontSize: 24),
-                  ),
-                ),
-                if (pages[_currentPageIndex] == 'Restauração')
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
-                      child: RestauracaoPage(),
-                    ),
-                  )
-                 else if (pages[_currentPageIndex] == 'Avisos')
-                   Expanded(
-                     child: Container(
-                       padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
-                       child: AvisosPage(),
-                     ),
-                   )
-                 else if (pages[_currentPageIndex] == 'Exposições')
-                   Expanded(
-                     child: Container(
-                       padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
-                       child: ExposicoesPage(),
-                     ),
-                   )
-                 else if (pages[_currentPageIndex] == 'Notícias')
-                   Expanded(
-                     child: Container(
-                       padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
-                       child: NoticiasPage(),
-                     ),
-                   ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 20.0),
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        IconButton(
-                          onPressed: goToPreviousPage,
-                          icon: const Icon(Icons.arrow_back),
+            Expanded(
+              flex: 3,
+              child: SizedBox(
+                width: 500,
+                child: Container(
+                  decoration: boxDecoration,
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 50,
+                        decoration: topBarDecoration,
+                        child: Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.calendar_today_rounded),  // Icon calendar
+                              SizedBox(width: 5),  // Add some spacing between the icon and text
+                              textTopBar('HOJE NA FCT'),  // Text widget
+                            ],
+                          ),
                         ),
-                        const SizedBox(width: 30.0),
-                        IconButton(
-                          onPressed: goToNextPage,
-                          icon: const Icon(Icons.arrow_forward),
+                      ),
+
+                      Container(
+                        padding: EdgeInsets.all(16.0),
+                        child: Text(
+                          pages[_currentPageIndex],
+                          style: hojeNaFCTPageTitles,
                         ),
                       ),
                       if (pages[_currentPageIndex] == 'RESTAURAÇÃO')
                         Expanded(
                           child: Container(
-                            padding: const EdgeInsets.symmetric(
+                            padding: EdgeInsets.symmetric(
                                 vertical: 20.0, horizontal: 20.0),
                             child: RestauracaoPage(),
                           ),
@@ -184,29 +151,29 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                       else if (pages[_currentPageIndex] == 'Avisos')
                         Expanded(
                           child: Container(
-                            padding: const EdgeInsets.symmetric(
+                            padding: EdgeInsets.symmetric(
                                 vertical: 20.0, horizontal: 20.0),
                             child: AvisosPage(),
                           ),
                         )
                       else if (pages[_currentPageIndex] == 'Exposições')
-                        Expanded(
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 20.0, horizontal: 20.0),
-                            child: ExposicoesPage(),
-                          ),
-                        )
-                      else if (pages[_currentPageIndex] == 'Notícias')
-                        Expanded(
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 20.0, horizontal: 20.0),
-                            child: NoticiasPage(),
-                          ),
-                        ),
+                          Expanded(
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 20.0, horizontal: 20.0),
+                              child: ExposicoesPage(),
+                            ),
+                          )
+                        else if (pages[_currentPageIndex] == 'Notícias')
+                            Expanded(
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 20.0, horizontal: 20.0),
+                                child: NoticiasPage(),
+                              ),
+                            ),
                       Padding(
-                        padding: const EdgeInsets.only(bottom: 20.0),
+                        padding: EdgeInsets.only(bottom: 20.0),
                         child: Align(
                           alignment: Alignment.bottomCenter,
                           child: Row(
@@ -214,12 +181,12 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                             children: [
                               IconButton(
                                 onPressed: goToPreviousPage,
-                                icon: const Icon(Icons.arrow_back),
+                                icon: Icon(Icons.arrow_back),
                               ),
-                              const SizedBox(width: 30.0),
+                              SizedBox(width: 30.0),
                               IconButton(
                                 onPressed: goToNextPage,
-                                icon: const Icon(Icons.arrow_forward),
+                                icon: Icon(Icons.arrow_forward),
                               ),
                             ],
                           ),
@@ -230,12 +197,7 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                 ),
               ),
             ),
-          ),
-        ),
-
-
-
-          const Spacer(),
+            Spacer(),
             Expanded(
               flex: 4,
               child: Column(
@@ -272,7 +234,7 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                           ),
                         ],
                       ),
-                      const SizedBox(width: 150.0),
+                      SizedBox(width: 210.0),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -282,11 +244,8 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                                 width: 250,
                                 height: 250,
                                 decoration: boxDecoration,
-                                child: const Center(
-                                  child: Text(
-                                    "Box 2",
-                                    style: TextStyle(fontSize: 16),
-                                  ),
+                                child: Center(
+                                  child: WeatherBox(location: 'Costa Da Caparica'),
                                 ),
                               ),
 
@@ -310,7 +269,9 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 25.0), // Adjust the spacing between the row of boxes and the "Agenda" box
+
+                  SizedBox(height: 25.0),
+                  // Adjust the spacing between the row of boxes and the "Agenda" box
                   Align(
                     alignment: Alignment.bottomRight,
                     child: FractionallySizedBox(
@@ -325,7 +286,7 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                                 Container(
                                   height: 50,
                                   decoration: topBarDecoration,
-                                  child: const Row(
+                                  child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
@@ -360,7 +321,7 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                                 // Add your functionality for adding new activities here
                                 addNewActivity(context);
                               },
-                              icon: const Icon(Icons.add),
+                              icon: Icon(Icons.add),
                               color: Colors.black,
                             ),
                           ),
@@ -374,7 +335,7 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
           ],
         ),
       ),
-    )
+    );
   }
 
   void addNewActivity(BuildContext context) async {
@@ -392,9 +353,9 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
       selectedDate = pickedDate;
 
       int daysRemaining = DateTime.utc(
-              pickedDate.year, pickedDate.month, pickedDate.day)
+          pickedDate.year, pickedDate.month, pickedDate.day)
           .difference(DateTime.utc(
-              DateTime.now().year, DateTime.now().month, DateTime.now().day))
+          DateTime.now().year, DateTime.now().month, DateTime.now().day))
           .inDays;
 
       String daysRemainingText;
@@ -410,26 +371,25 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text('Adicionar evento'),
+            title: Text('Adicionar evento'),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 TextField(
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     labelText: 'Nome',
                   ),
                   onChanged: (value) {
                     eventName = value;
                   },
                 ),
-                const SizedBox(height: 16.0),
+                SizedBox(height: 16.0),
                 Text(
                   'Data selecionada: ${DateFormat('MMMM dd, yyyy').format(selectedDate)}',
-                  style: const TextStyle(fontSize: 16.0),
+                  style: TextStyle(fontSize: 16.0),
                 ),
-                const SizedBox(height: 8.0),
-
-                const SizedBox(height: 16.0),
+                SizedBox(height: 8.0),
+                SizedBox(height: 16.0),
                 ElevatedButton(
                   onPressed: () {
                     setState(() {
@@ -450,7 +410,7 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                       Navigator.pop(context);
                     });
                   },
-                  child: const Text('Adicionar'),
+                  child: Text('Adicionar'),
                 ),
               ],
             ),
@@ -464,13 +424,13 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
 class EventCard extends StatelessWidget {
   final Map<String, dynamic> event;
 
-  const EventCard({super.key, required this.event});
+  const EventCard({required this.event});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8.0),
-      padding: const EdgeInsets.all(16.0),
+      margin: EdgeInsets.symmetric(vertical: 8.0),
+      padding: EdgeInsets.all(16.0),
       decoration: boxEventDecoration,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -479,12 +439,12 @@ class EventCard extends StatelessWidget {
             'Data: ${DateFormat('MMMM dd, yyyy').format(event['Data'])}',
             style: textStyleEvents,
           ),
-          const SizedBox(height: 8.0),
+          SizedBox(height: 8.0),
           Text(
             'Evento: ${event['Evento']}',
             style: textStyleEvents,
           ),
-          const SizedBox(height: 8.0),
+          SizedBox(height: 8.0),
           Text(
             'Dias Restantes: ${event['DiasRestantesTexto']}',
             style: textStyleEvents,

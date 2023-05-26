@@ -4,10 +4,11 @@ import 'package:flutter_basic/mainpage/presentation/desktop_scaffold.dart';
 import 'package:flutter_basic/mainpage/presentation/mobile_scaffold.dart';
 import 'package:flutter_basic/mainpage/presentation/responsive_page.dart';
 import 'package:flutter_basic/mainpage/presentation/tablet_scaffold.dart';
-import 'package:flutter_basic/messages/chatScreen.dart';
 import 'package:flutter_basic/profile/presentation/desktop_profile_scaffold.dart';
 import 'package:flutter_basic/profile/presentation/mobile_profile_scaffold.dart';
 import 'package:flutter_basic/profile/presentation/tablet_profile_scaffold.dart';
+
+import 'messages/application/chatScreen.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   const MyAppBar({super.key});

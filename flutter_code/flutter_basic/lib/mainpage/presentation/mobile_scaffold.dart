@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/constants.dart';
 
-import '../hojeNaFct.dart';
-import '../myAppBar.dart';
-import '../weatherBox.dart';
+
+import '../../myAppBar.dart';
 import 'buildViews.dart';
 
 class MobileScaffold extends StatefulWidget {

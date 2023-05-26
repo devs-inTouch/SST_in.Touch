@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'message.dart';
+import 'package:flutter_basic/messages/application/message.dart';
 
 class Conversation {
   final String name;

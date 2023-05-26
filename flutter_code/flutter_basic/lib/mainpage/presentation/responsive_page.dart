@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../hojeNaFct.dart';
-import '../utils/my_box.dart';
-import '../weatherBox.dart';
 
 class ResponsiveLayout extends StatelessWidget {
   final Widget mobileScaffold;
