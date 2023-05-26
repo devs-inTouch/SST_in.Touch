@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_basic/responsive_profile/presentation/viewUtils.dart';
 import '../../constants.dart';
 import '../../eventCalendar.dart';
+import '../../feeds/postBox.dart';
 import '../../myAppBar.dart';
 
 class DesktopProfileScaffold extends StatefulWidget {
@@ -10,7 +12,7 @@ class DesktopProfileScaffold extends StatefulWidget {
   final String year;
   final String nucleos;
 
-  const DesktopProfileScaffold({super.key, 
+  const DesktopProfileScaffold({
     required this.name,
     required this.imageAssetPath,
     required this.role,
@@ -23,7 +25,11 @@ class DesktopProfileScaffold extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<DesktopProfileScaffold> {
-  final bool _isEditing = false;
+
+  List _posts = [
+      "post 1","post 2", "post 3", "post 4"
+  ];
+
   List<Event> events = [];
   DateTime today = DateTime.now();
   Map<DateTime, List<Event>> eventsByDay = {};
@@ -37,28 +43,43 @@ class _ProfilePageState extends State<DesktopProfileScaffold> {
     final fem = size.width / 1440; // 1440 is the reference width
 
     return Scaffold(
-      appBar: const MyAppBar(),
+      appBar: MyAppBar(),
       drawer: myDrawer,
       backgroundColor: myBackground,
       body: Stack(
         children: [
-          Scrollbar(
-            child: SingleChildScrollView(
-            child: SizedBox(
+
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.green
+              ),
             width: size.width,
             height: size.height,
 
-            child:
-                  Column(
+            child: Scrollbar(
+              child: SingleChildScrollView(
+                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const SizedBox(height: 200,),
+                      SizedBox(height: 10,),
                       Container(
-                          height: 350,
-                          width: 550,
-                          decoration: const BoxDecoration(
+                          height: 300,
+                          width: 650,
+                          decoration: BoxDecoration(
                             color: Colors.red
                           ),
+                      ),
+                      SizedBox(height: 10),
+                      Container(
+                        width: 650,
+                        child:ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: _posts.length,
+                        itemBuilder: (BuildContext context, int index) {
+                            return PostBox(text:_posts[index]);
+                        },
+
+                       )
                       )
                     ]
                   )
