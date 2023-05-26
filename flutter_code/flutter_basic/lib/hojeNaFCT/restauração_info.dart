@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../constants.dart';
 
 class RestauracaoPage extends StatelessWidget {
+  const RestauracaoPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -13,58 +15,58 @@ class RestauracaoPage extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Text(
+              const Text(
                 'Menu for Cantina X',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 10.0),
+              const SizedBox(height: 10.0),
               Container(
-                margin: EdgeInsets.symmetric(horizontal: 20.0),
-                child: Text(
+                margin: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: const Text(
                   'Menu content for Cantina X',
                   style: TextStyle(fontSize: 16),
                 ),
               ),
-              SizedBox(height: 20.0),
-              Text(
+              const SizedBox(height: 20.0),
+              const Text(
                 'Menu for Restaurante X',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 10.0),
+              const SizedBox(height: 10.0),
               Container(
-                margin: EdgeInsets.symmetric(horizontal: 20.0),
-                child: Text(
+                margin: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: const Text(
                   'Menu content for Restaurante X',
                   style: TextStyle(fontSize: 16),
                 ),
               ),
-              SizedBox(height: 20.0),
-              Text(
+              const SizedBox(height: 20.0),
+              const Text(
                 'Menu for Restaurante Y',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 10.0),
+              const SizedBox(height: 10.0),
               Container(
-                margin: EdgeInsets.symmetric(horizontal: 20.0),
-                child: Text(
+                margin: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: const Text(
                   'Menu content for Restaurante Y',
                   style: TextStyle(fontSize: 16),
                 ),
               ),
-              SizedBox(height: 20.0),
-              Text(
+              const SizedBox(height: 20.0),
+              const Text(
                 'Menu for Restaurante Z',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 10.0),
+              const SizedBox(height: 10.0),
               Container(
-                margin: EdgeInsets.symmetric(horizontal: 20.0),
-                child: Text(
+                margin: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: const Text(
                   'Menu content for Restaurante Z',
                   style: TextStyle(fontSize: 16),
                 ),
               ),
-              SizedBox(height: 10.0),
+              const SizedBox(height: 10.0),
             ],
           ),
         ),

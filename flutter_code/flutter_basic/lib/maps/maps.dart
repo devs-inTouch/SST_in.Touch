@@ -6,6 +6,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'location_service.dart';
 
 class MapScreen extends StatefulWidget {
+  const MapScreen({super.key});
+
   @override
   _MapScreenState createState() => _MapScreenState();
 }
@@ -16,10 +18,10 @@ class _MapScreenState extends State<MapScreen> {
       zoom: 15.5
   );
 
-  Completer<GoogleMapController> _controller = Completer();
-  Set<Marker> _marker = Set<Marker>();
+  final Completer<GoogleMapController> _controller = Completer();
+  Set<Marker> _marker = <Marker>{};
   int id = 1;
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -37,7 +39,7 @@ class _MapScreenState extends State<MapScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Google Maps"),
+        title: const Text("Google Maps"),
       ),
       body:Column(
         children: [
@@ -46,7 +48,7 @@ class _MapScreenState extends State<MapScreen> {
               Expanded(child: TextFormField(
                 controller: _searchController,
                 textCapitalization: TextCapitalization.words,
-                decoration: InputDecoration(hintText: "Insere local"),
+                decoration: const InputDecoration(hintText: "Insere local"),
                 onChanged: (value) {
                   print(value);
                 },
@@ -57,7 +59,7 @@ class _MapScreenState extends State<MapScreen> {
                     var place = await LocationService().getPlace(_searchController.text);
                     _goToPlace(place);
                   },
-                  icon: Icon(Icons.search)),
+                  icon: const Icon(Icons.search)),
             ],
           ),
           Expanded(child: GoogleMap(
@@ -68,7 +70,7 @@ class _MapScreenState extends State<MapScreen> {
               Marker origin = Marker(
                   markerId: MarkerId("$id"),
                   position: LatLng(latLng.latitude, latLng.longitude),
-                  infoWindow: InfoWindow(title: "Origin"),
+                  infoWindow: const InfoWindow(title: "Origin"),
                   icon: BitmapDescriptor.defaultMarkerWithHue(
                       BitmapDescriptor.hueRed)
               );

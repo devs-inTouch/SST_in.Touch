@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import '../constants.dart';
 
 class AvisosPage extends StatelessWidget {
+  const AvisosPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -14,20 +16,20 @@ class AvisosPage extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Text(
+              const Text(
                 'Avisos',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 10.0),
+              const SizedBox(height: 10.0),
               Container(
-                margin: EdgeInsets.symmetric(horizontal: 20.0),
-                child: Text(
+                margin: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: const Text(
                   'Sem avisos',
                   style: TextStyle(fontSize: 16),
                 ),
               ),
 
-              SizedBox(height: 10.0),
+              const SizedBox(height: 10.0),
             ],
           ),
         ),

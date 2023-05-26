@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class RegisterAuth {
@@ -9,8 +8,9 @@ class RegisterAuth {
   }
 
   static bool hasSpecialChars(String password) {
-    if(password.isEmpty)
+    if(password.isEmpty) {
       return false;
+    }
 
     return  password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
   }
