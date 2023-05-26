@@ -38,7 +38,8 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                       itemBuilder: (context, index) {
                         if (index == 3) {
                           // Display weather information in the first box
-                          return const WeatherBox(location: 'Costa Da Caparica');
+                          return const WeatherBox(
+                              location: 'Costa Da Caparica');
                         } else if (index == 2) {
                           // Display weather information in the first box
                           return const HojeNaFctBox();

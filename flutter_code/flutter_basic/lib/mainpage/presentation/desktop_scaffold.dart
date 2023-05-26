@@ -13,6 +13,7 @@ import '../../myAppBar.dart';
 import '../../weatherBox.dart';
 import 'buildViews.dart';
 
+//comment
 class DesktopScaffold extends StatefulWidget {
   const DesktopScaffold({Key? key}) : super(key: key);
 
@@ -367,7 +368,7 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
         daysRemainingText = daysRemaining.toString();
       }
 
-      showDialog(
+      showD ialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
