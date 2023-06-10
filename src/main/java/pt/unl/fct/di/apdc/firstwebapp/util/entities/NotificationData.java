@@ -21,13 +21,16 @@ public class NotificationData {
         this.type = type;
     }
 
-    public NotificationData(String notificationId, String sender, String receiver, String type) {
-        this.notificationId = notificationId;
-        this.creationDate = System.currentTimeMillis();
+    public NotificationData(String message, String sender, String receiver, String type) {
+        this.message = message;
         this.sender = sender;
         this.receiver = receiver;
         this.type = type;
+        this.creationDate = System.currentTimeMillis();
     }
 
 
+    public void setCreationDate(long creation_date) {
+        this.creationDate = creation_date;
+    }
 }
