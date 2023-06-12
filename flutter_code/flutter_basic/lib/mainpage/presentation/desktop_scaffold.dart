@@ -7,6 +7,7 @@ import '../../hojeNaFCT/noticias_info.dart';
 import '../../hojeNaFCT/restauração_info.dart';
 import '../../myAppBar.dart';
 import '../../weatherBox.dart';
+import 'auxMainpage.dart';
 
 class DesktopScaffold extends StatefulWidget {
   const DesktopScaffold({Key? key}) : super(key: key);
@@ -19,87 +20,33 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
   DateTime currentDate = DateTime.now();
   List<Map<String, dynamic>> events = [];
   int _currentPageIndex = 0; // Track the current page index
-  int _currentDayIndex = 0; // Track the current day index
   List<String> pages = [
     'Restauração',
     'Avisos',
     'Exposições',
     'Notícias',
   ];
-
-  void goToNextDay() {
-    setState(() {
-      if (_currentDayIndex == days.length - 1) {
-        _currentDayIndex = 0;
-      } else {
-        _currentDayIndex++;
-      }
-    });
-  }
-
-  void goToPreviousDay() {
-    setState(() {
-      if (_currentDayIndex == days.length - 1) {
-        _currentDayIndex = 0;
-      } else {
-        _currentDayIndex++;
-      }
-    });
-  }
-
+  AuxMainPage auxMainPage = AuxMainPage();
   void goToPreviousPage() {
     setState(() {
-      if (_currentPageIndex == 0) {
-        _currentPageIndex = pages.length - 1;
-      } else {
-        _currentPageIndex--;
-      }
+      _currentPageIndex = auxMainPage.goToPreviousPage(_currentPageIndex, pages);
     });
   }
-
-  List<String> days = [
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-    'Sunday',
-  ];
 
   void goToNextPage() {
     setState(() {
-      if (_currentPageIndex == pages.length - 1) {
-        _currentPageIndex = 0;
-      } else {
-        _currentPageIndex++;
-      }
+      _currentPageIndex = auxMainPage.goToNextPage(_currentPageIndex, pages);
     });
   }
 
-  // Define a list to store the events
-  // List<String> events = [];
 
-  // Define variables to store the selected day and event name
-  String selectedDay = '';
-  String eventName = '';
 
-  // Function to handle adding new events
-  /** void addEvent() {
-      if (selectedDay.isNotEmpty && eventName.isNotEmpty) {
-      setState(() {
-      events.add('$selectedDay: $eventName');
-      selectedDay = '';
-      eventName = '';
-      });
-      }
-      }
-   **/
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar(),
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.grey[300],
       body: Padding(
         padding: EdgeInsets.all(50.0),
         child: Row(
@@ -197,53 +144,25 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
               flex: 4,
               child: Column(
                 children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Stack(
-                        children: [
-                          Container(
-                            width: 250,
-                            height: 250,
-                            decoration: boxDecoration,
-                            child: Center(
-                              child: Text(
-                                "Box 1",
-                                style: textStyle,
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            top: 0,
-                            left: 0,
-                            right: 0,
-                            child: Container(
-                              height: 50,
-                              decoration: topBarDecoration,
-                              // Apply the topBarDecoration here
-                              child: Center(
-                                child: textTopBar(
-                                    'MOOVIT'), // Use your custom textTopBar widget here
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(width: 210.0),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Stack(
+                  Expanded(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: Stack(
                             children: [
                               Container(
-                                width: 250,
+                                width: double.infinity,
                                 height: 250,
                                 decoration: boxDecoration,
                                 child: Center(
-                                  child: WeatherBox(location: 'Costa Da Caparica'),
+                                  child: Text(
+                                    "Box 1",
+                                    style: textStyle,
+                                  ),
                                 ),
                               ),
-
                               Positioned(
                                 top: 0,
                                 left: 0,
@@ -251,76 +170,105 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                                 child: Container(
                                   height: 50,
                                   decoration: topBarDecoration,
-                                  // Apply the topBarDecoration here
                                   child: Center(
-                                    child: textTopBar(
-                                        'Tempo no Campus'), // Use your custom textTopBar widget here
+                                    child: textTopBar('MOOVIT'),
                                   ),
                                 ),
                               ),
                             ],
                           ),
-                        ],
-                      ),
-                    ],
+                        ),
+                        SizedBox(width: 50.0),
+                        Flexible(
+                          flex: 1,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Stack(
+                                children: [
+                                  Container(
+                                    width: double.infinity,
+                                    height: 250,
+                                    decoration: boxDecoration,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(top: 85),
+                                      child: Center(
+                                        child: WeatherBox(location: 'Costa Da Caparica'),
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    top: 0,
+                                    left: 0,
+                                    right: 0,
+                                    child: Container(
+                                      height: 50,
+                                      decoration: topBarDecoration,
+                                      child: Center(
+                                        child: textTopBar('TEMPO NO CAMPUS'),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
 
                   SizedBox(height: 25.0),
-                  // Adjust the spacing between the row of boxes and the "Agenda" box
-                  Align(
-                    alignment: Alignment.bottomRight,
+                  Expanded(
                     child: FractionallySizedBox(
-                      widthFactor: 1.1,
-                      child: Stack(
-                        children: [
-                          Container(
-                            height: 350,
-                            decoration: boxDecoration,
-                            child: Column(
-                              children: [
-                                Container(
-                                  height: 50,
-                                  decoration: topBarDecoration,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        "Agenda",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20,
-                                        ),
+                      widthFactor: 1,
+                      child: LayoutBuilder(
+                        builder: (context, constraints) {
+                          double containerHeight = constraints.maxHeight - 50; // Subtract the height of the top bar
+                          return Stack(
+                            children: [
+                              Container(
+                                height: double.infinity, // Expand the container to fill the available height
+                                decoration: boxDecoration,
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      height: 50,
+                                      decoration: topBarDecoration,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          textTopBar('AGENDA'),
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Scrollbar(
-                                    child: ListView.builder(
-                                      itemCount: events.length,
-                                      itemBuilder: (context, index) {
-                                        return EventCard(event: events[index]);
-                                      },
                                     ),
-                                  ),
+                                    Expanded(
+                                      child: ListView.builder(
+                                        padding: EdgeInsets.all(16.0),
+                                        itemCount: events.length,
+                                        itemBuilder: (BuildContext context, int index) {
+                                          Map<String, dynamic> event = events[index];
+                                          return EventCard(event: event);
+                                        },
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          ),
-                          Positioned(
-                            bottom: 0,
-                            right: 0,
-                            child: IconButton(
-                              onPressed: () {
-                                // Add your functionality for adding new activities here
-                                addNewActivity(context);
-                              },
-                              icon: Icon(Icons.add),
-                              color: Colors.black,
-                            ),
-                          ),
-                        ],
+                              ),
+                              Positioned(
+                                bottom: 0,
+                                right: 0,
+                                child: IconButton(
+                                  onPressed: () {
+                                    // Add your functionality for adding new activities here
+                                    auxMainPage.addNewActivity(context, events);                                  },
+                                  icon: Icon(Icons.add),
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
+                          );
+                        },
                       ),
                     ),
                   ),
@@ -333,119 +281,6 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
     );
   }
 
-  void addNewActivity(BuildContext context) async {
-    String eventName = '';
-    DateTime selectedDate = DateTime.now();
 
-    final DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: selectedDate,
-      firstDate: DateTime.now(),
-      lastDate: DateTime(DateTime.now().year + 10),
-    );
-
-    if (pickedDate != null) {
-      selectedDate = pickedDate;
-
-      int daysRemaining = DateTime.utc(
-          pickedDate.year, pickedDate.month, pickedDate.day)
-          .difference(DateTime.utc(
-          DateTime.now().year, DateTime.now().month, DateTime.now().day))
-          .inDays;
-
-      String daysRemainingText;
-      if (daysRemaining == 0) {
-        daysRemainingText = 'Hoje';
-      } else if (daysRemaining == 1) {
-        daysRemainingText = 'Amanhã';
-      } else {
-        daysRemainingText = daysRemaining.toString();
-      }
-
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Adicionar evento'),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextField(
-                  decoration: InputDecoration(
-                    labelText: 'Nome',
-                  ),
-                  onChanged: (value) {
-                    eventName = value;
-                  },
-                ),
-                SizedBox(height: 16.0),
-                Text(
-                  'Data selecionada: ${DateFormat('MMMM dd, yyyy').format(selectedDate)}',
-                  style: TextStyle(fontSize: 16.0),
-                ),
-                SizedBox(height: 8.0),
-                SizedBox(height: 16.0),
-                ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      // Create the event and add it to the agenda
-                      Map<String, dynamic> event = {
-                        'Data': selectedDate,
-                        'Evento': eventName,
-                        'DiasRestantes': daysRemaining,
-                        'DiasRestantesTexto': daysRemainingText,
-                      };
-
-                      events.add(event);
-
-                      // Sort events by ascending order of days remaining
-                      events.sort((a, b) =>
-                          a['DiasRestantes'].compareTo(b['DiasRestantes']));
-
-                      Navigator.pop(context);
-                    });
-                  },
-                  child: Text('Adicionar'),
-                ),
-              ],
-            ),
-          );
-        },
-      );
-    }
-  }
 }
 
-class EventCard extends StatelessWidget {
-  final Map<String, dynamic> event;
-
-  const EventCard({required this.event});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 8.0),
-      padding: EdgeInsets.all(16.0),
-      decoration: boxEventDecoration,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Data: ${DateFormat('MMMM dd, yyyy').format(event['Data'])}',
-            style: textStyleEvents,
-          ),
-          SizedBox(height: 8.0),
-          Text(
-            'Evento: ${event['Evento']}',
-            style: textStyleEvents,
-          ),
-          SizedBox(height: 8.0),
-          Text(
-            'Dias Restantes: ${event['DiasRestantesTexto']}',
-            style: textStyleEvents,
-          ),
-        ],
-      ),
-    );
-  }
-}

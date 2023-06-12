@@ -31,112 +31,91 @@ class _WeatherBoxState extends State<WeatherBox> {
 
   Icon _getWeatherIcon() {
     if (_weather == null) {
-      return const Icon(Icons.cloud, color: Colors.white);
+      return const Icon(Icons.cloud, color: Colors.black);
     }
 
     switch (_weather?.weatherMain) {
-      case 'Clear':
-        return const Icon(Icons.wb_sunny, color: Colors.white);
-      case 'Clouds':
-        return const Icon(Icons.cloud, color: Colors.white);
-      case 'Rain':
-        return const Icon(Icons.beach_access, color: Colors.white);
-      case 'Snow':
-        return const Icon(Icons.ac_unit, color: Colors.white);
+      case 'Céu limpo':
+        return const Icon(Icons.wb_sunny, color: Colors.black);
+      case 'Nuvens':
+        return const Icon(Icons.cloud, color: Colors.black);
+      case 'Chuva':
+        return const Icon(Icons.beach_access, color: Colors.black);
+      case 'Neve':
+        return const Icon(Icons.ac_unit, color: Colors.black);
       default:
-        return const Icon(Icons.cloud, color: Colors.white);
+        return const Icon(Icons.cloud, color: Colors.black);
     }
   }
-
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: boxMainMenuDecoration,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Container(
-            width: double.infinity,
-            decoration: topBarDecoration,
-            padding: const EdgeInsets.all(16.0),
-            child: Text(
-              '-Meteorologia-',
-              style: textStyleBar,
-            ),
-          ),
-    Expanded(
-    child: SingleChildScrollView(
-    child: Container(
-    padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Center(
-                  child: _weather == null
-                      ? const CircularProgressIndicator()
-                      : Column(
+    return Align(
+        alignment: Alignment.center,
+        child: Container(
+        decoration: boxDecoration,
+        child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: Container(
+                  padding: const EdgeInsets.fromLTRB(0,0, 0, 0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          _getWeatherIcon(),
-                          const SizedBox(width: 16.0),
-                          Text(
-                            '${_weather?.temperature?.celsius?.toStringAsFixed(1)}°C',
-                            style: const TextStyle(
-                              fontSize: 24.0,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
+                      Center(
+                        child: _weather == null
+                            ? const CircularProgressIndicator()
+                            : Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                _getWeatherIcon(),
+                                const SizedBox(width: 12.0),
+                                Text(
+                                  '${_weather?.temperature?.celsius?.toStringAsFixed(1)}°C',
+                                  style: const TextStyle(
+                                    fontSize: 24.0,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 16.0),
-                      Text(
-                        '${_weather?.weatherDescription}',
-                        style: const TextStyle(
-                          fontSize: 16.0,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 16.0),
-                      Text(
-                        'Wind: ${_weather?.windSpeed} m/s',
-                        style: const TextStyle(
-                          fontSize: 16.0,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 16.0),
-                      Text(
-                        'Humidity: ${_weather?.humidity}%',
-                        style: const TextStyle(
-                          fontSize: 16.0,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
+                            const SizedBox(height: 12.0),
+                            Text(
+                              'Vento: ${_weather?.windSpeed} m/s',
+                              style: const TextStyle(
+                                fontSize: 16.0,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 12.0),
+                            Text(
+                              'Humidade: ${_weather?.humidity}%',
+                              style: const TextStyle(
+                                fontSize: 16.0,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 5.0),
+                          ],
                         ),
                       ),
                     ],
                   ),
                 ),
-                const SizedBox(height: 16.0),
-                Text(
-                  DateFormat('HH:mm').format(DateTime.now()),
-                  style: const TextStyle(
-                    fontSize: 16.0,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
+              ),
             ),
-    ),
-    ),
-    ),
-        ],
-      ),
+          ],
+        ),
+        ),
+        ),
     );
   }
+
 }

@@ -31,7 +31,7 @@ Widget textTopBar(String text) {
   return Text(
     text,
     style: const TextStyle(
-      color: Colors.white,
+      color: Colors.black,
       fontWeight: FontWeight.bold,
       fontSize: 20,
     ),
@@ -46,7 +46,7 @@ final buttonStyle = ElevatedButton.styleFrom(
 );
 
 var topBarDecoration = BoxDecoration(
-  color: Colors.blue[300],
+  color: Colors.grey[300],
   borderRadius: const BorderRadius.only(
     topLeft: Radius.circular(10),
     topRight: Radius.circular(10),
@@ -66,7 +66,7 @@ var boxMainMenuDecoration = BoxDecoration(
 );
 
 var boxDecoration = BoxDecoration(
-  color: Colors.grey.shade200,
+  color: Colors.grey[100],
   borderRadius: BorderRadius.circular(8.0),
 );
 var boxEventDecoration = BoxDecoration(
