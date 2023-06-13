@@ -29,11 +29,7 @@ public class NotificationsResource {
 
     public NotificationsResource() {
     }
-
-    @POST
-    @Path("/send")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    
     public void createNotification(String message, String sender, String receiver, String type, long creationDate) {
         LOG.fine("Attempt to create notification: " + sender);
 
