@@ -18,7 +18,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 
 @Path("/notifications")
-@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 public class NotificationsResource {
 
     private static final Logger LOG = Logger.getLogger(LoginResource.class.getName());
@@ -29,8 +28,8 @@ public class NotificationsResource {
 
     public NotificationsResource() {
     }
-    
-    public void createNotification(String message, String sender, String receiver, String type, long creationDate) {
+
+    protected void createNotification(String message, String sender, String receiver, String type, long creationDate) {
         LOG.fine("Attempt to create notification: " + sender);
 
         String notificationId = receiver + getNextNotification(receiver);
@@ -74,10 +73,7 @@ public class NotificationsResource {
         return max.incrementAndGet();
     }
 
-    @POST
-    @Path("/sendAll")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
+
     public void createNotificationToAll(String message, String type) {
         Query<Entity> query = Query.newEntityQueryBuilder().setKind("User").build();
         QueryResults<Entity> listUsers = datastore.run(query);
