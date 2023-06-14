@@ -2,8 +2,8 @@ package pt.unl.fct.di.apdc.firstwebapp.resources;
 
 import com.google.cloud.datastore.*;
 import com.google.gson.Gson;
-import pt.unl.fct.di.apdc.firstwebapp.util.entities.NotificationData;
-import pt.unl.fct.di.apdc.firstwebapp.util.entities.NotificationDeleteData;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.notification.NotificationData;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.notification.NotificationDeleteData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.UserData;
 
 import javax.ws.rs.Consumes;
