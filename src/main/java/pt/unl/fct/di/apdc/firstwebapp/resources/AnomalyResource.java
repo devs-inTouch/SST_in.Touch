@@ -11,6 +11,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 
@@ -108,6 +110,25 @@ public class AnomalyResource {
             }
         }
 
+    }
+
+    @POST
+    @Path("/list")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    public Response listAnomalies() {
+        LOG.fine("Attempt to list anomalies");
+
+        Query<Entity> query = Query.newEntityQueryBuilder().setKind("Anomaly").build();
+        QueryResults<Entity> results = datastore.run(query);
+
+        List<AnomalyData> list = new ArrayList<>();
+
+        results.forEachRemaining(t -> {
+            list.add(new AnomalyData(t.getString("username"), t.getString("title"), t.getString("description")));
+        });
+
+        return Response.ok(g.toJson(list)).build();
     }
 
     private int getNextAnomaly() {
