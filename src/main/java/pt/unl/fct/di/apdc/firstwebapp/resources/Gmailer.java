@@ -147,6 +147,7 @@ public class Gmailer {
                         String data = bodyParts.getData();
                         byte[] decodedBytes = Base64.decodeBase64(data);
                         String decodedData = new String(decodedBytes, StandardCharsets.UTF_8);
+                        System.out.println(decodedData);
                     }
                 }
             }
