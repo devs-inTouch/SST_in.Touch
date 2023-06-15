@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/register/presentation/registerPage.dart';
 import 'package:flutter_basic/login/application/loginAuth.dart';
-import 'package:flutter_basic/mainpage/presentation/responsive_page.dart';
-import 'package:flutter_basic/mainpage/presentation/tablet_scaffold.dart';
-import 'package:flutter_basic/mainpage/presentation/desktop_scaffold.dart';
-import 'package:flutter_basic/mainpage/presentation/mobile_scaffold.dart';
+import 'package:flutter_basic/mainpage/presentation/responsive_main_page.dart';
+import 'package:flutter_basic/mainpage/presentation/tablet_main_scaffold.dart';
+import 'package:flutter_basic/mainpage/presentation/desktop_main_scaffold.dart';
+import 'package:flutter_basic/mainpage/presentation/mobile_main_scaffold.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

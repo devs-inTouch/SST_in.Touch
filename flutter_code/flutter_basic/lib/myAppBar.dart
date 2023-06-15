@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/maps/maps.dart';
-import 'package:flutter_basic/mainpage/presentation/desktop_scaffold.dart';
-import 'package:flutter_basic/mainpage/presentation/mobile_scaffold.dart';
-import 'package:flutter_basic/mainpage/presentation/responsive_page.dart';
-import 'package:flutter_basic/mainpage/presentation/tablet_scaffold.dart';
+import 'package:flutter_basic/mainpage/presentation/desktop_main_scaffold.dart';
+import 'package:flutter_basic/mainpage/presentation/mobile_main_scaffold.dart';
+import 'package:flutter_basic/mainpage/presentation/responsive_main_page.dart';
+import 'package:flutter_basic/mainpage/presentation/tablet_main_scaffold.dart';
 import 'package:flutter_basic/profile/presentation/desktop_profile_scaffold.dart';
 import 'package:flutter_basic/profile/presentation/mobile_profile_scaffold.dart';
 import 'package:flutter_basic/profile/presentation/tablet_profile_scaffold.dart';
@@ -34,8 +34,8 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
           );
         },
         child: Padding(
-          padding:
-              const EdgeInsets.only(left: 20.0), // Adjust the left padding as needed
+          padding: const EdgeInsets.only(
+              left: 20.0), // Adjust the left padding as needed
           child: SizedBox(
             height: 150,
             width: 150,

@@ -3,7 +3,11 @@ import 'package:flutter_basic/profile/presentation/desktop_profile_scaffold.dart
 import 'package:flutter_basic/profile/presentation/mobile_profile_scaffold.dart';
 import 'package:flutter_basic/profile/presentation/responsive_profile.dart';
 import 'package:flutter_basic/profile/presentation/tablet_profile_scaffold.dart';
+import 'package:flutter_basic/test.dart';
 
+import 'mainpage/presentation/desktop_main_scaffold.dart';
+import 'mainpage/presentation/mobile_main_scaffold.dart';
+import 'mainpage/presentation/tablet_main_scaffold.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,27 +21,9 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: ResponsiveLayout(
-        mobileProfileScaffold: MobileProfileScaffold(
-          name: 'John Doe',
-          imageAssetPath: 'assets/images/profile.jpg',
-          role: 'Developer',
-          year: '2002',
-          nucleos: 'Engineering',
-        ),
-        tabletProfileScaffold: TabletProfileScaffold(
-          name: 'John Doe',
-          imageAssetPath: 'assets/images/profile.jpg',
-          role: 'Developer',
-          year: '2002',
-          nucleos: 'Engineering',
-        ),
-        desktopProfileScaffold: DesktopProfileScaffold(
-          name: 'John Doe',
-          imageAssetPath: 'assets/images/profile.jpg',
-          role: 'Developer',
-          year: '2002',
-          nucleos: 'Engineering',
-        ),
+        mobileProfileScaffold: MobileScaffold(),
+        tabletProfileScaffold: TabletScaffold(),
+        desktopProfileScaffold: Teste(),
       ),
     );
   }

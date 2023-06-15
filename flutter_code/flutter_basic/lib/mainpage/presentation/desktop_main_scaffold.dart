@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_basic/MoovitWidget.dart';
 import 'package:flutter_basic/constants.dart';
 import 'package:intl/intl.dart';
 import '../../hojeNaFCT/avisos_info.dart';
@@ -29,7 +30,8 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
   AuxMainPage auxMainPage = AuxMainPage();
   void goToPreviousPage() {
     setState(() {
-      _currentPageIndex = auxMainPage.goToPreviousPage(_currentPageIndex, pages);
+      _currentPageIndex =
+          auxMainPage.goToPreviousPage(_currentPageIndex, pages);
     });
   }
 
@@ -38,9 +40,6 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
       _currentPageIndex = auxMainPage.goToNextPage(_currentPageIndex, pages);
     });
   }
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -67,14 +66,16 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.calendar_today_rounded),  // Icon calendar
-                              SizedBox(width: 5),  // Add some spacing between the icon and text
-                              textTopBar('HOJE NA FCT'),  // Text widget
+                              Icon(Icons
+                                  .calendar_today_rounded), // Icon calendar
+                              SizedBox(
+                                  width:
+                                      5), // Add some spacing between the icon and text
+                              textTopBar('HOJE NA FCT'), // Text widget
                             ],
                           ),
                         ),
                       ),
-
                       Container(
                         padding: EdgeInsets.all(16.0),
                         child: Text(
@@ -99,21 +100,21 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                           ),
                         )
                       else if (pages[_currentPageIndex] == 'Exposições')
-                          Expanded(
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 20.0, horizontal: 20.0),
-                              child: ExposicoesPage(),
-                            ),
-                          )
-                        else if (pages[_currentPageIndex] == 'Notícias')
-                            Expanded(
-                              child: Container(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 20.0, horizontal: 20.0),
-                                child: NoticiasPage(),
-                              ),
-                            ),
+                        Expanded(
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 20.0, horizontal: 20.0),
+                            child: ExposicoesPage(),
+                          ),
+                        )
+                      else if (pages[_currentPageIndex] == 'Notícias')
+                        Expanded(
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 20.0, horizontal: 20.0),
+                            child: NoticiasPage(),
+                          ),
+                        ),
                       Padding(
                         padding: EdgeInsets.only(bottom: 20.0),
                         child: Align(
@@ -156,12 +157,7 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                                 width: double.infinity,
                                 height: 250,
                                 decoration: boxDecoration,
-                                child: Center(
-                                  child: Text(
-                                    "Box 1",
-                                    style: textStyle,
-                                  ),
-                                ),
+                                child: const MoovitWidget(),
                               ),
                               Positioned(
                                 top: 0,
@@ -193,7 +189,8 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                                     child: Padding(
                                       padding: EdgeInsets.only(top: 85),
                                       child: Center(
-                                        child: WeatherBox(location: 'Costa Da Caparica'),
+                                        child: WeatherBox(
+                                            location: 'Costa Da Caparica'),
                                       ),
                                     ),
                                   ),
@@ -217,18 +214,17 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                       ],
                     ),
                   ),
-
                   SizedBox(height: 25.0),
                   Expanded(
                     child: FractionallySizedBox(
                       widthFactor: 1,
                       child: LayoutBuilder(
                         builder: (context, constraints) {
-                          double containerHeight = constraints.maxHeight - 50; // Subtract the height of the top bar
                           return Stack(
                             children: [
                               Container(
-                                height: double.infinity, // Expand the container to fill the available height
+                                height: double
+                                    .infinity, // Expand the container to fill the available height
                                 decoration: boxDecoration,
                                 child: Column(
                                   children: [
@@ -236,7 +232,8 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                                       height: 50,
                                       decoration: topBarDecoration,
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
                                           textTopBar('AGENDA'),
                                         ],
@@ -246,8 +243,10 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                                       child: ListView.builder(
                                         padding: EdgeInsets.all(16.0),
                                         itemCount: events.length,
-                                        itemBuilder: (BuildContext context, int index) {
-                                          Map<String, dynamic> event = events[index];
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          Map<String, dynamic> event =
+                                              events[index];
                                           return EventCard(event: event);
                                         },
                                       ),
@@ -261,7 +260,8 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                                 child: IconButton(
                                   onPressed: () {
                                     // Add your functionality for adding new activities here
-                                    auxMainPage.addNewActivity(context, events);                                  },
+                                    auxMainPage.addNewActivity(context, events);
+                                  },
                                   icon: Icon(Icons.add),
                                   color: Colors.black,
                                 ),
@@ -280,7 +280,4 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
       ),
     );
   }
-
-
 }
-
