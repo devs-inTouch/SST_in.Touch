@@ -1,3 +1,29 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/register/presentation/registerPage.dart';
 import 'package:flutter_basic/login/application/loginAuth.dart';
@@ -75,126 +101,150 @@ class LoginHomePage extends State<Login> {
     double baseWidth = 1440;
     double fem = MediaQuery.of(context).size.width / baseWidth;
     return Scaffold(
-        body: Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            decoration: const BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage('assets/campus-1.png'),
-                    fit: BoxFit.cover)),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const SizedBox(
-                  height: 20,
-                ),
-                Align(
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/campus-1.png'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Center(
+          child: SingleChildScrollView(
+            child: Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Align(
                     alignment: Alignment.topCenter,
                     child: Image.asset(
                       'assets/logo-1-RBH.png',
                       height: 100,
-                    )),
-                const SizedBox(
-                  height: 30,
-                ),
-                Align(
-                    alignment: Alignment.center,
-                    child: Container(
-                        height: 475,
-                        width: 450,
-                        decoration: BoxDecoration(
-                            color: const Color(0xd8ffffff),
-                            borderRadius: BorderRadius.circular(10.0)),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const SizedBox(
-                              height: 30,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Container(
+                    height: 475,
+                    width: 450,
+                    decoration: BoxDecoration(
+                      color: const Color(0xd8ffffff),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const SizedBox(
+                            height: 30,
+                          ),
+                          const Text(
+                            'Login',
+                            style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(
+                            height: 40,
+                          ),
+                          SizedBox(
+                            width: 250,
+                            child: TextField(
+                              controller: usernameControl,
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: 'Username',
+                              ),
                             ),
-                            const Text('Login',
-                                style: TextStyle(
-                                    fontSize: 35, fontWeight: FontWeight.bold)),
-                            const SizedBox(
-                              height: 40,
-                            ),
-                            SizedBox(
-                                width: 250,
-                                child: TextField(
-                                  controller: usernameControl,
-                                  decoration: const InputDecoration(
-                                    border: OutlineInputBorder(),
-                                    labelText: 'Username',
+                          ),
+                          const SizedBox(
+                            height: 25,
+                          ),
+                          SizedBox(
+                            width: 250,
+                            child: TextField(
+                              controller: pwdControl,
+                              obscureText: passwordVisible,
+                              decoration: InputDecoration(
+                                border: const OutlineInputBorder(),
+                                labelText: 'Password',
+                                suffixIcon: IconButton(
+                                  icon: Icon(
+                                    passwordVisible ? Icons.visibility : Icons.visibility_off,
                                   ),
-                                )),
-                            const SizedBox(
-                              height: 25,
+                                  onPressed: () {
+                                    setState(() {
+                                      passwordVisible = !passwordVisible;
+                                    });
+                                  },
+                                ),
+                              ),
                             ),
-                            SizedBox(
-                                width: 250,
-                                child: TextField(
-                                  controller: pwdControl,
-                                  obscureText: passwordVisible,
-                                  decoration: InputDecoration(
-                                      border: const OutlineInputBorder(),
-                                      labelText: 'Password',
-                                      suffixIcon: IconButton(
-                                        icon: Icon(
-                                          passwordVisible
-                                              ? Icons.visibility
-                                              : Icons.visibility_off,
-                                        ),
-                                        onPressed: () {
-                                          setState(() {
-                                            passwordVisible = !passwordVisible;
-                                          });
-                                        },
-                                      )),
-                                )),
-                            const SizedBox(
-                              height: 25,
+                          ),
+                          const SizedBox(
+                            height: 25,
+                          ),
+                          OutlinedButton(
+                            style: OutlinedButton.styleFrom(
+                              fixedSize: const Size(200, 50),
+                              backgroundColor: Colors.blue,
                             ),
-                            OutlinedButton(
-                                style: OutlinedButton.styleFrom(
-                                    fixedSize: const Size(200, 50),
-                                    backgroundColor: Colors.blue),
-                                onPressed: () {
-                                  loginButtonPressed(
-                                      usernameControl.text, pwdControl.text);
-
-                                  debugPrint('Received click');
-                                },
-                                child: const Text('Login',
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold))),
-                            const SizedBox(
-                              height: 5,
+                            onPressed: () {
+                              loginButtonPressed(usernameControl.text, pwdControl.text);
+                              debugPrint('Received click');
+                            },
+                            child: const Text(
+                              'Login',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                            TextButton(
-                                onPressed: () {
-                                  debugPrint('Received click');
-                                },
-                                child: const Text('Esqueceste a senha?')),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            const Text(
-                              'Não tens conta?',
-                              style: TextStyle(fontSize: 15),
-                            ),
-                            TextButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const Register()));
-                                },
-                                child: const Text('Regista-te'))
-                          ],
-                        )))
-              ],
-            )));
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              debugPrint('Received click');
+                            },
+                            child: const Text('Esqueceste a senha?'),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          const Text(
+                            'Não tens conta?',
+                            style: TextStyle(fontSize: 15),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const Register()),
+                              );
+                            },
+                            child: const Text('Regista-te'),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
+
 }
+
+
+
+
