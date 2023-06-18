@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class PostBox extends StatelessWidget{
+class AnomalyBox extends StatelessWidget{
 
   final String text;
   final double fem;
 
-  const PostBox({
+  const AnomalyBox({
     required this.text,
     required this.fem
   });
@@ -34,6 +34,12 @@ class PostBox extends StatelessWidget{
                 alignment: Alignment(-0.75, -0.9),
                 child: Text(
                     "username"
+                )
+            ),
+            Align(
+                alignment: Alignment(0.0, -0.9),
+                child: Text(
+                    "Title"
                 )
             ),
             Align(

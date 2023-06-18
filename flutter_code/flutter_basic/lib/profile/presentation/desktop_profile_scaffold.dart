@@ -65,7 +65,7 @@ class _ProfilePageState extends State<DesktopProfileScaffold> {
                           shrinkWrap: true,
                           itemCount: _posts.length,
                           itemBuilder: (BuildContext context, int index) {
-                            return PostBox(text: _posts[index]);
+                            return PostBox(text: _posts[index], fem: 2,);
                           },
                         ))
                   ])),

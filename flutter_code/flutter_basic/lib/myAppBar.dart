@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_basic/anomalies/presentation/anomaliesPage.dart';
 import 'package:flutter_basic/maps/maps.dart';
 import 'package:flutter_basic/mainpage/presentation/desktop_main_scaffold.dart';
 import 'package:flutter_basic/mainpage/presentation/mobile_main_scaffold.dart';
@@ -36,12 +37,14 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
           );
         },
         child: Padding(
-          padding:
-          const EdgeInsets.only(left: 20.0), // Adjust the left padding as needed
-          child: SizedBox(
-            height: 150,
-            width: 150,
-            child: Image.asset('assets/logo-1-RBH.png', fit: BoxFit.contain),
+          padding: const EdgeInsets.only(left: 20.0),
+          child: Row(
+            children: [
+              Image.asset(
+                'assets/logo-1-RBH.png',
+                height: 50, // Defina a altura desejada para a imagem
+              ),
+            ],
           ),
         ),
       ),
@@ -228,6 +231,24 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => ReportsPage()),
+                    );
+                  },
+                ),
+              ),
+            ),
+            PopupMenuItem(
+              child: Container(
+                color: Colors.white, // Set the background color of the menu item to white
+                child: ListTile(
+                  leading: const Icon(Icons.report),
+                  title: const Text('Report'),
+                  onTap: () {
+                    // Handle logout button click
+                    Navigator.pop(context); // Close the menu
+                    // Implement your logic here
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => AnomaliesPage()),
                     );
                   },
                 ),
