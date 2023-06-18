@@ -21,3 +21,4 @@ buildNumber.properties
 .idea/
 *.xml
 *.iml
+flutter_code/flutter_basic/.dart_tool/*
