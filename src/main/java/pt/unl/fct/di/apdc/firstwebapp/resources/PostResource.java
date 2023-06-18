@@ -2,8 +2,9 @@ package pt.unl.fct.di.apdc.firstwebapp.resources;
 
 import com.google.cloud.datastore.*;
 import com.google.gson.Gson;
-import pt.unl.fct.di.apdc.firstwebapp.util.entities.PostData;
-import pt.unl.fct.di.apdc.firstwebapp.util.entities.PostInformationData;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.post.PostData;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.post.PostDeleteData;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.post.PostInformationData;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -83,6 +84,44 @@ public class PostResource {
         });
 
         return Response.ok(g.toJson(list)).build();
+    }
+
+    @POST
+    @Path("/delete")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response deletePost(PostDeleteData data) {
+        LOG.info("Attempt to delete post: " + data.username);
+
+        //TODO token verification
+
+        Key userKey = datastore.newKeyFactory().setKind("User").newKey(data.username);
+        Key creatorKey = datastore.newKeyFactory().setKind("User").newKey(data.userCreator);
+
+        Transaction txn = datastore.newTransaction();
+        try {
+            Entity user = txn.get(userKey);
+            Entity creator = txn.get(creatorKey);
+            if (user == null || creator == null)
+                return Response.status(Response.Status.BAD_REQUEST).entity("User not in database").build();
+
+            if(data.username.equals(data.userCreator)) {
+                Key postKey = datastore.newKeyFactory().setKind("Post").newKey(data.postIdentifier);
+                Entity post = txn.get(postKey);
+                if(post == null)
+                    return Response.status(Response.Status.BAD_REQUEST).entity("Post not in database").build();
+
+                txn.delete(postKey);
+                txn.commit();
+
+                return Response.ok(g.toJson("Post deleted successfully")).build();
+            } else {
+                return Response.status(Response.Status.BAD_REQUEST).entity("User not allowed to delete post").build();
+            }
+
+        } finally {
+            if (txn.isActive())
+                txn.rollback();
+        }
     }
 
     private int getNextPost(String username) {
