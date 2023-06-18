@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "steel-sequencer-385510",
+  "private_key_id": "ef9041a2e4461fb653c7dcb09f6600d975c1f5b1",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCVM5JCuhMBa1Im\nb2Ufn13eNd4jrS/zTOMP0jCf39y4ICa3rSU2mfFkcPOeggfj2abcEz6NIutrM9Gi\n9D0jhADLKD/SWwrtyRBEWWXeFmdwh544ImDrabC5/dj+ZkZ46MXLSy/t+fdS3WeJ\nH0tk/RbAnNp35fiyU94wxScFcuir8MD/G1zkq4CShz4Nen32YglHHthCbXuJAzy7\n9k/g23nST+lWf9r682saaLNJVmELjmHzDzpeHGZRED5RAUSY4HHCL1jc+gYoa9p+\nCd59defnJwb/WgHm+y+HGG5gVzqugAVnLOVsjxIxWIXDJM4tmRZb9daFNRzJhSoV\naoWXNS+DAgMBAAECggEAQ+z9JwTIt0oxVc88JhfrZ8l1bx+fJ3C3JRJH0dlchrUY\ne2HIAeI2/EfSGbVQO0LxTNs0DJQ7wowOYlY4aW1k4RjbaXzKbnQtxDhBAMmJYTlU\n5nB8WGC/NQXlHvjYF569we5ijUDSgPbMdqh5LiptC9a9PX3E6gb1rpVrTPdCB1i7\nxu8Ho4op3Zqdb1+g/VtdEVERDr4SlX5PxFEgleeIgaTnN+5Qb5xn9vNx+8yGjFdu\nie+fxLX/D5HTfWv/SfA3ns5b5sabo8Tt+UxUpAhtIXkPLMqYqwS9sDc0bwq2q5jD\n0Mg3LPDlfHoWOZHaVrdG0lTAjgCmTHqwI+At3KSnZQKBgQDFQ6ZZGNUl89xTLVVG\n8ul4MDbqwbrqEXREz4y3E2fTFovcucAP+Df8cnI8v9EVLBzGdj12SUePac+wyKGq\nEfh6SC/5sJL7cUB+q9nyPZ3t4jjliKH3QKoQzUA8l4gHpSvm/37MWMEjIesBk9jL\nBEGqbC89O50AwAfavBseWeLLfwKBgQDBoFzg3tBbeKHbSAYm3seJ4XJQGSXFNofk\nVYLPcdHSqXpmHwvV0n3vC6sjkeLeL5/72yXGtDnQ9yBVhz7Kob+3i8r3kVE0zDG9\nfH7ED7ejCP3CEk/z2Nq6588aQo0TNdAJnFlFbkocINhCc4ij3J4G407qgAvGcxOF\nSX6LaRNt/QKBgBEQQgJxAHcQ+h0Dzd2eQ43O9eEmsuluaxVMsspfVlrPF3gXZUK8\nYPNoXvNcUFS5hR+xuK1Tt2nzaDDNmhZhCZJiTiwWFxDDAiYy7V5j8BZUvEE2qXP+\n1vcvGgBjxzOKGRsZPLmmb8Z/N5niVR1yl8+LHib40iLveX51SQ8+DT03AoGAK/Wb\ngJY1mb7OiHlWpDaJ+NzNVjAPajHSMl3ToANITtqZZlwAFOCAJOhyR1YUurr3SHfd\noLpEMhQZLDHTaK/GVgaP4xsD48fENy/vm9WxrHsbGZeMvWDrb+m3FFAttUHPZI8x\nmVjLzI0MbDHMwN8SpZ+vx/+gLMLtmKIx77bAaYUCgYAPa4HYrI1u/khX8UZx40i/\nDbuShEHql7ZMHBMNSWAAqFSWH6ABmXr6RUG0RkiYyg+yICesh6iNojvTZb1wEzLP\n035UDOympoXoZ8xTuoaRWKjBD9jZL+s7IooumQ37eSi7Z46pkA2nugjBzFUJEzQc\n/pjlDAfWlCaaGM4+ZeNZiQ==\n-----END PRIVATE KEY-----\n",
+  "client_email": "compute-gmail@steel-sequencer-385510.iam.gserviceaccount.com",
+  "client_id": "110293685082235510914",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/compute-gmail%40steel-sequencer-385510.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

@@ -2,6 +2,7 @@ package pt.unl.fct.di.apdc.firstwebapp.resources;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.auth.oauth2.TokenResponse;
+import com.google.api.client.extensions.appengine.datastore.AppEngineDataStoreFactory;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
@@ -82,11 +83,11 @@ public class DriveResource {
             // Build flow and trigger user authorization request.
             GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
                     HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
+                    .setDataStoreFactory(AppEngineDataStoreFactory.getDefaultInstance())
                     .setAccessType("offline")
                     .build();
-            LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8000).build();
-            Credential credential = new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
-
+            LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
+           // Credential credential = new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
 
             return Response.status(Response.Status.OK).entity("Ficheiro enviado").build();
         }catch (GeneralSecurityException e){

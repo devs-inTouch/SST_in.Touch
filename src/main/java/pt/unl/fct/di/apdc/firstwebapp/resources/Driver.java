@@ -25,6 +25,7 @@ import org.apache.commons.codec.binary.Base64;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Paths;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -96,10 +97,11 @@ public class Driver {
         // Load client secrets.
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new StringReader(CLIENT_SECRET_JSON));
 
+        FileDataStoreFactory filedtFac = new FileDataStoreFactory(Paths.get(TOKENS_PATH).toFile());
         // Build flow and trigger user authorization request.
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
                 HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
-                .setDataStoreFactory(AppEngineDataStoreFactory.getDefaultInstance())
+                .setDataStoreFactory(filedtFac)
                 .setAccessType("offline")
                 .build();
         LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8080).build();
