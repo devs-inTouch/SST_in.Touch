@@ -51,7 +51,6 @@ public class RegisterResource {
 			if(user != null)
 				return Response.status(Status.BAD_REQUEST).entity(USER_ALREADY_EXISTS).build();
 			user = Entity.newBuilder(userKey)
-					.set(UserAttributes.USERNAME.value, data.getUsername())
 					.set(UserAttributes.NAME.value, data.getName())
 					.set(UserAttributes.PASSWORD.value, DigestUtils.sha512Hex(data.getPassword()))
 					.set(UserAttributes.CREATION_TIME.value, System.currentTimeMillis())
