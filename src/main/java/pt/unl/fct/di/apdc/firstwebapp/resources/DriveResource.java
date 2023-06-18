@@ -87,7 +87,7 @@ public class DriveResource {
                     .setAccessType("offline")
                     .build();
             LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
-           // Credential credential = new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
+            Credential credential = new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
 
             return Response.status(Response.Status.OK).entity("Ficheiro enviado").build();
         }catch (GeneralSecurityException e){
