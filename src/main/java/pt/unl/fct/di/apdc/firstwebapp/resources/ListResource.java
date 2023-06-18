@@ -1,10 +1,13 @@
 package pt.unl.fct.di.apdc.firstwebapp.resources;
 
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Globals.AUTH;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -13,17 +16,14 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import com.google.cloud.datastore.Datastore;
-import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.QueryResults;
-import com.google.cloud.datastore.StructuredQuery.CompositeFilter;
-import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
 import com.google.gson.Gson;
 
+import pt.unl.fct.di.apdc.firstwebapp.util.DatastoreUtil;
 import pt.unl.fct.di.apdc.firstwebapp.util.TokenUtil;
-import pt.unl.fct.di.apdc.firstwebapp.util.entities.BaseQueryResultData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.CompleteQueryResultData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.RegisterData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.TokenData;
@@ -37,7 +37,7 @@ import pt.unl.fct.di.apdc.firstwebapp.util.enums.UserRole;
 public class ListResource {
     
     private final Gson g = new Gson();
-    private final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
+    private final Datastore datastore = DatastoreUtil.getService();
     private static final Logger LOG = Logger.getLogger(ListResource.class.getName());
 
     public ListResource() {}
@@ -147,12 +147,11 @@ public class ListResource {
     @POST
     @Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response listUsersV2(TokenData managerToken) {
+    public Response listUsersV2(@HeaderParam(AUTH) String auth) {
 
-        Key managerDatastoreTokenKey = datastore.newKeyFactory().setKind(DatastoreEntities.TOKEN.value).newKey(managerToken.getUsername());
-        Entity managerDatastoreToken = datastore.get(managerDatastoreTokenKey);
+        TokenData managerToken = TokenUtil.validateToken(LOG, auth);
 
-        if (!TokenUtil.isTokenValid(LOG, managerToken, managerDatastoreToken)) {
+        if (managerToken == null) {
             return Response.status(Status.FORBIDDEN).build();
         }
 

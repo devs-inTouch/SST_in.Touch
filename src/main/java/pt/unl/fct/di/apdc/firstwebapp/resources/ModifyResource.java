@@ -1,8 +1,11 @@
 package pt.unl.fct.di.apdc.firstwebapp.resources;
 
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Globals.AUTH;
+
 import java.util.logging.Logger;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
@@ -17,7 +20,6 @@ import com.google.cloud.datastore.Key;
 import pt.unl.fct.di.apdc.firstwebapp.util.TokenUtil;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.AttributeChangeData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.TokenData;
-
 import pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes;
 
 @Path("/modify")
@@ -31,14 +33,11 @@ public class ModifyResource {
     @POST
     @Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response modifyUser(AttributeChangeData data){
+    public Response modifyUser(@HeaderParam(AUTH) String auth, AttributeChangeData data){
 
-        TokenData givenTokenData = data.getToken();
+        TokenData givenTokenData = TokenUtil.validateToken(LOG, auth);
 
-        Key tokenKey = datastore.newKeyFactory().setKind("Token").newKey(givenTokenData.getUsername());
-        Entity managerToken = datastore.get(tokenKey);
-
-        if(!TokenUtil.isTokenValid(LOG, givenTokenData, managerToken))
+        if(givenTokenData == null)
             return Response.status(Status.FORBIDDEN).build();
 
 

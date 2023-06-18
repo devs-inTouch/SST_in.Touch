@@ -1,9 +1,11 @@
 package pt.unl.fct.di.apdc.firstwebapp.resources;
 
-import java.util.Random;
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Globals.AUTH;
+
 import java.util.logging.Logger;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -14,7 +16,6 @@ import javax.ws.rs.core.Response.Status;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import com.google.cloud.datastore.Datastore;
-import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.KeyFactory;
@@ -22,6 +23,7 @@ import com.google.cloud.datastore.Transaction;
 import com.google.gson.Gson;
 
 import pt.unl.fct.di.apdc.firstwebapp.resources.authentication.AuthToken;
+import pt.unl.fct.di.apdc.firstwebapp.util.DatastoreUtil;
 import pt.unl.fct.di.apdc.firstwebapp.util.TokenUtil;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.LoginData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.TokenData;
@@ -42,7 +44,7 @@ public class LoginResource {
 	
 	private final Gson g = new Gson();
 
-	private final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
+	private final Datastore datastore = DatastoreUtil.getService();
 
 	private final KeyFactory userKeyFactory = datastore.newKeyFactory().setKind(DatastoreEntities.USER.value);
 	private final KeyFactory tokenKeyFactory = datastore.newKeyFactory().setKind(DatastoreEntities.TOKEN.value);
@@ -74,8 +76,7 @@ public class LoginResource {
 			return Response.status(Status.FORBIDDEN).build();
 		}
 
-		String tokenVerification = Long.toString(new Random().nextLong());
-		AuthToken token = new AuthToken(data.getUsername(), tokenVerification);
+		AuthToken token = new AuthToken(data.getUsername());
 
 		Key tokenKey = tokenKeyFactory.newKey(data.getUsername());
 
@@ -84,7 +85,6 @@ public class LoginResource {
 		try {
 			Entity tkn = Entity.newBuilder(tokenKey)
 						.set(TokenAttributes.USERNAME.value, token.getUsername())
-						.set(TokenAttributes.ID.value, token.getTokenID())
 						.set(TokenAttributes.CREATION_TIME.value, token.getCreationDate())
 						.set(TokenAttributes.EXPIRATION_TIME.value, token.getExpirationDate())
 						.build();
@@ -112,14 +112,11 @@ public class LoginResource {
 	@POST
 	@Path("/activateUser")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response activateUser(UserData data) {
+	public Response activateUser(@HeaderParam(AUTH) String auth, UserData data) {
 
-		TokenData givenToken = data.getToken();
+		TokenData givenToken = TokenUtil.validateToken(LOG, auth);
 
-		Key tokenKey = tokenKeyFactory.newKey(givenToken.getUsername());
-		Entity token = datastore.get(tokenKey);
-
-		if (TokenUtil.isTokenValid(LOG, givenToken, token))
+		if (givenToken == null)
 			return Response.status(Status.FORBIDDEN).build();
 
 		Key targetKey = userKeyFactory.newKey(data.getTargetUsername());

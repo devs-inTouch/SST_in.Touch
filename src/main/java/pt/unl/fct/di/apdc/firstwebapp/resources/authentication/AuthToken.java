@@ -1,50 +1,62 @@
 package pt.unl.fct.di.apdc.firstwebapp.resources.authentication;
 
-import java.util.UUID;
+import java.util.Date;
 
-import com.google.cloud.Timestamp;
+import io.jsonwebtoken.Jwts;
 
 public class AuthToken {
-	
-	public static final long TTL = 60*60*2; //2h in seconds
+
+	private static final long TTL = 60*60*2; //2h in seconds
 	
 	private String username;
-	private String tokenID;
-	private long creationDate;
-	private long expirationDate;
+	private Date creationDate;
+	private Date expirationDate;
+
+    private String encodedToken;
 	
 
 	public AuthToken() {}
 	
-	public AuthToken(String username, String verification) {
+	public AuthToken(String username) {
 		
 		this.username = username;
-		this.tokenID = UUID.randomUUID().toString();
-		this.creationDate = Timestamp.now().getSeconds();
-		this.expirationDate = this.creationDate + TTL;
-		
+		this.creationDate = new Date();
+		this.expirationDate = new Date(this.creationDate.getTime() + TTL);
+
+		this.encodedToken = Jwts.builder()
+                        .setSubject(username)
+                        .setIssuedAt(creationDate)
+                        .setExpiration(expirationDate)
+                        .signWith(SecretManager.getInstance().getSignature())
+                        .compact();
 	}
 
+	/**
+	 * @return the username
+	 */
 	public String getUsername() {
 		return username;
-	}
-
-	public String getTokenID() {
-		return tokenID;
 	}
 
 	/**
 	 * @return the creationDate
 	 */
 	public long getCreationDate() {
-		return creationDate;
+		return creationDate.getTime();
 	}
 
 	/**
 	 * @return the expirationDate
 	 */
 	public long getExpirationDate() {
-		return expirationDate;
+		return expirationDate.getTime();
+	}
+
+	/**
+	 * @return the encodedToken
+	 */
+	public String getEncodedToken() {
+		return encodedToken;
 	}
 
 }

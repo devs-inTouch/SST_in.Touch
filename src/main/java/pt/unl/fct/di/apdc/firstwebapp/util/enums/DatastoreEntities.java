@@ -1,6 +1,7 @@
 package pt.unl.fct.di.apdc.firstwebapp.util.enums;
 
 public enum DatastoreEntities {
+    SECRET("Secret"),
     USER("User"),
     TOKEN("Token"),
     OPERATION("Operation"),
