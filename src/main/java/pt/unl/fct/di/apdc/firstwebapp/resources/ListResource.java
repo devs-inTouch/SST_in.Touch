@@ -24,9 +24,9 @@ import com.google.gson.Gson;
 
 import pt.unl.fct.di.apdc.firstwebapp.util.DatastoreUtil;
 import pt.unl.fct.di.apdc.firstwebapp.util.TokenUtil;
-import pt.unl.fct.di.apdc.firstwebapp.util.entities.CompleteQueryResultData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.RegisterData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.TokenData;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects.CompleteQueryResultData;
 import pt.unl.fct.di.apdc.firstwebapp.util.enums.DatastoreEntities;
 import pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes;
 import pt.unl.fct.di.apdc.firstwebapp.util.enums.UserRole;
