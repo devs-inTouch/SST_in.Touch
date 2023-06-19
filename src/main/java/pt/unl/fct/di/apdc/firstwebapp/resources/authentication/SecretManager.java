@@ -39,7 +39,7 @@ public class SecretManager {
 
     private static final Key key = datastore.newKeyFactory().setKind(SECRET.value).newKey(ID);
 
-    private Entity secret;
+    private String secretStr;
 
     private SecretKey signKeySpec;
 
@@ -54,10 +54,12 @@ public class SecretManager {
 
 
     private SecretManager() {
-        if ((secret = datastore.get(key)) == null) {
+        Entity secret = datastore.get(key);
+        if (secret == null) {
             secret = init();
             signKeySpec = new SecretKeySpec(this.getSecret().getBytes(StandardCharsets.UTF_8), ALGORYTHM);
         }
+        this.secretStr = secret.getString(VALUE);
     }
 
 
@@ -93,7 +95,7 @@ public class SecretManager {
     }
 
     private String getSecret() {
-        return secret.getString(VALUE);
+        return secretStr;
     }
 
     public SecretKey getSignature() {
