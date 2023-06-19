@@ -73,6 +73,8 @@ public class SecretManager {
                         // .set(EXPIRATION_TIME, new Date(now.getTime() + TTL).getTime())
                         .build();
 
+            txn.put(res);
+            txn.commit();
             return res;
 
         } catch (Exception e) {
