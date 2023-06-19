@@ -6486,9 +6486,12 @@ shared_preferences_linux
 shared_preferences_platform_interface
 shared_preferences_web
 shared_preferences_windows
+<<<<<<< HEAD
 webview_flutter
 webview_flutter_platform_interface
 webview_flutter_wkwebview
+=======
+>>>>>>> token_support
 xdg_directories
 
 Copyright 2013 The Flutter Authors. All rights reserved.

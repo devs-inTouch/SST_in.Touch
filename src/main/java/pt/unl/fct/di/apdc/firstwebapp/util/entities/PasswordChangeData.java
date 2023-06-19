@@ -7,8 +7,8 @@ public class PasswordChangeData extends UserData {
     public PasswordChangeData() {}
 
     
-    public PasswordChangeData(String newPassword, String targetUsername, TokenData token) {
-        super(token, targetUsername);
+    public PasswordChangeData(String newPassword, String targetUsername) {
+        super(targetUsername);
         this.newPassword = newPassword;
     }
 
