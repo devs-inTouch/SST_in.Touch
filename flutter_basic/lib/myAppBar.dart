@@ -37,12 +37,12 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
           );
         },
         child: Padding(
-          padding: const EdgeInsets.only(left: 20.0),
+          padding: const EdgeInsets.only(left: 10.0),
           child: Row(
             children: [
               Image.asset(
                 'assets/logo-1-RBH.png',
-                height: 50, // Defina a altura desejada para a imagem
+                height: 35, // Defina a altura desejada para a imagem
               ),
             ],
           ),

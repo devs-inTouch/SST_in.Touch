@@ -12,6 +12,7 @@ import 'mainpage/presentation/mobile_main_scaffold.dart';
 import 'mainpage/presentation/tablet_main_scaffold.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
