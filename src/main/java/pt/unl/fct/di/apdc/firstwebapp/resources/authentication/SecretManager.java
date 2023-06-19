@@ -56,8 +56,8 @@ public class SecretManager {
     private SecretManager() {
         if ((secret = datastore.get(key)) == null) {
             secret = init();
-            signKeySpec = new SecretKeySpec(this.getSecret().getBytes(StandardCharsets.UTF_8), ALGORYTHM);
         }
+            signKeySpec = new SecretKeySpec(this.getSecret().getBytes(StandardCharsets.UTF_8), ALGORYTHM);
     }
 
 
