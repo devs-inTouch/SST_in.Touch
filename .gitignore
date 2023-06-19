@@ -48,12 +48,13 @@ migrate_working_dir/
 # Flutter/Dart/Pub related
 **/doc/api/
 **/ios/Flutter/.last_build_id
-.dart_tool/
-.flutter-plugins
-.flutter-plugins-dependencies
-.packages
-.pub-cache/
-.pub/
+flutter_basic/.dart_tool/
+flutter_basic/.flutter-plugins
+flutter_basic/.flutter-plugins-dependencies
+flutter_basic/.packages
+flutter_basic/.metadata
+flutter_basic/.pub-cache/
+flutter_basic.pub/
 flutter_basic/build/
 
 # Symbolication related
