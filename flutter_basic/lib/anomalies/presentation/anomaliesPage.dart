@@ -15,6 +15,7 @@ import '../../mainpage/presentation/mobile_main_scaffold.dart';
 import '../../mainpage/presentation/responsive_main_page.dart';
 import '../../mainpage/presentation/tablet_main_scaffold.dart';
 import '../../myAppBar.dart';
+import '../../profile/presentation/viewUtils.dart';
 
 class AnomaliesPage extends StatefulWidget {
   State<AnomaliesPage> createState() => AnomalyState();
@@ -133,7 +134,7 @@ class AnomalyState extends State<AnomaliesPage> {
         context: parentContext,
         builder: (context) {
           return SimpleDialog(
-            title: Text('Imagem'),
+            title: Text('Anexar Imagem'),
             children: [
               SimpleDialogOption(
                 child: Text('Escolhe da galeria'),
@@ -152,119 +153,161 @@ class AnomalyState extends State<AnomaliesPage> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final fem = size.width / 1440; // 1440 is the reference width
 
     return Scaffold(
       appBar: MyAppBar(),
       drawer: myDrawer,
-      backgroundColor: myBackground,
+      backgroundColor:  Colors.grey[300],
       body: Stack(
+
         children: [
           Container(
             width: size.width,
-            height: size.height,
-            child: Scrollbar(
-              child: SingleChildScrollView(
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                    Padding(
-                        padding: EdgeInsets.all(12.0),
-                        child: Text(
-                          'ANOMALY',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.black, fontSize: 60),
-                        )),
-                    Container(
-                        height: 500 * fem,
-                        width: 600 * fem,
-                        decoration: BoxDecoration(color: Colors.grey[300]),
-                        child: Stack(
-                          children: [
-                            isUploading ? LinearProgressIndicator() : Text(""),
-                            Align(
-                              alignment: Alignment(0.0, 0.1),
-                              child: Container(
-                                height: 400 * fem,
-                                width: 570 * fem,
-                                child: Column(
-                                  children: [
-                                    TextField(
-                                      controller: title,
-                                      maxLength: 50,
-                                      decoration: InputDecoration(
-                                        fillColor: Colors.white,
-                                        filled: true,
-                                        labelText: 'Título',
-                                      ),
+            height: double.infinity,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(top: 20.0),
+                    child: Text(
+                      'ANOMALIAS',
+                      textAlign: TextAlign.center,
+                      style:
+                      TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black, fontSize: 26),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(30.0), // Add a margin of 30 pixels
+                    child: Container(
+                      height: 400,
+                      width:800,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[400],
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      child: Column(
+                        children: [
+                          Expanded(
+                            child: Stack(
+                              children: [
+                                isUploading ? LinearProgressIndicator() : SizedBox(),
+                                Align(
+                                  alignment: Alignment(0.0, 0.1),
+                                  child: Container(
+                                    height: 400,
+                                    width: 800,
+                                    child: Column(
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.all(15.0), // Add vertical padding of 15 pixels
+                                          child: TextField(
+                                            controller: title,
+                                            maxLength: 50,
+                                            decoration: InputDecoration(
+                                              fillColor: Colors.white,
+                                              filled: true,
+                                              labelText: 'Título',
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.all(15.0), // Add vertical padding of 15 pixels
+                                          child: TextField(
+                                            controller: description,
+                                            keyboardType: TextInputType.multiline,
+                                            maxLines: 7,
+                                            maxLength: 400,
+                                            decoration: InputDecoration(
+                                              fillColor: Colors.white,
+                                              filled: true,
+                                              labelText: 'Escreve aqui',
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    SizedBox(height: 10),
-                                    TextField(
-                                      controller: description,
-                                      keyboardType: TextInputType.multiline,
-                                      maxLines: 5,
-                                      maxLength: 400,
-                                      decoration: InputDecoration(
-                                        fillColor: Colors.white,
-                                        filled: true,
-                                        labelText: 'Escreve aqui',
-                                      ),
-                                    ),
-                                  ],
+
+                                  ),
                                 ),
-                              ),
+                              ],
                             ),
-                            Align(
-                                //Botao para adicionar foto
-                                alignment: Alignment(0.9, 0.9),
-                                child: ElevatedButton(
-                                    onPressed: isUploading
-                                        ? null
-                                        : () => createButtonPressed("gui",
-                                            title.text, description.text),
-                                    style: ElevatedButton.styleFrom(
-                                        fixedSize: Size(70 * fem, 40 * fem),
-                                        backgroundColor: Colors.white),
-                                    child: Text(
-                                      'CRIAR',
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 12),
-                                    ))),
-                            Align(
-                                //Botao para adicionar foto
-                                alignment: Alignment(-0.9, 0.9),
-                                child: ElevatedButton(
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(20.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(right: 30.0), // Add right padding of 30 pixels
+                                  child: ElevatedButton(
                                     onPressed: () {
                                       selectImage(context);
                                     },
                                     style: ElevatedButton.styleFrom(
-                                        fixedSize: Size(100 * fem, 40 * fem),
-                                        backgroundColor: Colors.white),
+                                      fixedSize: Size(150, 40),
+                                      backgroundColor: Colors.white,
+                                    ),
                                     child: Text(
                                       'Adicionar foto',
                                       textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 15),
-                                    )))
-                          ],
-                        )),
-                    SizedBox(height: 10),
-                    Container(
-                        width: 600 * fem,
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: anomalyPosts.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return AnomalyBox(
-                                text: anomalyPosts[index], fem: fem);
-                          },
-                        ))
-                  ])),
+                                      style: TextStyle(color: Colors.black, fontSize: 15),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 30.0), // Add left padding of 30 pixels
+                                  child: ElevatedButton(
+                                    onPressed: isUploading
+                                        ? null
+                                        : () => createButtonPressed("gui", title.text, description.text),
+                                    style: ElevatedButton.styleFrom(
+                                      fixedSize: Size(100, 40),
+                                      backgroundColor: Colors.white,
+                                    ),
+                                    child: Text(
+                                      'CRIAR',
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(color: Colors.black, fontSize: 15),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Padding(
+                    padding: EdgeInsets.all(20.0), // Add a margin of 30 pixels
+                    child: Container(
+                      width: 800,
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: anomalyPosts.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Padding(
+                            padding: EdgeInsets.only(bottom: 10.0), // Add bottom padding of 10 pixels
+                            child: AnomalyBox(text: anomalyPosts[index]),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+
+
+                ],
+              ),
             ),
-          )
+          ),
         ],
       ),
+
     );
   }
 }

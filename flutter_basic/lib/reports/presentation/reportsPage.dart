@@ -17,7 +17,7 @@ class ReportsPage extends StatelessWidget {
             Text(
               'ENVIAR AVISO',
               style: TextStyle(
-                fontSize: 24,
+                fontSize: 26,
                 fontWeight: FontWeight.bold,
               ),
             ),
