@@ -44,7 +44,7 @@ public class LogoutResource {
 
         Transaction txn = datastore.newTransaction();
         try{
-            Key tokenKey = datastore.newKeyFactory().setKind(DatastoreEntities.TOKEN.value).newKey(givenToken.getUsername());
+            Key tokenKey = datastore.newKeyFactory().setKind(DatastoreEntities.TOKEN.value).newKey(givenToken.getSub());
             Entity user = txn.get(tokenKey);
 
             if(user == null)
