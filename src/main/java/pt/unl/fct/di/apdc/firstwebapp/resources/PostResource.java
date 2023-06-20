@@ -2,14 +2,14 @@ package pt.unl.fct.di.apdc.firstwebapp.resources;
 
 import com.google.cloud.datastore.*;
 import com.google.gson.Gson;
+import pt.unl.fct.di.apdc.firstwebapp.util.DatastoreUtil;
+import pt.unl.fct.di.apdc.firstwebapp.util.TokenUtil;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.TokenData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.post.PostData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.post.PostDeleteData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.post.PostInformationData;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
@@ -17,12 +17,19 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Globals.AUTH;
+
 @Path("/post")
 public class PostResource {
 
-    private static final Logger LOG = Logger.getLogger(LoginResource.class.getName());
+    private static final Logger LOG = Logger.getLogger(PostResource.class.getName());
+    private static final String USER_NOT_IN_DATABASE = "User not in database";
+    private static final String POST_CREATED_SUCCESSFULLY = "Post created successfully";
+    private static final String POST_NOT_IN_DATABASE = "Post not in database";
+    private static final String POST_DELETED_SUCCESSFULLY = "Post deleted successfully";
+    private static final String USER_NOT_ALLOWED_TO_DELETE_POST = "User not allowed to delete post";
 
-    private final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
+    private final Datastore datastore = DatastoreUtil.getService();
 
     private final Gson g = new Gson();
 
@@ -33,33 +40,35 @@ public class PostResource {
     @Path("/create")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    public Response createPost(PostData data) {
-        LOG.fine("Attempt to create post: " + data.username);
+    public Response createPost(@HeaderParam(AUTH) String auth, PostData data) {
 
-        //TODO token verification
+        TokenData givenTokenData = TokenUtil.validateToken(LOG, auth);
 
-        Key userKey = datastore.newKeyFactory().setKind("User").newKey(data.username);
+        if(givenTokenData == null)
+            return Response.status(Response.Status.FORBIDDEN).build();
+
+        Key userKey = datastore.newKeyFactory().setKind("User").newKey(givenTokenData.getSub());
         Transaction txn = datastore.newTransaction();
 
         try {
             Entity user = txn.get(userKey);
             if (user == null)
-                return Response.status(Response.Status.BAD_REQUEST).entity("User not in database").build();
+                return Response.status(Response.Status.BAD_REQUEST).entity(USER_NOT_IN_DATABASE).build();
 
-            String postIdentification = data.username + getNextPost(data.username);
+            String postIdentification = givenTokenData.getSub() + getNextPost(givenTokenData.getSub());
             Key k = datastore.newKeyFactory().setKind("Post").newKey(postIdentification);
             Entity post = Entity.newBuilder(k)
-                    .set("username", data.username)
-                    .set("description", data.description)
-                    .set("mediaUrl", data.mediaUrl)
-                    .set("ups", data.ups)
-                    .set("downs", data.downs)
+                    .set("username", givenTokenData.getSub())
+                    .set("description", data.getDescription())
+                    .set("mediaUrl", data.getMediaUrl())
+                    .set("ups", data.getUps())
+                    .set("downs", data.getDowns())
                     .set("creation_date", System.currentTimeMillis())
                     .build();
             txn.add(post);
             txn.commit();
 
-            return Response.ok(g.toJson("Post created successfully")).build();
+            return Response.ok(g.toJson(POST_CREATED_SUCCESSFULLY)).build();
         } finally {
             if (txn.isActive())
                 txn.rollback();
@@ -89,33 +98,35 @@ public class PostResource {
     @POST
     @Path("/delete")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response deletePost(PostDeleteData data) {
-        LOG.info("Attempt to delete post: " + data.username);
+    public Response deletePost(@HeaderParam(AUTH) String auth, PostDeleteData data) {
 
-        //TODO token verification
+        TokenData givenTokenData = TokenUtil.validateToken(LOG, auth);
 
-        Key userKey = datastore.newKeyFactory().setKind("User").newKey(data.username);
-        Key creatorKey = datastore.newKeyFactory().setKind("User").newKey(data.userCreator);
+        if(givenTokenData == null)
+            return Response.status(Response.Status.FORBIDDEN).build();
+
+        Key userKey = datastore.newKeyFactory().setKind("User").newKey(givenTokenData.getSub());
+        Key creatorKey = datastore.newKeyFactory().setKind("User").newKey(data.getUserCreator());
 
         Transaction txn = datastore.newTransaction();
         try {
             Entity user = txn.get(userKey);
             Entity creator = txn.get(creatorKey);
             if (user == null || creator == null)
-                return Response.status(Response.Status.BAD_REQUEST).entity("User not in database").build();
+                return Response.status(Response.Status.BAD_REQUEST).entity(USER_NOT_IN_DATABASE).build();
 
-            if(data.username.equals(data.userCreator)) {
-                Key postKey = datastore.newKeyFactory().setKind("Post").newKey(data.postIdentifier);
+            if(givenTokenData.getSub().equals(data.getUserCreator())) {
+                Key postKey = datastore.newKeyFactory().setKind("Post").newKey(data.getPostIdentifier());
                 Entity post = txn.get(postKey);
                 if(post == null)
-                    return Response.status(Response.Status.BAD_REQUEST).entity("Post not in database").build();
+                    return Response.status(Response.Status.BAD_REQUEST).entity(POST_NOT_IN_DATABASE).build();
 
                 txn.delete(postKey);
                 txn.commit();
 
-                return Response.ok(g.toJson("Post deleted successfully")).build();
+                return Response.ok(g.toJson(POST_DELETED_SUCCESSFULLY)).build();
             } else {
-                return Response.status(Response.Status.BAD_REQUEST).entity("User not allowed to delete post").build();
+                return Response.status(Response.Status.BAD_REQUEST).entity(USER_NOT_ALLOWED_TO_DELETE_POST).build();
             }
 
         } finally {

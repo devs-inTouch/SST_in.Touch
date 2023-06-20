@@ -22,7 +22,7 @@ import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Globals.AUTH;
 @Path("/anomaly")
 public class AnomalyResource {
 
-    private static final Logger LOG = Logger.getLogger(LoginResource.class.getName());
+    private static final Logger LOG = Logger.getLogger(AnomalyResource.class.getName());
     private static final String USER_NOT_IN_DATABASE = "User not in database";
     private static final String ANOMALY_CREATED_SUCCESSFULLY = "Anomaly created successfully";
     private static final String ANOMALY_NOT_IN_DATABASE = "Anomaly not in database";
