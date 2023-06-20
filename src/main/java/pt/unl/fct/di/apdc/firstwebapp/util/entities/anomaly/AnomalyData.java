@@ -4,7 +4,7 @@ public class AnomalyData {
 
     public String username;
     public String title;
-    public String description;
+        public String description;
 
     public AnomalyData() {
     }

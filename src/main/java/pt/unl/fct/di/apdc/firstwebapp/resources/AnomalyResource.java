@@ -2,19 +2,20 @@ package pt.unl.fct.di.apdc.firstwebapp.resources;
 
 import com.google.cloud.datastore.*;
 import com.google.gson.Gson;
+import pt.unl.fct.di.apdc.firstwebapp.util.TokenUtil;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.TokenData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.anomaly.AnomalyData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.anomaly.AnomalyDeleteData;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
+
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Globals.AUTH;
 
 @Path("/anomaly")
 public class AnomalyResource {
@@ -37,10 +38,13 @@ public class AnomalyResource {
     @POST
     @Path("/create")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createAnomaly(AnomalyData data) {
+    public Response createAnomaly(@HeaderParam(AUTH) String auth, AnomalyData data) {
         LOG.fine("Attempt to create anomaly: " + data.username);
 
-        //TODO token verification
+        TokenData token = TokenUtil.validateToken(LOG, auth);
+
+        if(token == null)
+            return Response.status(Response.Status.FORBIDDEN).build();
 
         Key userKey = datastore.newKeyFactory().setKind("User").newKey(data.username);
 
