@@ -19,5 +19,51 @@ buildNumber.properties
 .vscode/
 
 .idea/
-*.xml
+
+.dart_tool/
+
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.buildlog/
+.history
+.svn/
+migrate_working_dir/
+
+# IntelliJ related
 *.iml
+*.ipr
+*.iws
+.idea/
+
+# The .vscode folder contains launch configuration and tasks you configure in
+# VS Code which you may wish to be included in version control, so this line
+# is commented out by default.
+#.vscode/
+
+# Flutter/Dart/Pub related
+**/doc/api/
+**/ios/Flutter/.last_build_id
+flutter_basic/.dart_tool/
+flutter_basic/.flutter-plugins
+flutter_basic/.flutter-plugins-dependencies
+flutter_basic/.packages
+flutter_basic/.metadata
+flutter_basic/.pub-cache/
+flutter_basic.pub/
+flutter_basic/build/
+
+# Symbolication related
+app.*.symbols
+
+# Obfuscation related
+app.*.map.json
+
+# Android Studio will place build artifacts here
+/android/app/debug
+/android/app/profile
+/android/app/release
