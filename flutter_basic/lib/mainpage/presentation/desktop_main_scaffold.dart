@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_basic/MoovitWidget.dart';
 import 'package:flutter_basic/constants.dart';
-import 'package:intl/intl.dart';
 import '../../hojeNaFCT/avisos_info.dart';
 import '../../hojeNaFCT/exposicoes_info.dart';
 import '../../hojeNaFCT/noticias_info.dart';
@@ -9,6 +7,7 @@ import '../../hojeNaFCT/restauração_info.dart';
 import '../../myAppBar.dart';
 import '../../weatherBox.dart';
 import 'auxMainpage.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DesktopScaffold extends StatefulWidget {
   const DesktopScaffold({Key? key}) : super(key: key);
@@ -44,10 +43,10 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(),
-      backgroundColor: Colors.grey[300],
+      appBar: const MyAppBar(),
+      backgroundColor: Color.fromRGBO(218, 217, 217, 1),
       body: Padding(
-        padding: EdgeInsets.all(50.0),
+        padding: const EdgeInsets.all(50.0),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -66,9 +65,9 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons
+                              const Icon(Icons
                                   .calendar_today_rounded), // Icon calendar
-                              SizedBox(
+                              const SizedBox(
                                   width:
                                       5), // Add some spacing between the icon and text
                               textTopBar('HOJE NA FCT'), // Text widget
@@ -77,7 +76,7 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                         ),
                       ),
                       Container(
-                        padding: EdgeInsets.all(16.0),
+                        padding: const EdgeInsets.all(16.0),
                         child: Text(
                           pages[_currentPageIndex],
                           style: hojeNaFCTPageTitles,
@@ -86,37 +85,37 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                       if (pages[_currentPageIndex] == 'RESTAURAÇÃO')
                         Expanded(
                           child: Container(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 vertical: 20.0, horizontal: 20.0),
-                            child: RestauracaoPage(),
+                            child: const RestauracaoPage(),
                           ),
                         )
                       else if (pages[_currentPageIndex] == 'Avisos')
                         Expanded(
                           child: Container(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 vertical: 20.0, horizontal: 20.0),
-                            child: AvisosPage(),
+                            child: const AvisosPage(),
                           ),
                         )
                       else if (pages[_currentPageIndex] == 'Exposições')
                         Expanded(
                           child: Container(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 vertical: 20.0, horizontal: 20.0),
-                            child: ExposicoesPage(),
+                            child: const ExposicoesPage(),
                           ),
                         )
                       else if (pages[_currentPageIndex] == 'Notícias')
                         Expanded(
                           child: Container(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 vertical: 20.0, horizontal: 20.0),
-                            child: NoticiasPage(),
+                            child: const NoticiasPage(),
                           ),
                         ),
                       Padding(
-                        padding: EdgeInsets.only(bottom: 20.0),
+                        padding: const EdgeInsets.only(bottom: 20.0),
                         child: Align(
                           alignment: Alignment.bottomCenter,
                           child: Row(
@@ -124,12 +123,12 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                             children: [
                               IconButton(
                                 onPressed: goToPreviousPage,
-                                icon: Icon(Icons.arrow_back),
+                                icon: const Icon(Icons.arrow_back),
                               ),
-                              SizedBox(width: 30.0),
+                              const SizedBox(width: 30.0),
                               IconButton(
                                 onPressed: goToNextPage,
-                                icon: Icon(Icons.arrow_forward),
+                                icon: const Icon(Icons.arrow_forward),
                               ),
                             ],
                           ),
@@ -140,7 +139,7 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                 ),
               ),
             ),
-            Spacer(),
+            const Spacer(),
             Expanded(
               flex: 4,
               child: Column(
@@ -151,30 +150,20 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                       children: [
                         Expanded(
                           flex: 2,
-                          child: Stack(
-                            children: [
-                              Container(
-                                width: double.infinity,
-                                height: 250,
-                                decoration: boxDecoration,
-                                child: const MoovitWidget(),
-                              ),
-                              Positioned(
-                                top: 0,
-                                left: 0,
-                                right: 0,
-                                child: Container(
-                                  height: 50,
-                                  decoration: topBarDecoration,
-                                  child: Center(
-                                    child: textTopBar('MOOVIT'),
-                                  ),
-                                ),
-                              ),
-                            ],
+                          child: GestureDetector(
+                            onTap: () {
+                              launchUrl(Uri.parse(
+                                  'https://moovitapp.com/lisboa-2460/poi/pt'));
+                            },
+                            child: Image.asset(
+                              'assets/moovit.png',
+                              width: double.infinity,
+                              height: 250,
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
-                        SizedBox(width: 50.0),
+                        const SizedBox(width: 50.0),
                         Flexible(
                           flex: 1,
                           child: Column(
@@ -186,7 +175,7 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                                     width: double.infinity,
                                     height: 250,
                                     decoration: boxDecoration,
-                                    child: Padding(
+                                    child: const Padding(
                                       padding: EdgeInsets.only(top: 85),
                                       child: Center(
                                         child: WeatherBox(
@@ -214,7 +203,7 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 25.0),
+                  const SizedBox(height: 25.0),
                   Expanded(
                     child: FractionallySizedBox(
                       widthFactor: 1,
@@ -241,7 +230,7 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                                     ),
                                     Expanded(
                                       child: ListView.builder(
-                                        padding: EdgeInsets.all(16.0),
+                                        padding: const EdgeInsets.all(16.0),
                                         itemCount: events.length,
                                         itemBuilder:
                                             (BuildContext context, int index) {
@@ -262,7 +251,7 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                                     // Add your functionality for adding new activities here
                                     auxMainPage.addNewActivity(context, events);
                                   },
-                                  icon: Icon(Icons.add),
+                                  icon: const Icon(Icons.add),
                                   color: Colors.black,
                                 ),
                               ),

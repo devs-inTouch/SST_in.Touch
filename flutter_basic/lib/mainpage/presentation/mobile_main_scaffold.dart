@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/constants.dart';
-import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../hojeNaFCT/avisos_info.dart';
 import '../../hojeNaFCT/exposicoes_info.dart';
 import '../../hojeNaFCT/noticias_info.dart';
@@ -42,14 +42,13 @@ class _MobileScaffoldState extends State<MobileScaffold> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(),
+      appBar: const MyAppBar(),
       backgroundColor: Colors.white,
       body: Padding(
-        padding: EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20.0),
         child: Scrollbar(
           child: SingleChildScrollView(
             child: Column(
@@ -73,43 +72,49 @@ class _MobileScaffoldState extends State<MobileScaffold> {
                           width: double.infinity,
                           height: 100,
                           decoration: boxDecoration,
-                          child: WeatherBox(location: 'Costa Da Caparica'),
+                          child:
+                              const WeatherBox(location: 'Costa Da Caparica'),
                         ),
                       ),
                     ],
                   ),
-
                 ),
-                SizedBox(height: 30.0),
+                const SizedBox(height: 30.0),
                 Container(
                   width: double.infinity,
                   decoration: boxDecoration,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Container(
-                        height: 50,
-                        decoration: topBarDecoration,
-                        child: Center(
-                          child: textTopBar(
-                              'MOOVIT'), // Use your custom textTopBar widget here
-                        ),
+                      InkWell(
+                        onTap: () {
+                          // Launch Moovit app
+                          launchUrl(Uri.parse('moovit://'));
+                        },
                       ),
-                      Container(
-                        width: 250,
-                        height: 250,
-                        decoration: boxDecoration,
-                        child: Center(
-                          child: Text(
-                            "Box 1",
-                            style: textStyle,
+                      InkWell(
+                        onTap: () {
+                          // Launch Moovit app
+                          launchUrl(Uri.parse('moovit://'));
+                        },
+                        child: Container(
+                          width: 250,
+                          height: 250,
+                          decoration: boxDecoration,
+                          child: Center(
+                            child: Image.asset(
+                              'assets/moovit.png',
+                              width: 100,
+                              height: 100,
+                              fit: BoxFit.contain,
+                            ),
                           ),
                         ),
                       ),
                     ],
                   ),
                 ),
-                SizedBox(height: 30.0),
+                const SizedBox(height: 30.0),
                 Container(
                   height: 50,
                   decoration: topBarDecoration,
@@ -117,9 +122,9 @@ class _MobileScaffoldState extends State<MobileScaffold> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.calendar_today_rounded),
+                        const Icon(Icons.calendar_today_rounded),
                         // Icon calendar
-                        SizedBox(width: 5),
+                        const SizedBox(width: 5),
                         // Add some spacing between the icon and text
                         textTopBar('HOJE NA FCT'),
                         // Text widget
@@ -127,9 +132,9 @@ class _MobileScaffoldState extends State<MobileScaffold> {
                     ),
                   ),
                 ),
-                SizedBox(height: 10.0),
+                const SizedBox(height: 10.0),
                 Padding(
-                  padding: EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(16.0),
                   child: Text(
                     pages[_currentPageIndex],
                     style: hojeNaFCTPageTitles,
@@ -137,45 +142,41 @@ class _MobileScaffoldState extends State<MobileScaffold> {
                 ),
                 if (pages[_currentPageIndex] == 'Restauração')
                   Container(
-                    padding:
-                    EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
-                    child: RestauracaoPage(),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 20.0, horizontal: 20.0),
+                    child: const RestauracaoPage(),
                   )
-                else
-                  if (pages[_currentPageIndex] == 'Avisos')
-                    Container(
-                      padding:
-                      EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
-                      child: AvisosPage(),
-                    )
-                  else
-                    if (pages[_currentPageIndex] == 'Exposições')
-                      Container(
-                        padding:
-                        EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
-                        child: ExposicoesPage(),
-                      )
-                    else
-                      if (pages[_currentPageIndex] == 'Notícias')
-                        Container(
-                          padding:
-                          EdgeInsets.symmetric(
-                              vertical: 20.0, horizontal: 20.0),
-                          child: NoticiasPage(),
-                        ),
+                else if (pages[_currentPageIndex] == 'Avisos')
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 20.0, horizontal: 20.0),
+                    child: const AvisosPage(),
+                  )
+                else if (pages[_currentPageIndex] == 'Exposições')
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 20.0, horizontal: 20.0),
+                    child: const ExposicoesPage(),
+                  )
+                else if (pages[_currentPageIndex] == 'Notícias')
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 20.0, horizontal: 20.0),
+                    child: const NoticiasPage(),
+                  ),
                 Padding(
-                  padding: EdgeInsets.only(bottom: 20.0),
+                  padding: const EdgeInsets.only(bottom: 20.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       IconButton(
                         onPressed: goToPreviousPage,
-                        icon: Icon(Icons.arrow_back),
+                        icon: const Icon(Icons.arrow_back),
                       ),
-                      SizedBox(width: 30.0),
+                      const SizedBox(width: 30.0),
                       IconButton(
                         onPressed: goToNextPage,
-                        icon: Icon(Icons.arrow_forward),
+                        icon: const Icon(Icons.arrow_forward),
                       ),
                     ],
                   ),
@@ -190,7 +191,6 @@ class _MobileScaffoldState extends State<MobileScaffold> {
                     ],
                   ),
                 ),
-
                 Positioned(
                   bottom: 0,
                   right: 0,
@@ -199,12 +199,10 @@ class _MobileScaffoldState extends State<MobileScaffold> {
                       // Add your functionality for adding new activities here
                       auxMainPage.addNewActivity(context, events);
                     },
-
-                    icon: Icon(Icons.add),
+                    icon: const Icon(Icons.add),
                     color: Colors.black,
                   ),
                 ),
-
               ],
             ),
           ),
