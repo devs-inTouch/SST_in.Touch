@@ -9,6 +9,7 @@ import javax.ws.rs.core.Response.Status;
 
 import com.google.cloud.datastore.*;
 
+import pt.unl.fct.di.apdc.firstwebapp.util.DatastoreUtil;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.RegisterData;
 import pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes;
 import pt.unl.fct.di.apdc.firstwebapp.util.enums.UserRole;
@@ -27,7 +28,7 @@ public class RegisterResource {
 
 	private static final String USER_ALREADY_EXISTS = "Utilizador já criado";
 
-	private final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
+	private final Datastore datastore = DatastoreUtil.getService();
 
 
 	public RegisterResource() {}

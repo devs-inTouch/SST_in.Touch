@@ -1,10 +1,13 @@
 package pt.unl.fct.di.apdc.firstwebapp.resources;
 
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Globals.AUTH;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -13,20 +16,18 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import com.google.cloud.datastore.Datastore;
-import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.QueryResults;
-import com.google.cloud.datastore.StructuredQuery.CompositeFilter;
-import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
 import com.google.gson.Gson;
 
+import pt.unl.fct.di.apdc.firstwebapp.util.DatastoreUtil;
 import pt.unl.fct.di.apdc.firstwebapp.util.TokenUtil;
-import pt.unl.fct.di.apdc.firstwebapp.util.entities.BaseQueryResultData;
-import pt.unl.fct.di.apdc.firstwebapp.util.entities.CompleteQueryResultData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.RegisterData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.TokenData;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects.CompleteQueryResultData;
+import pt.unl.fct.di.apdc.firstwebapp.util.enums.DatastoreEntities;
 import pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes;
 import pt.unl.fct.di.apdc.firstwebapp.util.enums.UserRole;
 
@@ -36,7 +37,7 @@ import pt.unl.fct.di.apdc.firstwebapp.util.enums.UserRole;
 public class ListResource {
     
     private final Gson g = new Gson();
-    private final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
+    private final Datastore datastore = DatastoreUtil.getService();
     private static final Logger LOG = Logger.getLogger(ListResource.class.getName());
 
     public ListResource() {}
@@ -146,100 +147,96 @@ public class ListResource {
     @POST
     @Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response listUsersV2(TokenData managerToken) {
-        Key managerDatastoreTokenKey = datastore.newKeyFactory().setKind("Token").newKey(managerToken.getUsername());
-        Entity managerDatastoreToken = datastore.get(managerDatastoreTokenKey);
-            if (managerDatastoreToken == null) {
-                LOG.warning("Token not found");
-                return Response.status(Status.BAD_REQUEST).build();
-            }
+    public Response listUsersV2(@HeaderParam(AUTH) String auth) {
 
-            if (!TokenUtil.isTokenValid(LOG, managerToken, managerDatastoreToken)) {
-                return Response.status(Status.FORBIDDEN).build();
-            }
+        TokenData managerToken = TokenUtil.validateToken(LOG, auth);
 
-            Key managerKey = datastore.newKeyFactory().setKind("User").newKey(managerToken.getUsername());
-            Entity manager = datastore.get(managerKey);
-            UserRole managerRole = UserRole.toRole(manager.getString(UserAttributes.ROLE.value));
-            Query<Entity> query;
-            QueryResults<Entity> users;
-            List<CompleteQueryResultData> resultList = new ArrayList<>();
-            // switch(managerRole) {
-            //     case SU:
-            //         query = Query.newEntityQueryBuilder()
-            //             .setKind("User")
-            //             .build();
-            //         users = datastore.run(query);
-            //         users.forEachRemaining( user -> {
-            //             resultList.add(getCompleteQueryResultData(user));
-            //         });
+        if (managerToken == null) {
+            return Response.status(Status.FORBIDDEN).build();
+        }
 
-            //         break;
-            //     case GS:
-            //         query = Query.newEntityQueryBuilder()
-            //             .setKind("User")
-            //             .setFilter(
-            //                 PropertyFilter.eq(RegisterData.TYPE, UserType.GBO.type)
-            //             )
-            //             .build();
-            //         users = datastore.run(query);
-            //         users.forEachRemaining( user -> {
-            //             resultList.add(getCompleteQueryResultData(user));
-            //         });
+        Key managerKey = datastore.newKeyFactory().setKind(DatastoreEntities.USER.value).newKey(managerToken.getSub());
+        Entity manager = datastore.get(managerKey);
+        UserRole managerRole = UserRole.toRole(manager.getString(UserAttributes.ROLE.value));
+        Query<Entity> query;
+        QueryResults<Entity> users;
+        List<CompleteQueryResultData> resultList = new ArrayList<>();
+        // switch(managerRole) {
+        //     case SU:
+        //         query = Query.newEntityQueryBuilder()
+        //             .setKind("User")
+        //             .build();
+        //         users = datastore.run(query);
+        //         users.forEachRemaining( user -> {
+        //             resultList.add(getCompleteQueryResultData(user));
+        //         });
 
-            //         query = Query.newEntityQueryBuilder()
-            //             .setKind("User")
-            //             .setFilter(
-            //                 PropertyFilter.eq(RegisterData.TYPE, UserType.USER.type)
-            //             )
-            //             .build();
-            //         users = datastore.run(query);
-            //         users.forEachRemaining( user -> {
-            //             resultList.add(getCompleteQueryResultData(user));
-            //         });
+        //         break;
+        //     case GS:
+        //         query = Query.newEntityQueryBuilder()
+        //             .setKind("User")
+        //             .setFilter(
+        //                 PropertyFilter.eq(RegisterData.TYPE, UserType.GBO.type)
+        //             )
+        //             .build();
+        //         users = datastore.run(query);
+        //         users.forEachRemaining( user -> {
+        //             resultList.add(getCompleteQueryResultData(user));
+        //         });
 
-            //         break;
-            //     case GA:
-            //         LOG.warning("Behaviour for GA not defined.");
-            //         return Response.status(Status.NOT_IMPLEMENTED).build();
-            //     case GBO:
-            //         query = Query.newEntityQueryBuilder()
-            //             .setKind("User")
-            //             .setFilter(
-            //                 PropertyFilter.eq(RegisterData.TYPE, UserType.USER.type)
-            //             )
-            //             .build();
-            //         users = datastore.run(query);
-            //         users.forEachRemaining( user -> {
-            //             resultList.add(getCompleteQueryResultData(user));
-            //         });
-            //     case USER:
-            //         List<BaseQueryResultData> resultListUSER = new ArrayList<>();
-            //         query = Query.newEntityQueryBuilder()
-            //             .setKind("User")
-            //             .setFilter(
-            //                 CompositeFilter.and(
-            //                     PropertyFilter.eq(RegisterData.TYPE, UserType.USER.type),
-            //                     PropertyFilter.eq(RegisterData.STATE, true)
-            //                 )
-            //                 )
-            //             .build();
-            //         users = datastore.run(query);
-            //         users.forEachRemaining( user -> {
-            //             resultListUSER.add(new BaseQueryResultData(user.getString(RegisterData.USERNAME),
-            //                                                         user.getString(RegisterData.NAME),
-            //                                                         user.getString(RegisterData.EMAIL)));
-            //         });
-            //         LOG.info("Listing successful!");
-            //         return Response.ok(g.toJson(resultListUSER)).build();
+        //         query = Query.newEntityQueryBuilder()
+        //             .setKind("User")
+        //             .setFilter(
+        //                 PropertyFilter.eq(RegisterData.TYPE, UserType.USER.type)
+        //             )
+        //             .build();
+        //         users = datastore.run(query);
+        //         users.forEachRemaining( user -> {
+        //             resultList.add(getCompleteQueryResultData(user));
+        //         });
 
-            //     default:
-            //         LOG.severe("Could not resolve manager type.");
-            //         return Response.status(Status.INTERNAL_SERVER_ERROR).build();
-            // }
+        //         break;
+        //     case GA:
+        //         LOG.warning("Behaviour for GA not defined.");
+        //         return Response.status(Status.NOT_IMPLEMENTED).build();
+        //     case GBO:
+        //         query = Query.newEntityQueryBuilder()
+        //             .setKind("User")
+        //             .setFilter(
+        //                 PropertyFilter.eq(RegisterData.TYPE, UserType.USER.type)
+        //             )
+        //             .build();
+        //         users = datastore.run(query);
+        //         users.forEachRemaining( user -> {
+        //             resultList.add(getCompleteQueryResultData(user));
+        //         });
+        //     case USER:
+        //         List<BaseQueryResultData> resultListUSER = new ArrayList<>();
+        //         query = Query.newEntityQueryBuilder()
+        //             .setKind("User")
+        //             .setFilter(
+        //                 CompositeFilter.and(
+        //                     PropertyFilter.eq(RegisterData.TYPE, UserType.USER.type),
+        //                     PropertyFilter.eq(RegisterData.STATE, true)
+        //                 )
+        //                 )
+        //             .build();
+        //         users = datastore.run(query);
+        //         users.forEachRemaining( user -> {
+        //             resultListUSER.add(new BaseQueryResultData(user.getString(RegisterData.USERNAME),
+        //                                                         user.getString(RegisterData.NAME),
+        //                                                         user.getString(RegisterData.EMAIL)));
+        //         });
+        //         LOG.info("Listing successful!");
+        //         return Response.ok(g.toJson(resultListUSER)).build();
 
-            LOG.info("Listing successful!");
-            return Response.ok(g.toJson(resultList)).build();
+        //     default:
+        //         LOG.severe("Could not resolve manager type.");
+        //         return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+        // }
+
+        LOG.info("Listing successful!");
+        return Response.ok(g.toJson(resultList)).build();
     }
 
     private CompleteQueryResultData getCompleteQueryResultData(Entity user) {

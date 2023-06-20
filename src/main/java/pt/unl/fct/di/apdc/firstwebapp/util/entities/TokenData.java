@@ -1,57 +1,51 @@
 package pt.unl.fct.di.apdc.firstwebapp.util.entities;
 
+import java.util.Date;
+
 public class TokenData {
-	
-	private String username;
-	private String tokenID;
-	private long creationDate;
-	private long expirationDate;
-	private String verification;
+
+	private String sub;
+    private long iat;
+    private long exp;
+
+    private boolean isExpired;
 	
 	public TokenData() {}
 
-    public TokenData(String username, String tokenID, long creationDate, long expirationDate, String verification) {
-        this.username = username;
-        this.tokenID = tokenID;
-        this.creationDate = creationDate;
-        this.expirationDate = expirationDate;
-        this.verification = verification;
+    public TokenData(String sub, long iat, long exp) {
+        this.sub = sub;
+        this.iat = iat;
+        this.exp = exp;
+        
+        this.isExpired = new Date().getTime() >= exp;
     }
 
     /**
      * @return the username
      */
-    public String getUsername() {
-        return username;
+    public String getSub() {
+        return sub;
     }
 
     /**
-     * @return the tokenID
+     * @return the iat
      */
-    public String getTokenID() {
-        return tokenID;
+    public long getIat() {
+        return iat;
     }
 
     /**
-     * @return the creationDate
+     * @return the exp
      */
-    public long getCreationDate() {
-        return creationDate;
+    public long getExp() {
+        return exp;
     }
 
     /**
-     * @return the expirationDate
+     * @return the isExpired
      */
-    public long getExpirationDate() {
-        return expirationDate;
+    public boolean isExpired() {
+        return isExpired;
     }
 
-    /**
-     * @return the verification
-     */
-    public String getVerification() {
-        return verification;
-    }
-
-		
 }

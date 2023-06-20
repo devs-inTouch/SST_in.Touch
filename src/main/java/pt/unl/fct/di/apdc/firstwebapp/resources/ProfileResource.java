@@ -41,10 +41,10 @@ public class ProfileResource {
     @Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
         public Response showProfile(TokenData data) {
-            LOG.fine("Attempt to show profile: " + data.getUsername());
+            LOG.fine("Attempt to show profile: " + data.getSub());
             verifyToken(data);
             //send data to the client
-            Key userKey = datastore.newKeyFactory().setKind("User").newKey(data.getUsername());
+            Key userKey = datastore.newKeyFactory().setKind("User").newKey(data.getSub());
             Transaction txn = datastore.newTransaction();
             try {
                 Entity user = txn.get(userKey);

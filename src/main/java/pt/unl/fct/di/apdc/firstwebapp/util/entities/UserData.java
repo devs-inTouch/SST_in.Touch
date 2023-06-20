@@ -7,14 +7,13 @@ package pt.unl.fct.di.apdc.firstwebapp.util.entities;
  * 
  * @author fjaleao
  */
-public class UserData extends AbstractData {
+public class UserData {
 
     private String targetUsername;
 
     public UserData() {}
     
-    public UserData(TokenData token, String targetUsername) {
-        super(token);
+    public UserData(String targetUsername) {
         this.targetUsername = targetUsername;
     }
 

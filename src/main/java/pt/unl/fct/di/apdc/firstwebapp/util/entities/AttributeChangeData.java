@@ -17,10 +17,10 @@ public class AttributeChangeData extends UserData {
     
     public AttributeChangeData() {}
 
-    public AttributeChangeData(TokenData token, String targetUsername, String name, String email, boolean visible, String mobilePhoneNumber,
+    public AttributeChangeData(String targetUsername, String name, String email, boolean visible, String mobilePhoneNumber,
             String phoneNumber, String occupation, String workAddress, String address, String secondAddress,
             String postCode, String nif) {
-        super(token, targetUsername);
+        super(targetUsername);
         this.name = name;
         this.email = email;
         this.visible = visible;
