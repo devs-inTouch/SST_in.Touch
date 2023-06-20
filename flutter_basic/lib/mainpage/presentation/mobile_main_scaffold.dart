@@ -88,27 +88,14 @@ class _MobileScaffoldState extends State<MobileScaffold> {
                     children: [
                       InkWell(
                         onTap: () {
-                          // Launch Moovit app
-                          launchUrl(Uri.parse('moovit://'));
+                          launchUrl(Uri.parse(
+                              'https://moovitapp.com/lisboa-2460/poi/pt'));
                         },
-                      ),
-                      InkWell(
-                        onTap: () {
-                          // Launch Moovit app
-                          launchUrl(Uri.parse('moovit://'));
-                        },
-                        child: Container(
-                          width: 250,
+                        child: Image.asset(
+                          'assets/moovit.png',
+                          width: double.infinity,
                           height: 250,
-                          decoration: boxDecoration,
-                          child: Center(
-                            child: Image.asset(
-                              'assets/moovit.png',
-                              width: 100,
-                              height: 100,
-                              fit: BoxFit.contain,
-                            ),
-                          ),
+                          fit: BoxFit.cover,
                         ),
                       ),
                     ],

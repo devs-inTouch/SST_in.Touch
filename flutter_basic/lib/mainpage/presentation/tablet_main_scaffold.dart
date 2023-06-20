@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/constants.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 
 import '../../hojeNaFCT/avisos_info.dart';
@@ -190,25 +191,19 @@ class _TabletScaffoldState extends State<TabletScaffold> {
                     widthFactor: 1,
                     child: Stack(
                       children: [
-                        Container(
-                          height: 270,
-                          decoration: boxDecoration,
+                        Expanded(
                           child: Center(
-                            child: Text(
-                              "Box 1",
-                              style: textStyle,
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          top: 0,
-                          left: 0,
-                          right: 0,
-                          child: Container(
-                            height: 50,
-                            decoration: topBarDecoration,
-                            child: Center(
-                              child: textTopBar('MOOVIT'),
+                            child: GestureDetector(
+                              onTap: () {
+                                launchUrl(Uri.parse(
+                                    'https://moovitapp.com/lisboa-2460/poi/pt'));
+                              },
+                              child: Image.asset(
+                                'assets/moovit.png',
+                                width: double.infinity,
+                                height: 250,
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
                         ),

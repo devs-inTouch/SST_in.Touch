@@ -10,6 +10,7 @@ import 'package:flutter_basic/profile/presentation/desktop_profile_scaffold.dart
 import 'package:flutter_basic/profile/presentation/mobile_profile_scaffold.dart';
 import 'package:flutter_basic/profile/presentation/tablet_profile_scaffold.dart';
 import 'package:flutter_basic/reports/presentation/reportsPage.dart';
+import 'package:flutter_basic/teste/teste.dart';
 
 import 'messages/application/chatScreen.dart';
 
@@ -57,6 +58,18 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
             );
           },
           icon: const Icon(Icons.map),
+          color: Colors.black,
+
+        ),
+        IconButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => Test()),
+            );
+          },
+          icon: const Icon(Icons.temple_buddhist),
           color: Colors.black,
 
         ),
