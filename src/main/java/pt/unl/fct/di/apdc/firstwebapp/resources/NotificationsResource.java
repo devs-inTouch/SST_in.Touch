@@ -2,20 +2,21 @@ package pt.unl.fct.di.apdc.firstwebapp.resources;
 
 import com.google.cloud.datastore.*;
 import com.google.gson.Gson;
+import pt.unl.fct.di.apdc.firstwebapp.util.TokenUtil;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.TokenData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.notification.NotificationData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.notification.NotificationDeleteData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.UserData;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
+
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Globals.AUTH;
 
 @Path("/notifications")
 public class NotificationsResource {
@@ -142,10 +143,13 @@ public class NotificationsResource {
     @Path("listAll")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response listAllNotifications(UserData data) {
+    public Response listAllNotifications(@HeaderParam(AUTH) String auth, UserData data) {
         LOG.fine("Attempt to list all notifications: " + data.getTargetUsername());
 
-        //TODO tratar token
+        TokenData givenTokenData = TokenUtil.validateToken(LOG, auth);
+
+        if(givenTokenData == null)
+            return Response.status(Response.Status.FORBIDDEN).build();
 
         Key userKey = datastore.newKeyFactory().setKind("User").newKey(data.getTargetUsername());
         Query<Entity> query = Query.newEntityQueryBuilder()
