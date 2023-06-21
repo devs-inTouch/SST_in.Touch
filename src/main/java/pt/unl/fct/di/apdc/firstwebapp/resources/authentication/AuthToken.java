@@ -6,7 +6,7 @@ import io.jsonwebtoken.Jwts;
 
 public class AuthToken {
 
-	private static final long TTL = 60*60*2; //2h in seconds
+	private static final long TTL = 60*60*2*1000; //2h in seconds
 	
 	private String username;
 	private Date creationDate;
