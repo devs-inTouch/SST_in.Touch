@@ -47,7 +47,7 @@ public class PostResource {
         if(givenTokenData == null)
             return Response.status(Response.Status.FORBIDDEN).build();
 
-        Key userKey = datastore.newKeyFactory().setKind("User").newKey(givenTokenData.getSub());
+        Key userKey = datastore.newKeyFactory().setKind("User").newKey(givenTokenData.getUsername());
         Transaction txn = datastore.newTransaction();
 
         try {
@@ -55,10 +55,10 @@ public class PostResource {
             if (user == null)
                 return Response.status(Response.Status.BAD_REQUEST).entity(USER_NOT_IN_DATABASE).build();
 
-            String postIdentification = givenTokenData.getSub() + getNextPost(givenTokenData.getSub());
+            String postIdentification = givenTokenData.getUsername() + getNextPost(givenTokenData.getUsername());
             Key k = datastore.newKeyFactory().setKind("Post").newKey(postIdentification);
             Entity post = Entity.newBuilder(k)
-                    .set("username", givenTokenData.getSub())
+                    .set("username", givenTokenData.getUsername())
                     .set("description", data.getDescription())
                     .set("mediaUrl", data.getMediaUrl())
                     .set("ups", data.getUps())
@@ -105,7 +105,7 @@ public class PostResource {
         if(givenTokenData == null)
             return Response.status(Response.Status.FORBIDDEN).build();
 
-        Key userKey = datastore.newKeyFactory().setKind("User").newKey(givenTokenData.getSub());
+        Key userKey = datastore.newKeyFactory().setKind("User").newKey(givenTokenData.getUsername());
         Key creatorKey = datastore.newKeyFactory().setKind("User").newKey(data.getUserCreator());
 
         Transaction txn = datastore.newTransaction();
@@ -115,7 +115,7 @@ public class PostResource {
             if (user == null || creator == null)
                 return Response.status(Response.Status.BAD_REQUEST).entity(USER_NOT_IN_DATABASE).build();
 
-            if(givenTokenData.getSub().equals(data.getUserCreator())) {
+            if(givenTokenData.getUsername().equals(data.getUserCreator())) {
                 Key postKey = datastore.newKeyFactory().setKind("Post").newKey(data.getPostIdentifier());
                 Entity post = txn.get(postKey);
                 if(post == null)

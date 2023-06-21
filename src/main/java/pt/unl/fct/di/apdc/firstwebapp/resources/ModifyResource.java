@@ -41,7 +41,7 @@ public class ModifyResource {
             return Response.status(Status.FORBIDDEN).build();
 
 
-        Key managerKey = datastore.newKeyFactory().setKind("User").newKey(givenTokenData.getSub());
+        Key managerKey = datastore.newKeyFactory().setKind("User").newKey(givenTokenData.getUsername());
         Entity manager = datastore.get(managerKey);
 
         Key targetKey = datastore.newKeyFactory().setKind("User").newKey(data.getTargetUsername());

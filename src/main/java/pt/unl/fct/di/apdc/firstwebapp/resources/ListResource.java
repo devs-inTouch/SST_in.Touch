@@ -155,7 +155,7 @@ public class ListResource {
             return Response.status(Status.FORBIDDEN).build();
         }
 
-        Key managerKey = datastore.newKeyFactory().setKind(DatastoreEntities.USER.value).newKey(managerToken.getSub());
+        Key managerKey = datastore.newKeyFactory().setKind(DatastoreEntities.USER.value).newKey(managerToken.getUsername());
         Entity manager = datastore.get(managerKey);
         UserRole managerRole = UserRole.toRole(manager.getString(UserAttributes.ROLE.value));
         Query<Entity> query;

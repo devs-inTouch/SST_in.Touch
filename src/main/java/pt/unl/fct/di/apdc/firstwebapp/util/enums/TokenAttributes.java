@@ -1,11 +1,10 @@
 package pt.unl.fct.di.apdc.firstwebapp.util.enums;
 
 public enum TokenAttributes {
-    USERNAME("token_user_id"),
-    ID("token_id"),
-    CREATION_TIME("token_creation_time"),
-    EXPIRATION_TIME("token_expiration_time"),
-    VERIFICATION("token_verification");
+    USERNAME("username"),
+    ID("id"),
+    CREATION_TIME("creationTime"),
+    EXPIRATION_TIME("expirationTime");
 
     public final String value;
 

@@ -52,7 +52,7 @@ public class AnomalyResource {
         if(givenTokenData == null)
             return Response.status(Response.Status.FORBIDDEN).build();
 
-        Key userKey = datastore.newKeyFactory().setKind("User").newKey(givenTokenData.getSub());
+        Key userKey = datastore.newKeyFactory().setKind("User").newKey(givenTokenData.getUsername());
 
         Transaction txn = datastore.newTransaction();
         try {
@@ -63,7 +63,7 @@ public class AnomalyResource {
             int anomalyId = getNextAnomaly();
             Key k = datastore.newKeyFactory().setKind("Anomaly").newKey(anomalyId);
             Entity anomaly = Entity.newBuilder(k)
-                    .set("username", givenTokenData.getSub())
+                    .set("username", givenTokenData.getUsername())
                     .set("title", data.getTitle())
                     .set("description", data.getDescription())
                     .set("creation_date", System.currentTimeMillis())
@@ -93,7 +93,7 @@ public class AnomalyResource {
         if(givenTokenData == null)
             return Response.status(Response.Status.FORBIDDEN).build();
 
-        Key userKey = datastore.newKeyFactory().setKind("User").newKey(givenTokenData.getSub());
+        Key userKey = datastore.newKeyFactory().setKind("User").newKey(givenTokenData.getUsername());
         Key creatorKey = datastore.newKeyFactory().setKind("User").newKey(data.getCreator());
 
         Transaction txn = datastore.newTransaction();
@@ -103,7 +103,7 @@ public class AnomalyResource {
             if (user == null || creator == null)
                 return Response.status(Response.Status.BAD_REQUEST).entity(USER_NOT_IN_DATABASE).build();
 
-            if(givenTokenData.getSub().equals(data.getCreator())) {
+            if(givenTokenData.getUsername().equals(data.getCreator())) {
                 Key k = datastore.newKeyFactory().setKind("Anomaly").newKey(Integer.parseInt(data.getAnomalyId()));
                 Entity anomaly = txn.get(k);
                 if (anomaly == null)
