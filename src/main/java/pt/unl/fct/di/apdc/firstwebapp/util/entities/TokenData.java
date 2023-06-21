@@ -16,8 +16,10 @@ public class TokenData {
         this.sub = sub;
         this.iat = iat;
         this.exp = exp;
+
+        Date now = new Date();
         
-        this.isExpired = new Date().getTime() >= exp;
+        this.isExpired = now.getTime() >= exp;
     }
 
     /**
