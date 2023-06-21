@@ -30,10 +30,53 @@ class AnomalyState extends State<AnomaliesPage> {
 
   TextEditingController description = TextEditingController();
   TextEditingController title = TextEditingController();
-
   bool isUploading = false;
 
-  void createButtonPressed(String username, String title, String description) {
+
+
+
+  void createButtonPressed(String title, String description) {
+    AnomalyAuth.createAnomaly(title, description).then((isCreated) {
+      if (isCreated) {
+        final client = AnomalyAuth();
+        const username = 'user123';
+        const title = 'AnomalyCriada';
+        const description = 'Criada';
+        AnomalyAuth.listAnomaly(username,title,description);
+
+
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => AnomaliesPage()));
+
+
+      } else {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Parametros incorretos'),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('Ok'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+    });
+  }
+
+
+
+
+
+  void createButtonPressed1(String username, String title, String description) {
     AnomalyAuth.listAnomaly(username, title, description).then((isCreated) {
       if (isCreated) {
         Navigator.push(
@@ -63,93 +106,93 @@ class AnomalyState extends State<AnomaliesPage> {
       }
     });
   }
-
-  handleTakePhoto(context) async {
-    Navigator.pop(context);
-    File file = (await ImagePicker().pickImage(
-        source: ImageSource.camera, maxHeight: 675, maxWidth: 960)) as File;
-    setState(() {
+  /**
+      handleTakePhoto(context) async {
+      Navigator.pop(context);
+      File file = (await ImagePicker().pickImage(
+      source: ImageSource.camera, maxHeight: 675, maxWidth: 960)) as File;
+      setState(() {
       this.file = file;
-    });
-  }
+      });
+      }
 
-  handleChoosePhoto(context) async {
-    Navigator.pop(context);
-    File file = (await ImagePicker().pickImage(
-        source: ImageSource.gallery, maxHeight: 675, maxWidth: 960)) as File;
-    setState(() {
+      handleChoosePhoto(context) async {
+      Navigator.pop(context);
+      File file = (await ImagePicker().pickImage(
+      source: ImageSource.gallery, maxHeight: 675, maxWidth: 960)) as File;
+      setState(() {
       this.file = file;
-    });
-  }
+      });
+      }
 
-  Future<String> uploadImage(image) async {
-    UploadTask task = storageRef.child("post_$postId.jpg").putFile(image);
-    TaskSnapshot storage = await task;
-    String downloadUrl = await storage.ref.getDownloadURL();
-    return downloadUrl;
-  }
+      Future<String> uploadImage(image) async {
+      UploadTask task = storageRef.child("post_$postId.jpg").putFile(image);
+      TaskSnapshot storage = await task;
+      String downloadUrl = await storage.ref.getDownloadURL();
+      return downloadUrl;
+      }
 
-  putInDatabase(
+      putInDatabase(
       {required String mediaUrl, required String title, required String desc}) {
-    // fazer pedido REST
-  }
+      // fazer pedido REST
+      }
 
-  submitPost() async {
-    await compressImage();
-    String url = await uploadImage(file);
-    putInDatabase(mediaUrl: url, title: title.text, desc: description.text);
-    description.clear();
-    setState(() {
+      submitPost() async {
+      await compressImage();
+      String url = await uploadImage(file);
+      putInDatabase(mediaUrl: url, title: title.text, desc: description.text);
+      description.clear();
+      setState(() {
       isUploading = false;
-    });
-  }
+      });
+      }
 
-  compressImage() async {
-    final tempDir = await getTemporaryDirectory();
-    final path = tempDir.path;
-    Im.Image? image = Im.decodeImage(file.readAsBytesSync());
-    final compressedImage = File('$path/img_$postId.jpg')
+      compressImage() async {
+      final tempDir = await getTemporaryDirectory();
+      final path = tempDir.path;
+      Im.Image? image = Im.decodeImage(file.readAsBytesSync());
+      final compressedImage = File('$path/img_$postId.jpg')
       ..writeAsBytesSync(Im.encodeJpg(image!, quality: 85));
-    setState(() {
+      setState(() {
       file = compressedImage;
-    });
-  }
+      });
+      }
 
-  handleSubmit() async {
-    setState(() {
+      handleSubmit() async {
+      setState(() {
       isUploading = true;
-    });
-    await compressImage();
-    String mediaUrl = await uploadImage(file);
-    putInDatabase(
-        mediaUrl: mediaUrl, title: title.text, desc: description.text);
-    description.clear();
-    setState(() {
+      });
+      await compressImage();
+      String mediaUrl = await uploadImage(file);
+      putInDatabase(
+      mediaUrl: mediaUrl, title: title.text, desc: description.text);
+      description.clear();
+      setState(() {
       isUploading = false;
-    });
-  }
+      });
+      }
 
-  selectImage(parentContext) {
-    return showDialog(
-        context: parentContext,
-        builder: (context) {
-          return SimpleDialog(
-            title: Text('Anexar Imagem'),
-            children: [
-              SimpleDialogOption(
-                child: Text('Escolhe da galeria'),
-                onPressed: () {
-                  handleChoosePhoto(context);
-                },
-              ),
-              SimpleDialogOption(
-                  child: Text('Cancelar'),
-                  onPressed: () => Navigator.pop(context))
-            ],
-          );
-        });
-  }
-
+      selectImage(parentContext) {
+      return showDialog(
+      context: parentContext,
+      builder: (context) {
+      return SimpleDialog(
+      title: Text('Anexar Imagem'),
+      children: [
+      SimpleDialogOption(
+      child: Text('Escolhe da galeria'),
+      onPressed: () {
+      handleChoosePhoto(context);
+      },
+      ),
+      SimpleDialogOption(
+      child: Text('Cancelar'),
+      onPressed: () => Navigator.pop(context))
+      ],
+      );
+      });
+      }
+   **/
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -221,7 +264,7 @@ class AnomalyState extends State<AnomaliesPage> {
                                           child: TextField(
                                             controller: description,
                                             keyboardType:
-                                                TextInputType.multiline,
+                                            TextInputType.multiline,
                                             maxLines: 7,
                                             maxLength: 400,
                                             decoration: InputDecoration(
@@ -246,10 +289,10 @@ class AnomalyState extends State<AnomaliesPage> {
                                 Padding(
                                   padding: EdgeInsets.only(
                                       right:
-                                          30.0), // Add right padding of 30 pixels
+                                      30.0), // Add right padding of 30 pixels
                                   child: ElevatedButton(
                                     onPressed: () {
-                                      selectImage(context);
+                                      //selectImage(context);
                                     },
                                     style: ElevatedButton.styleFrom(
                                       fixedSize: Size(150, 40),
@@ -266,12 +309,12 @@ class AnomalyState extends State<AnomaliesPage> {
                                 Padding(
                                   padding: EdgeInsets.only(
                                       left:
-                                          30.0), // Add left padding of 30 pixels
+                                      30.0), // Add left padding of 30 pixels
                                   child: ElevatedButton(
                                     onPressed: isUploading
                                         ? null
-                                        : () => createButtonPressed("gui",
-                                            title.text, description.text),
+                                        : () => createButtonPressed(
+                                        title.text, description.text),
                                     style: ElevatedButton.styleFrom(
                                       fixedSize: Size(100, 40),
                                       backgroundColor: Colors.white,
@@ -303,7 +346,7 @@ class AnomalyState extends State<AnomaliesPage> {
                           return Padding(
                             padding: EdgeInsets.only(
                                 bottom:
-                                    10.0), // Add bottom padding of 10 pixels
+                                10.0), // Add bottom padding of 10 pixels
                             child: AnomalyBox(text: anomalyPosts[index]),
                           );
                         },
@@ -319,3 +362,5 @@ class AnomalyState extends State<AnomaliesPage> {
     );
   }
 }
+
+

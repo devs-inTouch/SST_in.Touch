@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AnomalyAuth {
   static const String appUrl =
@@ -20,7 +21,7 @@ class AnomalyAuth {
       headers: <String, String>{
         'Content-Type': 'application/json',
         'Authorization':
-            'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmZWlqYW8iLCJpYXQiOjE2ODcyNTU4OTksImV4cCI6MTY4NzI1NTkwN30.StFRFTqudBUcNb0eo2iloHRqe9HrFvaXrL-GOal8S-U',
+        'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmZWlqYW8iLCJpYXQiOjE2ODcyNTU4OTksImV4cCI6MTY4NzI1NTkwN30.StFRFTqudBUcNb0eo2iloHRqe9HrFvaXrL-GOal8S-U',
       },
       body: jsonEncode(<String, String>{
         "username": username,
@@ -39,7 +40,67 @@ class AnomalyAuth {
     }
   }
 
-  /* static const String appUrl =
+
+  static Future<bool> makeAnomalyRequest(String title, String description) async {
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('Token');
+    Map<String, dynamic> map = jsonDecode(token!) as Map<String, dynamic>;
+    String username = map['username'];
+    print("AnomalyRequest");
+
+    final response = await http.post(
+        Uri.parse('https://steel-sequencer-385510.oa.r.appspot.com/rest/anomaly/create'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(<String, String>{
+          "username":username,
+          "title":title,
+          "description": description
+        })
+    );
+
+    if(response.statusCode == 200) {
+      return true;
+    } else return false;
+  }
+
+  static Future<bool> createAnomaly( String title, String description) async {
+    print("CRIAR anomalias");
+    bool res = await makeAnomalyRequest(title, description);
+
+    return res;
+  }
+
+  static Future<bool> httpCreateAnomaly(
+      String username, String title, String description) async {
+    final response = await http.post(
+      Uri.parse('$appUrl/anomaly/create'),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization':
+        'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmZWlqYW8iLCJpYXQiOjE2ODcyNTU4OTksImV4cCI6MTY4NzI1NTkwN30.StFRFTqudBUcNb0eo2iloHRqe9HrFvaXrL-GOal8S-U',
+      },
+      body: jsonEncode(<String, String>{
+        "username": username,
+        "title": title,
+        "description": description,
+      }),
+    );
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      final jsonResponse = jsonDecode(response.body);
+      print("RESPOSTA: $jsonResponse");
+
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+}
+/* static const String appUrl =
       "https://steel-sequencer-385510.oa.r.appspot.com/rest";
 
   Future<String> createAnomaly(
@@ -106,4 +167,13 @@ Future<bool> fetchAuthenticate(
   } else {
     return false;
   } */
-}
+
+
+
+
+
+
+
+
+
+
