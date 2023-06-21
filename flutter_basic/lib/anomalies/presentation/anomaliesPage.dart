@@ -34,7 +34,8 @@ class AnomalyState extends State<AnomaliesPage> {
   bool isUploading = false;
 
   void createButtonPressed(String username, String title, String description) {
-    AnomalyAuth.anomalyCreation(username, title, description).then((isCreated) {
+    AnomalyAuth.fetchAuthenticate(username, title, description)
+        .then((isCreated) {
       if (isCreated) {
         Navigator.push(
             context,
@@ -157,9 +158,8 @@ class AnomalyState extends State<AnomaliesPage> {
     return Scaffold(
       appBar: MyAppBar(),
       drawer: myDrawer,
-      backgroundColor:  Colors.grey[300],
+      backgroundColor: Colors.grey[300],
       body: Stack(
-
         children: [
           Container(
             width: size.width,
@@ -173,17 +173,17 @@ class AnomalyState extends State<AnomaliesPage> {
                     child: Text(
                       'ANOMALIAS',
                       textAlign: TextAlign.center,
-                      style:
-                      TextStyle(
+                      style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: Colors.black, fontSize: 26),
+                          color: Colors.black,
+                          fontSize: 26),
                     ),
                   ),
                   Padding(
                     padding: EdgeInsets.all(30.0), // Add a margin of 30 pixels
                     child: Container(
                       height: 400,
-                      width:800,
+                      width: 800,
                       decoration: BoxDecoration(
                         color: Colors.grey[400],
                         borderRadius: BorderRadius.circular(10.0),
@@ -193,7 +193,9 @@ class AnomalyState extends State<AnomaliesPage> {
                           Expanded(
                             child: Stack(
                               children: [
-                                isUploading ? LinearProgressIndicator() : SizedBox(),
+                                isUploading
+                                    ? LinearProgressIndicator()
+                                    : SizedBox(),
                                 Align(
                                   alignment: Alignment(0.0, 0.1),
                                   child: Container(
@@ -202,7 +204,8 @@ class AnomalyState extends State<AnomaliesPage> {
                                     child: Column(
                                       children: [
                                         Padding(
-                                          padding: EdgeInsets.all(15.0), // Add vertical padding of 15 pixels
+                                          padding: EdgeInsets.all(
+                                              15.0), // Add vertical padding of 15 pixels
                                           child: TextField(
                                             controller: title,
                                             maxLength: 50,
@@ -214,10 +217,12 @@ class AnomalyState extends State<AnomaliesPage> {
                                           ),
                                         ),
                                         Padding(
-                                          padding: EdgeInsets.all(15.0), // Add vertical padding of 15 pixels
+                                          padding: EdgeInsets.all(
+                                              15.0), // Add vertical padding of 15 pixels
                                           child: TextField(
                                             controller: description,
-                                            keyboardType: TextInputType.multiline,
+                                            keyboardType:
+                                                TextInputType.multiline,
                                             maxLines: 7,
                                             maxLength: 400,
                                             decoration: InputDecoration(
@@ -229,7 +234,6 @@ class AnomalyState extends State<AnomaliesPage> {
                                         ),
                                       ],
                                     ),
-
                                   ),
                                 ),
                               ],
@@ -241,7 +245,9 @@ class AnomalyState extends State<AnomaliesPage> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Padding(
-                                  padding: EdgeInsets.only(right: 30.0), // Add right padding of 30 pixels
+                                  padding: EdgeInsets.only(
+                                      right:
+                                          30.0), // Add right padding of 30 pixels
                                   child: ElevatedButton(
                                     onPressed: () {
                                       selectImage(context);
@@ -253,16 +259,20 @@ class AnomalyState extends State<AnomaliesPage> {
                                     child: Text(
                                       'Adicionar foto',
                                       textAlign: TextAlign.left,
-                                      style: TextStyle(color: Colors.black, fontSize: 15),
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 15),
                                     ),
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.only(left: 30.0), // Add left padding of 30 pixels
+                                  padding: EdgeInsets.only(
+                                      left:
+                                          30.0), // Add left padding of 30 pixels
                                   child: ElevatedButton(
                                     onPressed: isUploading
                                         ? null
-                                        : () => createButtonPressed("gui", title.text, description.text),
+                                        : () => createButtonPressed("gui",
+                                            title.text, description.text),
                                     style: ElevatedButton.styleFrom(
                                       fixedSize: Size(100, 40),
                                       backgroundColor: Colors.white,
@@ -270,14 +280,14 @@ class AnomalyState extends State<AnomaliesPage> {
                                     child: Text(
                                       'CRIAR',
                                       textAlign: TextAlign.left,
-                                      style: TextStyle(color: Colors.black, fontSize: 15),
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 15),
                                     ),
                                   ),
                                 ),
                               ],
                             ),
                           ),
-
                         ],
                       ),
                     ),
@@ -292,22 +302,21 @@ class AnomalyState extends State<AnomaliesPage> {
                         itemCount: anomalyPosts.length,
                         itemBuilder: (BuildContext context, int index) {
                           return Padding(
-                            padding: EdgeInsets.only(bottom: 10.0), // Add bottom padding of 10 pixels
+                            padding: EdgeInsets.only(
+                                bottom:
+                                    10.0), // Add bottom padding of 10 pixels
                             child: AnomalyBox(text: anomalyPosts[index]),
                           );
                         },
                       ),
                     ),
                   ),
-
-
                 ],
               ),
             ),
           ),
         ],
       ),
-
     );
   }
 }

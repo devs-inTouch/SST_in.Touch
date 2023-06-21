@@ -11,7 +11,8 @@ class MobileProfileScaffold extends StatefulWidget {
   final String year;
   final String nucleos;
 
-  const MobileProfileScaffold({super.key, 
+  const MobileProfileScaffold({
+    super.key,
     required this.name,
     required this.imageAssetPath,
     required this.role,

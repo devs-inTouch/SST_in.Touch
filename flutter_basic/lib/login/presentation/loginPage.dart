@@ -119,7 +119,8 @@ class LoginHomePage extends State<Login> {
                           ),
                           const Text(
                             'Login',
-                            style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                fontSize: 35, fontWeight: FontWeight.bold),
                           ),
                           const SizedBox(
                             height: 40,
@@ -147,7 +148,9 @@ class LoginHomePage extends State<Login> {
                                 labelText: 'Password',
                                 suffixIcon: IconButton(
                                   icon: Icon(
-                                    passwordVisible ? Icons.visibility : Icons.visibility_off,
+                                    passwordVisible
+                                        ? Icons.visibility
+                                        : Icons.visibility_off,
                                   ),
                                   onPressed: () {
                                     setState(() {
@@ -167,7 +170,8 @@ class LoginHomePage extends State<Login> {
                               backgroundColor: Colors.blue,
                             ),
                             onPressed: () {
-                              loginButtonPressed(usernameControl.text, pwdControl.text);
+                              loginButtonPressed(
+                                  usernameControl.text, pwdControl.text);
                               debugPrint('Received click');
                             },
                             child: const Text(
@@ -199,7 +203,8 @@ class LoginHomePage extends State<Login> {
                             onPressed: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => const Register()),
+                                MaterialPageRoute(
+                                    builder: (context) => const Register()),
                               );
                             },
                             child: const Text('Regista-te'),
@@ -216,9 +221,4 @@ class LoginHomePage extends State<Login> {
       ),
     );
   }
-
 }
-
-
-
-
