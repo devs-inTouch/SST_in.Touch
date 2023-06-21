@@ -1,5 +1,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.flutter_basic">
+    <user-permission android:name="android.permission.INTERNET"/>
+    <queries>
+        <package android:name="com.tranzmate" />
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <data android:scheme="https" android:host="moovit.com" />
+        </intent>
+    </queries>
    <application
         android:label="FCT in.Touch"
         android:name="${applicationName}"

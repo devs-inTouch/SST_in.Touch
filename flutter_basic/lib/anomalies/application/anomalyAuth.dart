@@ -4,7 +4,44 @@ import 'package:http/http.dart' as http;
 class AnomalyAuth {
   static const String appUrl =
       "https://steel-sequencer-385510.oa.r.appspot.com/rest";
-/* 
+
+  static Future<bool> listAnomaly(
+      String username, String title, String description) async {
+    print("LISTAR anomalias");
+    bool res = await httpListAnomaly(username, title, description);
+
+    return res;
+  }
+
+  static Future<bool> httpListAnomaly(
+      String username, String title, String description) async {
+    final response = await http.post(
+      Uri.parse('$appUrl/anomaly/list'),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization':
+            'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmZWlqYW8iLCJpYXQiOjE2ODcyNTU4OTksImV4cCI6MTY4NzI1NTkwN30.StFRFTqudBUcNb0eo2iloHRqe9HrFvaXrL-GOal8S-U',
+      },
+      body: jsonEncode(<String, String>{
+        "username": username,
+        "title": title,
+        "description": description,
+      }),
+    );
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      final jsonResponse = jsonDecode(response.body);
+      print("RESPOSTA: $jsonResponse");
+
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  /* static const String appUrl =
+      "https://steel-sequencer-385510.oa.r.appspot.com/rest";
+
   Future<String> createAnomaly(
       String username, String title, String description) async {
     final url = Uri.parse(appUrl + 'anomaly/create');
@@ -32,38 +69,41 @@ class AnomalyAuth {
       return 'An error occurred: $e';
     }
   }
-} */
 
-  static Future<bool> anomalyCreation(
-      String username, String title, String description) async {
-    print("aquiAnolmaly");
-    bool res = await fetchAuthenticate(username, title, description);
+  static anomalyCreation(String username, String title, String description) {}
+}
 
-    return res;
-  }
+Future<bool> anomalyList(
+    String username, String title, String description) async {
+  print("aquiAnolmaly");
+  bool res = await fetchAuthenticate(username, title, description);
 
-  static Future<bool> fetchAuthenticate(
-      String username, String title, String description) async {
-    final response = await http.post(
-      Uri.parse(
-          'https://steel-sequencer-385510.oa.r.appspot.com/rest/anomaly/create'),
-      headers: <String, String>{
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode(<String, String>{
-        "username": username,
-        "title": title,
-        "description": description,
-      }),
-    );
-    print(response.statusCode);
-    if (response.statusCode == 200) {
-      final jsonResponse = jsonDecode(response.body);
-      print("RESPOSTA: $jsonResponse");
+  return res;
+}
 
-      return true;
-    } else {
-      return false;
-    }
-  }
+Future<bool> fetchAuthenticate(
+    String username, String title, String description) async {
+  final response = await http.post(
+    Uri.parse(
+        'https://steel-sequencer-385510.oa.r.appspot.com/rest/anomaly/list'),
+    headers: <String, String>{
+      'Content-Type': 'application/json',
+      'Authorization':
+          'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmZWlqYW8iLCJpYXQiOjE2ODcyNTU4OTksImV4cCI6MTY4NzI1NTkwN30.StFRFTqudBUcNb0eo2iloHRqe9HrFvaXrL-GOal8S-U',
+    },
+    body: jsonEncode(<String, String>{
+      "username": username,
+      "title": title,
+      "description": description,
+    }),
+  );
+  print(response.statusCode);
+  if (response.statusCode == 200) {
+    final jsonResponse = jsonDecode(response.body);
+    print("RESPOSTA: $jsonResponse");
+
+    return true;
+  } else {
+    return false;
+  } */
 }
