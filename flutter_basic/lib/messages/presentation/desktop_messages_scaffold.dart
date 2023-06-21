@@ -68,8 +68,9 @@ class _DesktopMessagesScaffold extends State<DesktopMessagesScaffold> {
               // Navigate to chat screen for this conversation
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) =>
-                    DesktopMessagesScaffold(conversation: conversation)),
+                MaterialPageRoute(
+                    builder: (context) =>
+                        DesktopMessagesScaffold(conversation: conversation)),
               );
             },
           );
@@ -139,7 +140,8 @@ class _DesktopMessagesScaffold extends State<DesktopMessagesScaffold> {
                                 title: const Text('Conversation Screen'),
                               ),
                               body: Center(
-                                child: Text('Conversation: ${newConversation.toString()}'),
+                                child: Text(
+                                    'Conversation: ${newConversation.toString()}'),
                               ),
                             );
                           },
@@ -155,7 +157,6 @@ class _DesktopMessagesScaffold extends State<DesktopMessagesScaffold> {
         },
         child: const Text('Create a new conversation'),
       ),
-
     );
   }
 
@@ -193,9 +194,7 @@ class _DesktopMessagesScaffold extends State<DesktopMessagesScaffold> {
               ),
             ),
           ),
-
           const VerticalDivider(width: 1.0),
-
           Flexible(
             flex: 3,
             child: Container(
@@ -217,9 +216,8 @@ class _DesktopMessagesScaffold extends State<DesktopMessagesScaffold> {
                   ),
                   const Divider(height: 1.0),
                   Container(
-                    decoration: BoxDecoration(color: Theme
-                        .of(context)
-                        .cardColor),
+                    decoration:
+                        BoxDecoration(color: Theme.of(context).cardColor),
                     child: _buildTextComposer(),
                   ),
                 ],

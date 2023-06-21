@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.flutter_basic">
    <application
-        android:label="flutter_basic"
+        android:label="FCT in.Touch"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

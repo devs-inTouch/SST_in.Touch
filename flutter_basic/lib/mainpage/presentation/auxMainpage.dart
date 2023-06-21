@@ -26,7 +26,8 @@ class AuxMainPage {
     return newPageIndex;
   }
 
-  void addNewActivity(BuildContext context, List<Map<String, dynamic>> events) async {
+  void addNewActivity(
+      BuildContext context, List<Map<String, dynamic>> events) async {
     String eventName = '';
     DateTime selectedDate = DateTime.now();
 
@@ -41,9 +42,9 @@ class AuxMainPage {
       selectedDate = pickedDate;
 
       int daysRemaining = DateTime.utc(
-            pickedDate.year, pickedDate.month, pickedDate.day)
+              pickedDate.year, pickedDate.month, pickedDate.day)
           .difference(DateTime.utc(
-            DateTime.now().year, DateTime.now().month, DateTime.now().day))
+              DateTime.now().year, DateTime.now().month, DateTime.now().day))
           .inDays;
 
       String daysRemainingText;

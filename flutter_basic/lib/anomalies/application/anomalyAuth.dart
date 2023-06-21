@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 class AnomalyAuth {
   static const String appUrl =
       "https://steel-sequencer-385510.oa.r.appspot.com/rest";
-
+/* 
   Future<String> createAnomaly(
       String username, String title, String description) async {
     final url = Uri.parse(appUrl + 'anomaly/create');
@@ -32,9 +32,9 @@ class AnomalyAuth {
       return 'An error occurred: $e';
     }
   }
-}
+} */
 
-  /* static Future<bool> anomalyCreation(
+  static Future<bool> anomalyCreation(
       String username, String title, String description) async {
     print("aquiAnolmaly");
     bool res = await fetchAuthenticate(username, title, description);
@@ -65,5 +65,5 @@ class AnomalyAuth {
     } else {
       return false;
     }
-  } */
-
+  }
+}

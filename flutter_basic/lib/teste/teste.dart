@@ -16,7 +16,8 @@ class Test extends StatelessWidget {
             const description = 'Example Description';
 
             print("Botão pressionado");
-            client.createAnomaly(username, title, description).then((response) {
+            AnomalyAuth.fetchAuthenticate(username, title, description)
+                .then((response) {
               print('Response: $response');
             }).catchError((error) {
               print('Error: $error');

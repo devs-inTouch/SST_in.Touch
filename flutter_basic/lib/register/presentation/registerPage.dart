@@ -54,7 +54,7 @@ class RegisterHome extends State<Register> {
       String description,
       String department) {
     if (RegisterAuth.registerUser(username, email, name, pwd, studentNumber,
-        course, description, department) ==
+            course, description, department) ==
         true) {
       showDialog(
           context: context,
@@ -216,12 +216,12 @@ class RegisterHome extends State<Register> {
                                   }
                                 },
                                 items: list.map<DropdownMenuItem<String>>(
-                                        (String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Text(value),
-                                      );
-                                    }).toList(),
+                                    (String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value),
+                                  );
+                                }).toList(),
                               ),
                             ),
                           ],
@@ -318,7 +318,7 @@ class RegisterHome extends State<Register> {
                                 builder: (BuildContext context) {
                                   return AlertDialog(
                                     title:
-                                    const Text('Passwords são diferentes!'),
+                                        const Text('Passwords são diferentes!'),
                                     actions: <Widget>[
                                       TextButton(
                                         child: const Text('Ok'),
@@ -385,8 +385,3 @@ class RegisterHome extends State<Register> {
     );
   }
 }
-
-
-
-
-
