@@ -111,7 +111,7 @@ public class NotificationsResource {
     }
 
     @POST
-    @Path("deleteAll")
+    @Path("/deleteAll")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response deleteAllNotifications(UserData data) {
         LOG.fine("Attempt to delete all notifications: " + data.getTargetUsername());
@@ -139,7 +139,7 @@ public class NotificationsResource {
     }
 
     @POST
-    @Path("listAll")
+    @Path("/listAll")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response listAllNotifications(UserData data) {

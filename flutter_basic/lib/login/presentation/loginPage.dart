@@ -6,6 +6,8 @@ import 'package:flutter_basic/mainpage/presentation/tablet_main_scaffold.dart';
 import 'package:flutter_basic/mainpage/presentation/desktop_main_scaffold.dart';
 import 'package:flutter_basic/mainpage/presentation/mobile_main_scaffold.dart';
 
+import '../../anomalies/application/anomalyAuth.dart';
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -41,7 +43,7 @@ class LoginHomePage extends State<Login> {
   void loginButtonPressed(String username, String pwd) {
     LoginAuth.userLogin(username, pwd).then((isLogged) {
       if (isLogged) {
-        print(LoginAuth.userLogin(username, pwd));
+        AnomalyAuth.listAnomaly();
         Navigator.push(
             context,
             MaterialPageRoute(
