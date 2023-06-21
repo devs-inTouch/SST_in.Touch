@@ -34,8 +34,7 @@ class AnomalyState extends State<AnomaliesPage> {
   bool isUploading = false;
 
   void createButtonPressed(String username, String title, String description) {
-    AnomalyAuth.fetchAuthenticate(username, title, description)
-        .then((isCreated) {
+    AnomalyAuth.listAnomaly(username, title, description).then((isCreated) {
       if (isCreated) {
         Navigator.push(
             context,
