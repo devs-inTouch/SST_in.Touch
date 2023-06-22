@@ -45,8 +45,6 @@ class _TabletScaffoldState extends State<TabletScaffold> {
     });
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,7 +80,6 @@ class _TabletScaffoldState extends State<TabletScaffold> {
                           ),
                         ),
                       ),
-
                       Container(
                         padding: EdgeInsets.all(16.0),
                         child: Text(
@@ -98,33 +95,30 @@ class _TabletScaffoldState extends State<TabletScaffold> {
                             child: RestauracaoPage(),
                           ),
                         )
-                      else
-                        if (pages[_currentPageIndex] == 'Avisos')
-                          Expanded(
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 20.0, horizontal: 20.0),
-                              child: AvisosPage(),
-                            ),
-                          )
-                        else
-                          if (pages[_currentPageIndex] == 'Exposições')
-                            Expanded(
-                              child: Container(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 20.0, horizontal: 20.0),
-                                child: ExposicoesPage(),
-                              ),
-                            )
-                          else
-                            if (pages[_currentPageIndex] == 'Notícias')
-                              Expanded(
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 20.0, horizontal: 20.0),
-                                  child: NoticiasPage(),
-                                ),
-                              ),
+                      else if (pages[_currentPageIndex] == 'Avisos')
+                        Expanded(
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 20.0, horizontal: 20.0),
+                            child: AvisosPage(),
+                          ),
+                        )
+                      else if (pages[_currentPageIndex] == 'Exposições')
+                        Expanded(
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 20.0, horizontal: 20.0),
+                            child: ExposicoesPage(),
+                          ),
+                        )
+                      else if (pages[_currentPageIndex] == 'Notícias')
+                        Expanded(
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 20.0, horizontal: 20.0),
+                            child: NoticiasPage(),
+                          ),
+                        ),
                       Padding(
                         padding: EdgeInsets.only(bottom: 20.0),
                         child: Align(
@@ -176,13 +170,12 @@ class _TabletScaffoldState extends State<TabletScaffold> {
                                   width: double.infinity,
                                   height: 100,
                                   decoration: boxDecoration,
-                                  child: WeatherBox(
-                                      location: 'Costa Da Caparica'),
+                                  child:
+                                      WeatherBox(location: 'Costa Da Caparica'),
                                 ),
                               ),
                             ],
                           ),
-
                         ),
                       ],
                     ),
@@ -229,8 +222,8 @@ class _TabletScaffoldState extends State<TabletScaffold> {
                                       height: 50,
                                       decoration: topBarDecoration,
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment
-                                            .center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
                                           textTopBar('AGENDA'),
                                         ],
@@ -259,8 +252,8 @@ class _TabletScaffoldState extends State<TabletScaffold> {
                                 child: IconButton(
                                   onPressed: () {
                                     // Add your functionality for adding new activities here
-                                    auxMainPage.addNewActivity(context, events);                                  },
-
+                                    auxMainPage.addNewActivity(context, events);
+                                  },
                                   icon: Icon(Icons.add),
                                   color: Colors.black,
                                 ),
@@ -274,7 +267,6 @@ class _TabletScaffoldState extends State<TabletScaffold> {
                 ],
               ),
             ),
-
           ],
         ),
       ),

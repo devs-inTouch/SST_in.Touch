@@ -13,7 +13,7 @@ class TabletProfileScaffold extends StatefulWidget {
   final String year;
   final String nucleos;
 
-  const TabletProfileScaffold({super.key, 
+  const TabletProfileScaffold({
     required this.name,
     required this.imageAssetPath,
     required this.role,
@@ -28,7 +28,7 @@ class TabletProfileScaffold extends StatefulWidget {
 class _ProfilePageState extends State<TabletProfileScaffold> {
   bool _isEditing = false;
   List<Event> events = [];
-  DateTime today = DateTime.now();
+  DateTime today=DateTime.now();
   Map<DateTime, List<Event>> eventsByDay = {};
 
   void _onDaySelected(DateTime day, DateTime focusedDay) {
@@ -45,7 +45,7 @@ class _ProfilePageState extends State<TabletProfileScaffold> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Add Event'),
+          title: Text('Add Event'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -53,11 +53,11 @@ class _ProfilePageState extends State<TabletProfileScaffold> {
                 onChanged: (text) {
                   title = text;
                 },
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelText: 'Title',
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
               InkWell(
                 onTap: () async {
                   final DateTime? pickedDate = await showDatePicker(
@@ -66,19 +66,18 @@ class _ProfilePageState extends State<TabletProfileScaffold> {
                     firstDate: DateTime(2000),
                     lastDate: DateTime(2100),
                   );
-                  if (pickedDate != null && pickedDate != date) {
+                  if (pickedDate != null && pickedDate != date)
                     setState(() {
                       date = pickedDate;
                     });
-                  }
                 },
                 child: Row(
                   children: [
-                    const Icon(Icons.calendar_today),
-                    const SizedBox(width: 8),
+                    Icon(Icons.calendar_today),
+                    SizedBox(width: 8),
                     Text(
                       DateFormat('dd/MM/yyyy').format(date),
-                      style: const TextStyle(fontSize: 16),
+                      style: TextStyle(fontSize: 16),
                     ),
                   ],
                 ),
@@ -90,7 +89,7 @@ class _ProfilePageState extends State<TabletProfileScaffold> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: const Text('Cancel'),
+              child: Text('Cancel'),
             ),
             TextButton(
               onPressed: () {
@@ -108,14 +107,13 @@ class _ProfilePageState extends State<TabletProfileScaffold> {
 
                 Navigator.of(context).pop();
               },
-              child: const Text('Save'),
+              child: Text('Save'),
             ),
           ],
         );
       },
     );
   }
-
   Widget topBarProfile({required String text}) {
     return Container(
       decoration: topBarDecoration,
@@ -126,7 +124,7 @@ class _ProfilePageState extends State<TabletProfileScaffold> {
           children: [
             Text(
               text,
-              style: const TextStyle(
+              style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
               ),
@@ -144,7 +142,6 @@ class _ProfilePageState extends State<TabletProfileScaffold> {
       ),
     );
   }
-
   Widget topBarCalendar({required String text, VoidCallback? onSave}) {
     return Container(
       decoration: topBarDecoration,
@@ -155,7 +152,7 @@ class _ProfilePageState extends State<TabletProfileScaffold> {
           children: [
             Text(
               text,
-              style: const TextStyle(
+              style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
               ),
@@ -163,7 +160,7 @@ class _ProfilePageState extends State<TabletProfileScaffold> {
             Row(
               children: [
                 IconButton(
-                  icon: const Icon(Icons.add),
+                  icon: Icon(Icons.add),
                   onPressed: () {
                     _showAddEventDialog();
                   },
@@ -179,15 +176,15 @@ class _ProfilePageState extends State<TabletProfileScaffold> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final fem = size.width / 1440; // 1440 is the reference width
+    final fem = size.width / 1440;  // 1440 is the reference width
 
     return Scaffold(
-      appBar: const MyAppBar(),
+      appBar: MyAppBar(),
       drawer: myDrawer,
       backgroundColor: myBackground,
       body: Stack(
         children: [
-          SizedBox(
+          Container(
             width: size.width,
             height: size.height,
             child: Stack(
@@ -196,8 +193,8 @@ class _ProfilePageState extends State<TabletProfileScaffold> {
                   left: 1030 * fem,
                   top: 50 * fem,
                   child: SizedBox(
-                    width: 150 * (fem * 1.5),
-                    height: 150 * (fem * 1.5),
+                    width: 150 * (fem*1.5),
+                    height: 150 * (fem*1.5),
                     child: Container(
                       decoration: boxDecoration,
                       child: Column(
@@ -235,7 +232,7 @@ class _ProfilePageState extends State<TabletProfileScaffold> {
                             padding: EdgeInsets.symmetric(horizontal: 24 * fem),
                             children: [
                               ListTile(
-                                title: const Text(
+                                title: Text(
                                   "Name:",
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
@@ -244,7 +241,7 @@ class _ProfilePageState extends State<TabletProfileScaffold> {
                                 trailing: SizedBox(
                                   width: size.width * 0.25,
                                   child: TextField(
-                                    decoration: const InputDecoration(
+                                    decoration: InputDecoration(
                                       hintText: "Name space",
                                     ),
                                     enabled: _isEditing,
@@ -252,7 +249,7 @@ class _ProfilePageState extends State<TabletProfileScaffold> {
                                 ),
                               ),
                               ListTile(
-                                title: const Text(
+                                title: Text(
                                   "Email:",
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
@@ -261,7 +258,7 @@ class _ProfilePageState extends State<TabletProfileScaffold> {
                                 trailing: SizedBox(
                                   width: size.width * 0.25,
                                   child: TextField(
-                                    decoration: const InputDecoration(
+                                    decoration: InputDecoration(
                                       hintText: "Email space",
                                     ),
                                     enabled: _isEditing,
@@ -269,7 +266,7 @@ class _ProfilePageState extends State<TabletProfileScaffold> {
                                 ),
                               ),
                               ListTile(
-                                title: const Text(
+                                title: Text(
                                   "Role:",
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
@@ -278,7 +275,7 @@ class _ProfilePageState extends State<TabletProfileScaffold> {
                                 trailing: SizedBox(
                                   width: size.width * 0.25,
                                   child: TextField(
-                                    decoration: const InputDecoration(
+                                    decoration: InputDecoration(
                                       hintText: "Role space",
                                     ),
                                     enabled: _isEditing,
@@ -286,7 +283,7 @@ class _ProfilePageState extends State<TabletProfileScaffold> {
                                 ),
                               ),
                               ListTile(
-                                title: const Text(
+                                title: Text(
                                   "State:",
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
@@ -295,7 +292,7 @@ class _ProfilePageState extends State<TabletProfileScaffold> {
                                 trailing: SizedBox(
                                   width: size.width * 0.25,
                                   child: TextField(
-                                    decoration: const InputDecoration(
+                                    decoration: InputDecoration(
                                       hintText: "State space",
                                     ),
                                     enabled: _isEditing,
@@ -303,7 +300,7 @@ class _ProfilePageState extends State<TabletProfileScaffold> {
                                 ),
                               ),
                               ListTile(
-                                title: const Text(
+                                title: Text(
                                   "Department:",
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
@@ -312,7 +309,7 @@ class _ProfilePageState extends State<TabletProfileScaffold> {
                                 trailing: SizedBox(
                                   width: size.width * 0.25,
                                   child: TextField(
-                                    decoration: const InputDecoration(
+                                    decoration: InputDecoration(
                                       hintText: "Department space",
                                     ),
                                     enabled: _isEditing,
@@ -336,7 +333,7 @@ class _ProfilePageState extends State<TabletProfileScaffold> {
                                     String confirmPassword = "";
 
                                     return AlertDialog(
-                                      title: const Text("Change Password"),
+                                      title: Text("Change Password"),
                                       content: Column(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
@@ -344,7 +341,7 @@ class _ProfilePageState extends State<TabletProfileScaffold> {
                                             onChanged: (text) {
                                               oldPassword = text;
                                             },
-                                            decoration: const InputDecoration(
+                                            decoration: InputDecoration(
                                               labelText: "Old Password",
                                             ),
                                           ),
@@ -352,7 +349,7 @@ class _ProfilePageState extends State<TabletProfileScaffold> {
                                             onChanged: (text) {
                                               newPassword = text;
                                             },
-                                            decoration: const InputDecoration(
+                                            decoration: InputDecoration(
                                               labelText: "New Password",
                                             ),
                                           ),
@@ -360,7 +357,7 @@ class _ProfilePageState extends State<TabletProfileScaffold> {
                                             onChanged: (text) {
                                               confirmPassword = text;
                                             },
-                                            decoration: const InputDecoration(
+                                            decoration: InputDecoration(
                                               labelText: "Confirm Password",
                                             ),
                                           ),
@@ -378,21 +375,21 @@ class _ProfilePageState extends State<TabletProfileScaffold> {
 // TODO: display error message
                                             }
                                           },
-                                          child: const Text("Confirm"),
+                                          child: Text("Confirm"),
                                         ),
                                         TextButton(
                                           onPressed: () {
 // Handle "Cancel" button press
                                             Navigator.of(context).pop();
                                           },
-                                          child: const Text("Cancel"),
+                                          child: Text("Cancel"),
                                         ),
                                       ],
                                     );
                                   },
                                 );
                               },
-                              child: const Text(
+                              child: Text(
                                 "Change Password",
                                 style: TextStyle(
                                   color: Color(0xff1276eb),
@@ -417,13 +414,14 @@ class _ProfilePageState extends State<TabletProfileScaffold> {
                     width: size.width * 0.35,
                     height: size.height * 0.55,
                     decoration: boxDecoration,
-                    child: Column(
+                    child:Column(
                       children: [
                         topBarCalendar(text: "Calendar"),
+
                         Container(
                           child: TableCalendar(
                             locale: "en_US",
-                            headerStyle: const HeaderStyle(
+                            headerStyle: HeaderStyle(
                                 formatButtonVisible: false,
                                 titleCentered: true),
                             availableGestures: AvailableGestures.all,
@@ -447,7 +445,7 @@ class _ProfilePageState extends State<TabletProfileScaffold> {
                                       .format(events[index].date)),
                                 );
                               } else {
-                                return const ListTile(
+                                return ListTile(
                                   title: Text('n'),
                                 );
                               }
@@ -465,4 +463,5 @@ class _ProfilePageState extends State<TabletProfileScaffold> {
       ),
     );
   }
+
 }

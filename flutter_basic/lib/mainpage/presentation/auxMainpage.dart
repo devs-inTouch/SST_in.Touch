@@ -26,7 +26,8 @@ class AuxMainPage {
     return newPageIndex;
   }
 
-  void addNewActivity(BuildContext context, List<Map<String, dynamic>> events) async {
+  void addNewActivity(
+      BuildContext context, List<Map<String, dynamic>> events) async {
     String eventName = '';
     DateTime selectedDate = DateTime.now();
 
@@ -41,9 +42,9 @@ class AuxMainPage {
       selectedDate = pickedDate;
 
       int daysRemaining = DateTime.utc(
-            pickedDate.year, pickedDate.month, pickedDate.day)
+              pickedDate.year, pickedDate.month, pickedDate.day)
           .difference(DateTime.utc(
-            DateTime.now().year, DateTime.now().month, DateTime.now().day))
+              DateTime.now().year, DateTime.now().month, DateTime.now().day))
           .inDays;
 
       String daysRemainingText;
@@ -59,25 +60,25 @@ class AuxMainPage {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Adicionar evento'),
+            title: const Text('Adicionar evento'),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 TextField(
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Nome',
                   ),
                   onChanged: (value) {
                     eventName = value;
                   },
                 ),
-                SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 Text(
                   'Data selecionada: ${DateFormat('MMMM dd, yyyy').format(selectedDate)}',
-                  style: TextStyle(fontSize: 16.0),
+                  style: const TextStyle(fontSize: 16.0),
                 ),
-                SizedBox(height: 8.0),
-                SizedBox(height: 16.0),
+                const SizedBox(height: 8.0),
+                const SizedBox(height: 16.0),
                 ElevatedButton(
                   onPressed: () {
                     // Create the event and add it to the agenda
@@ -96,7 +97,7 @@ class AuxMainPage {
 
                     Navigator.pop(context);
                   },
-                  child: Text('Adicionar'),
+                  child: const Text('Adicionar'),
                 ),
               ],
             ),
@@ -115,8 +116,8 @@ class EventCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 8.0),
-      padding: EdgeInsets.all(16.0),
+      margin: const EdgeInsets.symmetric(vertical: 8.0),
+      padding: const EdgeInsets.all(16.0),
       decoration: boxEventDecoration,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -125,12 +126,12 @@ class EventCard extends StatelessWidget {
             'Data: ${DateFormat('MMMM dd, yyyy').format(event['Data'])}',
             style: textStyleEvents,
           ),
-          SizedBox(height: 8.0),
+          const SizedBox(height: 8.0),
           Text(
             'Evento: ${event['Evento']}',
             style: textStyleEvents,
           ),
-          SizedBox(height: 8.0),
+          const SizedBox(height: 8.0),
           Text(
             'Dias Restantes: ${event['DiasRestantesTexto']}',
             style: textStyleEvents,

@@ -9,15 +9,17 @@ import 'package:path_provider/path_provider.dart';
 import 'package:image/image.dart' as Im;
 
 import '../../constants.dart';
-import '../../feeds/anomalyBox.dart';
+
+import '../../feeds/presentation/anomalyBox.dart';
 import '../../mainpage/presentation/desktop_main_scaffold.dart';
 import '../../mainpage/presentation/mobile_main_scaffold.dart';
 import '../../mainpage/presentation/responsive_main_page.dart';
 import '../../mainpage/presentation/tablet_main_scaffold.dart';
 import '../../myAppBar.dart';
-import '../../profile/presentation/viewUtils.dart';
 
 class AnomaliesPage extends StatefulWidget {
+  const AnomaliesPage({super.key});
+
   State<AnomaliesPage> createState() => AnomalyState();
 }
 
@@ -25,7 +27,7 @@ class AnomalyState extends State<AnomaliesPage> {
   List anomalyPosts = ["post 1", "post 2", "post 3", "post 4"];
 
   late File file;
-  String postId = Uuid().v4();
+  String postId = const Uuid().v4();
   final storageRef = FirebaseStorage.instance.ref();
 
   TextEditingController description = TextEditingController();
@@ -34,7 +36,7 @@ class AnomalyState extends State<AnomaliesPage> {
   bool isUploading = false;
 
   void createButtonPressed(String username, String title, String description) {
-    AnomalyAuth.anomalyCreation(username, title, description).then((isCreated) {
+    AnomalyAuth.listAnomaly().then((isCreated) {
       if (isCreated) {
         Navigator.push(
             context,
@@ -134,16 +136,16 @@ class AnomalyState extends State<AnomaliesPage> {
         context: parentContext,
         builder: (context) {
           return SimpleDialog(
-            title: Text('Anexar Imagem'),
+            title: const Text('Anexar Imagem'),
             children: [
               SimpleDialogOption(
-                child: Text('Escolhe da galeria'),
+                child: const Text('Escolhe da galeria'),
                 onPressed: () {
                   handleChoosePhoto(context);
                 },
               ),
               SimpleDialogOption(
-                  child: Text('Cancelar'),
+                  child: const Text('Cancelar'),
                   onPressed: () => Navigator.pop(context))
             ],
           );
@@ -155,11 +157,10 @@ class AnomalyState extends State<AnomaliesPage> {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-      appBar: MyAppBar(),
+      appBar: const MyAppBar(),
       drawer: myDrawer,
-      backgroundColor:  Colors.grey[300],
+      backgroundColor: Colors.grey[300],
       body: Stack(
-
         children: [
           Container(
             width: size.width,
@@ -168,22 +169,23 @@ class AnomalyState extends State<AnomaliesPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.only(top: 20.0),
                     child: Text(
                       'ANOMALIAS',
                       textAlign: TextAlign.center,
-                      style:
-                      TextStyle(
+                      style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: Colors.black, fontSize: 26),
+                          color: Colors.black,
+                          fontSize: 26),
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.all(30.0), // Add a margin of 30 pixels
+                    padding:
+                        const EdgeInsets.all(30.0), // Add a margin of 30 pixels
                     child: Container(
                       height: 400,
-                      width:800,
+                      width: 800,
                       decoration: BoxDecoration(
                         color: Colors.grey[400],
                         borderRadius: BorderRadius.circular(10.0),
@@ -193,20 +195,23 @@ class AnomalyState extends State<AnomaliesPage> {
                           Expanded(
                             child: Stack(
                               children: [
-                                isUploading ? LinearProgressIndicator() : SizedBox(),
+                                isUploading
+                                    ? const LinearProgressIndicator()
+                                    : const SizedBox(),
                                 Align(
-                                  alignment: Alignment(0.0, 0.1),
+                                  alignment: const Alignment(0.0, 0.1),
                                   child: Container(
                                     height: 400,
                                     width: 800,
                                     child: Column(
                                       children: [
                                         Padding(
-                                          padding: EdgeInsets.all(15.0), // Add vertical padding of 15 pixels
+                                          padding: const EdgeInsets.all(
+                                              15.0), // Add vertical padding of 15 pixels
                                           child: TextField(
                                             controller: title,
                                             maxLength: 50,
-                                            decoration: InputDecoration(
+                                            decoration: const InputDecoration(
                                               fillColor: Colors.white,
                                               filled: true,
                                               labelText: 'Título',
@@ -214,13 +219,15 @@ class AnomalyState extends State<AnomaliesPage> {
                                           ),
                                         ),
                                         Padding(
-                                          padding: EdgeInsets.all(15.0), // Add vertical padding of 15 pixels
+                                          padding: const EdgeInsets.all(
+                                              15.0), // Add vertical padding of 15 pixels
                                           child: TextField(
                                             controller: description,
-                                            keyboardType: TextInputType.multiline,
+                                            keyboardType:
+                                                TextInputType.multiline,
                                             maxLines: 7,
                                             maxLength: 400,
-                                            decoration: InputDecoration(
+                                            decoration: const InputDecoration(
                                               fillColor: Colors.white,
                                               filled: true,
                                               labelText: 'Escreve aqui',
@@ -229,62 +236,68 @@ class AnomalyState extends State<AnomaliesPage> {
                                         ),
                                       ],
                                     ),
-
                                   ),
                                 ),
                               ],
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.all(20.0),
+                            padding: const EdgeInsets.all(20.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Padding(
-                                  padding: EdgeInsets.only(right: 30.0), // Add right padding of 30 pixels
+                                  padding: const EdgeInsets.only(
+                                      right:
+                                          30.0), // Add right padding of 30 pixels
                                   child: ElevatedButton(
                                     onPressed: () {
                                       selectImage(context);
                                     },
                                     style: ElevatedButton.styleFrom(
-                                      fixedSize: Size(150, 40),
+                                      fixedSize: const Size(150, 40),
                                       backgroundColor: Colors.white,
                                     ),
-                                    child: Text(
+                                    child: const Text(
                                       'Adicionar foto',
                                       textAlign: TextAlign.left,
-                                      style: TextStyle(color: Colors.black, fontSize: 15),
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 15),
                                     ),
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.only(left: 30.0), // Add left padding of 30 pixels
+                                  padding: const EdgeInsets.only(
+                                      left:
+                                          30.0), // Add left padding of 30 pixels
                                   child: ElevatedButton(
                                     onPressed: isUploading
                                         ? null
-                                        : () => createButtonPressed("gui", title.text, description.text),
+                                        : () => createButtonPressed("gui",
+                                            title.text, description.text),
                                     style: ElevatedButton.styleFrom(
-                                      fixedSize: Size(100, 40),
+                                      fixedSize: const Size(100, 40),
                                       backgroundColor: Colors.white,
                                     ),
-                                    child: Text(
+                                    child: const Text(
                                       'CRIAR',
                                       textAlign: TextAlign.left,
-                                      style: TextStyle(color: Colors.black, fontSize: 15),
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 15),
                                     ),
                                   ),
                                 ),
                               ],
                             ),
                           ),
-
                         ],
                       ),
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Padding(
-                    padding: EdgeInsets.all(20.0), // Add a margin of 30 pixels
+                    padding:
+                        const EdgeInsets.all(20.0), // Add a margin of 30 pixels
                     child: Container(
                       width: 800,
                       child: ListView.builder(
@@ -292,22 +305,21 @@ class AnomalyState extends State<AnomaliesPage> {
                         itemCount: anomalyPosts.length,
                         itemBuilder: (BuildContext context, int index) {
                           return Padding(
-                            padding: EdgeInsets.only(bottom: 10.0), // Add bottom padding of 10 pixels
+                            padding: const EdgeInsets.only(
+                                bottom:
+                                    10.0), // Add bottom padding of 10 pixels
                             child: AnomalyBox(text: anomalyPosts[index]),
                           );
                         },
                       ),
                     ),
                   ),
-
-
                 ],
               ),
             ),
           ),
         ],
       ),
-
     );
   }
 }
