@@ -19,8 +19,8 @@ public class AuthToken {
 	
 	private String username;
 	private String id;
-	private Date creationDate;
-	private Date expirationDate;
+	private Date creationTime;
+	private Date expirationTime;
 
     private String encodedToken;
 	
@@ -31,14 +31,14 @@ public class AuthToken {
 		
 		this.username = username;
 		this.id = UUID.randomUUID().toString();
-		this.creationDate = new Date();
-		this.expirationDate = new Date(this.creationDate.getTime() + TTL);
+		this.creationTime = new Date();
+		this.expirationTime = new Date(this.creationTime.getTime() + TTL);
 
 		Map<String, Object> claims = new HashMap<>(N_CLAIMS);
 		claims.put(USERNAME.value, this.username);
 		claims.put(ID.value, this.id);
-		claims.put(CREATION_TIME.value, this.creationDate);
-		claims.put(EXPIRATION_TIME.value, expirationDate);
+		claims.put(CREATION_TIME.value, this.creationTime);
+		claims.put(EXPIRATION_TIME.value, expirationTime);
 
 		ImmutableMap<String, Object> iClaims = ImmutableMap.copyOf(claims);
 
@@ -57,17 +57,24 @@ public class AuthToken {
 	}
 
 	/**
+	 * @return the id
+	 */
+	public String getId() {
+		return id;
+	}
+
+	/**
 	 * @return the creationDate
 	 */
-	public long getCreationDate() {
-		return creationDate.getTime();
+	public long getCreationTime() {
+		return creationTime.getTime();
 	}
 
 	/**
 	 * @return the expirationDate
 	 */
-	public long getExpirationDate() {
-		return expirationDate.getTime();
+	public long getExpirationTime() {
+		return expirationTime.getTime();
 	}
 
 	/**
