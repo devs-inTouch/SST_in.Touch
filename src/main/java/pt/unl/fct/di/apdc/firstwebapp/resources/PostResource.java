@@ -105,7 +105,7 @@ public class PostResource {
     public Response listPosts() {
         LOG.fine("Attempt to list posts");
 
-        int hashCode = LIST_POSTS.hashCode();
+        //int hashCode = LIST_POSTS.hashCode();
         /*if(cache.get(hashCode) != null) {
             LOG.fine("Cache hit");
             return Response.ok(cache.get(hashCode)).build();

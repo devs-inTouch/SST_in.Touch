@@ -42,6 +42,8 @@ public class AnomalyResource {
         notification = new NotificationsResource();
     }
 
+    //TODO notificacoes manda ao proprio user, corrigir isso
+
     @POST
     @Path("/create")
     @Consumes(MediaType.APPLICATION_JSON)
