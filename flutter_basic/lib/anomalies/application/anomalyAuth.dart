@@ -26,7 +26,7 @@ class AnomalyAuth {
       headers: <String, String>{
         'Content-Type': 'application/json',
         'Authorization':
-        'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmZWlqYW8iLCJpYXQiOjE2ODcyNTU4OTksImV4cCI6MTY4NzI1NTkwN30.StFRFTqudBUcNb0eo2iloHRqe9HrFvaXrL-GOal8S-U',
+            'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmZWlqYW8iLCJpYXQiOjE2ODcyNTU4OTksImV4cCI6MTY4NzI1NTkwN30.StFRFTqudBUcNb0eo2iloHRqe9HrFvaXrL-GOal8S-U',
       },
     );
     print(response.statusCode);
@@ -121,13 +121,4 @@ Future<bool> fetchAuthenticate(
   } else {
     return false;
   } */
-
-
-
-
-
-
-
-
-
-
+}
