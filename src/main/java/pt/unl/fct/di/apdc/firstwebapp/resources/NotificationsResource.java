@@ -113,7 +113,7 @@ public class NotificationsResource {
     }
 
     @POST
-    @Path("deleteAll")
+    @Path("/deleteall")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response deleteAllNotifications(UserData data) {
         LOG.fine("Attempt to delete all notifications: " + data.getTargetUsername());
@@ -141,18 +141,17 @@ public class NotificationsResource {
     }
 
     @POST
-    @Path("listAll")
+    @Path("/list")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response listAllNotifications(@HeaderParam(AUTH) String auth, UserData data) {
-        LOG.fine("Attempt to list all notifications: " + data.getTargetUsername());
+    public Response listAllNotifications(@HeaderParam(AUTH) String auth) {
 
         TokenData givenTokenData = TokenUtil.validateToken(LOG, auth);
 
         if(givenTokenData == null)
             return Response.status(Response.Status.FORBIDDEN).build();
 
-        Key userKey = datastore.newKeyFactory().setKind("User").newKey(data.getTargetUsername());
+        Key userKey = datastore.newKeyFactory().setKind("User").newKey(givenTokenData.getUsername());
         Query<Entity> query = Query.newEntityQueryBuilder()
                 .setKind("Notification").setFilter(StructuredQuery.PropertyFilter.hasAncestor(userKey)).build();
         QueryResults<Entity> notifications = datastore.run(query);

@@ -13,7 +13,7 @@ import io.jsonwebtoken.Jwts;
 
 public class AuthToken {
 
-	private static final long TTL = 1000*2*60; //2min in milliseconds
+	private static final long TTL = 1000*60*60; //2min in milliseconds
 
 	private static final int N_CLAIMS = 4;
 	
