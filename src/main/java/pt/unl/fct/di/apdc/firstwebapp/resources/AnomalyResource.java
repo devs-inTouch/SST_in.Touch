@@ -2,10 +2,12 @@ package pt.unl.fct.di.apdc.firstwebapp.resources;
 
 import com.google.cloud.datastore.*;
 import com.google.gson.Gson;
+import pt.unl.fct.di.apdc.firstwebapp.util.DatastoreUtil;
 import pt.unl.fct.di.apdc.firstwebapp.util.TokenUtil;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.TokenData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.anomaly.AnomalyData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.anomaly.AnomalyDeleteData;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.anomaly.AnomalyInfoData;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -20,46 +22,52 @@ import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Globals.AUTH;
 @Path("/anomaly")
 public class AnomalyResource {
 
-    private static final Logger LOG = Logger.getLogger(LoginResource.class.getName());
+    private static final Logger LOG = Logger.getLogger(AnomalyResource.class.getName());
+    private static final String USER_NOT_IN_DATABASE = "User not in database";
+    private static final String ANOMALY_CREATED_SUCCESSFULLY = "Anomaly created successfully";
+    private static final String ANOMALY_NOT_IN_DATABASE = "Anomaly not in database";
+    private static final String ANOMALY_DELETED_SUCCESSFULLY = "Anomaly deleted successfully";
+    private static final String USER_NOT_ALLOWED_TO_DELETE_ANOMALY = "User not allowed to delete anomaly";
+    private static final String ANOMALY_CREATED = "New anomaly!";
+    private static final String ANOMALY_TYPE = "Anomaly";
 
-    private final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
+    private final Datastore datastore = DatastoreUtil.getService();
 
     private final Gson g = new Gson();
 
     private final NotificationsResource notification;
 
-    private static final String ANOMALY_CREATED = "Nova anomalia!";
-    private static final String ANOMALY_TYPE = "Anomaly";
 
     public AnomalyResource() {
         notification = new NotificationsResource();
     }
 
+    //TODO notificacoes manda ao proprio user, corrigir isso
+
     @POST
     @Path("/create")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createAnomaly(@HeaderParam(AUTH) String auth, AnomalyData data) {
-        LOG.fine("Attempt to create anomaly: " + data.username);
 
-        TokenData token = TokenUtil.validateToken(LOG, auth);
+        TokenData givenTokenData = TokenUtil.validateToken(LOG, auth);
 
-        if(token == null)
+        if(givenTokenData == null)
             return Response.status(Response.Status.FORBIDDEN).build();
 
-        Key userKey = datastore.newKeyFactory().setKind("User").newKey(data.username);
+        Key userKey = datastore.newKeyFactory().setKind("User").newKey(givenTokenData.getUsername());
 
         Transaction txn = datastore.newTransaction();
         try {
             Entity user = txn.get(userKey);
             if (user == null)
-                return Response.status(Response.Status.BAD_REQUEST).entity("User not in database").build();
+                return Response.status(Response.Status.BAD_REQUEST).entity(USER_NOT_IN_DATABASE).build();
 
             int anomalyId = getNextAnomaly();
             Key k = datastore.newKeyFactory().setKind("Anomaly").newKey(anomalyId);
             Entity anomaly = Entity.newBuilder(k)
-                    .set("username", data.username)
-                    .set("title", data.title)
-                    .set("description", data.description)
+                    .set("username", givenTokenData.getUsername())
+                    .set("title", data.getTitle())
+                    .set("description", data.getDescription())
                     .set("creation_date", System.currentTimeMillis())
                     .build();
 
@@ -67,7 +75,7 @@ public class AnomalyResource {
             txn.commit();
 
             notification.createNotificationToAll(ANOMALY_CREATED, ANOMALY_TYPE);
-            return Response.ok(g.toJson("Anomaly created successfully")).build();
+            return Response.ok(g.toJson(ANOMALY_CREATED_SUCCESSFULLY)).build();
         } finally {
             if (txn.isActive()) {
                 txn.rollback();
@@ -80,32 +88,34 @@ public class AnomalyResource {
     @Path("/delete")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    public Response deleteAnomaly(AnomalyDeleteData data) {
-        LOG.fine("Attempt to delete anomaly: " + data.username);
+    public Response deleteAnomaly(@HeaderParam(AUTH) String auth, AnomalyDeleteData data) {
 
-        //TODO token verification
+        TokenData givenTokenData = TokenUtil.validateToken(LOG, auth);
 
-        Key userKey = datastore.newKeyFactory().setKind("User").newKey(data.username);
-        Key creatorKey = datastore.newKeyFactory().setKind("User").newKey(data.creator);
+        if(givenTokenData == null)
+            return Response.status(Response.Status.FORBIDDEN).build();
+
+        Key userKey = datastore.newKeyFactory().setKind("User").newKey(givenTokenData.getUsername());
+        Key creatorKey = datastore.newKeyFactory().setKind("User").newKey(data.getCreator());
 
         Transaction txn = datastore.newTransaction();
         try {
             Entity user = txn.get(userKey);
             Entity creator = txn.get(creatorKey);
             if (user == null || creator == null)
-                return Response.status(Response.Status.BAD_REQUEST).entity("User not in database").build();
+                return Response.status(Response.Status.BAD_REQUEST).entity(USER_NOT_IN_DATABASE).build();
 
-            if(data.username.equals(data.creator)) {
-                Key k = datastore.newKeyFactory().setKind("Anomaly").newKey(Integer.parseInt(data.anomalyId));
+            if(givenTokenData.getUsername().equals(data.getCreator())) {
+                Key k = datastore.newKeyFactory().setKind("Anomaly").newKey(Integer.parseInt(data.getAnomalyId()));
                 Entity anomaly = txn.get(k);
                 if (anomaly == null)
-                    return Response.status(Response.Status.BAD_REQUEST).entity("Anomaly not in database").build();
+                    return Response.status(Response.Status.BAD_REQUEST).entity(ANOMALY_NOT_IN_DATABASE).build();
 
                 txn.delete(k);
                 txn.commit();
-                return Response.ok(g.toJson("Anomaly deleted successfully")).build();
+                return Response.ok(g.toJson(ANOMALY_DELETED_SUCCESSFULLY)).build();
             } else {
-                return Response.status(Response.Status.BAD_REQUEST).entity("User not allowed to delete anomaly").build();
+                return Response.status(Response.Status.BAD_REQUEST).entity(USER_NOT_ALLOWED_TO_DELETE_ANOMALY).build();
             }
 
         } finally {
@@ -126,10 +136,10 @@ public class AnomalyResource {
         Query<Entity> query = Query.newEntityQueryBuilder().setKind("Anomaly").build();
         QueryResults<Entity> results = datastore.run(query);
 
-        List<AnomalyData> list = new ArrayList<>();
+        List<AnomalyInfoData> list = new ArrayList<>();
 
         results.forEachRemaining(t -> {
-            list.add(new AnomalyData(t.getString("username"), t.getString("title"), t.getString("description")));
+            list.add(new AnomalyInfoData(t.getString("username"), t.getString("title"), t.getString("description")));
         });
 
         return Response.ok(g.toJson(list)).build();

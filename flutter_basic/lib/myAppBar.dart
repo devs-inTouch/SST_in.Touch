@@ -12,6 +12,7 @@ import 'package:flutter_basic/profile/presentation/tablet_profile_scaffold.dart'
 import 'package:flutter_basic/reports/presentation/reportsPage.dart';
 import 'package:flutter_basic/teste/teste.dart';
 
+import 'feeds/presentation/feedPage.dart';
 import 'messages/application/chatScreen.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -50,6 +51,19 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
       actions: [
+        IconButton(
+        onPressed: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => FeedsPage(
+
+            )
+        ),
+      );
+    },
+        icon: Icon(Icons.feed),
+        color: Colors.black),
         IconButton(
           onPressed: () {
             Navigator.push(

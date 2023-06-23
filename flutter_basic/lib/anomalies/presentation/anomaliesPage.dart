@@ -9,7 +9,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:image/image.dart' as Im;
 
 import '../../constants.dart';
-import '../../feeds/anomalyBox.dart';
+
+import '../../feeds/presentation/anomalyBox.dart';
 import '../../mainpage/presentation/desktop_main_scaffold.dart';
 import '../../mainpage/presentation/mobile_main_scaffold.dart';
 import '../../mainpage/presentation/responsive_main_page.dart';

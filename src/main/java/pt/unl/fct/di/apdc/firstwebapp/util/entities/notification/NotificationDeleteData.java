@@ -2,14 +2,16 @@ package pt.unl.fct.di.apdc.firstwebapp.util.entities.notification;
 
 public class NotificationDeleteData {
 
-    public String notificationId;
-    public String username;
+    private String notificationId;
 
     public NotificationDeleteData() {
     }
 
-    public NotificationDeleteData(String notificationId, String username) {
+    public NotificationDeleteData(String notificationId) {
         this.notificationId = notificationId;
-        this.username = username;
+    }
+
+    public String getNotificationId() {
+        return notificationId;
     }
 }

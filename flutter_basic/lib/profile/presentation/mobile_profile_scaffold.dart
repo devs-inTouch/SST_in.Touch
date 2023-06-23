@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_basic/profile/presentation/profileBox.dart';
 import 'package:flutter_basic/profile/presentation/viewUtils.dart';
 import '../../constants.dart';
 import '../../eventCalendar.dart';
+import '../../feeds/application/postRequests.dart';
+import '../../feeds/presentation/postBox.dart';
 import '../../myAppBar.dart';
+import '../application/profleRequests.dart';
 
 class MobileProfileScaffold extends StatefulWidget {
   final String name;
@@ -25,48 +29,81 @@ class MobileProfileScaffold extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<MobileProfileScaffold> {
-  final bool _isEditing = false;
+
+  List _posts = [
+
+  ];
+
   List<Event> events = [];
   DateTime today = DateTime.now();
   Map<DateTime, List<Event>> eventsByDay = {};
 
+  List userInfo = [];
+
+  @override
+  void initState() {
+
+    super.initState();
+    ProfileRequests.getUserInfo().then((value) => userInfo = value);
+  }
+
+  Future<void> fetchDataForPosts() async {
+    final response = await PostRequests.getFeed();
+    setState(() {
+      _posts = response;
+    });
+    print("done this step");
+  }
+
+
+
+
   @override
   Widget build(BuildContext context) {
-    double fem = 1;
+    final size = MediaQuery.of(context).size;
+    final fem = size.width/650; // 1440 is the reference width
 
     return Scaffold(
-      appBar: const MyAppBar(),
+      appBar: MyAppBar(),
       drawer: myDrawer,
-      backgroundColor: Colors.white,
-      body: Column(
+      backgroundColor: myBackground,
+      body: Stack(
         children: [
-          const SizedBox(height: 16),
-          SizedBox(
-            width: 150 * fem,
-            height: 150 * fem,
-            child: Container(
-              decoration: boxDecoration,
-              child: buildProfileImage(),
+
+          Container(
+            decoration: BoxDecoration(
+                color: Colors.green
             ),
-          ),
-          const SizedBox(height: 16),
-          Expanded(
-            child: Container(
-              height: 200 * fem,
-              width: 700 * fem,
-              decoration: boxDecoration,
-              child: buildProfileText(context),
-            ),
-          ),
-          const SizedBox(height: 16),
-          SingleChildScrollView(
-            child: Container(
-              height: 120 * fem,
-              width: 559 * fem,
-              decoration: boxDecoration,
-              child: buildCalendar(),
-            ),
-          ),
+            width: size.width,
+            height: size.height,
+
+            child: Scrollbar(
+              child: SingleChildScrollView(
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(height: 10,),
+                        ProfileBox(fem: fem, map: userInfo),
+                        SizedBox(height: 10),
+                        Container(
+                            width: 650 * fem,
+                            child:ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: _posts.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                final post = _posts[index];
+                                post.setFem(fem);
+                                return post;
+                              },
+
+                            )
+                        )
+                      ]
+                  )
+
+
+              ),
+            ),),
         ],
       ),
     );

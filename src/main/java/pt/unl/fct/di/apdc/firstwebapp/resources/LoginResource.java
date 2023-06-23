@@ -1,5 +1,10 @@
 package pt.unl.fct.di.apdc.firstwebapp.resources;
 
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.TokenAttributes.CREATION_TIME;
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.TokenAttributes.EXPIRATION_TIME;
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.TokenAttributes.ID;
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.TokenAttributes.USERNAME;
+
 import java.util.logging.Logger;
 
 import javax.ws.rs.POST;
@@ -23,7 +28,6 @@ import pt.unl.fct.di.apdc.firstwebapp.util.DatastoreUtil;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.LoginData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects.ClientTokenData;
 import pt.unl.fct.di.apdc.firstwebapp.util.enums.DatastoreEntities;
-import pt.unl.fct.di.apdc.firstwebapp.util.enums.TokenAttributes;
 import pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes;
 
 
@@ -78,9 +82,10 @@ public class LoginResource {
 
 		try {
 			Entity tkn = Entity.newBuilder(tokenKey)
-						.set(TokenAttributes.USERNAME.value, token.getUsername())
-						.set(TokenAttributes.CREATION_TIME.value, token.getCreationDate())
-						.set(TokenAttributes.EXPIRATION_TIME.value, token.getExpirationDate())
+						.set(USERNAME.value, token.getUsername())
+						.set(ID.value, token.getId())
+						.set(CREATION_TIME.value, token.getCreationTime())
+						.set(EXPIRATION_TIME.value, token.getExpirationTime())
 						.build();
 
 			txn.put(tkn);

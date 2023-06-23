@@ -2,16 +2,23 @@ package pt.unl.fct.di.apdc.firstwebapp.util.entities.anomaly;
 
 public class AnomalyData {
 
-    public String username;
-    public String title;
-        public String description;
+    private String title;
+    private String description;
 
     public AnomalyData() {
     }
 
-    public AnomalyData(String username, String title, String description) {
-        this.username = username;
+    public AnomalyData(String title, String description) {
         this.title = title;
         this.description = description;
+    }
+
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }

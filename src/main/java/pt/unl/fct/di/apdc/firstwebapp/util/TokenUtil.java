@@ -1,9 +1,16 @@
 package pt.unl.fct.di.apdc.firstwebapp.util;
 
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.DatastoreEntities.TOKEN;
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.TokenAttributes.ID;
+
 import java.util.Base64;
 import java.util.logging.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.cloud.datastore.Datastore;
+import com.google.cloud.datastore.Entity;
+import com.google.cloud.datastore.Key;
+import com.google.cloud.datastore.Transaction;
 
 import pt.unl.fct.di.apdc.firstwebapp.resources.authentication.SecretManager;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.TokenData;
@@ -11,7 +18,11 @@ import pt.unl.fct.di.apdc.firstwebapp.util.entities.TokenData;
 
 public class TokenUtil {
 
+    private static final Datastore datastore = DatastoreUtil.getService();
+
     public static TokenData validateToken(Logger LOG, String givenToken) {
+
+        // Transaction txn = datastore.newTransaction();
 
         try {
 
@@ -40,14 +51,55 @@ public class TokenUtil {
             ObjectMapper objectMapper = new ObjectMapper();
             TokenData token = objectMapper.readValue(payload, TokenData.class);
 
-            if (token.isExpired())
+            Key tokenKey = datastore.newKeyFactory().setKind(TOKEN.value).newKey(token.getUsername());
+            Entity storedToken = datastore.get(tokenKey);
+
+            String message;
+
+            if (storedToken == null) {
+                message = "Token should not exist!";
+                LOG.severe(message);
+                // return new TokenData(message, "", 0L, 0L);
                 return null;
+            }
+
+            if (!token.getId().equals(storedToken.getString(ID.value))) {
+                message = "Token" + token.getId() + "not up to date.";
+                LOG.severe(message);
+                // return new TokenData(message, "", 0L, 0L);
+                return null;
+            }
+
+            if (token.isExpired()) {
+                message = "Token" + token.getId() + "expired.";
+                LOG.warning(message);
+                deleteToken(tokenKey);
+                // return new TokenData(message, "", 0L, 0L);
+                return null;
+            }
             
             return token;
 
         } catch (Exception e) {
-            LOG.severe(e.getMessage());
-            return null;
+			LOG.severe(e.getMessage());
+			return null;
+        }
+    }
+
+    private static void deleteToken(Key tokenKey) {
+        Transaction txn = datastore.newTransaction();
+
+        try {
+            txn.delete(tokenKey);
+            txn.commit();
+        } catch (Exception e) {
+			txn.rollback();
+			
+		} finally {
+			if (txn.isActive()) {
+				txn.rollback();
+
+			}
         }
     }
     

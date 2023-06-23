@@ -40,7 +40,7 @@ public class RemoveResource {
         if(givenToken == null)
             return Response.status(Status.FORBIDDEN).build();
 
-        Key managerKey = datastore.newKeyFactory().setKind("User").newKey(givenToken.getSub());
+        Key managerKey = datastore.newKeyFactory().setKind("User").newKey(givenToken.getUsername());
         Entity manager = datastore.get(managerKey);
 
         Key targetKey = datastore.newKeyFactory().setKind("User").newKey(data.getTargetUsername());
