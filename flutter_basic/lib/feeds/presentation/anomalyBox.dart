@@ -1,15 +1,22 @@
+
+
 import 'package:flutter/material.dart';
+
 class AnomalyBox extends StatelessWidget {
-  final String text;
+  final String username;
+  final String title;
+  final String description;
 
   const AnomalyBox({
-    required this.text,
+    required this.username,
+    required this.title,
+    required this.description,
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 4.0),
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: SizedBox(
         width: MediaQuery.of(context).size.width,
         child: Container(
@@ -22,39 +29,33 @@ class AnomalyBox extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                 child: Container(
-                  color: Colors.grey[400], // Set the background color of the container to red
+                  color: Colors.grey[400],
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Padding(
-                        padding: EdgeInsets.all(15.0),
-                        child: Text("Username"),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(15.0),
-                        child: Text("Date"),
+                        padding: const EdgeInsets.all(15.0),
+                        child: Text(username),
                       ),
                     ],
                   ),
                 ),
               ),
-
               Padding(
-                padding: EdgeInsets.all(15.0),
+                padding: const EdgeInsets.all(15.0),
                 child: Text(
-                  "Title",
+                  title,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-              SizedBox(height: 10), // Add spacing of 10 pixels
-
+              SizedBox(height: 10),
               Padding(
-                padding: EdgeInsets.all(15.0),
-                child: Text("Description"),
+                padding: const EdgeInsets.all(15.0),
+                child: Text(description),
               ),
             ],
           ),
@@ -63,3 +64,9 @@ class AnomalyBox extends StatelessWidget {
     );
   }
 }
+
+
+
+
+
+

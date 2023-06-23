@@ -24,7 +24,23 @@ class AnomaliesPage extends StatefulWidget {
 }
 
 class AnomalyState extends State<AnomaliesPage> {
-  List anomalyPosts = ["post 1", "post 2", "post 3", "post 4"];
+  List<AnomalyBox> anomalyPosts = [
+    AnomalyBox(
+      username: 'User1',
+      title: 'Anomaly 1',
+      description: 'Description for Anomaly 1',
+    ),
+    AnomalyBox(
+      username: 'User2',
+      title: 'Anomaly 2',
+      description: 'Description for Anomaly 2',
+    ),
+    AnomalyBox(
+      username: 'User3',
+      title: 'Anomaly 3',
+      description: 'Description for Anomaly 3',
+    ),
+  ];
 
   late File file;
   String postId = const Uuid().v4();
@@ -304,14 +320,18 @@ class AnomalyState extends State<AnomaliesPage> {
                         shrinkWrap: true,
                         itemCount: anomalyPosts.length,
                         itemBuilder: (BuildContext context, int index) {
+                          AnomalyBox anomalyBox = anomalyPosts[index];
                           return Padding(
-                            padding: const EdgeInsets.only(
-                                bottom:
-                                    10.0), // Add bottom padding of 10 pixels
-                            child: AnomalyBox(text: anomalyPosts[index]),
+                            padding: const EdgeInsets.only(bottom: 10.0),
+                            child: AnomalyBox(
+                              username: anomalyBox.username,
+                              title: anomalyBox.title,
+                              description: anomalyBox.description,
+                            ),
                           );
                         },
                       ),
+
                     ),
                   ),
                 ],
