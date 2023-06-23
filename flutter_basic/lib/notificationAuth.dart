@@ -5,9 +5,9 @@ import 'constants.dart';
 import 'package:http/http.dart' as http;
 
 class NotificationAuth {
-  static Future<bool> notificationList() async {
+  static Future<List> notificationList() async {
     String tokenAuth = await getTokenAuth();
-    print("NOT AUTH" + tokenAuth);
+    print("NOT AUTH: " + tokenAuth);
 
     final response = await http.post(
       Uri.parse('$appUrl/notifications/list'),
@@ -19,9 +19,7 @@ class NotificationAuth {
       res = jsonDecode(response.body);
       print("NOT LIST");
       print(res);
-      saveToSharedPreferences('NotList', jsonEncode(res));
-      return true;
     }
-    return false;
+    return res;
   }
 }

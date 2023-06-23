@@ -45,7 +45,7 @@ class LoginHomePage extends State<Login> {
     LoginAuth.userLogin(username, pwd).then((isLogged) {
       if (isLogged) {
         //AnomalyAuth.listAnomaly();
-        NotificationAuth.notificationList();
+        //NotificationAuth.notificationList();
         Navigator.push(
             context,
             MaterialPageRoute(
