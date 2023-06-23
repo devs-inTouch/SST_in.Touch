@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
@@ -21,6 +22,8 @@ import com.google.gson.Gson;
 import pt.unl.fct.di.apdc.firstwebapp.util.TokenUtil;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.TokenData;
 import pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes;
+
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Globals.AUTH;
 
 @Path("/profile")
 public class ProfileResource {
@@ -40,11 +43,11 @@ public class ProfileResource {
     @POST
     @Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
-        public Response showProfile(TokenData data) {
-            LOG.fine("Attempt to show profile: " + data.getSub());
-            verifyToken(data);
+        public Response showProfile(@HeaderParam(AUTH) String auth) {
+            LOG.fine("Attempt to show profile: " );
+            TokenData givenToken = TokenUtil.validateToken(LOG, auth);
             //send data to the client
-            Key userKey = datastore.newKeyFactory().setKind("User").newKey(data.getSub());
+            Key userKey = datastore.newKeyFactory().setKind("User").newKey(givenToken.getUsername());
             Transaction txn = datastore.newTransaction();
             try {
                 Entity user = txn.get(userKey);
@@ -52,7 +55,7 @@ public class ProfileResource {
                     return Response.status(Status.BAD_REQUEST).entity(USER_NOT_FOUND).build();
 
                 List<String> info = new ArrayList<>();
-                info.add(user.getString(UserAttributes.USERNAME.value));
+                info.add(user.getKey().toString());
                 info.add(user.getString(UserAttributes.DEPARTMENT.value));
                 info.add(user.getString(UserAttributes.DESCRIPTION.value));
                 info.add(user.getString(UserAttributes.EMAIL.value));

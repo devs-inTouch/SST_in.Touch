@@ -12,6 +12,7 @@ import 'package:flutter_basic/profile/presentation/tablet_profile_scaffold.dart'
 import 'package:flutter_basic/reports/presentation/reportsPage.dart';
 import 'package:flutter_basic/teste/teste.dart';
 
+import 'feeds/presentation/feedPage.dart';
 import 'messages/application/chatScreen.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -51,6 +52,19 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       actions: [
         IconButton(
+        onPressed: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => FeedsPage(
+
+            )
+        ),
+      );
+    },
+        icon: Icon(Icons.feed),
+        color: Colors.black),
+        IconButton(
           onPressed: () {
             Navigator.push(
               context,
@@ -59,19 +73,16 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
           },
           icon: const Icon(Icons.map),
           color: Colors.black,
-
         ),
         IconButton(
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(
-                  builder: (context) => Test()),
+              MaterialPageRoute(builder: (context) => Test()),
             );
           },
           icon: const Icon(Icons.temple_buddhist),
           color: Colors.black,
-
         ),
         IconButton(
           onPressed: () {
@@ -79,23 +90,22 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
               context,
               MaterialPageRoute(
                   builder: (context) => ChatScreen(
-                    conversation: null,
-                    onConversationSelected: (Conversation) {},
-                  )),
+                        conversation: null,
+                        onConversationSelected: (Conversation) {},
+                      )),
             );
           },
           icon: const Icon(Icons.chat),
           color: Colors.black,
-
         ),
         PopupMenuButton<Notification>(
-
           itemBuilder: (BuildContext context) {
             return [
               PopupMenuItem<Notification>(
                 child: Theme(
                   data: Theme.of(context).copyWith(
-                    backgroundColor: Colors.blue, // Set the background color to blue
+                    backgroundColor:
+                        Colors.blue, // Set the background color to blue
                   ),
                   child: Container(
                     decoration: BoxDecoration(
@@ -117,13 +127,15 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                                   return Container(
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10.0),
-                                      color: Colors.grey[200], // Light grey for tiles
+                                      color: Colors
+                                          .grey[200], // Light grey for tiles
                                     ),
                                     margin: EdgeInsets.symmetric(vertical: 5.0),
                                     padding: EdgeInsets.all(10.0),
                                     child: ListTile(
                                       title: Text(notification.name),
-                                      subtitle: Text(notification.time.toString()),
+                                      subtitle:
+                                          Text(notification.time.toString()),
                                     ),
                                   );
                                 },
@@ -137,9 +149,11 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                                 // Add your desired action when the button is pressed
                               },
                               style: ElevatedButton.styleFrom(
-                                primary: Colors.grey[400], // Set the same dark grey color as the background
+                                primary: Colors.grey[
+                                    400], // Set the same dark grey color as the background
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0), // Set the border radius
+                                  borderRadius: BorderRadius.circular(
+                                      10.0), // Set the border radius
                                 ),
                               ),
                               child: Center(
@@ -147,13 +161,13 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                                   'LIMPAR NOTIFICAÇÕES (${notifications.length})',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.white, // Set the text color to white
+                                    color: Colors
+                                        .white, // Set the text color to white
                                   ),
                                 ),
                               ),
                             ),
                           ),
-
                         ],
                       ),
                     ),
@@ -181,7 +195,6 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
           color: Colors.white,
           offset: const Offset(0, kToolbarHeight),
         ),
-
         PopupMenuButton(
           icon: const Icon(Icons.person, color: Colors.black),
           color: Colors.white,
@@ -189,7 +202,8 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
           itemBuilder: (BuildContext context) => [
             PopupMenuItem(
               child: Container(
-                color: Colors.white, // Set the background color of the menu item to white
+                color: Colors
+                    .white, // Set the background color of the menu item to white
                 child: ListTile(
                   leading: Theme(
                     data: ThemeData(
@@ -233,7 +247,8 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
             PopupMenuItem(
               child: Container(
-                color: Colors.white, // Set the background color of the menu item to white
+                color: Colors
+                    .white, // Set the background color of the menu item to white
                 child: ListTile(
                   leading: const Icon(Icons.notification_add_outlined),
                   title: const Text('Notify'),
@@ -251,7 +266,8 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
             PopupMenuItem(
               child: Container(
-                color: Colors.white, // Set the background color of the menu item to white
+                color: Colors
+                    .white, // Set the background color of the menu item to white
                 child: ListTile(
                   leading: const Icon(Icons.report),
                   title: const Text('Report'),
@@ -269,7 +285,8 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
             PopupMenuItem(
               child: Container(
-                color: Colors.white, // Set the background color of the menu item to white
+                color: Colors
+                    .white, // Set the background color of the menu item to white
                 child: ListTile(
                   leading: const Icon(Icons.logout),
                   title: const Text('Logout'),
@@ -283,7 +300,6 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
           ],
         ),
-
       ],
     );
   }
@@ -315,8 +331,3 @@ class Notification {
 
   Notification({required this.name, required this.time});
 }
-
-
-
-
-

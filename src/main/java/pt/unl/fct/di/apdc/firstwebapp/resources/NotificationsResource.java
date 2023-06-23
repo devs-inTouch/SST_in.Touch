@@ -2,14 +2,14 @@ package pt.unl.fct.di.apdc.firstwebapp.resources;
 
 import com.google.cloud.datastore.*;
 import com.google.gson.Gson;
+import pt.unl.fct.di.apdc.firstwebapp.util.DatastoreUtil;
+import pt.unl.fct.di.apdc.firstwebapp.util.TokenUtil;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.TokenData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.notification.NotificationData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.notification.NotificationDeleteData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.UserData;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
@@ -17,12 +17,17 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Globals.AUTH;
+
 @Path("/notifications")
 public class NotificationsResource {
 
-    private static final Logger LOG = Logger.getLogger(LoginResource.class.getName());
+    private static final Logger LOG = Logger.getLogger(NotificationsResource.class.getName());
+    private static final String NOTIFICATION_DELETED = "Notification deleted.";
+    private static final String NOTIFICATION_DOES_NOT_EXIST = "Notification does not exist.";
+    private static final String ALL_NOTIFICATIONS_DELETED = "All notifications deleted";
 
-    private final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
+    private final Datastore datastore = DatastoreUtil.getService();
 
     private final Gson g = new Gson();
 
@@ -86,22 +91,26 @@ public class NotificationsResource {
     @POST
     @Path("/delete")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response deleteNotification(NotificationDeleteData data) {
-        LOG.fine("Attempt to delete notification: " + data.username);
+    public Response deleteNotification(@HeaderParam(AUTH) String auth, NotificationDeleteData data) {
+
+        TokenData givenTokenData = TokenUtil.validateToken(LOG, auth);
+
+        if(givenTokenData == null)
+            return Response.status(Response.Status.FORBIDDEN).build();
 
         Transaction txn = datastore.newTransaction();
 
         try {
-            Key notificationKey = datastore.newKeyFactory().addAncestor(PathElement.of("User", data.username))
-                    .setKind("Notification").newKey(data.notificationId);
+            Key notificationKey = datastore.newKeyFactory().addAncestor(PathElement.of("User", givenTokenData.getUsername()))
+                    .setKind("Notification").newKey(data.getNotificationId());
             Entity notification = txn.get(notificationKey);
 
             if (notification != null) {
                 txn.delete(notificationKey);
                 txn.commit();
-                return Response.ok().build();
+                return Response.ok(g.toJson(NOTIFICATION_DELETED)).build();
             } else {
-                return Response.status(Response.Status.FORBIDDEN).entity("Notification does not exist.").build();
+                return Response.status(Response.Status.FORBIDDEN).entity(NOTIFICATION_DOES_NOT_EXIST).build();
             }
         } finally {
             if (txn.isActive()) {
@@ -111,15 +120,19 @@ public class NotificationsResource {
     }
 
     @POST
-    @Path("deleteAll")
+    @Path("/deleteall")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response deleteAllNotifications(UserData data) {
-        LOG.fine("Attempt to delete all notifications: " + data.getTargetUsername());
+    public Response deleteAllNotifications(@HeaderParam(AUTH) String auth) {
+
+        TokenData givenTokenData = TokenUtil.validateToken(LOG, auth);
+
+        if(givenTokenData == null)
+            return Response.status(Response.Status.FORBIDDEN).build();
 
         Transaction txn = datastore.newTransaction();
 
         try {
-            Key userKey = datastore.newKeyFactory().setKind("User").newKey(data.getTargetUsername());
+            Key userKey = datastore.newKeyFactory().setKind("User").newKey(givenTokenData.getUsername());
             Query<Entity> query = Query.newEntityQueryBuilder()
                     .setKind("Notification").setFilter(StructuredQuery.PropertyFilter.hasAncestor(userKey)).build();
 
@@ -130,7 +143,7 @@ public class NotificationsResource {
             });
 
             txn.commit();
-            return Response.ok().build();
+            return Response.ok(g.toJson(ALL_NOTIFICATIONS_DELETED)).build();
         } finally {
             if (txn.isActive()) {
                 txn.rollback();
@@ -139,15 +152,17 @@ public class NotificationsResource {
     }
 
     @POST
-    @Path("listAll")
+    @Path("/list")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response listAllNotifications(UserData data) {
-        LOG.fine("Attempt to list all notifications: " + data.getTargetUsername());
+    public Response listAllNotifications(@HeaderParam(AUTH) String auth) {
 
-        //TODO tratar token
+        TokenData givenTokenData = TokenUtil.validateToken(LOG, auth);
 
-        Key userKey = datastore.newKeyFactory().setKind("User").newKey(data.getTargetUsername());
+        if(givenTokenData == null)
+            return Response.status(Response.Status.FORBIDDEN).build();
+
+        Key userKey = datastore.newKeyFactory().setKind("User").newKey(givenTokenData.getUsername());
         Query<Entity> query = Query.newEntityQueryBuilder()
                 .setKind("Notification").setFilter(StructuredQuery.PropertyFilter.hasAncestor(userKey)).build();
         QueryResults<Entity> notifications = datastore.run(query);

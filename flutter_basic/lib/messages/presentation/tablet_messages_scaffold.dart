@@ -68,8 +68,9 @@ class _TabletMessagesScaffold extends State<TabletMessagesScaffold> {
               // Navigate to chat screen for this conversation
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) =>
-                    TabletMessagesScaffold(conversation: conversation)),
+                MaterialPageRoute(
+                    builder: (context) =>
+                        TabletMessagesScaffold(conversation: conversation)),
               );
             },
           );
@@ -139,7 +140,8 @@ class _TabletMessagesScaffold extends State<TabletMessagesScaffold> {
                                 title: const Text('Conversation Screen'),
                               ),
                               body: Center(
-                                child: Text('Conversation: ${newConversation.toString()}'),
+                                child: Text(
+                                    'Conversation: ${newConversation.toString()}'),
                               ),
                             );
                           },
@@ -155,7 +157,6 @@ class _TabletMessagesScaffold extends State<TabletMessagesScaffold> {
         },
         child: const Text('Create a new conversation'),
       ),
-
     );
   }
 
@@ -193,9 +194,7 @@ class _TabletMessagesScaffold extends State<TabletMessagesScaffold> {
               ),
             ),
           ),
-
           const VerticalDivider(width: 1.0),
-
           Flexible(
             flex: 3,
             child: Container(
@@ -217,9 +216,8 @@ class _TabletMessagesScaffold extends State<TabletMessagesScaffold> {
                   ),
                   const Divider(height: 1.0),
                   Container(
-                    decoration: BoxDecoration(color: Theme
-                        .of(context)
-                        .cardColor),
+                    decoration:
+                        BoxDecoration(color: Theme.of(context).cardColor),
                     child: _buildTextComposer(),
                   ),
                 ],

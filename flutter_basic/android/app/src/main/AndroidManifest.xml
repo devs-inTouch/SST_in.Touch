@@ -1,7 +1,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.flutter_basic">
+    <queries>
+        <package android:name="com.tranzmate" />
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <data android:scheme="https" android:host="moovit.com" />
+        </intent>
+    </queries>
    <application
-        android:label="flutter_basic"
+        android:label="FCT in.Touch"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

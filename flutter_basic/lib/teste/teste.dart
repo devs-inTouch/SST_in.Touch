@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../anomalies/application/anomalyAuth.dart';
+
 class Test extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -8,9 +10,19 @@ class Test extends StatelessWidget {
       body: Center(
         child: ElevatedButton(
           onPressed: () {
-            // Ação do botão
+            final client = AnomalyAuth();
+            const username = 'example_username';
+            const title = 'Example Title';
+            const description = 'Example Description';
+
+            print("Botão pressionado");
+            AnomalyAuth.listAnomaly().then((response) {
+              print('Response: $response');
+            }).catchError((error) {
+              print('Error: $error');
+            });
           },
-          child: Text('Botão'),
+          child: const Text('Botão'),
         ),
       ),
     );
