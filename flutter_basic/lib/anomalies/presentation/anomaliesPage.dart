@@ -24,6 +24,13 @@ class AnomaliesPage extends StatefulWidget {
 }
 
 class AnomalyState extends State<AnomaliesPage> {
+  List anomalyList = [];
+
+  void initState() {
+    super.initState();
+    fetchAnomalies();
+  }
+
   List<AnomalyBox> anomalyPosts = [
     AnomalyBox(
       username: 'User1',
@@ -51,7 +58,7 @@ class AnomalyState extends State<AnomaliesPage> {
 
   bool isUploading = false;
 
-  void createButtonPressed(String username, String title, String description) {
+  /* void createButtonPressed(String username, String title, String description) {
     AnomalyAuth.listAnomaly().then((isCreated) {
       if (isCreated) {
         Navigator.push(
@@ -80,7 +87,7 @@ class AnomalyState extends State<AnomaliesPage> {
         );
       }
     });
-  }
+  } */
 
   handleTakePhoto(context) async {
     Navigator.pop(context);
@@ -282,7 +289,7 @@ class AnomalyState extends State<AnomaliesPage> {
                                     ),
                                   ),
                                 ),
-                                Padding(
+                                /* Padding(
                                   padding: const EdgeInsets.only(
                                       left:
                                           30.0), // Add left padding of 30 pixels
@@ -302,7 +309,7 @@ class AnomalyState extends State<AnomaliesPage> {
                                           color: Colors.black, fontSize: 15),
                                     ),
                                   ),
-                                ),
+                                ), */
                               ],
                             ),
                           ),
@@ -331,7 +338,6 @@ class AnomalyState extends State<AnomaliesPage> {
                           );
                         },
                       ),
-
                     ),
                   ),
                 ],
@@ -341,5 +347,14 @@ class AnomalyState extends State<AnomaliesPage> {
         ],
       ),
     );
+  }
+
+  void fetchAnomalies() async {
+    final response = await AnomalyAuth.getAnomaliesList();
+    setState(() {
+      anomalyList = response;
+    });
+    print("Anomalies fetched");
+    print(anomalyList);
   }
 }

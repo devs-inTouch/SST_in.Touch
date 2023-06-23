@@ -9,18 +9,12 @@ class Test extends StatelessWidget {
       backgroundColor: Colors.grey,
       body: Center(
         child: ElevatedButton(
-          onPressed: () {
-            final client = AnomalyAuth();
-            const username = 'example_username';
-            const title = 'Example Title';
-            const description = 'Example Description';
+          onPressed: () async {
+            List anomalies = [];
 
             print("Botão pressionado");
-            AnomalyAuth.listAnomaly().then((response) {
-              print('Response: $response');
-            }).catchError((error) {
-              print('Error: $error');
-            });
+            anomalies = await AnomalyAuth.getAnomaliesList();
+            print(anomalies);
           },
           child: const Text('Botão'),
         ),

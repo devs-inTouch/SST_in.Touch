@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/anomalies/presentation/anomaliesPage.dart';
 import 'package:flutter_basic/maps/maps.dart';
@@ -52,18 +51,14 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       actions: [
         IconButton(
-        onPressed: () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => FeedsPage(
-
-            )
-        ),
-      );
-    },
-        icon: Icon(Icons.feed),
-        color: Colors.black),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => FeedsPage()),
+              );
+            },
+            icon: Icon(Icons.feed),
+            color: Colors.black),
         IconButton(
           onPressed: () {
             Navigator.push(

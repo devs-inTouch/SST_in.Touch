@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:html';
@@ -6,7 +7,24 @@ import 'dart:html';
 import '../../constants.dart';
 
 class AnomalyAuth {
-  static Future<bool> listAnomaly() async {
+  static Future<List> getAnomaliesList() async {
+    String tokenAuth = await getTokenAuth();
+
+    final response = await http.post(
+      Uri.parse(
+          'https://steel-sequencer-385510.oa.r.appspot.com/rest/anomaly/list'),
+      headers: <String, String>{HttpHeaders.authorizationHeader: tokenAuth},
+    );
+
+    List res = [];
+    if (response.statusCode == 200) {
+      res = jsonDecode(response.body);
+      print(jsonDecode(response.body));
+    }
+    return res;
+  }
+
+  /* static Future<bool> listAnomaly() async {
     print("LISTAR anomalias");
     bool res = await httpListAnomaly();
 
@@ -85,5 +103,5 @@ class AnomalyAuth {
       print("nada");
       return 'Não tem a key no armazenamento';
     }
-  }
+  } */
 }
