@@ -13,6 +13,8 @@ import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.gmail.GmailScopes;
 import com.google.cloud.datastore.*;
+import com.google.appengine.api.memcache.MemcacheService;
+import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.google.cloud.datastore.StructuredQuery.CompositeFilter;
 import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
 
@@ -80,14 +82,23 @@ public class DriveResource {
             // Load client secrets.
             GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new StringReader(CLIENT_SECRET_JSON));
 
-            // Build flow and trigger user authorization request.
-            GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
-                    HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
-                    .setDataStoreFactory(AppEngineDataStoreFactory.getDefaultInstance())
-                    .setAccessType("offline")
-                    .build();
-            LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
-            Credential credential = new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
+            // Check if the credentials are already stored in memcache
+            MemcacheService memcacheService = MemcacheServiceFactory.getMemcacheService();
+            Credential credential = (Credential) memcacheService.get("my_credentials");
+
+            if(credential == null) {
+                // Build flow and trigger user authorization request.
+                GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
+                        HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
+                        .setDataStoreFactory(AppEngineDataStoreFactory.getDefaultInstance())
+                        .setAccessType("offline")
+                        .build();
+                LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
+                credential = new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
+
+                // Store the credentials in memcache for future use
+                memcacheService.put("my_credentials", credential);
+            }
 
             return Response.status(Response.Status.OK).entity("Ficheiro enviado").build();
         }catch (GeneralSecurityException e){
