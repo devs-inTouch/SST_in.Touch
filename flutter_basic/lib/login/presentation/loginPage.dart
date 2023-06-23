@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/register/presentation/registerPage.dart';
 import 'package:flutter_basic/login/application/loginAuth.dart';
@@ -44,6 +46,7 @@ class LoginHomePage extends State<Login> {
     LoginAuth.userLogin(username, pwd).then((isLogged) {
       if (isLogged) {
         AnomalyAuth.listAnomaly();
+        AnomalyAuth.listNotifications();
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -224,3 +227,7 @@ class LoginHomePage extends State<Login> {
     );
   }
 }
+
+
+
+
