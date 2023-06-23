@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/register/presentation/registerPage.dart';
 import 'package:flutter_basic/login/application/loginAuth.dart';
@@ -9,6 +7,7 @@ import 'package:flutter_basic/mainpage/presentation/desktop_main_scaffold.dart';
 import 'package:flutter_basic/mainpage/presentation/mobile_main_scaffold.dart';
 
 import '../../anomalies/application/anomalyAuth.dart';
+import '../../notificationAuth.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -45,8 +44,8 @@ class LoginHomePage extends State<Login> {
   void loginButtonPressed(String username, String pwd) {
     LoginAuth.userLogin(username, pwd).then((isLogged) {
       if (isLogged) {
-        AnomalyAuth.listAnomaly();
-        AnomalyAuth.listNotifications();
+        //AnomalyAuth.listAnomaly();
+        NotificationAuth.notificationList();
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -227,7 +226,3 @@ class LoginHomePage extends State<Login> {
     );
   }
 }
-
-
-
-

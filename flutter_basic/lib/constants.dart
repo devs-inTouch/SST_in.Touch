@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/maps/maps.dart';
 import 'package:flutter_basic/mainpage/presentation/desktop_main_scaffold.dart';
@@ -8,8 +10,11 @@ import 'package:flutter_basic/mainpage/presentation/tablet_main_scaffold.dart';
 import 'package:flutter_basic/profile/presentation/desktop_profile_scaffold.dart';
 import 'package:flutter_basic/profile/presentation/mobile_profile_scaffold.dart';
 import 'package:flutter_basic/profile/presentation/tablet_profile_scaffold.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'login/presentation/loginPage.dart';
 import 'messages/application/chatScreen.dart';
+
+const String appUrl = "https://steel-sequencer-385510.oa.r.appspot.com/rest";
 
 var myBackground = Colors.white;
 
@@ -289,3 +294,17 @@ var myDrawer = Drawer(
     },
   ),
 );
+
+Future<String> getTokenAuth() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? token = prefs.getString('Token');
+  Map<String, dynamic> map = jsonDecode(token!) as Map<String, dynamic>;
+  String tokenAuth = map['token'];
+  print("TOKENN: " + tokenAuth);
+  return tokenAuth;
+}
+
+Future<void> saveToSharedPreferences(String key, String jsonValue) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setString(key, jsonValue);
+}
