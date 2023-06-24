@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
 import '../anomalies/application/anomalyAuth.dart';
+import '../notifications/application/notificationAuth.dart';
 
 class Test extends StatelessWidget {
   @override
@@ -8,15 +8,20 @@ class Test extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey,
       body: Center(
-        child: ElevatedButton(
-          onPressed: () async {
-            List anomalies = [];
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: () async {
+                List anomalies = [];
 
-            print("Botão pressionado");
-            anomalies = await AnomalyAuth.getAnomaliesList();
-            print(anomalies);
-          },
-          child: const Text('Botão'),
+                print("Botão pressionado Anomaly");
+                anomalies = await AnomalyAuth.getAnomaliesList();
+                print(anomalies);
+              },
+              child: const Text('Anomalias'),
+            ),
+          ],
         ),
       ),
     );

@@ -4,14 +4,23 @@ import 'package:flutter/material.dart';
 
 class AnomalyBox extends StatelessWidget {
   final String username;
-  final String title;
+  final String type;
   final String description;
 
-  const AnomalyBox({
+   AnomalyBox({
     required this.username,
-    required this.title,
+    required this.type,
     required this.description,
   });
+
+  factory AnomalyBox.fromJson(Map<String, dynamic> json) {
+    return AnomalyBox(
+      username: json['username'],
+      type: json['type'],
+      description: json['description'],
+
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,12 +54,7 @@ class AnomalyBox extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.all(15.0),
-                child: Text(
-                  title,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                child: Text(type),
               ),
               SizedBox(height: 10),
               Padding(

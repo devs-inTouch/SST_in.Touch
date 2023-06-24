@@ -13,6 +13,7 @@ import 'package:flutter_basic/teste/teste.dart';
 
 import 'feeds/presentation/feedPage.dart';
 import 'messages/application/chatScreen.dart';
+import 'notifications/presentation/notificationList.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   const MyAppBar({super.key});
@@ -94,6 +95,9 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
           color: Colors.black,
         ),
         PopupMenuButton<Notification>(
+          icon: Icon(Icons.notifications, color: Colors.black),
+          color: Colors.white,
+          offset: const Offset(0, kToolbarHeight),
           itemBuilder: (BuildContext context) {
             return [
               PopupMenuItem<Notification>(
@@ -110,85 +114,16 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                     child: SizedBox(
                       height: 500,
                       width: 700,
-                      child: Column(
-                        children: [
-                          Expanded(
-                            child: Padding(
-                              padding: EdgeInsets.all(10.0),
-                              child: ListView.builder(
-                                itemCount: notifications.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  final notification = notifications[index];
-                                  return Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      color: Colors
-                                          .grey[200], // Light grey for tiles
-                                    ),
-                                    margin: EdgeInsets.symmetric(vertical: 5.0),
-                                    padding: EdgeInsets.all(10.0),
-                                    child: ListTile(
-                                      title: Text(notification.name),
-                                      subtitle:
-                                          Text(notification.time.toString()),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.all(10.0),
-                            child: TextButton(
-                              onPressed: () {
-                                // Add your desired action when the button is pressed
-                              },
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.grey[
-                                    400], // Set the same dark grey color as the background
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                      10.0), // Set the border radius
-                                ),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  'LIMPAR NOTIFICAÇÕES (${notifications.length})',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors
-                                        .white, // Set the text color to white
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                      child: NotificationPage(),
+
                     ),
                   ),
                 ),
               ),
             ];
           },
-          onSelected: (notification) {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  title: Text(notification.name),
-                  content: Column(
-                    children: [
-                      // Add content for the selected notification
-                    ],
-                  ),
-                );
-              },
-            );
-          },
-          icon: Icon(Icons.notifications, color: Colors.black),
-          color: Colors.white,
-          offset: const Offset(0, kToolbarHeight),
+
+
         ),
         PopupMenuButton(
           icon: const Icon(Icons.person, color: Colors.black),
@@ -300,29 +235,4 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 }
 
-List<Notification> notifications = [
-  Notification(name: 'Notification 1', time: DateTime.now()),
-  Notification(name: 'Notification 2', time: DateTime.now()),
-  Notification(name: 'Notification 3', time: DateTime.now()),
-  Notification(name: 'Notification 4', time: DateTime.now()),
-  Notification(name: 'Notification 5', time: DateTime.now()),
-  Notification(name: 'Notification 6', time: DateTime.now()),
-  Notification(name: 'Notification 7', time: DateTime.now()),
-  Notification(name: 'Notification 8', time: DateTime.now()),
-  // Add more notifications as needed
-  Notification(name: 'Notification 1', time: DateTime.now()),
-  Notification(name: 'Notification 2', time: DateTime.now()),
-  Notification(name: 'Notification 3', time: DateTime.now()),
-  Notification(name: 'Notification 4', time: DateTime.now()),
-  Notification(name: 'Notification 5', time: DateTime.now()),
-  Notification(name: 'Notification 6', time: DateTime.now()),
-  Notification(name: 'Notification 7', time: DateTime.now()),
-  Notification(name: 'Notification 8', time: DateTime.now()),
-];
 
-class Notification {
-  final String name;
-  final DateTime time;
-
-  Notification({required this.name, required this.time});
-}

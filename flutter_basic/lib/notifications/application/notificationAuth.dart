@@ -1,55 +1,51 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter_basic/feeds/presentation/anomalyBox.dart';
+import 'package:flutter_basic/feeds/presentation/notificationBox.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:html';
 import '../../constants.dart';
 
-class AnomalyAuth {
+class NotificationAuth {
 
-  static Future<List<AnomalyBox>> getAnomaliesList() async{
-
-    List<AnomalyBox> map = [];
+  static Future<List> getNotificationsList() async {
+    List<NotificationBox> map = [];
     String tokenAuth = await getTokenAuth();
 
     final response = await http.post(
       Uri.parse(
-          'https://steel-sequencer-385510.oa.r.appspot.com/rest/anomaly/list'),
+          'https://steel-sequencer-385510.oa.r.appspot.com/rest/notifications/list'),
       headers: <String, String>{HttpHeaders.authorizationHeader: tokenAuth},
     );
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       print(jsonDecode(response.body));
-      map = data.map<AnomalyBox>((item) => AnomalyBox.fromJson(item)).toList();
+      map = data.map<NotificationBox>((item) => NotificationBox.fromJson(item)).toList();
 
     }
     return map;
   }
 
-  static makeAnomalyRequest(String type,String description) async{
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? token = prefs.getString('Token');
-    Map<String, dynamic> map = jsonDecode(token!) as Map<String, dynamic>;
-    String username = map['username'];
+/*
+  static Future<List> deleteNotifications() async {
+    String tokenAuth = await getTokenAuth();
 
-  final response = await http.post(
-  Uri.parse('https://steel-sequencer-385510.oa.r.appspot.com/rest/anomaly/create'),
-  headers: <String, String>{
-  'Content-Type': 'application/json',
-  },
-  body: jsonEncode(<String, String>{
-  "username":username,
-  "type":type,
-  "description":description,
-  })
-  );
-    if(response.statusCode == 200) {
-      return true;
-    } else return false;
+    final response = await http.post(
+      Uri.parse(
+          'https://steel-sequencer-385510.oa.r.appspot.com/rest/notifications/deleteAll'),
+      headers: <String, String>{HttpHeaders.authorizationHeader: tokenAuth},
+    );
+
+    List res = [];
+    if (response.statusCode == 200) {
+      res = jsonDecode(response.body);
+      print(jsonDecode(response.body));
+    }
+    return res;
   }
-  /* static Future<bool> listAnomaly() async {
+
+/* static Future<bool> listAnomaly() async {
     print("LISTAR anomalias");
     bool res = await httpListAnomaly();
 
@@ -129,4 +125,6 @@ class AnomalyAuth {
       return 'Não tem a key no armazenamento';
     }
   } */
+  **/
+
 }

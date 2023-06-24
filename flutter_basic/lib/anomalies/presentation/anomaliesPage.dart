@@ -31,30 +31,21 @@ class AnomalyState extends State<AnomaliesPage> {
     fetchAnomalies();
   }
 
-  List<AnomalyBox> anomalyPosts = [
-    AnomalyBox(
-      username: 'User1',
-      title: 'Anomaly 1',
-      description: 'Description for Anomaly 1',
-    ),
-    AnomalyBox(
-      username: 'User2',
-      title: 'Anomaly 2',
-      description: 'Description for Anomaly 2',
-    ),
-    AnomalyBox(
-      username: 'User3',
-      title: 'Anomaly 3',
-      description: 'Description for Anomaly 3',
-    ),
-  ];
+  void fetchAnomalies() async {
+    final response = await AnomalyAuth.getAnomaliesList();
+    setState(() {
+      anomalyList = response;
+    });
+    print("Anomalies fetched");
+    print(anomalyList);
+  }
 
   late File file;
   String postId = const Uuid().v4();
   final storageRef = FirebaseStorage.instance.ref();
 
   TextEditingController description = TextEditingController();
-  TextEditingController title = TextEditingController();
+  TextEditingController type = TextEditingController();
 
   bool isUploading = false;
 
@@ -114,15 +105,35 @@ class AnomalyState extends State<AnomaliesPage> {
     return downloadUrl;
   }
 
-  putInDatabase(
-      {required String mediaUrl, required String title, required String desc}) {
-    // fazer pedido REST
+  putInDatabase({required String title, required String description}) {
+    AnomalyAuth.makeAnomalyRequest(title, description).then((value) {
+      if(value == true) {
+        showDialog(context: context,
+            builder: (context) {
+              return SimpleDialog(
+                title: Text('Sucesso'),
+                children: [
+                  Text("Anomalia criada")
+                ],
+              );
+            });
+      } else {
+        showDialog(context: context,
+            builder: (context) {
+              return SimpleDialog(
+                title: Text('Erro'),
+                children: [
+                  Text("Tente novamente")
+                ],
+              );
+            });
+      }
+    });
   }
 
   submitPost() async {
-    await compressImage();
     String url = await uploadImage(file);
-    putInDatabase(mediaUrl: url, title: title.text, desc: description.text);
+    putInDatabase(title: type.text, description: description.text);
     description.clear();
     setState(() {
       isUploading = false;
@@ -141,17 +152,10 @@ class AnomalyState extends State<AnomaliesPage> {
   }
 
   handleSubmit() async {
-    setState(() {
-      isUploading = true;
-    });
-    await compressImage();
-    String mediaUrl = await uploadImage(file);
-    putInDatabase(
-        mediaUrl: mediaUrl, title: title.text, desc: description.text);
+
+    putInDatabase(title: type.text, description: description.text);
     description.clear();
-    setState(() {
-      isUploading = false;
-    });
+
   }
 
   selectImage(parentContext) {
@@ -232,7 +236,7 @@ class AnomalyState extends State<AnomaliesPage> {
                                           padding: const EdgeInsets.all(
                                               15.0), // Add vertical padding of 15 pixels
                                           child: TextField(
-                                            controller: title,
+                                            controller: type,
                                             maxLength: 50,
                                             decoration: const InputDecoration(
                                               fillColor: Colors.white,
@@ -289,15 +293,14 @@ class AnomalyState extends State<AnomaliesPage> {
                                     ),
                                   ),
                                 ),
-                                /* Padding(
+                                 Padding(
                                   padding: const EdgeInsets.only(
                                       left:
                                           30.0), // Add left padding of 30 pixels
                                   child: ElevatedButton(
                                     onPressed: isUploading
                                         ? null
-                                        : () => createButtonPressed("gui",
-                                            title.text, description.text),
+                                        : () => handleSubmit(),
                                     style: ElevatedButton.styleFrom(
                                       fixedSize: const Size(100, 40),
                                       backgroundColor: Colors.white,
@@ -309,7 +312,7 @@ class AnomalyState extends State<AnomaliesPage> {
                                           color: Colors.black, fontSize: 15),
                                     ),
                                   ),
-                                ), */
+                                ),
                               ],
                             ),
                           ),
@@ -325,18 +328,19 @@ class AnomalyState extends State<AnomaliesPage> {
                       width: 800,
                       child: ListView.builder(
                         shrinkWrap: true,
-                        itemCount: anomalyPosts.length,
+                        itemCount: anomalyList.length,
                         itemBuilder: (BuildContext context, int index) {
-                          AnomalyBox anomalyBox = anomalyPosts[index];
+                          AnomalyBox anomalyBox = anomalyList[index];
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 10.0),
                             child: AnomalyBox(
                               username: anomalyBox.username,
-                              title: anomalyBox.title,
+                              type: anomalyBox.type,
                               description: anomalyBox.description,
                             ),
                           );
                         },
+
                       ),
                     ),
                   ),
@@ -349,12 +353,5 @@ class AnomalyState extends State<AnomaliesPage> {
     );
   }
 
-  void fetchAnomalies() async {
-    final response = await AnomalyAuth.getAnomaliesList();
-    setState(() {
-      anomalyList = response;
-    });
-    print("Anomalies fetched");
-    print(anomalyList);
-  }
+
 }
