@@ -9,6 +9,7 @@ import 'package:flutter_basic/profile/presentation/desktop_profile_scaffold.dart
 import 'package:flutter_basic/profile/presentation/mobile_profile_scaffold.dart';
 import 'package:flutter_basic/profile/presentation/tablet_profile_scaffold.dart';
 import 'package:flutter_basic/reports/presentation/reportsPage.dart';
+import 'package:flutter_basic/reservaSalas/presentation/reservaSalasPage.dart';
 import 'package:flutter_basic/teste/teste.dart';
 
 import 'feeds/presentation/feedPage.dart';
@@ -208,6 +209,25 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => AnomaliesPage()),
+                    );
+                  },
+                ),
+              ),
+            ),
+            PopupMenuItem(
+              child: Container(
+                color: Colors
+                    .white, // Set the background color of the menu item to white
+                child: ListTile(
+                  leading: const Icon(Icons.workspaces),
+                  title: const Text('Workspace'),
+                  onTap: () {
+                    // Handle logout button click
+                    Navigator.pop(context); // Close the menu
+                    // Implement your logic here
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ReservaSalasPage()),
                     );
                   },
                 ),
