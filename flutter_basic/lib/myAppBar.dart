@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/anomalies/presentation/anomaliesPage.dart';
+import 'package:flutter_basic/feeds/presentation/responsiveFeed.dart';
 import 'package:flutter_basic/maps/maps.dart';
 import 'package:flutter_basic/mainpage/presentation/desktop_main_scaffold.dart';
 import 'package:flutter_basic/mainpage/presentation/mobile_main_scaffold.dart';
@@ -56,7 +57,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => FeedsPage()),
+                MaterialPageRoute(builder: (context) => ResponsiveFeed()),
               );
             },
             icon: Icon(Icons.feed),

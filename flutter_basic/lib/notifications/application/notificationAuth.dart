@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter_basic/feeds/presentation/notificationBox.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:html';
+
 import '../../constants.dart';
 
 class NotificationAuth {

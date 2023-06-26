@@ -2,7 +2,7 @@
 
 
 
-import 'package:file_picker/_internal/file_picker_web.dart';
+
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/feeds/application/postRequests.dart';
@@ -12,7 +12,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:image/image.dart' as Im;
 import 'package:path/path.dart' as Path;
-import 'dart:html';
+
 import 'package:file_picker/file_picker.dart';
 import 'dart:typed_data';
 
@@ -67,7 +67,7 @@ class FeedState extends State<FeedsPage> {
 
   handleChoosePhoto(context) async{
     print("1");
-    FilePickerResult? fileResult = await FilePickerWeb.platform.pickFiles();
+    FilePickerResult? fileResult = await FilePicker.platform.pickFiles();
 
     if(fileResult != null) {
       setState(() {
