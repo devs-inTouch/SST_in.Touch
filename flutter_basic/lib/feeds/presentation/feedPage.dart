@@ -1,8 +1,4 @@
-
-
-
-
-
+import 'package:file_picker/_internal/file_picker_web.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/feeds/application/postRequests.dart';
@@ -16,17 +12,14 @@ import 'package:path/path.dart' as Path;
 import 'package:file_picker/file_picker.dart';
 import 'dart:typed_data';
 
-
 import '../../constants.dart';
 import '../../myAppBar.dart';
 
 class FeedsPage extends StatefulWidget {
-
   State<FeedsPage> createState() => FeedState();
 }
 
 class FeedState extends State<FeedsPage> {
-
   List<PostBox> _posts = [];
 
   @override
@@ -41,7 +34,6 @@ class FeedState extends State<FeedsPage> {
       _posts = response;
     });
     print("done this step");
-
   }
 
   late XFile file;
@@ -53,8 +45,6 @@ class FeedState extends State<FeedsPage> {
   TextEditingController description = TextEditingController();
   bool isUploading = false;
 
-
-
 /*
   handleTakePhoto(context) async {
     Navigator.pop(context);
@@ -65,48 +55,44 @@ class FeedState extends State<FeedsPage> {
     });
   }*/
 
-  handleChoosePhoto(context) async{
+  handleChoosePhoto(context) async {
     print("1");
     FilePickerResult? fileResult = await FilePicker.platform.pickFiles();
 
-    if(fileResult != null) {
+    if (fileResult != null) {
       setState(() {
         selectFile = fileResult.files.first.name;
         selectedImageInBytes = fileResult.files.first.bytes!;
       });
-
     }
     print("Chegou aqui");
     print(selectFile);
-
   }
-  
-  uploadFile() async{
+
+  uploadFile() async {
+    setState(() {
+      isUploading = true;
+    });
+    print("1");
+    UploadTask uploadTask;
+    Reference storageRef =
+        FirebaseStorage.instance.ref().child("/" + selectFile);
+
+    final metadata = SettableMetadata(contentType: 'image/jpeg');
+    uploadTask = storageRef.putData(selectedImageInBytes, metadata);
+    print("1");
+    await uploadTask.whenComplete(() => null);
+    String imageUrl = await storageRef.getDownloadURL();
+    if (imageUrl != "") {
       setState(() {
-        isUploading = true;
+        mediaURL = imageUrl;
       });
-      print("1");
-      UploadTask uploadTask;
-      Reference storageRef = FirebaseStorage.instance.ref().child("/" + selectFile);
-
-
-      final metadata = SettableMetadata(contentType: 'image/jpeg');
-      uploadTask = storageRef.putData(selectedImageInBytes, metadata);
-      print("1");
-      await uploadTask.whenComplete(() => null);
-      String imageUrl = await storageRef.getDownloadURL();
-      if(imageUrl != "") {
-        setState(() {
-          mediaURL = imageUrl;
-        });
-      }
-      print("Image uploaded");
-      print(mediaURL);
-      setState(() {
-        isUploading = false;
-      });
-
-
+    }
+    print("Image uploaded");
+    print(mediaURL);
+    setState(() {
+      isUploading = false;
+    });
   }
 
   /*
@@ -120,31 +106,27 @@ class FeedState extends State<FeedsPage> {
   putInDatabase({required String mediaUrl, required String desc}) {
     print("Media aqui" + mediaUrl);
     PostRequests.makePostRequest(mediaUrl, desc).then((value) {
-      if(value == true) {
-        showDialog(context: context,
+      if (value == true) {
+        showDialog(
+            context: context,
             builder: (context) {
               return SimpleDialog(
                 title: Text('Sucesso'),
-                children: [
-                  Text("Publicação criada")
-                ],
+                children: [Text("Publicação criada")],
               );
             });
       } else {
-        showDialog(context: context,
+        showDialog(
+            context: context,
             builder: (context) {
               return SimpleDialog(
                 title: Text('Erro'),
-                children: [
-                  Text("Tente novamente")
-                ],
+                children: [Text("Tente novamente")],
               );
             });
       }
     });
   }
-
-
 
   compressImage() async {
     /*
@@ -158,32 +140,29 @@ class FeedState extends State<FeedsPage> {
   }
 
   handleSubmit() async {
-
     uploadFile();
     print("aqui");
     putInDatabase(mediaUrl: mediaURL, desc: description.text);
     print("Ali");
     description.clear();
-
   }
 
-
-
   selectImage(parentContext) {
-    return showDialog(context: parentContext,
+    return showDialog(
+        context: parentContext,
         builder: (context) {
           return SimpleDialog(
             title: Text('Imagem'),
             children: [
               SimpleDialogOption(
                 child: Text('Escolhe da galeria'),
-                onPressed: () {handleChoosePhoto(context);},
+                onPressed: () {
+                  handleChoosePhoto(context);
+                },
               ),
               SimpleDialogOption(
                   child: Text('Cancelar'),
-                onPressed: () => Navigator.pop(context)
-                
-              )
+                  onPressed: () => Navigator.pop(context))
             ],
           );
         });
@@ -200,123 +179,95 @@ class FeedState extends State<FeedsPage> {
       backgroundColor: myBackground,
       body: Stack(
         children: [
-      Container(
-
-          width: size.width,
-          height: size.height,
-          child:Scrollbar(
-            child: SingleChildScrollView(
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Padding(
+          Container(
+            width: size.width,
+            height: size.height,
+            child: Scrollbar(
+              child: SingleChildScrollView(
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                    Padding(
                         padding: EdgeInsets.all(12.0),
                         child: Text(
-                        'FEED',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 60
-
-                        ),
-                      )),
-                      Container(
-                        height: 275*fem,
-                        width: 500*fem,
+                          'FEED',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Colors.black, fontSize: 60),
+                        )),
+                    Container(
+                        height: 275 * fem,
+                        width: 500 * fem,
                         decoration: BoxDecoration(
-                          color: Color.fromRGBO(217,217,217,1)
-                        ),
+                            color: Color.fromRGBO(217, 217, 217, 1)),
                         child: Stack(
                           children: [
-                           isUploading ? LinearProgressIndicator() : Text(""),
+                            isUploading ? LinearProgressIndicator() : Text(""),
                             Align(
-                              alignment: Alignment(0.0,-0.4),
-                              child:Container(
-                                height: 200*fem,
-                                width: 470*fem,
-                                child:TextField(
-                                  controller: description,
-                                  keyboardType: TextInputType.multiline,
-                                  maxLines: 10,
-                                  maxLength: 400,
-                                  decoration: InputDecoration(
-                                      fillColor: Colors.white,
-                                      filled: true,
-                                      labelText: 'Escreve aqui'
-                                  ),
-                                  ))),
-                            Align( //Botao para adicionar foto
-                              alignment: Alignment(0.9,0.9),
-                              child:
-                                ElevatedButton(
-                                  onPressed: isUploading ? null : () =>  handleSubmit(),
-                                  style: ElevatedButton.styleFrom(
-                                    fixedSize: Size(70* fem, 40* fem),
-                                    backgroundColor: Colors.blue[800]
-                                  ),
+                                alignment: Alignment(0.0, -0.4),
+                                child: Container(
+                                    height: 200 * fem,
+                                    width: 470 * fem,
+                                    child: TextField(
+                                      controller: description,
+                                      keyboardType: TextInputType.multiline,
+                                      maxLines: 10,
+                                      maxLength: 400,
+                                      decoration: InputDecoration(
+                                          fillColor: Colors.white,
+                                          filled: true,
+                                          labelText: 'Escreve aqui'),
+                                    ))),
+                            Align(
+                                //Botao para adicionar foto
+                                alignment: Alignment(0.9, 0.9),
+                                child: ElevatedButton(
+                                    onPressed: isUploading
+                                        ? null
+                                        : () => handleSubmit(),
+                                    style: ElevatedButton.styleFrom(
+                                        fixedSize: Size(70 * fem, 40 * fem),
+                                        backgroundColor: Colors.blue[800]),
                                     child: Text(
                                       'CRIAR',
                                       textAlign: TextAlign.left,
                                       style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 12
-
-                                      ),
-
-                                )
-
-                            )),
-                            Align( //Botao para adicionar foto
-                                alignment: Alignment(-0.9,0.9),
-                                child:
-                                ElevatedButton(
-                                    onPressed: () { selectImage(context);},
+                                          color: Colors.white, fontSize: 12),
+                                    ))),
+                            Align(
+                                //Botao para adicionar foto
+                                alignment: Alignment(-0.9, 0.9),
+                                child: ElevatedButton(
+                                    onPressed: () {
+                                      selectImage(context);
+                                    },
                                     style: ElevatedButton.styleFrom(
-                                        fixedSize: Size(100* fem, 40* fem),
-                                        backgroundColor: Colors.blue[800]
-                                    ),
+                                        fixedSize: Size(100 * fem, 40 * fem),
+                                        backgroundColor: Colors.blue[800]),
                                     child: Text(
                                       'Adicionar foto',
                                       textAlign: TextAlign.left,
                                       style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 15
-
-                                      ),
-
-                                    )
-
-                                )),
-
+                                          color: Colors.white, fontSize: 15),
+                                    ))),
                           ],
-                        )
-                      ),
-                      SizedBox(height: 10),
-                      Container(
-                          width: 500*fem,
-                          child:ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: _posts.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              final post = _posts[index];
-                              post.setFem(fem);
-                              return post;
-                            },
-
-                          )
-                      )
-                    ]
-                )
-
-
+                        )),
+                    SizedBox(height: 10),
+                    Container(
+                        width: 500 * fem,
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: _posts.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            final post = _posts[index];
+                            post.setFem(fem);
+                            return post;
+                          },
+                        ))
+                  ])),
             ),
-          ),
-
-      )
+          )
         ],
       ),
     );
   }
-  
-
 }

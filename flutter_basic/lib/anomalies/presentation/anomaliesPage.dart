@@ -11,10 +11,6 @@ import 'package:image/image.dart' as Im;
 import '../../constants.dart';
 
 import '../../feeds/presentation/anomalyBox.dart';
-import '../../mainpage/presentation/desktop_main_scaffold.dart';
-import '../../mainpage/presentation/mobile_main_scaffold.dart';
-import '../../mainpage/presentation/responsive_main_page.dart';
-import '../../mainpage/presentation/tablet_main_scaffold.dart';
 import '../../myAppBar.dart';
 
 class AnomaliesPage extends StatefulWidget {
@@ -107,24 +103,22 @@ class AnomalyState extends State<AnomaliesPage> {
 
   putInDatabase({required String title, required String description}) {
     AnomalyAuth.makeAnomalyRequest(title, description).then((value) {
-      if(value == true) {
-        showDialog(context: context,
+      if (value == true) {
+        showDialog(
+            context: context,
             builder: (context) {
               return SimpleDialog(
                 title: Text('Sucesso'),
-                children: [
-                  Text("Anomalia criada")
-                ],
+                children: [Text("Anomalia criada")],
               );
             });
       } else {
-        showDialog(context: context,
+        showDialog(
+            context: context,
             builder: (context) {
               return SimpleDialog(
                 title: Text('Erro'),
-                children: [
-                  Text("Tente novamente")
-                ],
+                children: [Text("Tente novamente")],
               );
             });
       }
@@ -152,10 +146,8 @@ class AnomalyState extends State<AnomaliesPage> {
   }
 
   handleSubmit() async {
-
     putInDatabase(title: type.text, description: description.text);
     description.clear();
-
   }
 
   selectImage(parentContext) {
@@ -293,7 +285,7 @@ class AnomalyState extends State<AnomaliesPage> {
                                     ),
                                   ),
                                 ),
-                                 Padding(
+                                Padding(
                                   padding: const EdgeInsets.only(
                                       left:
                                           30.0), // Add left padding of 30 pixels
@@ -340,7 +332,6 @@ class AnomalyState extends State<AnomaliesPage> {
                             ),
                           );
                         },
-
                       ),
                     ),
                   ),
@@ -352,6 +343,4 @@ class AnomalyState extends State<AnomaliesPage> {
       ),
     );
   }
-
-
 }

@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 
 class AnomalyBox extends StatelessWidget {
@@ -7,7 +5,7 @@ class AnomalyBox extends StatelessWidget {
   final String type;
   final String description;
 
-   AnomalyBox({
+  AnomalyBox({
     required this.username,
     required this.type,
     required this.description,
@@ -18,7 +16,6 @@ class AnomalyBox extends StatelessWidget {
       username: json['username'],
       type: json['type'],
       description: json['description'],
-
     );
   }
 
@@ -38,7 +35,8 @@ class AnomalyBox extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                 child: Container(
                   color: Colors.grey[400],
                   child: Row(
@@ -68,9 +66,3 @@ class AnomalyBox extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
-

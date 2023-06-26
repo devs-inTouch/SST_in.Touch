@@ -7,7 +7,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../constants.dart';
 
 class NotificationAuth {
-
   static Future<List> getNotificationsList() async {
     List<NotificationBox> map = [];
     String tokenAuth = await getTokenAuth();
@@ -21,8 +20,9 @@ class NotificationAuth {
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       print(jsonDecode(response.body));
-      map = data.map<NotificationBox>((item) => NotificationBox.fromJson(item)).toList();
-
+      map = data
+          .map<NotificationBox>((item) => NotificationBox.fromJson(item))
+          .toList();
     }
     return map;
   }
@@ -126,5 +126,4 @@ class NotificationAuth {
     }
   } */
   **/
-
 }
