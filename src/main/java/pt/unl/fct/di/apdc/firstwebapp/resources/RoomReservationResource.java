@@ -7,13 +7,13 @@ import pt.unl.fct.di.apdc.firstwebapp.util.TokenUtil;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.TokenData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.rooms.BookRoomData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.rooms.CreateRoomData;
-import pt.unl.fct.di.apdc.firstwebapp.util.entities.rooms.DeleteRoomData;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Globals.AUTH;
@@ -47,7 +47,7 @@ public class RoomReservationResource {
             if(user == null)
                 return Response.status(Response.Status.BAD_REQUEST).entity("User not in database").build();
 
-            Key k = datastore.newKeyFactory().setKind("Room").newKey(data.getName() +"-" + data.getDepartment());
+            Key k = datastore.newKeyFactory().setKind("Room").newKey(data.getName() + data.getDepartment() + data.getDate() + data.getHour());
 
             Entity hasRoom = txn.get(k);
             if(hasRoom != null)
@@ -77,7 +77,7 @@ public class RoomReservationResource {
     @Path("/delete")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    public Response deleteRoom(@HeaderParam(AUTH) String auth, DeleteRoomData data) {
+    public Response deleteRoom(@HeaderParam(AUTH) String auth, CreateRoomData data) {
         TokenData givenTokenData = TokenUtil.validateToken(LOG, auth);
 
         if(givenTokenData == null)
@@ -91,7 +91,7 @@ public class RoomReservationResource {
             if(user == null)
                 return Response.status(Response.Status.BAD_REQUEST).entity("User not in database").build();
 
-            Key k = datastore.newKeyFactory().setKind("Room").newKey(data.getName());
+            Key k = datastore.newKeyFactory().setKind("Room").newKey(data.getName() + data.getDepartment() + data.getDate() + data.getHour());
             Entity room = txn.get(k);
             if(room == null)
                 return Response.status(Response.Status.BAD_REQUEST).entity("Room not in database").build();
@@ -122,14 +122,78 @@ public class RoomReservationResource {
         List<CreateRoomData> list = new ArrayList<>();
 
         results.forEachRemaining(room -> {
-            list.add(new CreateRoomData(room.getString("name"), room.getString("department"), room.getString("space"), room.getString("date"), room.getString("hour")));
+            list.add(new CreateRoomData(room.getString("name"), room.getString("department"), (int) room.getLong("space"), room.getString("date"), room.getString("hour")));
         });
 
         return Response.ok(g.toJson(list)).build();
 
     }
 
-    /*public Response bookRoom(BookRoomData data) {
+    @POST
+    @Path("/book")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    public Response bookRoom(@HeaderParam(AUTH) String auth, BookRoomData data) {
+        TokenData givenTokenData = TokenUtil.validateToken(LOG, auth);
 
-    }*/
+        if(givenTokenData == null)
+            return Response.status(Response.Status.FORBIDDEN).build();
+
+        Key userKey = datastore.newKeyFactory().setKind("User").newKey(givenTokenData.getUsername());
+        Key roomKey = datastore.newKeyFactory().setKind("Room").newKey(data.getName() + data.getDepartment() + data.getDate() + data.getHour());
+
+        Transaction txn = datastore.newTransaction();
+        try {
+            Entity user = txn.get(userKey);
+            if(user == null)
+                return Response.status(Response.Status.BAD_REQUEST).entity("User not in database").build();
+
+            Entity room = txn.get(roomKey);
+            if(room == null)
+                return Response.status(Response.Status.BAD_REQUEST).entity("Room not in database").build();
+
+            if(data.getAvailable())
+                return Response.status(Response.Status.BAD_REQUEST).entity("Room not available").build();
+
+            Key bookingKey = datastore.newKeyFactory().setKind("Booking")
+                    .addAncestor(PathElement.of("User", givenTokenData.getUsername()))
+                    .newKey(givenTokenData.getUsername() + "-" + room.getString("name") + "-" + room.getString("department"));
+
+            Entity booking = Entity.newBuilder(bookingKey)
+                    .set("username", givenTokenData.getUsername())
+                    .set("room", data.getName())
+                    .set("department", data.getDepartment())
+                    .set("numberStudents", data.getNumberStudents())
+                    .set("date", data.getDate())
+                    .set("hour", data.getHour())
+                    .set("available", false)
+                    .build();
+
+            txn.add(booking);
+            txn.commit();
+
+            return Response.ok(g.toJson("Room booked successfully")).build();
+
+        } finally {
+            if(txn.isActive())
+                txn.rollback();
+        }
+    }
+
+    private int getNextRoom(String name) {
+        AtomicInteger max = new AtomicInteger(0);
+
+        Query<Entity> query = Query.newEntityQueryBuilder()
+                .setKind("Room").setFilter(StructuredQuery.PropertyFilter.eq("name", name)).build();
+
+        QueryResults<Entity> roomQuery = datastore.run(query);
+
+        roomQuery.forEachRemaining(t -> {
+            int val = Integer.parseInt(t.getKey().getName().replace(name, ""));
+            if (max.get() < val)
+                max.set(val);
+        });
+
+        return max.incrementAndGet();
+    }
 }

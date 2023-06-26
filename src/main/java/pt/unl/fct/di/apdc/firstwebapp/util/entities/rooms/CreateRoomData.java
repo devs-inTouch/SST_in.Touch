@@ -2,13 +2,14 @@ package pt.unl.fct.di.apdc.firstwebapp.util.entities.rooms;
 
 public class CreateRoomData {
 
-    private String name, department, space, date, hour;
+    private String name, department, date, hour;
+    private int space;
     //private boolean isAvailable;
 
     public CreateRoomData() {
     }
 
-    public CreateRoomData(String name, String department, String space, String date, String hour) {
+    public CreateRoomData(String name, String department, int space, String date, String hour) {
         this.name = name;
         this.department = department;
         this.space = space;
@@ -24,7 +25,7 @@ public class CreateRoomData {
         return department;
     }
 
-    public String getSpace() {
+    public int getSpace() {
         return space;
     }
 
