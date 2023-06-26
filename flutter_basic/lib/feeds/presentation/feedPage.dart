@@ -1,4 +1,3 @@
-import 'package:file_picker/_internal/file_picker_web.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/feeds/application/postRequests.dart';
