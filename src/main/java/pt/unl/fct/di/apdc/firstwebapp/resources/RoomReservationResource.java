@@ -27,7 +27,10 @@ public class RoomReservationResource {
 
     private final Gson g = new Gson();
 
+    private final NotificationsResource notification;
+
     public RoomReservationResource() {
+        notification = new NotificationsResource();
     }
 
     @POST
@@ -155,9 +158,13 @@ public class RoomReservationResource {
             if(data.getAvailable())
                 return Response.status(Response.Status.BAD_REQUEST).entity("Room not available").build();
 
+            //create exception when the number of students are bigger than the space of the room
+            if(data.getNumberStudents() > Integer.parseInt(String.valueOf(room.getLong("space"))))
+                return Response.status(Response.Status.BAD_REQUEST).entity("Number of students bigger than the space of the room").build();
+
             Key bookingKey = datastore.newKeyFactory().setKind("Booking")
                     .addAncestor(PathElement.of("User", givenTokenData.getUsername()))
-                    .newKey(givenTokenData.getUsername() + "-" + room.getString("name") + "-" + room.getString("department"));
+                    .newKey(givenTokenData.getUsername() + "-" + room.getString("name") + "-" + room.getString("department") + "-" + room.getString("date") + "-" + room.getString("hour"));
 
             Entity booking = Entity.newBuilder(bookingKey)
                     .set("username", givenTokenData.getUsername())
@@ -169,6 +176,7 @@ public class RoomReservationResource {
                     .set("available", false)
                     .build();
 
+            notification.createNotification("Reserva efetuada","System", givenTokenData.getUsername(), "Aviso", System.currentTimeMillis());
             txn.add(booking);
             txn.commit();
 
@@ -179,6 +187,36 @@ public class RoomReservationResource {
                 txn.rollback();
         }
     }
+
+    @POST
+    @Path("/approve")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    public Response changeAvailability(CreateRoomData data) {
+        Key k = datastore.newKeyFactory().setKind("Room").newKey(data.getName() + data.getDepartment() + data.getDate() + data.getHour());
+        Transaction txn = datastore.newTransaction();
+        try {
+            Entity room = txn.get(k);
+
+            Entity newRoom = Entity.newBuilder(k)
+                    .set("name", room.getString("name"))
+                    .set("department", room.getString("department"))
+                    .set("space", room.getString("space"))
+                    .set("date", room.getString("date"))
+                    .set("hour", room.getString("hour"))
+                    .set("available", false)
+                    .build();
+
+            txn.add(newRoom);
+            txn.commit();
+
+            return Response.ok(g.toJson("Reservation approved successfully")).build();
+        } finally {
+            if(txn.isActive())
+                txn.rollback();
+        }
+    }
+
 
     private int getNextRoom(String name) {
         AtomicInteger max = new AtomicInteger(0);
