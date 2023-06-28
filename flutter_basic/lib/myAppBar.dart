@@ -54,49 +54,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
       actions: [
-        IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ResponsiveFeed()),
-              );
-            },
-            icon: Icon(Icons.feed),
-            color: Colors.black),
-        IconButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const MapScreen()),
-            );
-          },
-          icon: const Icon(Icons.map),
-          color: Colors.black,
-        ),
-        IconButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Test()),
-            );
-          },
-          icon: const Icon(Icons.temple_buddhist),
-          color: Colors.black,
-        ),
-        IconButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => ChatScreen(
-                        conversation: null,
-                        onConversationSelected: (Conversation) {},
-                      )),
-            );
-          },
-          icon: const Icon(Icons.chat),
-          color: Colors.black,
-        ),
+
         PopupMenuButton<Notification>(
           icon: Icon(Icons.notifications, color: Colors.black),
           color: Colors.white,
@@ -128,6 +86,96 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
 
 
         ),
+        PopupMenuButton(
+          icon: const Icon(Icons.list, color: Colors.black),
+          color: Colors.white,
+          offset: const Offset(0, kToolbarHeight),
+          itemBuilder: (BuildContext context) => [
+
+            PopupMenuItem(
+              child: Container(
+                color: Colors
+                    .white, // Set the background color of the menu item to white
+                child: ListTile(
+                  leading: const Icon(Icons.feed),
+                  title: const Text('Feed'),
+                  onTap: () {
+                    // Handle logout button click
+                    Navigator.pop(context); // Close the menu
+                    // Implement your logic here
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ResponsiveFeed()),
+                    );
+                  },
+                ),
+              ),
+            ),
+            PopupMenuItem(
+              child: Container(
+                color: Colors
+                    .white, // Set the background color of the menu item to white
+                child: ListTile(
+                  leading: const Icon(Icons.map),
+                  title: const Text('Maps'),
+                  onTap: () {
+                    // Handle logout button click
+                    Navigator.pop(context); // Close the menu
+                    // Implement your logic here
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MapScreen()),
+                    );
+                  },
+                ),
+              ),
+            ),
+            PopupMenuItem(
+              child: Container(
+                color: Colors
+                    .white, // Set the background color of the menu item to white
+                child: ListTile(
+                  leading: const Icon(Icons.terminal),
+                  title: const Text('Tests'),
+                  onTap: () {
+                    // Handle logout button click
+                    Navigator.pop(context); // Close the menu
+                    // Implement your logic here
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Test()),
+                    );
+                  },
+                ),
+              ),
+            ),
+            PopupMenuItem(
+              child: Container(
+                color: Colors
+                    .white, // Set the background color of the menu item to white
+                child: ListTile(
+                  leading: const Icon(Icons.chat),
+                  title: const Text('Chat'),
+                  onTap: () {
+                    // Handle logout button click
+                    Navigator.pop(context); // Close the menu
+                    // Implement your logic here
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ChatScreen(
+                          conversation: null,
+                          onConversationSelected: (Conversation) {},
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
+        ),
+
         PopupMenuButton(
           icon: const Icon(Icons.person, color: Colors.black),
           color: Colors.white,
