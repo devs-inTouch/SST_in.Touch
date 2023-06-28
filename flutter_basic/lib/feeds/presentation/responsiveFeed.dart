@@ -8,7 +8,7 @@ class ResponsiveFeed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
-      if(constraints.maxWidth<500){
+      if(constraints.maxWidth<1){
         return FeedsPageMobile();
       }else {
         return FeedsPage();

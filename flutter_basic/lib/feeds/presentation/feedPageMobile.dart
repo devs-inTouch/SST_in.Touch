@@ -158,11 +158,9 @@ class FeedStateMobile extends State<FeedsPageMobile> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final fem = size.width / 1440; // 1440 is the reference width
 
     return Scaffold(
       appBar: MyAppBar(),
-      drawer: myDrawer,
       backgroundColor: myBackground,
       body: Stack(
         children: [
@@ -171,48 +169,63 @@ class FeedStateMobile extends State<FeedsPageMobile> {
             height: size.height,
             child: Scrollbar(
               child: SingleChildScrollView(
+                child: Padding(
+                  padding: EdgeInsets.all(20.0), // Add the desired padding here
                   child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                    Padding(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(
                         padding: EdgeInsets.all(12.0),
                         child: Text(
                           'FEED',
                           textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.black, fontSize: 60),
-                        )),
-                    Container(
-                        height: 275 * fem,
-                        width: 500 * fem,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                            fontSize: 26,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 400,
+                        width: 500,
                         decoration: BoxDecoration(
-                            color: Color.fromRGBO(217, 217, 217, 1)),
+                          color: Color.fromRGBO(217, 217, 217, 1),
+                        ),
                         child: Stack(
                           children: [
-                            isUploading ? LinearProgressIndicator() : Text(""),
+                            isUploading ? LinearProgressIndicator() : Text(''),
                             Align(
-                                alignment: Alignment(0.0, -0.4),
+                              alignment: Alignment(0.0, -0.4),
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 15.0), // Add the desired horizontal padding
                                 child: Container(
-                                    height: 200 * fem,
-                                    width: 470 * fem,
-                                    child: TextField(
-                                      controller: description,
-                                      keyboardType: TextInputType.multiline,
-                                      maxLines: 10,
-                                      maxLength: 400,
-                                      decoration: InputDecoration(
-                                          fillColor: Colors.white,
-                                          filled: true,
-                                          labelText: 'Escreve aqui'),
-                                    ))),
+                                  height: 200,
+                                  width: 470,
+                                  child: TextField(
+                                    controller: description,
+                                    keyboardType: TextInputType.multiline,
+                                    maxLines: 10,
+                                    maxLength: 400,
+                                    decoration: InputDecoration(
+                                      fillColor: Colors.white,
+                                      filled: true,
+                                      labelText: 'Escreve aqui',
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+
                             Align(
-                                //Botao para adicionar foto
+                              //Botao para adicionar foto
                                 alignment: Alignment(0.9, 0.9),
                                 child: ElevatedButton(
                                     onPressed: isUploading
                                         ? null
                                         : () => handleSubmit(),
                                     style: ElevatedButton.styleFrom(
-                                        fixedSize: Size(70 * fem, 40 * fem),
+                                        fixedSize: Size(70, 40),
                                         backgroundColor: Colors.blue[800]),
                                     child: Text(
                                       'CRIAR',
@@ -221,14 +234,14 @@ class FeedStateMobile extends State<FeedsPageMobile> {
                                           color: Colors.white, fontSize: 12),
                                     ))),
                             Align(
-                                //Botao para adicionar foto
+                              //Botao para adicionar foto
                                 alignment: Alignment(-0.9, 0.9),
                                 child: ElevatedButton(
                                     onPressed: () {
                                       selectImage(context);
                                     },
                                     style: ElevatedButton.styleFrom(
-                                        fixedSize: Size(100 * fem, 40 * fem),
+                                        fixedSize: Size(100, 40),
                                         backgroundColor: Colors.blue[800]),
                                     child: Text(
                                       'Adicionar foto',
@@ -238,23 +251,24 @@ class FeedStateMobile extends State<FeedsPageMobile> {
                                     ))),
                           ],
                         )),
-                    SizedBox(height: 10),
-                    Container(
-                        width: 500 * fem,
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: _posts.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            final post = _posts[index];
-                            post.setFem(fem);
-                            return post;
-                          },
-                        ))
-                  ])),
-            ),
-          )
-        ],
+                      SizedBox(height: 10),
+                      Container(
+                          width: 500,
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: _posts.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              final post = _posts[index];
+                              return post;
+                            },
+                          ))
+                    ])),
+              ),
+            )
       ),
+      ],
+    )
     );
   }
+
 }

@@ -1,9 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../constants.dart';
 import '../../myAppBar.dart';
 
 class ReservaSalasPage extends StatelessWidget {
+
+  TextEditingController department = TextEditingController();
+  TextEditingController room = TextEditingController();
+  TextEditingController numberStudents = TextEditingController();
+  TextEditingController data = TextEditingController();
+  TextEditingController hora = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -11,7 +19,7 @@ class ReservaSalasPage extends StatelessWidget {
     return Scaffold(
       appBar: MyAppBar(),
       backgroundColor: Colors.grey[300],
-      body: Center( // Center widget added here
+      body: Center(
         child: Container(
           padding: EdgeInsets.all(20),
           child: Column(
@@ -55,10 +63,7 @@ class ReservaSalasPage extends StatelessWidget {
                                           padding: EdgeInsetsDirectional.zero,
                                           child: Text(
                                             'DEPARTAMENTO',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16,
-                                            ),
+                                            style: textStyleReservaSalas,
                                           ),
                                         ),
                                       ),
@@ -67,6 +72,7 @@ class ReservaSalasPage extends StatelessWidget {
                                     Expanded(
                                       flex: 2,
                                       child: TextField(
+                                        controller: department,
                                         decoration: InputDecoration(
                                           filled: true,
                                           fillColor: Colors.white,
@@ -83,10 +89,7 @@ class ReservaSalasPage extends StatelessWidget {
                                           padding: EdgeInsetsDirectional.zero,
                                           child: Text(
                                             'SALA',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16,
-                                            ),
+                                            style: textStyleReservaSalas,
                                           ),
                                         ),
                                       ),
@@ -95,6 +98,7 @@ class ReservaSalasPage extends StatelessWidget {
                                     Expanded(
                                       flex: 2,
                                       child: TextField(
+                                        controller: room,
                                         decoration: InputDecoration(
                                           filled: true,
                                           fillColor: Colors.white,
@@ -135,10 +139,7 @@ class ReservaSalasPage extends StatelessWidget {
                                     padding: EdgeInsetsDirectional.zero,
                                     child: Text(
                                       'NÚMERO DE ALUNOS',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                      ),
+                                      style: textStyleReservaSalas,
                                     ),
                                   ),
                                 ),
@@ -147,6 +148,7 @@ class ReservaSalasPage extends StatelessWidget {
                               Expanded(
                                 flex: 2,
                                 child: TextField(
+                                  controller: numberStudents,
                                   decoration: InputDecoration(
                                     filled: true,
                                     fillColor: Colors.white,
@@ -163,10 +165,7 @@ class ReservaSalasPage extends StatelessWidget {
                                     padding: EdgeInsetsDirectional.zero,
                                     child: Text(
                                       'DATA',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                      ),
+                                      style: textStyleReservaSalas,
                                     ),
                                   ),
                                 ),
@@ -175,6 +174,7 @@ class ReservaSalasPage extends StatelessWidget {
                               Expanded(
                                 flex: 2,
                                 child: TextField(
+                                  controller: data,
                                   decoration: InputDecoration(
                                     filled: true,
                                     fillColor: Colors.white,
@@ -191,10 +191,7 @@ class ReservaSalasPage extends StatelessWidget {
                                     padding: EdgeInsetsDirectional.zero,
                                     child: Text(
                                       'HORA',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                      ),
+                                      style: textStyleReservaSalas,
                                     ),
                                   ),
                                 ),
@@ -203,6 +200,7 @@ class ReservaSalasPage extends StatelessWidget {
                               Expanded(
                                 flex: 2,
                                 child: TextField(
+                                  controller: hora,
                                   decoration: InputDecoration(
                                     filled: true,
                                     fillColor: Colors.white,

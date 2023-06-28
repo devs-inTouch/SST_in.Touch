@@ -47,7 +47,7 @@ class _MobileScaffoldState extends State<MobileScaffold> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const MyAppBar(),
-      backgroundColor: Colors.white,
+      backgroundColor: myBackground,
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Scrollbar(
@@ -88,11 +88,9 @@ class _MobileScaffoldState extends State<MobileScaffold> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       InkWell(
-                        onTap: () async {
-                          await LaunchApp.openApp(
-                            androidPackageName: 'com.tranzmate',
-                            openStore: true,
-                          );
+                        onTap: () {
+                          launchUrl(Uri.parse(
+                              'https://moovitapp.com/lisboa-2460/poi/pt'));
                         },
                         child: Image.asset(
                           'assets/moovit.png',

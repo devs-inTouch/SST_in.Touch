@@ -65,7 +65,6 @@ class _ProfilePageState extends State<MobileProfileScaffold> {
 
     return Scaffold(
       appBar: MyAppBar(),
-      drawer: myDrawer,
       backgroundColor: myBackground,
       body: Stack(
         children: [

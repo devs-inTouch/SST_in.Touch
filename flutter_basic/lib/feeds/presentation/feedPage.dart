@@ -174,8 +174,7 @@ class FeedState extends State<FeedsPage> {
 
     return Scaffold(
       appBar: MyAppBar(),
-      drawer: myDrawer,
-      backgroundColor: myBackground,
+      backgroundColor: Colors.grey[300],
       body: Stack(
         children: [
           Container(
@@ -183,76 +182,90 @@ class FeedState extends State<FeedsPage> {
             height: size.height,
             child: Scrollbar(
               child: SingleChildScrollView(
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
                     Padding(
-                        padding: EdgeInsets.all(12.0),
-                        child: Text(
-                          'FEED',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.black, fontSize: 60),
-                        )),
-                    Container(
-                        height: 275 * fem,
-                        width: 500 * fem,
+                      padding: EdgeInsets.all(12.0),
+                      child: Text(
+                        'FEED',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Colors.black, fontSize: 60),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 15.0),
+                      child: Container(
+                        height: 400,
+                        width: 500,
                         decoration: BoxDecoration(
-                            color: Color.fromRGBO(217, 217, 217, 1)),
+                          color: Color.fromRGBO(217, 217, 217, 1),
+                        ),
                         child: Stack(
                           children: [
                             isUploading ? LinearProgressIndicator() : Text(""),
                             Align(
-                                alignment: Alignment(0.0, -0.4),
-                                child: Container(
-                                    height: 200 * fem,
-                                    width: 470 * fem,
-                                    child: TextField(
-                                      controller: description,
-                                      keyboardType: TextInputType.multiline,
-                                      maxLines: 10,
-                                      maxLength: 400,
-                                      decoration: InputDecoration(
-                                          fillColor: Colors.white,
-                                          filled: true,
-                                          labelText: 'Escreve aqui'),
-                                    ))),
+                              alignment: Alignment(0.0, -0.4),
+                              child: Container(
+                                height: 200,
+                                width: 470,
+                                child: Padding(
+                                  padding: EdgeInsets.all(15.0),
+                                  child: TextField(
+                                    controller: description,
+                                    keyboardType: TextInputType.multiline,
+                                    maxLines: 10,
+                                    maxLength: 400,
+                                    decoration: InputDecoration(
+                                      fillColor: Colors.white,
+                                      filled: true,
+                                      labelText: 'Escrever aqui',
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
                             Align(
-                                //Botao para adicionar foto
-                                alignment: Alignment(0.9, 0.9),
-                                child: ElevatedButton(
-                                    onPressed: isUploading
-                                        ? null
-                                        : () => handleSubmit(),
-                                    style: ElevatedButton.styleFrom(
-                                        fixedSize: Size(70 * fem, 40 * fem),
-                                        backgroundColor: Colors.blue[800]),
-                                    child: Text(
-                                      'CRIAR',
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 12),
-                                    ))),
+                              alignment: Alignment(0.9, 0.9),
+                              child: ElevatedButton(
+                                onPressed: isUploading ? null : () => handleSubmit(),
+                                style: ElevatedButton.styleFrom(
+                                  fixedSize: Size(120, 40 ),
+                                  backgroundColor: Colors.blue[800],
+                                ),
+                                child: Text(
+                                  'CRIAR',
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(color: Colors.white, fontSize: 12),
+                                ),
+                              ),
+                            ),
                             Align(
-                                //Botao para adicionar foto
-                                alignment: Alignment(-0.9, 0.9),
-                                child: ElevatedButton(
-                                    onPressed: () {
-                                      selectImage(context);
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                        fixedSize: Size(100 * fem, 40 * fem),
-                                        backgroundColor: Colors.blue[800]),
-                                    child: Text(
-                                      'Adicionar foto',
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 15),
-                                    ))),
+                              alignment: Alignment(-0.9, 0.9),
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  selectImage(context);
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  fixedSize: Size(150, 50),
+                                  backgroundColor: Colors.blue[800],
+                                ),
+                                child: Text(
+                                  'Adicionar foto',
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(color: Colors.white, fontSize: 15),
+                                ),
+                              ),
+                            ),
                           ],
-                        )),
+                        ),
+                      ),
+                    ),
                     SizedBox(height: 10),
                     Container(
-                        width: 500 * fem,
+                      width: 500,
+                      child: Padding(
+                        padding: EdgeInsets.all(20.0),
                         child: ListView.builder(
                           shrinkWrap: true,
                           itemCount: _posts.length,
@@ -261,12 +274,18 @@ class FeedState extends State<FeedsPage> {
                             post.setFem(fem);
                             return post;
                           },
-                        ))
-                  ])),
+                        ),
+                      ),
+                    ),
+
+                  ],
+                ),
+              ),
             ),
-          )
+          ),
         ],
       ),
     );
   }
+
 }

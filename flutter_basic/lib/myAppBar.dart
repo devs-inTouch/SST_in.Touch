@@ -10,7 +10,8 @@ import 'package:flutter_basic/profile/presentation/desktop_profile_scaffold.dart
 import 'package:flutter_basic/profile/presentation/mobile_profile_scaffold.dart';
 import 'package:flutter_basic/profile/presentation/tablet_profile_scaffold.dart';
 import 'package:flutter_basic/reports/presentation/reportsPage.dart';
-import 'package:flutter_basic/reservaSalas/presentation/reservaSalasPage.dart';
+import 'package:flutter_basic/reservaSalas/presentation/responsive_reservasalas.dart';
+import 'package:flutter_basic/reservaSalas/presentation/tablet_reservasalas_page.dart';
 import 'package:flutter_basic/teste/teste.dart';
 
 import 'feeds/presentation/feedPage.dart';
@@ -228,7 +229,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                     // Implement your logic here
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ReservaSalasPage()),
+                      MaterialPageRoute(builder: (context) => ResponsiveReservaSalas()),
                     );
                   },
                 ),

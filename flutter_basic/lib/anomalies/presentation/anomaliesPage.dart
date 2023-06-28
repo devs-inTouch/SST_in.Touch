@@ -177,13 +177,12 @@ class AnomalyState extends State<AnomaliesPage> {
 
     return Scaffold(
       appBar: const MyAppBar(),
-      drawer: myDrawer,
       backgroundColor: Colors.grey[300],
       body: Stack(
         children: [
           Container(
             width: size.width,
-            height: double.infinity,
+            height: size.height,
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -201,10 +200,10 @@ class AnomalyState extends State<AnomaliesPage> {
                   ),
                   Padding(
                     padding:
-                        const EdgeInsets.all(30.0), // Add a margin of 30 pixels
+                        const EdgeInsets.all(20.0), // Add a margin of 30 pixels
                     child: Container(
                       height: 400,
-                      width: 800,
+                      width: 1000,
                       decoration: BoxDecoration(
                         color: Colors.grey[400],
                         borderRadius: BorderRadius.circular(10.0),
@@ -225,8 +224,7 @@ class AnomalyState extends State<AnomaliesPage> {
                                     child: Column(
                                       children: [
                                         Padding(
-                                          padding: const EdgeInsets.all(
-                                              15.0), // Add vertical padding of 15 pixels
+                                          padding: const EdgeInsets.fromLTRB(15.0,15.0,15.0,0.0), // Add vertical padding of 15 pixels
                                           child: TextField(
                                             controller: type,
                                             maxLength: 50,
@@ -238,8 +236,7 @@ class AnomalyState extends State<AnomaliesPage> {
                                           ),
                                         ),
                                         Padding(
-                                          padding: const EdgeInsets.all(
-                                              15.0), // Add vertical padding of 15 pixels
+                                          padding: const EdgeInsets.fromLTRB(15.0,15.0,15.0,0.0), // Add vertical padding of 15 pixels
                                           child: TextField(
                                             controller: description,
                                             keyboardType:
@@ -261,14 +258,14 @@ class AnomalyState extends State<AnomaliesPage> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.all(20.0),
+                            padding: const EdgeInsets.all(5.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.only(
                                       right:
-                                          30.0), // Add right padding of 30 pixels
+                                          20.0), // Add right padding of 30 pixels
                                   child: ElevatedButton(
                                     onPressed: () {
                                       selectImage(context);
@@ -288,7 +285,7 @@ class AnomalyState extends State<AnomaliesPage> {
                                 Padding(
                                   padding: const EdgeInsets.only(
                                       left:
-                                          30.0), // Add left padding of 30 pixels
+                                          20.0), // Add left padding of 30 pixels
                                   child: ElevatedButton(
                                     onPressed: isUploading
                                         ? null

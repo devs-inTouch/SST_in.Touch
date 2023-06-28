@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/constants.dart';
-import 'package:intl/intl.dart';
-import 'package:url_launcher/url_launcher.dart';
-
-
 import '../../hojeNaFCT/avisos_info.dart';
 import '../../hojeNaFCT/exposicoes_info.dart';
 import '../../hojeNaFCT/noticias_info.dart';
@@ -11,6 +7,7 @@ import '../../hojeNaFCT/restauração_info.dart';
 import '../../myAppBar.dart';
 import '../../weatherBox.dart';
 import 'auxMainpage.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class TabletScaffold extends StatefulWidget {
   const TabletScaffold({Key? key}) : super(key: key);

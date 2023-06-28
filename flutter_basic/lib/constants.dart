@@ -31,6 +31,16 @@ var textStyle = const TextStyle(
   color: Colors.black,
   fontSize: 16.0,
 );
+var textStyleReservaSalas = const TextStyle(
+  color: Colors.black,
+  fontWeight: FontWeight.bold,
+  fontSize: 14.0,
+);
+var textStyleReservaSalasButton = const TextStyle(
+  color: Colors.black,
+  fontWeight: FontWeight.bold,
+  fontSize: 14.0,
+);
 
 Widget textTopBar(String text) {
   return Text(
@@ -142,159 +152,6 @@ var myAppBar = AppBar(
   ],
 );
 **/
-var myDrawer = Drawer(
-  backgroundColor: Colors.blue[600],
-  width: 220,
-  child: Builder(
-    builder: (BuildContext context) {
-      return Column(
-        children: [
-          DrawerHeader(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(
-                  'assets/logo-1-RBH.png',
-                  width: 50,
-                  height: 50,
-                ),
-                const SizedBox(height: 10),
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const ResponsiveLayout(
-                          mobileScaffold: MobileProfileScaffold(
-                            name: 'John Doe',
-                            imageAssetPath: 'assets/images/profile.jpg',
-                            role: 'Developer',
-                            year: '2002',
-                            nucleos: 'Engineering',
-                          ),
-                          tabletScaffold: TabletProfileScaffold(
-                            name: 'John Doe',
-                            imageAssetPath: 'assets/images/profile.jpg',
-                            role: 'Developer',
-                            year: '2002',
-                            nucleos: 'Engineering',
-                          ),
-                          desktopScaffold: DesktopProfileScaffold(
-                            name: 'John Doe',
-                            imageAssetPath: 'assets/images/profile.jpg',
-                            role: 'Developer',
-                            year: '2002',
-                            nucleos: 'Engineering',
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                  child: const Text(
-                    'Profile',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 30,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 20),
-          InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ResponsiveLayout(
-                    mobileScaffold: MobileScaffold(),
-                    tabletScaffold: TabletScaffold(),
-                    desktopScaffold: DesktopScaffold(),
-                  ),
-                ),
-              );
-            },
-            child: ListTile(
-              leading: const Icon(Icons.home),
-              title: const Text(
-                'H O M E  P A G E',
-                style: TextStyle(color: Colors.white),
-              ),
-              tileColor: Colors.blue[900],
-              selectedTileColor: Colors.blue[800],
-              selected: true,
-            ),
-          ),
-          const SizedBox(height: 10),
-          InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ChatScreen(
-                          conversation: null,
-                          onConversationSelected: (Conversation) {},
-                        )),
-              );
-            },
-            child: ListTile(
-              leading: const Icon(Icons.chat),
-              title: const Text(
-                'M E S S A G E S',
-                style: TextStyle(color: Colors.white),
-              ),
-              tileColor: Colors.blue[900],
-              selectedTileColor: Colors.blue[800],
-              selected: false, // Change to true if this is the current page
-            ),
-          ),
-          const Spacer(),
-          InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const MapScreen()),
-              );
-            },
-            child: ListTile(
-              leading: const Icon(Icons.map),
-              title: const Text(
-                'M A P S',
-                style: TextStyle(color: Colors.white),
-              ),
-              tileColor: Colors.blue[900],
-              selectedTileColor: Colors.blue[800],
-              selected: false, // Change to true if this is the current page
-            ),
-          ),
-          const SizedBox(height: 10),
-          const Spacer(),
-          InkWell(
-            onTap: () {
-              // Function to execute when the "Logout" button is tapped
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const Login()),
-              );
-            },
-            child: ListTile(
-              leading: const Icon(Icons.logout),
-              title: const Text(
-                'L O G O U T',
-                style: TextStyle(color: Colors.white),
-              ),
-              tileColor: Colors.blue[900],
-              selectedTileColor: Colors.blue[800],
-              selected: false, // Change to true if this is the current page
-            ),
-          ),
-        ],
-      );
-    },
-  ),
-);
-
 Future<String> getTokenAuth() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? token = prefs.getString('Token');

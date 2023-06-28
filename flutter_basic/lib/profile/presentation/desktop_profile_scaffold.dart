@@ -68,7 +68,6 @@ class _ProfilePageState extends State<DesktopProfileScaffold> {
 
     return Scaffold(
       appBar: MyAppBar(),
-      drawer: myDrawer,
       backgroundColor: myBackground,
       body: userInfo.isNotEmpty
           ? Stack(

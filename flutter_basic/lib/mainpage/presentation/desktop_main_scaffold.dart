@@ -44,7 +44,7 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const MyAppBar(),
-      backgroundColor: Color.fromRGBO(218, 217, 217, 1),
+      backgroundColor: myBackground,
       body: Padding(
         padding: const EdgeInsets.all(50.0),
         child: Row(

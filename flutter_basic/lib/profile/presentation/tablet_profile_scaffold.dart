@@ -180,7 +180,6 @@ class _ProfilePageState extends State<TabletProfileScaffold> {
 
     return Scaffold(
       appBar: MyAppBar(),
-      drawer: myDrawer,
       backgroundColor: myBackground,
       body: Stack(
         children: [
