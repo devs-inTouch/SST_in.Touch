@@ -7,6 +7,7 @@ import static pt.unl.fct.di.apdc.firstwebapp.util.enums.TokenAttributes.USERNAME
 
 import java.util.logging.Logger;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -33,6 +34,7 @@ import pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes;
 
 @Path("/login")
 @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+@Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
 public class LoginResource {
 
 	/**
@@ -74,7 +76,7 @@ public class LoginResource {
 			return Response.status(Status.FORBIDDEN).build();
 		}
 
-		AuthToken token = new AuthToken(data.getUsername());
+		AuthToken token = new AuthToken(data.getUsername(), user.getString(UserAttributes.ROLE.value));
 
 		Key tokenKey = tokenKeyFactory.newKey(data.getUsername());
 

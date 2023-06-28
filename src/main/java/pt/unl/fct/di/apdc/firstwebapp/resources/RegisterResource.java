@@ -57,7 +57,7 @@ public class RegisterResource {
 					.set(UserAttributes.CREATION_TIME.value, System.currentTimeMillis())
 					.set(UserAttributes.EMAIL.value, data.getEmail())
 					.set(UserAttributes.STUDENT_NUMBER.value, data.getStudentNumber())
-					.set(UserAttributes.ROLE.value, UserRole.UNASSIGNED.type)
+					.set(UserAttributes.ROLE.value, UserRole.UNASSIGNED.value)
 					.set(UserAttributes.DEPARTMENT.value, data.getDepartment())
 					.set(UserAttributes.DESCRIPTION.value, data.getDescription())
 					.set(UserAttributes.STATE.value, false)

@@ -5,8 +5,7 @@ public enum DatastoreEntities {
     USER("User"),
     TOKEN("Token"),
     OPERATION("Operation"),
-    MANAGER_ROLE("Manager_Role"),
-    TARGET_ROLE("Target_Role");
+    ROLE("Role");
 
     public final String value;
 

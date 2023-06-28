@@ -1,6 +1,10 @@
 package pt.unl.fct.di.apdc.firstwebapp.resources;
 
 //import com.google.appengine.api.memcache.stdimpl.GCacheFactory;
+import com.google.appengine.api.memcache.Expiration;
+import com.google.appengine.api.memcache.MemcacheService;
+import com.google.appengine.api.memcache.MemcacheServiceException;
+import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.google.cloud.datastore.*;
 import com.google.gson.Gson;
 import pt.unl.fct.di.apdc.firstwebapp.util.DatastoreUtil;
@@ -43,20 +47,17 @@ public class PostResource {
 
     private final Datastore datastore = DatastoreUtil.getService();
 
+    private final MemcacheService memcache;
+
     private final Gson g = new Gson();
 
-    //private final Cache cache;
 
     public PostResource() {
-        /*try {
-            CacheFactory newCacheFactory = CacheManager.getInstance().getCacheFactory();
-            Map<Integer, Long> props = new HashMap<>();
-            props.put(GCacheFactory.EXPIRATION_DELTA, TimeUnit.HOURS.toSeconds(DURATION_OF_CACHE));
-            cache = newCacheFactory.createCache(new HashMap());
-
-        } catch(CacheException e) {
+        try {
+            memcache = MemcacheServiceFactory.getMemcacheService();
+        } catch(MemcacheServiceException e) {
             throw new RuntimeException(e);
-        }*/
+        }
     }
 
     @POST
@@ -90,7 +91,7 @@ public class PostResource {
                     .build();
             txn.add(post);
             txn.commit();
-            //cache.remove((LIST_POSTS).hashCode());
+            memcache.delete((LIST_POSTS).hashCode());
 
             return Response.ok(g.toJson(POST_CREATED_SUCCESSFULLY)).build();
         } finally {
@@ -105,11 +106,11 @@ public class PostResource {
     public Response listPosts() {
         LOG.fine("Attempt to list posts");
 
-        //int hashCode = LIST_POSTS.hashCode();
-        /*if(cache.get(hashCode) != null) {
+        int hashCode = LIST_POSTS.hashCode();
+        if(memcache.contains(hashCode)) {
             LOG.fine("Cache hit");
-            return Response.ok(cache.get(hashCode)).build();
-        }*/
+            return Response.ok(memcache.get(hashCode)).build();
+        }
 
         Query<Entity> query = Query.newEntityQueryBuilder().setKind("Post")
                 .setOrderBy(StructuredQuery.OrderBy.desc("creation_date")).build();
@@ -122,8 +123,10 @@ public class PostResource {
                     t.getString("mediaUrl"), (int) t.getLong("ups"), (int) t.getLong("downs"), t.getLong("creation_date")));
         });
 
+        String finalList = g.toJson(list);
         LOG.fine(String.valueOf(list.size()));
-        //cache.put(hashCode, g.toJson(list));
+        memcache.put(hashCode, finalList, Expiration.byDeltaSeconds(DURATION_OF_CACHE * 60 * 60));
+
 
         return Response.ok(g.toJson(list)).build();
     }
@@ -156,7 +159,7 @@ public class PostResource {
 
                 txn.delete(postKey);
                 txn.commit();
-                //cache.remove((LIST_POSTS).hashCode());
+                memcache.delete((LIST_POSTS).hashCode());
 
                 return Response.ok(g.toJson(POST_DELETED_SUCCESSFULLY)).build();
             } else {
