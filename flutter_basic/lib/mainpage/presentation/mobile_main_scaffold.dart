@@ -1,4 +1,3 @@
-import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -47,7 +46,7 @@ class _MobileScaffoldState extends State<MobileScaffold> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const MyAppBar(),
-      backgroundColor: Colors.white,
+      backgroundColor: myBackground,
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Scrollbar(
@@ -88,11 +87,9 @@ class _MobileScaffoldState extends State<MobileScaffold> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       InkWell(
-                        onTap: () async {
-                          await LaunchApp.openApp(
-                            androidPackageName: 'com.tranzmate',
-                            openStore: true,
-                          );
+                        onTap: () {
+                          launchUrl(Uri.parse(
+                              'https://moovitapp.com/lisboa-2460/poi/pt'));
                         },
                         child: Image.asset(
                           'assets/moovit.png',

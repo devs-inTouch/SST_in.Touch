@@ -11,24 +11,21 @@ class ChatScreenState extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreenState> {
   final List<Message> _messages = [];
-  Conversation? _selectedConversation;
 
   void _handleConversationSelected(Conversation conversation) {
     setState(() {
       _messages.clear();
       _messages.addAll(conversation.messages! as Iterable<Message>);
-      _selectedConversation = conversation;
     });
   }
 
   void _handleMessageSent(String text) {
-  //  final newMessage = Message(text: text);
+    //  final newMessage = Message(text: text);
     setState(() {
-  //    _messages.add(newMessage);
-  //    _selectedConversation!.messages!.add(newMessage);
+      //    _messages.add(newMessage);
+      //    _selectedConversation!.messages!.add(newMessage);
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -49,11 +46,11 @@ class _ChatScreenState extends State<ChatScreenState> {
               },
             ),
           ),
-      //    ConversationList(
-      //      onConversationSelected: _handleConversationSelected,
-        //  ),
+          //    ConversationList(
+          //      onConversationSelected: _handleConversationSelected,
+          //  ),
           //NewMessageForm(
-            //onMessageSent: _handleMessageSent,
+          //onMessageSent: _handleMessageSent,
           //),
         ],
       ),

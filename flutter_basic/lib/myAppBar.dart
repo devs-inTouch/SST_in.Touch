@@ -1,7 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/anomalies/presentation/anomaliesPage.dart';
-import 'package:flutter_basic/maps/maps.dart';
+import 'package:flutter_basic/feeds/presentation/responsiveFeed.dart';
 import 'package:flutter_basic/mainpage/presentation/desktop_main_scaffold.dart';
 import 'package:flutter_basic/mainpage/presentation/mobile_main_scaffold.dart';
 import 'package:flutter_basic/mainpage/presentation/responsive_main_page.dart';
@@ -10,10 +9,11 @@ import 'package:flutter_basic/profile/presentation/desktop_profile_scaffold.dart
 import 'package:flutter_basic/profile/presentation/mobile_profile_scaffold.dart';
 import 'package:flutter_basic/profile/presentation/tablet_profile_scaffold.dart';
 import 'package:flutter_basic/reports/presentation/reportsPage.dart';
+import 'package:flutter_basic/reservaSalas/presentation/responsive_reservasalas.dart';
 import 'package:flutter_basic/teste/teste.dart';
-
-import 'feeds/presentation/feedPage.dart';
+import 'package:flutter_basic/maps/lib/map.dart';
 import 'messages/application/chatScreen.dart';
+import 'notifications/presentation/notificationList.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   const MyAppBar({super.key});
@@ -51,54 +51,10 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
       actions: [
-        IconButton(
-        onPressed: () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => FeedsPage(
-
-            )
-        ),
-      );
-    },
-        icon: Icon(Icons.feed),
-        color: Colors.black),
-        IconButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const MapScreen()),
-            );
-          },
-          icon: const Icon(Icons.map),
-          color: Colors.black,
-        ),
-        IconButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Test()),
-            );
-          },
-          icon: const Icon(Icons.temple_buddhist),
-          color: Colors.black,
-        ),
-        IconButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => ChatScreen(
-                        conversation: null,
-                        onConversationSelected: (Conversation) {},
-                      )),
-            );
-          },
-          icon: const Icon(Icons.chat),
-          color: Colors.black,
-        ),
         PopupMenuButton<Notification>(
+          icon: const Icon(Icons.notifications, color: Colors.black),
+          color: Colors.white,
+          offset: const Offset(0, kToolbarHeight),
           itemBuilder: (BuildContext context) {
             return [
               PopupMenuItem<Notification>(
@@ -112,88 +68,104 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                       borderRadius: BorderRadius.circular(10.0),
                       color: Colors.grey[300], // Light grey for tiles
                     ),
-                    child: SizedBox(
+                    child: const SizedBox(
                       height: 500,
                       width: 700,
-                      child: Column(
-                        children: [
-                          Expanded(
-                            child: Padding(
-                              padding: EdgeInsets.all(10.0),
-                              child: ListView.builder(
-                                itemCount: notifications.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  final notification = notifications[index];
-                                  return Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      color: Colors
-                                          .grey[200], // Light grey for tiles
-                                    ),
-                                    margin: EdgeInsets.symmetric(vertical: 5.0),
-                                    padding: EdgeInsets.all(10.0),
-                                    child: ListTile(
-                                      title: Text(notification.name),
-                                      subtitle:
-                                          Text(notification.time.toString()),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.all(10.0),
-                            child: TextButton(
-                              onPressed: () {
-                                // Add your desired action when the button is pressed
-                              },
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.grey[
-                                    400], // Set the same dark grey color as the background
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                      10.0), // Set the border radius
-                                ),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  'LIMPAR NOTIFICAÇÕES (${notifications.length})',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors
-                                        .white, // Set the text color to white
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                      child: NotificationPage(),
                     ),
                   ),
                 ),
               ),
             ];
           },
-          onSelected: (notification) {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  title: Text(notification.name),
-                  content: Column(
-                    children: [
-                      // Add content for the selected notification
-                    ],
-                  ),
-                );
-              },
-            );
-          },
-          icon: Icon(Icons.notifications, color: Colors.black),
+        ),
+        PopupMenuButton(
+          icon: const Icon(Icons.list, color: Colors.black),
           color: Colors.white,
           offset: const Offset(0, kToolbarHeight),
+          itemBuilder: (BuildContext context) => [
+            PopupMenuItem(
+              child: Container(
+                color: Colors
+                    .white, // Set the background color of the menu item to white
+                child: ListTile(
+                  leading: const Icon(Icons.feed),
+                  title: const Text('Feed'),
+                  onTap: () {
+                    // Handle logout button click
+                    Navigator.pop(context); // Close the menu
+                    // Implement your logic here
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ResponsiveFeed()),
+                    );
+                  },
+                ),
+              ),
+            ),
+            PopupMenuItem(
+              child: Container(
+                color: Colors
+                    .white, // Set the background color of the menu item to white
+                child: ListTile(
+                  leading: const Icon(Icons.map),
+                  title: const Text('Maps'),
+                  onTap: () {
+                    // Handle logout button click
+                    Navigator.pop(context); // Close the menu
+                    // Implement your logic here
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const GMap()),
+                    );
+                  },
+                ),
+              ),
+            ),
+            PopupMenuItem(
+              child: Container(
+                color: Colors
+                    .white, // Set the background color of the menu item to white
+                child: ListTile(
+                  leading: const Icon(Icons.terminal),
+                  title: const Text('Tests'),
+                  onTap: () {
+                    // Handle logout button click
+                    Navigator.pop(context); // Close the menu
+                    // Implement your logic here
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Test()),
+                    );
+                  },
+                ),
+              ),
+            ),
+            PopupMenuItem(
+              child: Container(
+                color: Colors
+                    .white, // Set the background color of the menu item to white
+                child: ListTile(
+                  leading: const Icon(Icons.chat),
+                  title: const Text('Chat'),
+                  onTap: () {
+                    // Handle logout button click
+                    Navigator.pop(context); // Close the menu
+                    // Implement your logic here
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ChatScreen(
+                          conversation: null,
+                          onConversationSelected: (Conversation) {},
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
         ),
         PopupMenuButton(
           icon: const Icon(Icons.person, color: Colors.black),
@@ -207,7 +179,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                 child: ListTile(
                   leading: Theme(
                     data: ThemeData(
-                      iconTheme: IconThemeData(color: Colors.grey),
+                      iconTheme: const IconThemeData(color: Colors.grey),
                     ),
                     child: const Icon(Icons.person),
                   ),
@@ -277,7 +249,28 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                     // Implement your logic here
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => AnomaliesPage()),
+                      MaterialPageRoute(
+                          builder: (context) => const AnomaliesPage()),
+                    );
+                  },
+                ),
+              ),
+            ),
+            PopupMenuItem(
+              child: Container(
+                color: Colors
+                    .white, // Set the background color of the menu item to white
+                child: ListTile(
+                  leading: const Icon(Icons.workspaces),
+                  title: const Text('Workspace'),
+                  onTap: () {
+                    // Handle logout button click
+                    Navigator.pop(context); // Close the menu
+                    // Implement your logic here
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ResponsiveReservaSalas()),
                     );
                   },
                 ),
@@ -303,31 +296,4 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
       ],
     );
   }
-}
-
-List<Notification> notifications = [
-  Notification(name: 'Notification 1', time: DateTime.now()),
-  Notification(name: 'Notification 2', time: DateTime.now()),
-  Notification(name: 'Notification 3', time: DateTime.now()),
-  Notification(name: 'Notification 4', time: DateTime.now()),
-  Notification(name: 'Notification 5', time: DateTime.now()),
-  Notification(name: 'Notification 6', time: DateTime.now()),
-  Notification(name: 'Notification 7', time: DateTime.now()),
-  Notification(name: 'Notification 8', time: DateTime.now()),
-  // Add more notifications as needed
-  Notification(name: 'Notification 1', time: DateTime.now()),
-  Notification(name: 'Notification 2', time: DateTime.now()),
-  Notification(name: 'Notification 3', time: DateTime.now()),
-  Notification(name: 'Notification 4', time: DateTime.now()),
-  Notification(name: 'Notification 5', time: DateTime.now()),
-  Notification(name: 'Notification 6', time: DateTime.now()),
-  Notification(name: 'Notification 7', time: DateTime.now()),
-  Notification(name: 'Notification 8', time: DateTime.now()),
-];
-
-class Notification {
-  final String name;
-  final DateTime time;
-
-  Notification({required this.name, required this.time});
 }

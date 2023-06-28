@@ -46,7 +46,7 @@ class ReportsPage extends StatelessWidget {
                                     'TÍTULO',
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 16,
+                                      fontSize: 14,
                                     ),
                                   ),
                                 ),
@@ -78,7 +78,7 @@ class ReportsPage extends StatelessWidget {
                                     'DESCRIÇÃO',
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 16,
+                                      fontSize: 14,
                                     ),
                                   ),
                                 ),
@@ -113,7 +113,7 @@ class ReportsPage extends StatelessWidget {
                                     'ENVIAR PARA',
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 16,
+                                      fontSize: 13,
                                     ),
                                   ),
                                 ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../anomalies/application/anomalyAuth.dart';
 
 class Test extends StatelessWidget {
@@ -8,21 +7,20 @@ class Test extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey,
       body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            final client = AnomalyAuth();
-            const username = 'example_username';
-            const title = 'Example Title';
-            const description = 'Example Description';
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: () async {
+                List anomalies = [];
 
-            print("Botão pressionado");
-            AnomalyAuth.listAnomaly().then((response) {
-              print('Response: $response');
-            }).catchError((error) {
-              print('Error: $error');
-            });
-          },
-          child: const Text('Botão'),
+                print("Botão pressionado Anomaly");
+                anomalies = await AnomalyAuth.getAnomaliesList();
+                print(anomalies);
+              },
+              child: const Text('Anomalias'),
+            ),
+          ],
         ),
       ),
     );

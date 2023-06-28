@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/profile/presentation/profileBox.dart';
-import 'package:flutter_basic/profile/presentation/viewUtils.dart';
 import '../../constants.dart';
 import '../../eventCalendar.dart';
 import '../../feeds/application/postRequests.dart';
-import '../../feeds/presentation/postBox.dart';
 import '../../myAppBar.dart';
 import '../application/profleRequests.dart';
 
@@ -28,9 +26,7 @@ class DesktopProfileScaffold extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<DesktopProfileScaffold> {
-  List _posts = [
-
-  ];
+  List _posts = [];
 
   List userInfo = [];
 
@@ -50,7 +46,6 @@ class _ProfilePageState extends State<DesktopProfileScaffold> {
     print("done this step");
   }
 
-
   Future<void> fetchData() async {
     final response = await ProfileRequests.getUserInfo();
     setState(() {
@@ -60,13 +55,9 @@ class _ProfilePageState extends State<DesktopProfileScaffold> {
     print(userInfo);
   }
 
-
   List<Event> events = [];
   DateTime today = DateTime.now();
   Map<DateTime, List<Event>> eventsByDay = {};
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -75,47 +66,41 @@ class _ProfilePageState extends State<DesktopProfileScaffold> {
 
     return Scaffold(
       appBar: MyAppBar(),
-      drawer: myDrawer,
       backgroundColor: myBackground,
-      body: userInfo.isNotEmpty ? Stack(
-        children: [
-
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white
-              ),
-            width: size.width,
-            height: size.height,
-
-            child: Scrollbar(
-              child: SingleChildScrollView(
-                 child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(height: 10,),
-                      ProfileBox(fem: fem, map: userInfo),
-                      SizedBox(height: 10),
-                      Container(
-                        width: 650*fem,
-                        child:ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: _posts.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          final post = _posts[index];
-                          post.setFem(fem);
-                          return post;
-                        },
-
-                       )
-                      )
-                    ]
-                  )
-
-
-            ),
-          ),),
-        ],
-      ) : LinearProgressIndicator(),
+      body: userInfo.isNotEmpty
+          ? Stack(
+              children: [
+                Container(
+                  decoration: BoxDecoration(color: Colors.white),
+                  width: size.width,
+                  height: size.height,
+                  child: Scrollbar(
+                    child: SingleChildScrollView(
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                          SizedBox(
+                            height: 10,
+                          ),
+                          ProfileBox(fem: fem, map: userInfo),
+                          SizedBox(height: 10),
+                          Container(
+                              width: 650 * fem,
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: _posts.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  final post = _posts[index];
+                                  post.setFem(fem);
+                                  return post;
+                                },
+                              ))
+                        ])),
+                  ),
+                ),
+              ],
+            )
+          : LinearProgressIndicator(),
     );
   }
 }

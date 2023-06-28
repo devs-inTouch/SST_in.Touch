@@ -90,7 +90,6 @@ class _DesktopMessagesScaffold extends State<DesktopMessagesScaffold> {
             context: context,
             builder: (BuildContext context) {
               String name = '';
-              String email = '';
               return AlertDialog(
                 title: const Text('Create a new conversation'),
                 content: Column(
@@ -104,9 +103,7 @@ class _DesktopMessagesScaffold extends State<DesktopMessagesScaffold> {
                     ),
                     TextField(
                       decoration: const InputDecoration(labelText: 'Email'),
-                      onChanged: (value) {
-                        email = value;
-                      },
+                      onChanged: (value) {},
                     ),
                   ],
                 ),

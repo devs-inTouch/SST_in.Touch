@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/profile/presentation/profileBox.dart';
-import 'package:flutter_basic/profile/presentation/viewUtils.dart';
 import '../../constants.dart';
 import '../../eventCalendar.dart';
 import '../../feeds/application/postRequests.dart';
-import '../../feeds/presentation/postBox.dart';
 import '../../myAppBar.dart';
 import '../application/profleRequests.dart';
 
@@ -29,10 +27,7 @@ class MobileProfileScaffold extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<MobileProfileScaffold> {
-
-  List _posts = [
-
-  ];
+  List _posts = [];
 
   List<Event> events = [];
   DateTime today = DateTime.now();
@@ -42,7 +37,6 @@ class _ProfilePageState extends State<MobileProfileScaffold> {
 
   @override
   void initState() {
-
     super.initState();
     ProfileRequests.getUserInfo().then((value) => userInfo = value);
   }
@@ -55,55 +49,44 @@ class _ProfilePageState extends State<MobileProfileScaffold> {
     print("done this step");
   }
 
-
-
-
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final fem = size.width/650; // 1440 is the reference width
+    final fem = size.width / 650; // 1440 is the reference width
 
     return Scaffold(
       appBar: MyAppBar(),
-      drawer: myDrawer,
       backgroundColor: myBackground,
       body: Stack(
         children: [
-
           Container(
-            decoration: BoxDecoration(
-                color: Colors.green
-            ),
+            decoration: BoxDecoration(color: Colors.green),
             width: size.width,
             height: size.height,
-
             child: Scrollbar(
               child: SingleChildScrollView(
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SizedBox(height: 10,),
-                        ProfileBox(fem: fem, map: userInfo),
-                        SizedBox(height: 10),
-                        Container(
-                            width: 650 * fem,
-                            child:ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: _posts.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                final post = _posts[index];
-                                post.setFem(fem);
-                                return post;
-                              },
-
-                            )
-                        )
-                      ]
-                  )
-
-
-              ),
-            ),),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    ProfileBox(fem: fem, map: userInfo),
+                    SizedBox(height: 10),
+                    Container(
+                        width: 650 * fem,
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: _posts.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            final post = _posts[index];
+                            post.setFem(fem);
+                            return post;
+                          },
+                        ))
+                  ])),
+            ),
+          ),
         ],
       ),
     );
