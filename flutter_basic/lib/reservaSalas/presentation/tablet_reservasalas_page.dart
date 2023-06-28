@@ -11,6 +11,8 @@ class ReservaSalasPageTablet extends StatelessWidget {
   TextEditingController data = TextEditingController();
   TextEditingController hora = TextEditingController();
 
+  ReservaSalasPageTablet({super.key});
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
