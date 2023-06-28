@@ -2,14 +2,15 @@ package pt.unl.fct.di.apdc.firstwebapp.util.entities.rooms;
 
 public class BookRoomData {
 
-    private String name, department, date, hour;
+    private String name, department, date, hour, username;
     private int numberStudents;
     private boolean available;
 
     public BookRoomData() {
     }
 
-    public BookRoomData(String name, String department, int numberStudents, String date, String hour) {
+    public BookRoomData(String username, String name, String department, int numberStudents, String date, String hour) {
+        this.username = username;
         this.name = name;
         this.department = department;
         this.numberStudents = numberStudents;
@@ -39,6 +40,14 @@ public class BookRoomData {
 
     public String getHour() {
         return hour;
+    }
+
+    public String getUsername() {
+    	return username;
+    }
+
+    public void setUsername(String username) {
+    	this.username = username;
     }
 
 }

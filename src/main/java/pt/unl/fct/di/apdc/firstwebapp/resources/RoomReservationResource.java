@@ -166,8 +166,10 @@ public class RoomReservationResource {
                     .addAncestor(PathElement.of("User", givenTokenData.getUsername()))
                     .newKey(givenTokenData.getUsername() + "-" + room.getString("name") + "-" + room.getString("department") + "-" + room.getString("date") + "-" + room.getString("hour"));
 
+            data.setUsername(givenTokenData.getUsername());
+
             Entity booking = Entity.newBuilder(bookingKey)
-                    .set("username", givenTokenData.getUsername())
+                    .set("username", data.getUsername())
                     .set("room", data.getName())
                     .set("department", data.getDepartment())
                     .set("numberStudents", data.getNumberStudents())
@@ -175,6 +177,8 @@ public class RoomReservationResource {
                     .set("hour", data.getHour())
                     .set("available", false)
                     .build();
+
+            //data.setUsername(givenTokenData.getUsername());
 
             notification.createNotification("Reserva efetuada","System", givenTokenData.getUsername(), "Aviso", System.currentTimeMillis());
             txn.add(booking);
@@ -186,6 +190,26 @@ public class RoomReservationResource {
             if(txn.isActive())
                 txn.rollback();
         }
+    }
+
+    @POST
+    @Path("/listallbookings")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    public Response listAllUnavailableBookings() {
+
+        Query<Entity> query = Query.newEntityQueryBuilder().setKind("Booking")
+                .setFilter(StructuredQuery.PropertyFilter.eq("available", false))
+                .build();
+        QueryResults<Entity> results = datastore.run(query);
+
+        List<BookRoomData> list = new ArrayList<>();
+
+        results.forEachRemaining(booking -> {
+            list.add(new BookRoomData(booking.getString("username"), booking.getString("room"), booking.getString("department"), (int) booking.getLong("numberStudents"), booking.getString("date"), booking.getString("hour")));
+        });
+
+        return Response.ok(g.toJson(list)).build();
     }
 
     @POST
