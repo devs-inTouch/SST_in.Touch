@@ -100,7 +100,7 @@ public class ListResource {
     //     // }
 
 
-    //     return Response.status(Status.OK).entity("{}}").build();
+    //     return Response.status(Status.OK).entity("{}").build();
     // }
 
     // private void listUserInfo(List<String> list, QueryResults<Entity> tokens) {

@@ -5,6 +5,7 @@ import java.util.Date;
 public class TokenData {
 
 	private String username;
+    private String role;
     private String id;
     private long creationTime;
     private long expirationTime;
@@ -13,9 +14,10 @@ public class TokenData {
 	
 	public TokenData() {}
 
-    public TokenData(String username, String id, long creationTime, long expirationTime) {
+    public TokenData(String username, String role, String id, long creationTime, long expirationTime) {
         this.username = username;
         this.id = id;
+        this.role = role;
         this.creationTime = creationTime;
         this.expirationTime = expirationTime;
     }
@@ -25,6 +27,13 @@ public class TokenData {
      */
     public String getUsername() {
         return username;
+    }
+
+    /**
+     * @return the role
+     */
+    public String getRole() {
+        return role;
     }
 
     /**
