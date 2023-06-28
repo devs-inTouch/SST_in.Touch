@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:image_network/image_network.dart';
 
-class NotificationBox extends StatelessWidget{
+class NotificationBox extends StatelessWidget {
   final String message;
   final int creationDate;
-   late DateTime date;
+  late DateTime date;
 
   NotificationBox({
     required this.message,
@@ -20,14 +19,20 @@ class NotificationBox extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-
     date = DateTime.fromMillisecondsSinceEpoch(creationDate);
-    String dateTime = date.day.toString() + "-" + date.month.toString() + "-" + date.year.toString() + ", " + date.hour.toString()+":"+date.minute.toString();
+    String dateTime = date.day.toString() +
+        "-" +
+        date.month.toString() +
+        "-" +
+        date.year.toString() +
+        ", " +
+        date.hour.toString() +
+        ":" +
+        date.minute.toString();
 
     return ListTile(
       title: Text(message),
       subtitle: Text(dateTime),
     );
   }
-
 }

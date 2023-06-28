@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../anomalies/application/anomalyAuth.dart';
-import '../notifications/application/notificationAuth.dart';
 
 class Test extends StatelessWidget {
   @override

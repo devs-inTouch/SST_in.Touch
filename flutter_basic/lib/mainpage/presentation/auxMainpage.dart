@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_basic/constants.dart';
 import 'package:intl/intl.dart';
 
-import '../../myAppBar.dart';
-import '../../weatherBox.dart';
-
 class AuxMainPage {
   int goToPreviousPage(int currentPageIndex, List<String> pages) {
     int newPageIndex = currentPageIndex;

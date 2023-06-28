@@ -8,9 +8,12 @@ public class Cordenates {
         Scanner sc = new Scanner(System.in);
         while(true) {
             String line = sc.nextLine();
-             String[] longLat = line.split(",");
-             String coor = "LatLng(" + longLat[1] + ", " + longLat[0] + "),";
-             System.out.println(coor);
+            if(!line.equals("")){
+
+            String[] longLat = line.split(",");
+            String coor = "LatLng(" + longLat[1] + ", " + longLat[0] + "),";
+            System.out.println(coor);
+            }
 
         }
     }

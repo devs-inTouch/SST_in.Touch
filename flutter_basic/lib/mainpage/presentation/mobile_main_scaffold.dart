@@ -1,4 +1,3 @@
-import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/constants.dart';
 import 'package:url_launcher/url_launcher.dart';

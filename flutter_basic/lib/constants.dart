@@ -1,18 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_basic/maps/maps.dart';
-import 'package:flutter_basic/mainpage/presentation/desktop_main_scaffold.dart';
-import 'package:flutter_basic/mainpage/presentation/mobile_main_scaffold.dart';
-import 'package:flutter_basic/mainpage/presentation/responsive_main_page.dart';
-import 'package:flutter_basic/mainpage/presentation/tablet_main_scaffold.dart';
-
-import 'package:flutter_basic/profile/presentation/desktop_profile_scaffold.dart';
-import 'package:flutter_basic/profile/presentation/mobile_profile_scaffold.dart';
-import 'package:flutter_basic/profile/presentation/tablet_profile_scaffold.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'login/presentation/loginPage.dart';
-import 'messages/application/chatScreen.dart';
 
 const String appUrl = "https://steel-sequencer-385510.oa.r.appspot.com/rest";
 

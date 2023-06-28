@@ -8,8 +8,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:image/image.dart' as Im;
 
-import '../../constants.dart';
-
 import '../../feeds/presentation/anomalyBox.dart';
 import '../../myAppBar.dart';
 
@@ -126,7 +124,6 @@ class AnomalyState extends State<AnomaliesPage> {
   }
 
   submitPost() async {
-    String url = await uploadImage(file);
     putInDatabase(title: type.text, description: description.text);
     description.clear();
     setState(() {
@@ -224,7 +221,11 @@ class AnomalyState extends State<AnomaliesPage> {
                                     child: Column(
                                       children: [
                                         Padding(
-                                          padding: const EdgeInsets.fromLTRB(15.0,15.0,15.0,0.0), // Add vertical padding of 15 pixels
+                                          padding: const EdgeInsets.fromLTRB(
+                                              15.0,
+                                              15.0,
+                                              15.0,
+                                              0.0), // Add vertical padding of 15 pixels
                                           child: TextField(
                                             controller: type,
                                             maxLength: 50,
@@ -236,7 +237,11 @@ class AnomalyState extends State<AnomaliesPage> {
                                           ),
                                         ),
                                         Padding(
-                                          padding: const EdgeInsets.fromLTRB(15.0,15.0,15.0,0.0), // Add vertical padding of 15 pixels
+                                          padding: const EdgeInsets.fromLTRB(
+                                              15.0,
+                                              15.0,
+                                              15.0,
+                                              0.0), // Add vertical padding of 15 pixels
                                           child: TextField(
                                             controller: description,
                                             keyboardType:

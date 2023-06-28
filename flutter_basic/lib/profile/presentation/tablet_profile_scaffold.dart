@@ -28,7 +28,7 @@ class TabletProfileScaffold extends StatefulWidget {
 class _ProfilePageState extends State<TabletProfileScaffold> {
   bool _isEditing = false;
   List<Event> events = [];
-  DateTime today=DateTime.now();
+  DateTime today = DateTime.now();
   Map<DateTime, List<Event>> eventsByDay = {};
 
   void _onDaySelected(DateTime day, DateTime focusedDay) {
@@ -114,6 +114,7 @@ class _ProfilePageState extends State<TabletProfileScaffold> {
       },
     );
   }
+
   Widget topBarProfile({required String text}) {
     return Container(
       decoration: topBarDecoration,
@@ -142,6 +143,7 @@ class _ProfilePageState extends State<TabletProfileScaffold> {
       ),
     );
   }
+
   Widget topBarCalendar({required String text, VoidCallback? onSave}) {
     return Container(
       decoration: topBarDecoration,
@@ -176,7 +178,7 @@ class _ProfilePageState extends State<TabletProfileScaffold> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final fem = size.width / 1440;  // 1440 is the reference width
+    final fem = size.width / 1440; // 1440 is the reference width
 
     return Scaffold(
       appBar: MyAppBar(),
@@ -192,8 +194,8 @@ class _ProfilePageState extends State<TabletProfileScaffold> {
                   left: 1030 * fem,
                   top: 50 * fem,
                   child: SizedBox(
-                    width: 150 * (fem*1.5),
-                    height: 150 * (fem*1.5),
+                    width: 150 * (fem * 1.5),
+                    height: 150 * (fem * 1.5),
                     child: Container(
                       decoration: boxDecoration,
                       child: Column(
@@ -327,7 +329,6 @@ class _ProfilePageState extends State<TabletProfileScaffold> {
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
-                                    String oldPassword = "";
                                     String newPassword = "";
                                     String confirmPassword = "";
 
@@ -337,9 +338,7 @@ class _ProfilePageState extends State<TabletProfileScaffold> {
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           TextField(
-                                            onChanged: (text) {
-                                              oldPassword = text;
-                                            },
+                                            onChanged: (text) {},
                                             decoration: InputDecoration(
                                               labelText: "Old Password",
                                             ),
@@ -413,10 +412,9 @@ class _ProfilePageState extends State<TabletProfileScaffold> {
                     width: size.width * 0.35,
                     height: size.height * 0.55,
                     decoration: boxDecoration,
-                    child:Column(
+                    child: Column(
                       children: [
                         topBarCalendar(text: "Calendar"),
-
                         Container(
                           child: TableCalendar(
                             locale: "en_US",
@@ -462,5 +460,4 @@ class _ProfilePageState extends State<TabletProfileScaffold> {
       ),
     );
   }
-
 }

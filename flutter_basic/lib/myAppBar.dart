@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/anomalies/presentation/anomaliesPage.dart';
 import 'package:flutter_basic/feeds/presentation/responsiveFeed.dart';
-import 'package:flutter_basic/maps/maps.dart';
 import 'package:flutter_basic/mainpage/presentation/desktop_main_scaffold.dart';
 import 'package:flutter_basic/mainpage/presentation/mobile_main_scaffold.dart';
 import 'package:flutter_basic/mainpage/presentation/responsive_main_page.dart';
@@ -11,10 +10,8 @@ import 'package:flutter_basic/profile/presentation/mobile_profile_scaffold.dart'
 import 'package:flutter_basic/profile/presentation/tablet_profile_scaffold.dart';
 import 'package:flutter_basic/reports/presentation/reportsPage.dart';
 import 'package:flutter_basic/reservaSalas/presentation/responsive_reservasalas.dart';
-import 'package:flutter_basic/reservaSalas/presentation/tablet_reservasalas_page.dart';
 import 'package:flutter_basic/teste/teste.dart';
-
-import 'feeds/presentation/feedPage.dart';
+import 'package:flutter_basic/maps/lib/map.dart';
 import 'messages/application/chatScreen.dart';
 import 'notifications/presentation/notificationList.dart';
 
@@ -54,9 +51,8 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
       actions: [
-
         PopupMenuButton<Notification>(
-          icon: Icon(Icons.notifications, color: Colors.black),
+          icon: const Icon(Icons.notifications, color: Colors.black),
           color: Colors.white,
           offset: const Offset(0, kToolbarHeight),
           itemBuilder: (BuildContext context) {
@@ -72,26 +68,22 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                       borderRadius: BorderRadius.circular(10.0),
                       color: Colors.grey[300], // Light grey for tiles
                     ),
-                    child: SizedBox(
+                    child: const SizedBox(
                       height: 500,
                       width: 700,
                       child: NotificationPage(),
-
                     ),
                   ),
                 ),
               ),
             ];
           },
-
-
         ),
         PopupMenuButton(
           icon: const Icon(Icons.list, color: Colors.black),
           color: Colors.white,
           offset: const Offset(0, kToolbarHeight),
           itemBuilder: (BuildContext context) => [
-
             PopupMenuItem(
               child: Container(
                 color: Colors
@@ -124,7 +116,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                     // Implement your logic here
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => MapScreen()),
+                      MaterialPageRoute(builder: (context) => const GMap()),
                     );
                   },
                 ),
@@ -175,7 +167,6 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
           ],
         ),
-
         PopupMenuButton(
           icon: const Icon(Icons.person, color: Colors.black),
           color: Colors.white,
@@ -188,7 +179,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                 child: ListTile(
                   leading: Theme(
                     data: ThemeData(
-                      iconTheme: IconThemeData(color: Colors.grey),
+                      iconTheme: const IconThemeData(color: Colors.grey),
                     ),
                     child: const Icon(Icons.person),
                   ),
@@ -258,7 +249,8 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                     // Implement your logic here
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => AnomaliesPage()),
+                      MaterialPageRoute(
+                          builder: (context) => const AnomaliesPage()),
                     );
                   },
                 ),
@@ -277,7 +269,8 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                     // Implement your logic here
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ResponsiveReservaSalas()),
+                      MaterialPageRoute(
+                          builder: (context) => ResponsiveReservaSalas()),
                     );
                   },
                 ),
@@ -304,5 +297,3 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 }
-
-

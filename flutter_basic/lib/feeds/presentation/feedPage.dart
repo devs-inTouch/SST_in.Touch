@@ -4,14 +4,9 @@ import 'package:flutter_basic/feeds/application/postRequests.dart';
 import 'package:flutter_basic/feeds/presentation/postBox.dart';
 import 'package:uuid/uuid.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:image/image.dart' as Im;
-import 'package:path/path.dart' as Path;
 
 import 'package:file_picker/file_picker.dart';
 import 'dart:typed_data';
-
-import '../../constants.dart';
 import '../../myAppBar.dart';
 
 class FeedsPage extends StatefulWidget {
@@ -228,15 +223,17 @@ class FeedState extends State<FeedsPage> {
                             Align(
                               alignment: Alignment(0.9, 0.9),
                               child: ElevatedButton(
-                                onPressed: isUploading ? null : () => handleSubmit(),
+                                onPressed:
+                                    isUploading ? null : () => handleSubmit(),
                                 style: ElevatedButton.styleFrom(
-                                  fixedSize: Size(120, 40 ),
+                                  fixedSize: Size(120, 40),
                                   backgroundColor: Colors.blue[800],
                                 ),
                                 child: Text(
                                   'CRIAR',
                                   textAlign: TextAlign.left,
-                                  style: TextStyle(color: Colors.white, fontSize: 12),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 12),
                                 ),
                               ),
                             ),
@@ -253,7 +250,8 @@ class FeedState extends State<FeedsPage> {
                                 child: Text(
                                   'Adicionar foto',
                                   textAlign: TextAlign.left,
-                                  style: TextStyle(color: Colors.white, fontSize: 15),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 15),
                                 ),
                               ),
                             ),
@@ -277,7 +275,6 @@ class FeedState extends State<FeedsPage> {
                         ),
                       ),
                     ),
-
                   ],
                 ),
               ),
@@ -287,5 +284,4 @@ class FeedState extends State<FeedsPage> {
       ),
     );
   }
-
 }

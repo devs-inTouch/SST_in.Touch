@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/profile/presentation/profileBox.dart';
-import 'package:flutter_basic/profile/presentation/viewUtils.dart';
 import '../../constants.dart';
 import '../../eventCalendar.dart';
 import '../../feeds/application/postRequests.dart';
-import '../../feeds/presentation/postBox.dart';
 import '../../myAppBar.dart';
 import '../application/profleRequests.dart';
 

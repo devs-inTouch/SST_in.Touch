@@ -5,12 +5,13 @@ import '../../constants.dart';
 import '../../myAppBar.dart';
 
 class ReservaSalasPage extends StatelessWidget {
-
   TextEditingController department = TextEditingController();
   TextEditingController room = TextEditingController();
   TextEditingController numberStudents = TextEditingController();
   TextEditingController data = TextEditingController();
   TextEditingController hora = TextEditingController();
+
+  ReservaSalasPage({super.key});
 
   @override
   Widget build(BuildContext context) {

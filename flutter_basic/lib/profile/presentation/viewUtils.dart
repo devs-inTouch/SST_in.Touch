@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_basic/utils/my_box.dart';
-import 'package:flutter_basic/utils/my_tile.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../constants.dart';
 import '../../eventCalendar.dart';
-
 
 bool _isEditing = false;
 List<Event> events = [];
@@ -27,7 +24,7 @@ void _showAddEventDialog(BuildContext context) {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text('Add Event'),
+        title: const Text('Add Event'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -35,11 +32,11 @@ void _showAddEventDialog(BuildContext context) {
               onChanged: (text) {
                 title = text;
               },
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Title',
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             InkWell(
               onTap: () async {
                 final DateTime? pickedDate = await showDatePicker(
@@ -52,11 +49,11 @@ void _showAddEventDialog(BuildContext context) {
               },
               child: Row(
                 children: [
-                  Icon(Icons.calendar_today),
-                  SizedBox(width: 8),
+                  const Icon(Icons.calendar_today),
+                  const SizedBox(width: 8),
                   Text(
                     DateFormat('dd/MM/yyyy').format(date),
-                    style: TextStyle(fontSize: 16),
+                    style: const TextStyle(fontSize: 16),
                   ),
                 ],
               ),
@@ -68,7 +65,7 @@ void _showAddEventDialog(BuildContext context) {
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: Text('Cancel'),
+            child: const Text('Cancel'),
           ),
           TextButton(
             onPressed: () {
@@ -76,7 +73,7 @@ void _showAddEventDialog(BuildContext context) {
 
               Navigator.of(context).pop();
             },
-            child: Text('Save'),
+            child: const Text('Save'),
           ),
         ],
       );
@@ -94,7 +91,7 @@ Widget topBarProfile1({required String text}) {
         children: [
           Text(
             text,
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 18,
             ),
@@ -121,7 +118,7 @@ Widget topBarCalendar({required String text, VoidCallback? onSave}) {
         children: [
           Text(
             text,
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 18,
             ),
@@ -129,7 +126,7 @@ Widget topBarCalendar({required String text, VoidCallback? onSave}) {
           Row(
             children: [
               IconButton(
-                icon: Icon(Icons.add),
+                icon: const Icon(Icons.add),
                 onPressed: () {
                   //  _showAddEventDialog(context);
                 },
@@ -143,7 +140,7 @@ Widget topBarCalendar({required String text, VoidCallback? onSave}) {
 }
 
 Widget buildProfileImage() {
-  return Column(
+  return const Column(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       Text(
@@ -168,7 +165,7 @@ Widget buildProfileText(BuildContext context) {
           padding: EdgeInsets.symmetric(horizontal: 24 * fem),
           children: [
             ListTile(
-              title: Text(
+              title: const Text(
                 "Name:",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
@@ -177,7 +174,7 @@ Widget buildProfileText(BuildContext context) {
               trailing: SizedBox(
                 width: 200 * fem,
                 child: TextField(
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     hintText: "Name space",
                   ),
                   enabled: _isEditing,
@@ -185,7 +182,7 @@ Widget buildProfileText(BuildContext context) {
               ),
             ),
             ListTile(
-              title: Text(
+              title: const Text(
                 "Email:",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
@@ -194,7 +191,7 @@ Widget buildProfileText(BuildContext context) {
               trailing: SizedBox(
                 width: 200 * fem,
                 child: TextField(
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     hintText: "Email space",
                   ),
                   enabled: _isEditing,
@@ -202,7 +199,7 @@ Widget buildProfileText(BuildContext context) {
               ),
             ),
             ListTile(
-              title: Text(
+              title: const Text(
                 "Role:",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
@@ -211,7 +208,7 @@ Widget buildProfileText(BuildContext context) {
               trailing: SizedBox(
                 width: 200 * fem,
                 child: TextField(
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     hintText: "Role space",
                   ),
                   enabled: _isEditing,
@@ -219,7 +216,7 @@ Widget buildProfileText(BuildContext context) {
               ),
             ),
             ListTile(
-              title: Text(
+              title: const Text(
                 "State:",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
@@ -228,7 +225,7 @@ Widget buildProfileText(BuildContext context) {
               trailing: SizedBox(
                 width: 200 * fem,
                 child: TextField(
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     hintText: "State space",
                   ),
                   enabled: _isEditing,
@@ -236,7 +233,7 @@ Widget buildProfileText(BuildContext context) {
               ),
             ),
             ListTile(
-              title: Text(
+              title: const Text(
                 "Department:",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
@@ -245,7 +242,7 @@ Widget buildProfileText(BuildContext context) {
               trailing: SizedBox(
                 width: 200 * fem,
                 child: TextField(
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     hintText: "Department space",
                   ),
                   enabled: _isEditing,
@@ -260,20 +257,17 @@ Widget buildProfileText(BuildContext context) {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        String oldPassword = "";
                         String newPassword = "";
                         String confirmPassword = "";
 
                         return AlertDialog(
-                          title: Text("Change Password"),
+                          title: const Text("Change Password"),
                           content: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               TextField(
-                                onChanged: (text) {
-                                  oldPassword = text;
-                                },
-                                decoration: InputDecoration(
+                                onChanged: (text) {},
+                                decoration: const InputDecoration(
                                   labelText: "Old Password",
                                 ),
                               ),
@@ -281,7 +275,7 @@ Widget buildProfileText(BuildContext context) {
                                 onChanged: (text) {
                                   newPassword = text;
                                 },
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   labelText: "New Password",
                                 ),
                               ),
@@ -289,7 +283,7 @@ Widget buildProfileText(BuildContext context) {
                                 onChanged: (text) {
                                   confirmPassword = text;
                                 },
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   labelText: "Confirm Password",
                                 ),
                               ),
@@ -306,14 +300,14 @@ Widget buildProfileText(BuildContext context) {
 // TODO: display error message
                                 }
                               },
-                              child: Text("Confirm"),
+                              child: const Text("Confirm"),
                             ),
                             TextButton(
                               onPressed: () {
 // Handle "Cancel" button press
                                 Navigator.of(context).pop();
                               },
-                              child: Text("Cancel"),
+                              child: const Text("Cancel"),
                             ),
                           ],
                         );
@@ -323,7 +317,7 @@ Widget buildProfileText(BuildContext context) {
                   child: Text(
                     "Change Password",
                     style: TextStyle(
-                      color: Color(0xff1276eb),
+                      color: const Color(0xff1276eb),
                       fontSize: 16 * fem,
                       fontWeight: FontWeight.bold,
                     ),
@@ -346,8 +340,8 @@ Widget buildCalendar() {
       Container(
         child: TableCalendar(
           locale: "en_US",
-          headerStyle:
-              HeaderStyle(formatButtonVisible: false, titleCentered: true),
+          headerStyle: const HeaderStyle(
+              formatButtonVisible: false, titleCentered: true),
           availableGestures: AvailableGestures.all,
           selectedDayPredicate: (day) => isSameDay(day, today),
           focusedDay: today,
@@ -368,7 +362,7 @@ Widget buildCalendar() {
                     Text(DateFormat('dd/MM/yyyy').format(events[index].date)),
               );
             } else {
-              return ListTile(
+              return const ListTile(
                 title: Text('n'),
               );
             }

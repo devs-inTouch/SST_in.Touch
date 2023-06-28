@@ -1,15 +1,12 @@
-
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter/material.dart';
 
 import '../presentation/postBox.dart';
 
-class PostRequests{
-
-  static Future<bool> makePostRequest(String mediaURL, String description) async {
-
+class PostRequests {
+  static Future<bool> makePostRequest(
+      String mediaURL, String description) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('Token');
     Map<String, dynamic> map = jsonDecode(token!) as Map<String, dynamic>;
@@ -18,40 +15,38 @@ class PostRequests{
     print(mediaURL);
 
     final response = await http.post(
-      Uri.parse('https://steel-sequencer-385510.oa.r.appspot.com/rest/post/create'),
-      headers: <String, String>{
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode(<String, String>{
-        "username":username,
-        "description":description,
-        "mediaUrl": mediaURL
-      })
-    );
+        Uri.parse(
+            'https://steel-sequencer-385510.oa.r.appspot.com/rest/post/create'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(<String, String>{
+          "username": username,
+          "description": description,
+          "mediaUrl": mediaURL
+        }));
 
-    if(response.statusCode == 200) {
+    if (response.statusCode == 200) {
       return true;
-    } else return false;
+    } else
+      return false;
   }
 
-  static Future<List<PostBox>> getFeed() async{
-
+  static Future<List<PostBox>> getFeed() async {
     List<PostBox> map = [];
 
     final response = await http.post(
-        Uri.parse('https://steel-sequencer-385510.oa.r.appspot.com/rest/post/list'),
+        Uri.parse(
+            'https://steel-sequencer-385510.oa.r.appspot.com/rest/post/list'),
         headers: <String, String>{
           'Content-Type': 'application/json',
-        }
-    );
+        });
 
-    if(response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-        map = data.map<PostBox>((item) => PostBox.fromJson(item)).toList();
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      map = data.map<PostBox>((item) => PostBox.fromJson(item)).toList();
     }
 
     return map;
-
   }
-
 }
