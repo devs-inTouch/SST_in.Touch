@@ -58,7 +58,61 @@ class NotificationState extends State<NotificationPage> {
           padding: EdgeInsets.all(10.0),
           child: TextButton(
             onPressed: () {
-              // Add your desired action when the button is pressed
+              if (notificationList.length == 0) {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return SimpleDialog(
+                      title: Center(
+                        child: Text('0 Notificações'),
+                      ),
+                      children: [
+                        Center(
+                          child: Text("Não há notificações para eliminar"),
+                        ),
+                      ],
+                    );
+
+                  },
+                );
+              } else {
+                NotificationAuth.deleteNotifications().then((value) {
+                  if (value == true) {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return SimpleDialog(
+                          title: Center(
+                            child: Text('Sucesso'),
+                          ),
+                          children: [
+                            Center(
+                              child: Text("Notificações apagadas"),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+
+                  } else {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return SimpleDialog(
+                          title: Center(
+                            child: Text('Erro'),
+                          ),
+                          children: [
+                            Center(
+                              child: Text("Tente novamente"),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
+                });
+              }
             },
             style: ElevatedButton.styleFrom(
               primary: Colors.grey[

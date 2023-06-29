@@ -69,38 +69,45 @@ class _ProfilePageState extends State<DesktopProfileScaffold> {
       backgroundColor: myBackground,
       body: userInfo.isNotEmpty
           ? Stack(
-              children: [
-                Container(
-                  decoration: BoxDecoration(color: Colors.white),
-                  width: size.width,
-                  height: size.height,
-                  child: Scrollbar(
-                    child: SingleChildScrollView(
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                          SizedBox(
-                            height: 10,
-                          ),
-                          ProfileBox(fem: fem, map: userInfo),
-                          SizedBox(height: 10),
-                          Container(
-                              width: 650 * fem,
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: _posts.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  final post = _posts[index];
-                                  post.setFem(fem);
-                                  return post;
-                                },
-                              ))
-                        ])),
+        children: [
+          Padding(
+            padding: EdgeInsets.all(20.0),
+            child: Container(
+              decoration: BoxDecoration(color: Colors.white),
+              width: size.width,
+              height: size.height,
+              child: Scrollbar(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: 10,
+                      ),
+                      ProfileBox(fem: fem, map: userInfo),
+                      SizedBox(height: 10),
+                      Container(
+                        width: 650,
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: _posts.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            final post = _posts[index];
+                            post.setFem(fem);
+                            return post;
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            )
+              ),
+            ),
+          ),
+        ],
+      )
           : LinearProgressIndicator(),
     );
   }
+
 }

@@ -25,29 +25,27 @@ class AnomalyAuth {
     return map;
   }
 
-  static makeAnomalyRequest(String type, String description) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? token = prefs.getString('Token');
-    Map<String, dynamic> map = jsonDecode(token!) as Map<String, dynamic>;
-    String username = map['username'];
+  static makeAnomalyRequest(String title, String description) async {
+    String tokenAuth = await getTokenAuth();
+
 
     final response = await http.post(
         Uri.parse(
             'https://steel-sequencer-385510.oa.r.appspot.com/rest/anomaly/create'),
         headers: <String, String>{
           'Content-Type': 'application/json',
+          HttpHeaders.authorizationHeader: tokenAuth
         },
         body: jsonEncode(<String, String>{
-          "username": username,
-          "type": type,
-          "description": description,
+          "title": title,
+          "description": description
         }));
     if (response.statusCode == 200) {
       return true;
     } else
       return false;
   }
-  /* static Future<bool> listAnomaly() async {
+/* static Future<bool> listAnomaly() async {
     print("LISTAR anomalias");
     bool res = await httpListAnomaly();
 
@@ -128,3 +126,6 @@ class AnomalyAuth {
     }
   } */
 }
+
+
+

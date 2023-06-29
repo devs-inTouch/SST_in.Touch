@@ -188,7 +188,16 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const ResponsiveLayout(
+                        builder: (context) => const DesktopProfileScaffold(
+                          name: 'John Doe',
+                          imageAssetPath: 'assets/images/profile.jpg',
+                          role: 'Developer',
+                          year: '2002',
+                          nucleos: 'Engineering',
+                        ),
+
+                        /**
+                        ResponsiveLayout(
                           mobileScaffold: MobileProfileScaffold(
                             name: 'John Doe',
                             imageAssetPath: 'assets/images/profile.jpg',
@@ -211,6 +220,8 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                             nucleos: 'Engineering',
                           ),
                         ),
+                        **/
+
                       ),
                     );
                   },

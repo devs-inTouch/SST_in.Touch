@@ -177,6 +177,7 @@ class _TabletScaffoldState extends State<TabletScaffold> {
                       ],
                     ),
                   ),
+                  /**
                   FractionallySizedBox(
                     widthFactor: 1,
                     child: Stack(
@@ -200,6 +201,7 @@ class _TabletScaffoldState extends State<TabletScaffold> {
                       ],
                     ),
                   ),
+                      **/
                   SizedBox(height: 25.0),
                   Expanded(
                     child: FractionallySizedBox(
