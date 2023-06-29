@@ -158,7 +158,6 @@ public class RoomReservationResource {
             if(data.getAvailable())
                 return Response.status(Response.Status.BAD_REQUEST).entity("Room not available").build();
 
-            //create exception when the number of students are bigger than the space of the room
             if(data.getNumberStudents() > Integer.parseInt(String.valueOf(room.getLong("space"))))
                 return Response.status(Response.Status.BAD_REQUEST).entity("Number of students bigger than the space of the room").build();
 
@@ -177,8 +176,6 @@ public class RoomReservationResource {
                     .set("hour", data.getHour())
                     .set("available", false)
                     .build();
-
-            //data.setUsername(givenTokenData.getUsername());
 
             notification.createNotification("Reserva efetuada","System", givenTokenData.getUsername(), "Aviso", System.currentTimeMillis());
             txn.add(booking);
@@ -213,32 +210,136 @@ public class RoomReservationResource {
     }
 
     @POST
+    @Path("/cancelbooking")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    public Response cancelBooking(@HeaderParam(AUTH) String auth, BookRoomData data) {
+        TokenData givenTokenData = TokenUtil.validateToken(LOG, auth);
+
+        if(givenTokenData == null)
+            return Response.status(Response.Status.FORBIDDEN).build();
+
+        Key userKey = datastore.newKeyFactory().setKind("User").newKey(givenTokenData.getUsername());
+        Transaction txn = datastore.newTransaction();
+        try {
+            Entity user = txn.get(userKey);
+            if(user == null)
+                return Response.status(Response.Status.BAD_REQUEST).entity("User not in database").build();
+
+            if(givenTokenData.getUsername().equals(data.getUsername()))
+                return Response.status(Response.Status.BAD_REQUEST).entity("User not allowed to cancel booking").build();
+
+            Key bookingKey = datastore.newKeyFactory().setKind("Booking")
+                    .addAncestor(PathElement.of("User", givenTokenData.getUsername()))
+                    .newKey(givenTokenData.getUsername() + "-" + data.getName() + "-" + data.getDepartment() + "-" + data.getDate() + "-" + data.getHour());
+
+            Entity booking = txn.get(bookingKey);
+            if(booking == null)
+                return Response.status(Response.Status.BAD_REQUEST).entity("Booking not in database").build();
+
+            txn.delete(bookingKey);
+            txn.commit();
+
+            return Response.ok(g.toJson("Booking canceled successfully")).build();
+
+        } finally {
+            if(txn.isActive())
+                txn.rollback();
+        }
+    }
+
+    @POST
+    @Path("/listuserbookings")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    public Response listUserAvailableBookings(@HeaderParam(AUTH) String auth) {
+        TokenData givenTokenData = TokenUtil.validateToken(LOG, auth);
+
+        if(givenTokenData == null)
+            return Response.status(Response.Status.FORBIDDEN).build();
+
+        Query<Entity> query = Query.newEntityQueryBuilder().setKind("Booking")
+                .setFilter(StructuredQuery.CompositeFilter.and(
+                        StructuredQuery.PropertyFilter.eq("username", givenTokenData.getUsername()),
+                        StructuredQuery.PropertyFilter.eq("available", true))).build();
+        QueryResults<Entity> results = datastore.run(query);
+
+        List<BookRoomData> list = new ArrayList<>();
+
+        results.forEachRemaining(booking -> {
+            list.add(new BookRoomData(booking.getString("username"), booking.getString("room"), booking.getString("department"), (int) booking.getLong("numberStudents"), booking.getString("date"), booking.getString("hour")));
+        });
+
+        return Response.ok(g.toJson(list)).build();
+    }
+
+    @POST
     @Path("/approve")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    public Response changeAvailability(CreateRoomData data) {
-        Key k = datastore.newKeyFactory().setKind("Room").newKey(data.getName() + data.getDepartment() + data.getDate() + data.getHour());
+    public Response approveBooking(@HeaderParam(AUTH) String auth, BookRoomData data) {
+        TokenData givenTokenData = TokenUtil.validateToken(LOG, auth);
+
+        if(givenTokenData == null)
+            return Response.status(Response.Status.FORBIDDEN).build();
+
+        Key userKey = datastore.newKeyFactory().setKind("User").newKey(givenTokenData.getUsername());
         Transaction txn = datastore.newTransaction();
         try {
-            Entity room = txn.get(k);
+            Entity user = txn.get(userKey);
+            if (user == null)
+                return Response.status(Response.Status.BAD_REQUEST).entity("User not in database").build();
 
-            Entity newRoom = Entity.newBuilder(k)
+            /*if (givenTokenData.getUsername().equals(data.getUsername()))
+                return Response.status(Response.Status.BAD_REQUEST).entity("User not allowed to approve booking").build();*/
+
+            Key bookingKey = datastore.newKeyFactory().setKind("Booking")
+                    .addAncestor(PathElement.of("User", givenTokenData.getUsername()))
+                    .newKey(givenTokenData.getUsername()+ "-" + data.getName() + "-" + data.getDepartment() + "-" + data.getDate() + "-" + data.getHour());
+
+            Entity booking = txn.get(bookingKey);
+            if (booking == null)
+                return Response.status(Response.Status.BAD_REQUEST).entity("Booking not in database").build();
+
+            Key roomKey = datastore.newKeyFactory().setKind("Room")
+                    .newKey(data.getName() + data.getDepartment() + data.getDate() + data.getHour());
+
+            Entity room = txn.get(roomKey);
+            if (room == null)
+                return Response.status(Response.Status.BAD_REQUEST).entity("Room not in database").build();
+
+
+            Entity booking2 = Entity.newBuilder(bookingKey)
+                    .set("username", booking.getString("username"))
+                    .set("room", booking.getString("room"))
+                    .set("department", booking.getString("department"))
+                    .set("numberStudents", (int) booking.getLong("numberStudents"))
+                    .set("date", booking.getString("date"))
+                    .set("hour", booking.getString("hour"))
+                    .set("available", true)
+                    .build();
+
+            Entity room2 = Entity.newBuilder(roomKey)
                     .set("name", room.getString("name"))
                     .set("department", room.getString("department"))
-                    .set("space", room.getString("space"))
+                    .set("space", (int) room.getLong("space"))
                     .set("date", room.getString("date"))
                     .set("hour", room.getString("hour"))
                     .set("available", false)
                     .build();
 
-            txn.add(newRoom);
+            txn.update(booking2);
+            txn.update(room2);
+
             txn.commit();
 
-            return Response.ok(g.toJson("Reservation approved successfully")).build();
+            return Response.ok(g.toJson("Booking approved successfully")).build();
+
         } finally {
-            if(txn.isActive())
+            if (txn.isActive())
                 txn.rollback();
         }
+
     }
 
 
