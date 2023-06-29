@@ -140,7 +140,7 @@ Widget topBarCalendar({required String text, VoidCallback? onSave}) {
 }
 
 Widget buildProfileImage() {
-  return  Column(
+  return const Column(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       Text(

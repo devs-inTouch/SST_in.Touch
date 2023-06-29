@@ -1,23 +1,27 @@
 import 'dart:convert';
-import 'dart:io';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
-import '../../constants.dart';
 import '../presentation/postBox.dart';
 
 class PostRequests {
-  static Future<bool> makePostRequest(String mediaURL, String description) async {
-    String tokenAuth = await getTokenAuth();
+  static Future<bool> makePostRequest(
+      String mediaURL, String description) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('Token');
+    Map<String, dynamic> map = jsonDecode(token!) as Map<String, dynamic>;
+    String username = map['username'];
+    print("Request");
+    print(mediaURL);
 
     final response = await http.post(
         Uri.parse(
             'https://steel-sequencer-385510.oa.r.appspot.com/rest/post/create'),
         headers: <String, String>{
           'Content-Type': 'application/json',
-          HttpHeaders.authorizationHeader: tokenAuth
         },
         body: jsonEncode(<String, String>{
+          "username": username,
           "description": description,
           "mediaUrl": mediaURL
         }));
