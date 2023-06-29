@@ -142,8 +142,8 @@ class GMapState extends State<GMap> {
                   },
                 ),
                 Positioned(
-                  bottom: 700,
-                  right: 300,
+                  top: 50,
+                  left: 20,
                   child: FloatingActionButton(
                     onPressed: () {
                       _scaffoldKey.currentState?.openDrawer();
