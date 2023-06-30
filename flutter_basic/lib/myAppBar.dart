@@ -2,18 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_basic/anomalies/presentation/anomaliesPage.dart';
 import 'package:flutter_basic/backoffice/presentation/backOfficePage.dart';
 import 'package:flutter_basic/feeds/presentation/feedPage.dart';
-import 'package:flutter_basic/feeds/presentation/responsiveFeed.dart';
+import 'package:flutter_basic/login/presentation/loginPage.dart';
 import 'package:flutter_basic/mainpage/presentation/desktop_main_scaffold.dart';
 import 'package:flutter_basic/mainpage/presentation/mobile_main_scaffold.dart';
 import 'package:flutter_basic/mainpage/presentation/responsive_main_page.dart';
 import 'package:flutter_basic/mainpage/presentation/tablet_main_scaffold.dart';
 import 'package:flutter_basic/profile/presentation/profile_scaffold.dart';
-import 'package:flutter_basic/profile/presentation/mobile_profile_scaffold.dart';
-import 'package:flutter_basic/profile/presentation/tablet_profile_scaffold.dart';
 import 'package:flutter_basic/reports/presentation/reportsPage.dart';
 import 'package:flutter_basic/reservaSalas/presentation/responsive_reservasalas.dart';
 import 'package:flutter_basic/teste/teste.dart';
 import 'package:flutter_basic/maps/lib/map.dart';
+import 'mainpage/application/logoutAuth.dart';
 import 'messages/application/chatScreen.dart';
 import 'notifications/presentation/notificationList.dart';
 
@@ -22,6 +21,34 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+
+  void logoutButtonPressed(BuildContext context) {
+    LogoutAuth.logout().then((isLoggedout) {
+      if (isLoggedout) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const MyApp()),
+        );
+      } else {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Ups... Alguma coisa correu mal...'),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('Ok'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +80,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
       actions: [
-         PopupMenuButton<Notification>(
+        PopupMenuButton<Notification>(
           icon: const Icon(Icons.notifications, color: Colors.black),
           color: Colors.white,
           offset: const Offset(0, kToolbarHeight),
@@ -223,7 +250,6 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                           ),
                         ),
                         **/
-
                       ),
                     );
                   },
@@ -319,6 +345,8 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                   onTap: () {
                     // Handle logout button click
                     Navigator.pop(context); // Close the menu
+                    logoutButtonPressed(context);
+                    print("Logout click");
                     // Implement your logic here
                   },
                 ),
