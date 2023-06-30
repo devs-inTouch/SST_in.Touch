@@ -6,14 +6,14 @@ import '../../feeds/application/postRequests.dart';
 import '../../myAppBar.dart';
 import '../application/profleRequests.dart';
 
-class DesktopProfileScaffold extends StatefulWidget {
+class ProfileScaffold extends StatefulWidget {
   final String name;
   final String imageAssetPath;
   final String role;
   final String year;
   final String nucleos;
 
-  const DesktopProfileScaffold({
+  const ProfileScaffold({
     required this.name,
     required this.imageAssetPath,
     required this.role,
@@ -25,7 +25,7 @@ class DesktopProfileScaffold extends StatefulWidget {
   _ProfilePageState createState() => _ProfilePageState();
 }
 
-class _ProfilePageState extends State<DesktopProfileScaffold> {
+class _ProfilePageState extends State<ProfileScaffold> {
   List _posts = [];
 
   List userInfo = [];

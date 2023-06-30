@@ -105,8 +105,14 @@ class FeedState extends State<FeedsPage> {
             context: context,
             builder: (context) {
               return SimpleDialog(
-                title: Text('Sucesso'),
-                children: [Text("Publicação criada")],
+                title: Center(
+                  child: Text('Sucesso'),
+                ),
+                children: [
+                  Center(
+                    child: Text("Publicação criada"),
+                  ),
+                ],
               );
             });
       } else {
@@ -114,8 +120,14 @@ class FeedState extends State<FeedsPage> {
             context: context,
             builder: (context) {
               return SimpleDialog(
-                title: Text('Erro'),
-                children: [Text("Tente novamente")],
+                title: Center(
+                  child: Text('Erro'),
+                ),
+                children: [
+                  Center(
+                    child: Text("Tente Novamente"),
+                  ),
+                ],
               );
             });
       }

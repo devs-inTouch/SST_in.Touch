@@ -109,8 +109,14 @@ class AnomalyState extends State<AnomaliesPage> {
             context: context,
             builder: (context) {
               return SimpleDialog(
-                title: Text('Sucesso'),
-                children: [Text("Anomalia criada")],
+                title: Center(
+                  child: Text('Sucesso'),
+                ),
+                children: [
+                  Center(
+                    child: Text("Anomalia criada"),
+                  ),
+                ],
               );
             });
       } else {
@@ -118,8 +124,14 @@ class AnomalyState extends State<AnomaliesPage> {
             context: context,
             builder: (context) {
               return SimpleDialog(
-                title: Text('Erro'),
-                children: [Text("Tente novamente")],
+                title: Center(
+                  child: Text('Erro'),
+                ),
+                children: [
+                  Center(
+                    child: Text("Tente novamente"),
+                  ),
+                ],
               );
             });
       }

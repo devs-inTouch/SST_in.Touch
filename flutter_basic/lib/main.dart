@@ -1,6 +1,6 @@
 /*import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_basic/profile/presentation/desktop_profile_scaffold.dart';
+import 'package:flutter_basic/profile/presentation/profile_scaffold.dart';
 import 'package:flutter_basic/profile/presentation/mobile_profile_scaffold.dart';
 import 'package:flutter_basic/profile/presentation/responsive_profile.dart';
 import 'package:flutter_basic/profile/presentation/tablet_profile_scaffold.dart';
