@@ -5,7 +5,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 const String appUrl = "https://steel-sequencer-385510.oa.r.appspot.com/rest";
 
-var myBackground = Colors.white;
+var myBackground = Colors.grey[100];
+
 
 var textStyleBar = const TextStyle(
   fontSize: 22,
@@ -26,11 +27,18 @@ var textStyleReservaSalas = const TextStyle(
   fontSize: 14.0,
 );
 var textStyleReservaSalasButton = const TextStyle(
-  color: Colors.black,
+  color: Colors.white,
   fontWeight: FontWeight.bold,
-  fontSize: 14.0,
+  fontSize: 18.0,
 );
 
+var styleBackOfficeButtons=ElevatedButton.styleFrom(
+  padding: EdgeInsets.all(10),
+  textStyle: TextStyle(fontSize: 20),
+  shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(10),
+  ),
+);
 Widget textTopBar(String text) {
   return Text(
     text,
@@ -50,7 +58,7 @@ final buttonStyle = ElevatedButton.styleFrom(
 );
 
 var topBarDecoration = BoxDecoration(
-  color: Colors.grey[300],
+  color: Colors.grey[400],
   borderRadius: const BorderRadius.only(
     topLeft: Radius.circular(10),
     topRight: Radius.circular(10),
@@ -70,7 +78,7 @@ var boxMainMenuDecoration = BoxDecoration(
 );
 
 var boxDecoration = BoxDecoration(
-  color: Colors.grey[100],
+  color: Colors.grey[300],
   borderRadius: BorderRadius.circular(8.0),
 );
 var boxEventDecoration = BoxDecoration(

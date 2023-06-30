@@ -69,24 +69,22 @@ class _ProfilePageState extends State<DesktopProfileScaffold> {
       backgroundColor: myBackground,
       body: userInfo.isNotEmpty
           ? Stack(
-        children: [
-          Padding(
-            padding: EdgeInsets.all(20.0),
-            child: Container(
-              decoration: BoxDecoration(color: Colors.white),
-              width: size.width,
-              height: size.height,
-              child: Scrollbar(
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: 10,
-                      ),
-                      ProfileBox(fem: fem, map: userInfo),
-                      SizedBox(height: 10),
-                      Container(
+          children: [
+      Container(
+      decoration: BoxDecoration(color: Colors.white),
+        width: size.width,
+        height: size.height,
+        child: Scrollbar(
+          child: SingleChildScrollView(
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 10,
+                    ),
+                    ProfileBox(fem: fem, map: userInfo),
+                    SizedBox(height: 10),
+                    Container(
                         width: 650,
                         child: ListView.builder(
                           shrinkWrap: true,
@@ -96,15 +94,11 @@ class _ProfilePageState extends State<DesktopProfileScaffold> {
                             post.setFem(fem);
                             return post;
                           },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
+                        ))
+                  ])),
+        ),
+      ),
+          ],
       )
           : LinearProgressIndicator(),
     );

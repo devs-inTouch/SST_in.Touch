@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:image/image.dart' as Im;
 
+import '../../constants.dart';
 import '../../feeds/presentation/anomalyBox.dart';
 import '../../myAppBar.dart';
 
@@ -169,7 +170,7 @@ class AnomalyState extends State<AnomaliesPage> {
 
     return Scaffold(
       appBar: const MyAppBar(),
-      backgroundColor: Colors.grey[300],
+      backgroundColor: myBackground,
       body: Stack(
         children: [
           Container(
@@ -197,7 +198,7 @@ class AnomalyState extends State<AnomaliesPage> {
                       height: 400,
                       width: 1000,
                       decoration: BoxDecoration(
-                        color: Colors.grey[400],
+                        color: Colors.blueAccent[200],
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       child: Column(

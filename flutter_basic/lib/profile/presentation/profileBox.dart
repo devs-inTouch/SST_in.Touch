@@ -103,5 +103,5 @@ class ProfileBox extends StatelessWidget {
     );
   }
 
-  
+
 }

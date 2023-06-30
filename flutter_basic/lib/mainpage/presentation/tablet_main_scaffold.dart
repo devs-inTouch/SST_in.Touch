@@ -1,6 +1,8 @@
+
 import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/constants.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../hojeNaFCT/avisos_info.dart';
 import '../../hojeNaFCT/exposicoes_info.dart';
 import '../../hojeNaFCT/noticias_info.dart';
@@ -45,10 +47,10 @@ class _TabletScaffoldState extends State<TabletScaffold> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(),
-      backgroundColor: Colors.grey[300],
+      appBar: const MyAppBar(),
+      backgroundColor: myBackground,
       body: Padding(
-        padding: EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20.0),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -67,9 +69,9 @@ class _TabletScaffoldState extends State<TabletScaffold> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.calendar_today_rounded),
+                              const Icon(Icons.calendar_today_rounded),
                               // Icon calendar
-                              SizedBox(width: 5),
+                              const SizedBox(width: 5),
                               // Add some spacing between the icon and text
                               textTopBar('HOJE NA FCT'),
                               // Text widget
@@ -78,7 +80,7 @@ class _TabletScaffoldState extends State<TabletScaffold> {
                         ),
                       ),
                       Container(
-                        padding: EdgeInsets.all(16.0),
+                        padding: const EdgeInsets.all(16.0),
                         child: Text(
                           pages[_currentPageIndex],
                           style: hojeNaFCTPageTitles,
@@ -87,37 +89,37 @@ class _TabletScaffoldState extends State<TabletScaffold> {
                       if (pages[_currentPageIndex] == 'RESTAURAÇÃO')
                         Expanded(
                           child: Container(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 vertical: 20.0, horizontal: 20.0),
-                            child: RestauracaoPage(),
+                            child: const RestauracaoPage(),
                           ),
                         )
                       else if (pages[_currentPageIndex] == 'Avisos')
                         Expanded(
                           child: Container(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 vertical: 20.0, horizontal: 20.0),
-                            child: AvisosPage(),
+                            child: const AvisosPage(),
                           ),
                         )
                       else if (pages[_currentPageIndex] == 'Exposições')
-                        Expanded(
-                          child: Container(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 20.0, horizontal: 20.0),
-                            child: ExposicoesPage(),
-                          ),
-                        )
-                      else if (pages[_currentPageIndex] == 'Notícias')
-                        Expanded(
-                          child: Container(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 20.0, horizontal: 20.0),
-                            child: NoticiasPage(),
-                          ),
-                        ),
+                          Expanded(
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 20.0, horizontal: 20.0),
+                              child: const ExposicoesPage(),
+                            ),
+                          )
+                        else if (pages[_currentPageIndex] == 'Notícias')
+                            Expanded(
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 20.0, horizontal: 20.0),
+                                child: const NoticiasPage(),
+                              ),
+                            ),
                       Padding(
-                        padding: EdgeInsets.only(bottom: 20.0),
+                        padding: const EdgeInsets.only(bottom: 20.0),
                         child: Align(
                           alignment: Alignment.bottomCenter,
                           child: Row(
@@ -125,12 +127,12 @@ class _TabletScaffoldState extends State<TabletScaffold> {
                             children: [
                               IconButton(
                                 onPressed: goToPreviousPage,
-                                icon: Icon(Icons.arrow_back),
+                                icon: const Icon(Icons.arrow_back),
                               ),
-                              SizedBox(width: 30.0),
+                              const SizedBox(width: 30.0),
                               IconButton(
                                 onPressed: goToNextPage,
-                                icon: Icon(Icons.arrow_forward),
+                                icon: const Icon(Icons.arrow_forward),
                               ),
                             ],
                           ),
@@ -141,7 +143,7 @@ class _TabletScaffoldState extends State<TabletScaffold> {
                 ),
               ),
             ),
-            Spacer(),
+            const Spacer(),
             Expanded(
               flex: 4,
               child: Column(
@@ -167,8 +169,8 @@ class _TabletScaffoldState extends State<TabletScaffold> {
                                   width: double.infinity,
                                   height: 100,
                                   decoration: boxDecoration,
-                                  child:
-                                      WeatherBox(location: 'Costa Da Caparica'),
+                                  child: const WeatherBox(
+                                      location: 'Costa Da Caparica'),
                                 ),
                               ),
                             ],
@@ -177,12 +179,11 @@ class _TabletScaffoldState extends State<TabletScaffold> {
                       ],
                     ),
                   ),
-                  FractionallySizedBox(
-                    widthFactor: 1,
-                    child: Stack(
-                      children: [
-                        Expanded(
-                          child: Center(
+                  Stack(
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
                             child: GestureDetector(
                               onTap: () async {
                                 await LaunchApp.openApp(
@@ -198,11 +199,11 @@ class _TabletScaffoldState extends State<TabletScaffold> {
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
+                        ],
+                      ),
+                    ],
                   ),
-                  SizedBox(height: 25.0),
+                  const SizedBox(height: 25.0),
                   Expanded(
                     child: FractionallySizedBox(
                       widthFactor: 1,
@@ -222,14 +223,14 @@ class _TabletScaffoldState extends State<TabletScaffold> {
                                       decoration: topBarDecoration,
                                       child: Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                        MainAxisAlignment.center,
                                         children: [
                                           textTopBar('AGENDA'),
                                         ],
                                       ),
                                     ),
                                     Expanded(
-                                      child: Container(
+                                      child: SizedBox(
                                         height: 350,
                                         child: Scrollbar(
                                           child: SingleChildScrollView(
@@ -253,7 +254,7 @@ class _TabletScaffoldState extends State<TabletScaffold> {
                                     // Add your functionality for adding new activities here
                                     auxMainPage.addNewActivity(context, events);
                                   },
-                                  icon: Icon(Icons.add),
+                                  icon: const Icon(Icons.add),
                                   color: Colors.black,
                                 ),
                               ),

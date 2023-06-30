@@ -1,6 +1,7 @@
+import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/constants.dart';
-import 'package:external_app_launcher/external_app_launcher.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../hojeNaFCT/avisos_info.dart';
 import '../../hojeNaFCT/exposicoes_info.dart';
 import '../../hojeNaFCT/noticias_info.dart';
@@ -73,7 +74,7 @@ class _MobileScaffoldState extends State<MobileScaffold> {
                           height: 100,
                           decoration: boxDecoration,
                           child:
-                              const WeatherBox(location: 'Costa Da Caparica'),
+                          const WeatherBox(location: 'Costa Da Caparica'),
                         ),
                       ),
                     ],
@@ -104,6 +105,7 @@ class _MobileScaffoldState extends State<MobileScaffold> {
                   ),
                 ),
                 const SizedBox(height: 30.0),
+
                 Container(
                   height: 50,
                   decoration: topBarDecoration,
@@ -122,53 +124,71 @@ class _MobileScaffoldState extends State<MobileScaffold> {
                   ),
                 ),
                 const SizedBox(height: 10.0),
-                Padding(
+
+                Container(
                   padding: const EdgeInsets.all(16.0),
                   child: Text(
                     pages[_currentPageIndex],
                     style: hojeNaFCTPageTitles,
                   ),
                 ),
-                if (pages[_currentPageIndex] == 'Restauração')
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 20.0, horizontal: 20.0),
-                    child: const RestauracaoPage(),
+                if (pages[_currentPageIndex] == 'RESTAURAÇÃO')
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 20.0, horizontal: 20.0),
+                      child: const RestauracaoPage(),
+                    ),
                   )
                 else if (pages[_currentPageIndex] == 'Avisos')
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 20.0, horizontal: 20.0),
-                    child: const AvisosPage(),
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 20.0, horizontal: 20.0),
+                      child: const AvisosPage(),
+                    ),
                   )
                 else if (pages[_currentPageIndex] == 'Exposições')
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 20.0, horizontal: 20.0),
-                    child: const ExposicoesPage(),
-                  )
-                else if (pages[_currentPageIndex] == 'Notícias')
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 20.0, horizontal: 20.0),
-                    child: const NoticiasPage(),
-                  ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 20.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      IconButton(
-                        onPressed: goToPreviousPage,
-                        icon: const Icon(Icons.arrow_back),
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 20.0, horizontal: 20.0),
+                        child: const ExposicoesPage(),
                       ),
-                      const SizedBox(width: 30.0),
-                      IconButton(
-                        onPressed: goToNextPage,
-                        icon: const Icon(Icons.arrow_forward),
+                    )
+                  else if (pages[_currentPageIndex] == 'Notícias')
+                      Expanded(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 20.0, horizontal: 20.0),
+                          child: const NoticiasPage(),
+                        ),
                       ),
-                    ],
-                  ),
+
+                Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 20.0),
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            IconButton(
+                              onPressed: goToPreviousPage,
+                              icon: const Icon(Icons.arrow_back),
+                            ),
+                            const SizedBox(width: 30.0),
+                            IconButton(
+                              onPressed: goToNextPage,
+                              icon: const Icon(Icons.arrow_forward),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+
+                  ],
                 ),
                 Container(
                   height: 50,
@@ -180,9 +200,8 @@ class _MobileScaffoldState extends State<MobileScaffold> {
                     ],
                   ),
                 ),
-                Positioned(
-                  bottom: 0,
-                  right: 0,
+                Align(
+                  alignment: Alignment.bottomRight,
                   child: IconButton(
                     onPressed: () {
                       // Add your functionality for adding new activities here
@@ -192,6 +211,8 @@ class _MobileScaffoldState extends State<MobileScaffold> {
                     color: Colors.black,
                   ),
                 ),
+
+
               ],
             ),
           ),

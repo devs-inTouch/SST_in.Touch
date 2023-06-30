@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_basic/constants.dart';
 import '../../myAppBar.dart';
 
 class ReportsPage extends StatelessWidget {
@@ -8,7 +9,7 @@ class ReportsPage extends StatelessWidget {
 
     return Scaffold(
       appBar: MyAppBar(),
-      backgroundColor: Colors.grey[300],
+      backgroundColor: myBackground,
       body: Container(
         padding: EdgeInsets.all(20),
         child: Column(
@@ -28,7 +29,7 @@ class ReportsPage extends StatelessWidget {
                   widthFactor: screenWidth < 700 ? 1.0 : 0.8,
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.grey[100],
+                      color: Colors.blueAccent[200],
                       borderRadius: BorderRadius.circular(20),
                     ),
                     padding: EdgeInsets.all(20),
@@ -146,16 +147,20 @@ class ReportsPage extends StatelessWidget {
                 onPressed: () {
                   // Add your desired action when the button is pressed
                 },
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(Colors.blueAccent[200]!),
+                ),
                 child: Text(
                   'ENVIAR NOTIFICAÇÕES',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
-                    color: Colors.black,
+                    color: Colors.white,
                   ),
                 ),
               ),
             ),
+
           ],
         ),
       ),

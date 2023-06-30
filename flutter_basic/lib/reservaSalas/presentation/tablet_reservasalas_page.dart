@@ -17,7 +17,7 @@ class ReservaSalasPageTablet extends StatelessWidget {
 
     return Scaffold(
       appBar: MyAppBar(),
-      backgroundColor: Colors.grey[300],
+      backgroundColor: myBackground,
       body: Center(
         child: Container(
           padding: EdgeInsets.all(20),
@@ -38,7 +38,7 @@ class ReservaSalasPageTablet extends StatelessWidget {
                     widthFactor: screenWidth < 700 ? 1.0 : 0.8,
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Colors.grey[100],
+                        color: Colors.grey[300],
                         borderRadius: BorderRadius.circular(20),
                       ),
                       padding: EdgeInsets.all(20),
@@ -46,7 +46,7 @@ class ReservaSalasPageTablet extends StatelessWidget {
                         children: [
                           Container(
                             decoration: BoxDecoration(
-                              color: Colors.grey[400],
+                              color: Colors.blueAccent[200],
                               borderRadius: BorderRadius.circular(20),
                             ),
                             padding: EdgeInsets.all(20),
@@ -110,10 +110,16 @@ class ReservaSalasPageTablet extends StatelessWidget {
                                     onPressed: () {
                                       // Add your desired action when the button is pressed
                                     },
+                                    style: ButtonStyle(
+                                      backgroundColor: MaterialStateProperty.all<Color>(Colors.grey[300]!),
+                                    ),
                                     child: Text(
                                       'VERIFICAR DISPONIBILIDADE',
-                                      style: textStyleReservaSalasButton,
-                                    ),
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18.0,
+                                      ),                                    ),
                                   ),
                                 ),
                               ],
@@ -204,6 +210,9 @@ class ReservaSalasPageTablet extends StatelessWidget {
                               onPressed: () {
                                 // Add your desired action when the button is pressed
                               },
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all<Color>(Colors.blueAccent[200]!),
+                              ),
                               child: Text(
                                 'CONFIRMAR RESERVA',
                                 style: textStyleReservaSalasButton,

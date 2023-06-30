@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/anomalies/presentation/anomaliesPage.dart';
+import 'package:flutter_basic/backoffice/presentation/backOfficePage.dart';
 import 'package:flutter_basic/feeds/presentation/responsiveFeed.dart';
 import 'package:flutter_basic/mainpage/presentation/desktop_main_scaffold.dart';
 import 'package:flutter_basic/mainpage/presentation/mobile_main_scaffold.dart';
@@ -262,6 +263,26 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                       context,
                       MaterialPageRoute(
                           builder: (context) => const AnomaliesPage()),
+                    );
+                  },
+                ),
+              ),
+            ),
+            PopupMenuItem(
+              child: Container(
+                color: Colors
+                    .white, // Set the background color of the menu item to white
+                child: ListTile(
+                  leading: const Icon(Icons.admin_panel_settings),
+                  title: const Text('Back-Office'),
+                  onTap: () {
+                    // Handle logout button click
+                    Navigator.pop(context); // Close the menu
+                    // Implement your logic here
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const BackOffice()),
                     );
                   },
                 ),

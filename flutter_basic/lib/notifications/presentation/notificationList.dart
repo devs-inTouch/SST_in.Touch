@@ -76,9 +76,9 @@ class NotificationState extends State<NotificationPage> {
                   },
                 );
               } else {
-                NotificationAuth.deleteNotifications().then((value) {
-                  if (value == true) {
-                    showDialog(
+                if (notificationList.length > 0) {
+                  NotificationAuth.deleteNotifications();
+                  showDialog(
                       context: context,
                       builder: (context) {
                         return SimpleDialog(
@@ -93,7 +93,6 @@ class NotificationState extends State<NotificationPage> {
                         );
                       },
                     );
-
                   } else {
                     showDialog(
                       context: context,
@@ -111,12 +110,10 @@ class NotificationState extends State<NotificationPage> {
                       },
                     );
                   }
-                });
               }
             },
             style: ElevatedButton.styleFrom(
-              primary: Colors.grey[
-              400], // Set the same dark grey color as the background
+              primary: Colors.blueAccent[200], // Set the same dark grey color as the background
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(
                     10.0), // Set the border radius

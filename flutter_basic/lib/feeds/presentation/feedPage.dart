@@ -169,7 +169,7 @@ class FeedState extends State<FeedsPage> {
 
     return Scaffold(
       appBar: MyAppBar(),
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.grey[200],
       body: Stack(
         children: [
           Container(
