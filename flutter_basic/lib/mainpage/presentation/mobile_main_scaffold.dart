@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/constants.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:external_app_launcher/external_app_launcher.dart';
 import '../../hojeNaFCT/avisos_info.dart';
 import '../../hojeNaFCT/exposicoes_info.dart';
 import '../../hojeNaFCT/noticias_info.dart';
@@ -87,9 +87,11 @@ class _MobileScaffoldState extends State<MobileScaffold> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       InkWell(
-                        onTap: () {
-                          launchUrl(Uri.parse(
-                              'https://moovitapp.com/lisboa-2460/poi/pt'));
+                        onTap: () async {
+                          await LaunchApp.openApp(
+                            androidPackageName: 'com.tranzmate',
+                            openStore: true,
+                          );
                         },
                         child: Image.asset(
                           'assets/moovit.png',

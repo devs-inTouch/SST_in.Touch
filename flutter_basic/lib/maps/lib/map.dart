@@ -524,6 +524,14 @@ class GMapState extends State<GMap> {
     );
   }
 
+  bool isButtonVisible() {
+    return _lastDisplayedBuildingIndex == -1 &&
+        _lastDisplayedCateringIndex == -1 &&
+        _lastDisplayedATMsIndex == -1 &&
+        _lastDisplayedParksIndex == -1 &&
+        _lastDisplayedTransportIndex == -1;
+  }
+
   // Define a function to hide the last displayed elements
   void hideLastDisplayedElements() {
     // Hide the last displayed building (if any)

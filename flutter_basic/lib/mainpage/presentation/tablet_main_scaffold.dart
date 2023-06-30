@@ -1,3 +1,4 @@
+import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/constants.dart';
 import '../../hojeNaFCT/avisos_info.dart';
@@ -7,7 +8,6 @@ import '../../hojeNaFCT/restauração_info.dart';
 import '../../myAppBar.dart';
 import '../../weatherBox.dart';
 import 'auxMainpage.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class TabletScaffold extends StatefulWidget {
   const TabletScaffold({Key? key}) : super(key: key);
@@ -177,7 +177,6 @@ class _TabletScaffoldState extends State<TabletScaffold> {
                       ],
                     ),
                   ),
-                  /**
                   FractionallySizedBox(
                     widthFactor: 1,
                     child: Stack(
@@ -185,9 +184,11 @@ class _TabletScaffoldState extends State<TabletScaffold> {
                         Expanded(
                           child: Center(
                             child: GestureDetector(
-                              onTap: () {
-                                launchUrl(Uri.parse(
-                                    'https://moovitapp.com/lisboa-2460/poi/pt'));
+                              onTap: () async {
+                                await LaunchApp.openApp(
+                                  androidPackageName: 'com.tranzmate',
+                                  openStore: true,
+                                );
                               },
                               child: Image.asset(
                                 'assets/moovit.png',
@@ -201,7 +202,6 @@ class _TabletScaffoldState extends State<TabletScaffold> {
                       ],
                     ),
                   ),
-                      **/
                   SizedBox(height: 25.0),
                   Expanded(
                     child: FractionallySizedBox(
