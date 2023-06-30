@@ -16,6 +16,7 @@ import pt.unl.fct.di.apdc.firstwebapp.util.enums.UserRole;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 @Path("/register")
@@ -62,6 +63,8 @@ public class RegisterResource {
 					.set(UserAttributes.DESCRIPTION.value, data.getDescription())
 					.set(UserAttributes.STATE.value, false)
 					.set(UserAttributes.VISIBILITY.value, false)
+					.set(UserAttributes.FOLLOWERS.value, new ArrayList<>())
+					.set(UserAttributes.FOLLOWING.value, new ArrayList<>())
 					.build();
 
 			txn.add(user);

@@ -1,5 +1,7 @@
 package pt.unl.fct.di.apdc.firstwebapp.util.enums;
 
+import java.util.List;
+
 /**
  * Used to standardize datastore User attributes' names
  * 
@@ -18,6 +20,9 @@ public enum UserAttributes {
     ROLE("user_role", String.class),
     STATE("user_is_activated", Boolean.class),
 
+    FOLLOWERS("user_followers", List.class),
+
+    FOLLOWING("user_following", List.class),
     // Optional fields
     VISIBILITY("user_is_visible", Boolean.class),
     MOBILE("user_mobile_phone_number", String.class),
@@ -31,6 +36,9 @@ public enum UserAttributes {
     STUDENT_NUMBER("user_student_number", String.class),
     COURSE("user_course", String.class),
     DESCRIPTION("user_description", String.class);
+
+
+
 
 
 

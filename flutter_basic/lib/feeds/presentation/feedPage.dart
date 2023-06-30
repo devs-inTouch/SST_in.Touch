@@ -70,7 +70,7 @@ class FeedState extends State<FeedsPage> {
     print("1");
     UploadTask uploadTask;
     Reference storageRef =
-        FirebaseStorage.instance.ref().child("/" + selectFile);
+        FirebaseStorage.instance.ref().child("/posts/" + postId);
 
     final metadata = SettableMetadata(contentType: 'image/jpeg');
     uploadTask = storageRef.putData(selectedImageInBytes, metadata);
@@ -122,16 +122,7 @@ class FeedState extends State<FeedsPage> {
     });
   }
 
-  compressImage() async {
-    /*
-    final tempDir = Directory.systemTemp;
-    final path = tempDir.path;
-    Im.Image? image = Im.decodeImage(file.readAsBytesSync());
-    final compressedImage = File('$path/img_$postId.jpg')..writeAsBytesSync(Im.encodeJpg(image!, quality: 85));
-    setState(() {
-      file = compressedImage;
-    });*/
-  }
+
 
   handleSubmit() async {
     uploadFile();

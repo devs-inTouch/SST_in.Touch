@@ -32,6 +32,14 @@ class PostRequests {
       return false;
   }
 
+<<<<<<< Updated upstream
+=======
+
+  /*static Future<bool> addUp() {
+
+  }*/
+
+>>>>>>> Stashed changes
   static Future<List<PostBox>> getFeed() async {
     List<PostBox> map = [];
 

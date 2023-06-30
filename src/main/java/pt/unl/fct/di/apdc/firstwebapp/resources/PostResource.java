@@ -12,6 +12,7 @@ import pt.unl.fct.di.apdc.firstwebapp.util.TokenUtil;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.TokenData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.post.PostData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.post.PostDeleteData;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.post.PostIdData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.post.PostInformationData;
 
 
@@ -43,6 +44,8 @@ public class PostResource {
     private static final String POST_NOT_IN_DATABASE = "Post not in database";
     private static final String POST_DELETED_SUCCESSFULLY = "Post deleted successfully";
     private static final String USER_NOT_ALLOWED_TO_DELETE_POST = "User not allowed to delete post";
+
+    private static final String ADDED_UP = "Added up to post";
     private static final String LIST_POSTS = "listPosts";
 
     private final Datastore datastore = DatastoreUtil.getService();
@@ -85,8 +88,8 @@ public class PostResource {
                     .set("username", givenTokenData.getUsername())
                     .set("description", data.getDescription())
                     .set("mediaUrl", data.getMediaUrl())
-                    .set("ups", data.getUps())
-                    .set("downs", data.getDowns())
+                    .set("ups", new ArrayList<>())
+                    .set("downs", new ArrayList<>())
                     .set("creation_date", System.currentTimeMillis())
                     .build();
             txn.add(post);
@@ -130,6 +133,93 @@ public class PostResource {
 
         return Response.ok(g.toJson(list)).build();
     }
+    @POST
+    @Path("/addup")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response addUp(@HeaderParam(AUTH) String auth, PostIdData postIde) {
+        TokenData receivedToken = TokenUtil.validateToken(LOG, auth);
+
+        if(receivedToken == null) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+        String username = receivedToken.getUsername();
+        Key userKey = datastore.newKeyFactory().setKind("User").newKey(username);
+        Key postKey = datastore.newKeyFactory().setKind("Post").newKey(postIde.getPostId());
+
+        Transaction txn = datastore.newTransaction();
+
+        try {
+            Entity post = txn.get(postKey);
+            Entity user = txn.get(userKey);
+
+            if (user == null || post == null)
+                return Response.status(Response.Status.BAD_REQUEST).entity(USER_NOT_IN_DATABASE).build();
+
+            // Caso ainda nao tenha dado nem up nem down
+            if(!post.getList("ups").contains(username) && !post.getList("downs").contains(username)) {
+                List<Value<String>> arrayProperty = post.getList("ups");
+                List<Value<String>> updatedArrayProperty = new ArrayList<>(arrayProperty);
+                updatedArrayProperty.add(StringValue.newBuilder(username).build());
+
+                post = Entity.newBuilder(post).set("ups", updatedArrayProperty).build();
+
+                txn.update(post);
+
+
+                return Response.ok(g.toJson(ADDED_UP)).build();
+            } else if(!post.getList("ups").contains(username) && post.getList("downs").contains(username)) {
+                post.getList("downs").remove(StringValue.of(username));
+                post.getList("ups").add(StringValue.of(username));
+                return Response.ok(g.toJson(ADDED_UP)).build();
+            } else {
+                return Response.status(Response.Status.BAD_REQUEST).entity(USER_NOT_ALLOWED_TO_DELETE_POST).build();
+            }
+
+        } finally {
+            if (txn.isActive())
+                txn.rollback();
+        }
+    }
+
+    @POST
+    @Path("/adddown")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response addDown(@HeaderParam(AUTH) String auth, PostIdData postIde) {
+        TokenData receivedToken = TokenUtil.validateToken(LOG, auth);
+
+        if(receivedToken == null) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+        String username = receivedToken.getUsername();
+        Key userKey = datastore.newKeyFactory().setKind("User").newKey(username);
+        Key postKey = datastore.newKeyFactory().setKind("Post").newKey(postIde.getPostId());
+
+        Transaction txn = datastore.newTransaction();
+
+        try {
+            Entity post = txn.get(postKey);
+            Entity user = txn.get(userKey);
+
+            if (user == null || post == null)
+                return Response.status(Response.Status.BAD_REQUEST).entity(USER_NOT_IN_DATABASE).build();
+
+            // Caso ainda nao tenha dado nem up nem down
+            if(!post.getList("ups").contains(username) && !post.getList("downs").contains(username)) {
+                post.getList("downs").add(StringValue.of(username));
+                return Response.ok(g.toJson(ADDED_UP)).build();
+            } else if(post.getList("ups").contains(username) && !post.getList("downs").contains(username)) {
+                post.getList("ups").remove(StringValue.of(username));
+                post.getList("downs").add(StringValue.of(username));
+                return Response.ok(g.toJson(ADDED_UP)).build();
+            } else {
+                return Response.status(Response.Status.BAD_REQUEST).entity(USER_NOT_ALLOWED_TO_DELETE_POST).build();
+            }
+
+        } finally {
+            if (txn.isActive())
+                txn.rollback();
+        }
+    }
 
     @POST
     @Path("/delete")
@@ -171,6 +261,8 @@ public class PostResource {
                 txn.rollback();
         }
     }
+
+
 
     private int getNextPost(String username) {
         AtomicInteger max = new AtomicInteger(0);
