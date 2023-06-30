@@ -36,7 +36,7 @@ class Edificios {
       LatLng(38.6617811, -9.2062144),
     ],
     //onTap creates a pop-up
-    fillColor: Colors.transparent,
+    fillColor: Color.fromARGB(157, 38, 99, 156),
     strokeColor: Color.fromARGB(255, 29, 0, 122),
     strokeWidth: 2,
   );
@@ -69,7 +69,7 @@ class Edificios {
       LatLng(38.6613357, -9.2040044),
     ],
     //onTap creates a pop-up
-    fillColor: Colors.transparent,
+    fillColor: Color.fromARGB(157, 38, 99, 156),
     strokeColor: Color.fromARGB(255, 29, 0, 122),
     strokeWidth: 2,
   );
@@ -90,7 +90,7 @@ class Edificios {
       LatLng(38.6603156, -9.2040704),
     ],
     //onTap creates a pop-up
-    fillColor: Colors.transparent,
+    fillColor: Color.fromARGB(157, 38, 99, 156),
     strokeColor: Color.fromARGB(255, 29, 0, 122),
     strokeWidth: 2,
   );
@@ -105,7 +105,7 @@ class Edificios {
       LatLng(38.6598346, -9.2039229),
     ],
     //onTap creates a pop-up
-    fillColor: Colors.transparent,
+    fillColor: Color.fromARGB(157, 38, 99, 156),
     strokeColor: Color.fromARGB(255, 29, 0, 122),
     strokeWidth: 2,
   );
@@ -126,7 +126,7 @@ class Edificios {
       LatLng(38.6607702, -9.2062755),
     ],
     //onTap creates a pop-up
-    fillColor: Colors.transparent,
+    fillColor: Color.fromARGB(157, 38, 99, 156),
     strokeColor: Color.fromARGB(255, 29, 0, 122),
     strokeWidth: 2,
   );
@@ -161,7 +161,7 @@ class Edificios {
       LatLng(38.6607659, -9.2067149),
     ],
     //onTap creates a pop-up
-    fillColor: Colors.transparent,
+    fillColor: Color.fromARGB(157, 38, 99, 156),
     strokeColor: Color.fromARGB(255, 29, 0, 122),
     strokeWidth: 2,
   );
@@ -188,7 +188,7 @@ class Edificios {
       LatLng(38.6607559, -9.2072455),
     ],
     //onTap creates a pop-up
-    fillColor: Colors.transparent,
+    fillColor: Color.fromARGB(157, 38, 99, 156),
     strokeColor: Color.fromARGB(255, 29, 0, 122),
     strokeWidth: 2,
   );
@@ -203,7 +203,7 @@ class Edificios {
       LatLng(38.6607842, -9.2050156),
     ],
     //onTap creates a pop-up
-    fillColor: Colors.transparent,
+    fillColor: Color.fromARGB(157, 38, 99, 156),
     strokeColor: Color.fromARGB(255, 29, 0, 122),
     strokeWidth: 2,
   );
@@ -218,7 +218,7 @@ class Edificios {
       LatLng(38.6594312, -9.2036369),
     ],
     //onTap creates a pop-up
-    fillColor: Colors.transparent,
+    fillColor: Color.fromARGB(157, 38, 99, 156),
     strokeColor: Color.fromARGB(255, 29, 0, 122),
     strokeWidth: 2,
   );
@@ -226,48 +226,47 @@ class Edificios {
   static const Polygon departamental = Polygon(
     polygonId: PolygonId('Departamental'),
     points: [
-      LatLng(38.662676, -9.2078432),
-      LatLng(38.6625838, -9.207917),
       LatLng(38.6626163, -9.2080149),
       LatLng(38.6619095, -9.2084293),
       LatLng(38.661833, -9.2082227),
       LatLng(38.6621095, -9.2080538),
       LatLng(38.6620728, -9.2079559),
       LatLng(38.661965, -9.2080216),
-      LatLng(38.6618927, -9.2078191),
+      LatLng(38.6618928, -9.2078277),
       LatLng(38.6620068, -9.2077614),
       LatLng(38.6619953, -9.2077265),
-      LatLng(38.6618455, -9.2076967),
-      LatLng(38.6618109, -9.2077477),
-      LatLng(38.661813, -9.2077664),
+      LatLng(38.6618382, -9.2077064),
+      LatLng(38.6618005, -9.207748),
+      LatLng(38.6618079, -9.2077574),
       LatLng(38.6618047, -9.2077828),
-      LatLng(38.6617943, -9.2077936),
-      LatLng(38.6617712, -9.2077963),
-      LatLng(38.661766, 9.2077721),
+      LatLng(38.6617818, -9.2077955),
+      LatLng(38.661766, -9.2077721),
       LatLng(38.6617649, -9.2077507),
       LatLng(38.6617775, -9.2077332),
       LatLng(38.6617743, -9.2077235),
       LatLng(38.6617304, -9.2077533),
-      LatLng(38.6617188, -9.207698),
+      LatLng(38.6617115, -9.2076943),
       LatLng(38.6617503, -9.2076715),
-      LatLng(38.6617063, -9.2076689),
+      LatLng(38.6616781, -9.2076561),
+      LatLng(38.66161, -9.2076266),
       LatLng(38.6614948, -9.2075723),
-      LatLng(38.6615879, -9.207344),
+      LatLng(38.6615785, -9.2073443),
       LatLng(38.6616068, -9.2073564),
-      LatLng(38.6616204, -9.2073269),
-      LatLng(38.6616382, -9.2073376),
+      LatLng(38.6616142, -9.2073154),
+      LatLng(38.6616456, -9.2073342),
       LatLng(38.661635, -9.2073641),
+      LatLng(38.6617074, -9.2074013),
       LatLng(38.6618089, -9.2074382),
       LatLng(38.6618152, -9.2074087),
       LatLng(38.6618403, -9.2074194),
-      LatLng(38.6618172, -9.2075492),
+      LatLng(38.6618152, -9.2075575),
       LatLng(38.6618299, -9.2075616),
       LatLng(38.6618581, -9.2074213),
-      LatLng(38.6618791, -9.2074293),
-      LatLng(38.6618716, -9.2074526),
-      LatLng(38.6619795, -9.2074821),
-      LatLng(38.6620676, -9.2075009),
-      LatLng(38.6620686, -9.2074674),
+      LatLng(38.6618802, -9.20742),
+      LatLng(38.6618738, -9.2074642),
+      LatLng(38.6619567, -9.2074831),
+      LatLng(38.6620561, -9.2074965),
+      LatLng(38.6620614, -9.2074643),
       LatLng(38.6620906, -9.2074701),
       LatLng(38.6620895, -9.2075022),
       LatLng(38.6622823, -9.2074999),
@@ -275,14 +274,17 @@ class Edificios {
       LatLng(38.662305, -9.207472),
       LatLng(38.6623079, -9.2075998),
       LatLng(38.6623179, -9.2075978),
-      LatLng(38.6623157, -9.20747),
+      LatLng(38.6623185, -9.2075024),
+      LatLng(38.6623247, -9.207471),
       LatLng(38.6623461, -9.2074704),
-      LatLng(38.6623492, -9.2074969),
+      LatLng(38.6623514, -9.2075052),
       LatLng(38.6626697, -9.2075106),
       LatLng(38.662676, -9.2078432),
+      LatLng(38.6625838, -9.207917),
+      LatLng(38.6626163, -9.2080149),
     ],
     //onTap creates a pop-up
-    fillColor: Colors.transparent,
+    fillColor: Color.fromARGB(157, 38, 99, 156),
     strokeColor: Color.fromARGB(255, 29, 0, 122),
     strokeWidth: 2,
   );
@@ -319,7 +321,7 @@ class Edificios {
       LatLng(38.6625192, -9.2064516),
     ],
     //onTap creates a pop-up
-    fillColor: Colors.transparent,
+    fillColor: Color.fromARGB(157, 38, 99, 156),
     strokeColor: Color.fromARGB(255, 29, 0, 122),
     strokeWidth: 2,
   );
@@ -344,7 +346,7 @@ class Edificios {
       LatLng(38.6618442, -9.2071764),
     ],
     //onTap creates a pop-up
-    fillColor: Colors.transparent,
+    fillColor: Color.fromARGB(157, 38, 99, 156),
     strokeColor: Color.fromARGB(255, 29, 0, 122),
     strokeWidth: 2,
   );
@@ -365,7 +367,7 @@ class Edificios {
       LatLng(38.6620832, -9.2070697),
     ],
     //onTap creates a pop-up
-    fillColor: Colors.transparent,
+    fillColor: Color.fromARGB(157, 38, 99, 156),
     strokeColor: Color.fromARGB(255, 29, 0, 122),
     strokeWidth: 2,
   );
@@ -394,7 +396,7 @@ class Edificios {
       LatLng(38.6622376, -9.2068705),
     ],
     //onTap creates a pop-up
-    fillColor: Colors.transparent,
+    fillColor: Color.fromARGB(157, 38, 99, 156),
     strokeColor: Color.fromARGB(255, 29, 0, 122),
     strokeWidth: 2,
   );
@@ -413,7 +415,7 @@ class Edificios {
       LatLng(38.662824, -9.2058331),
     ],
     //onTap creates a pop-up
-    fillColor: Colors.transparent,
+    fillColor: Color.fromARGB(157, 38, 99, 156),
     strokeColor: Color.fromARGB(255, 29, 0, 122),
     strokeWidth: 2,
   );

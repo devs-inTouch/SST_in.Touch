@@ -1,6 +1,6 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class Markers {
+class ATMs {
   static final Marker EdI = Marker(
     markerId: const MarkerId('EdI'),
     position: const LatLng(38.6611747, -9.2055894),
@@ -9,7 +9,7 @@ class Markers {
       snippet: 'Google teste',
     ),
     icon: BitmapDescriptor.defaultMarkerWithHue(
-      BitmapDescriptor.hueRed,
+      BitmapDescriptor.hueGreen,
     ),
   );
 
@@ -21,7 +21,7 @@ class Markers {
       snippet: 'Google teste',
     ),
     icon: BitmapDescriptor.defaultMarkerWithHue(
-      BitmapDescriptor.hueRed,
+      BitmapDescriptor.hueGreen,
     ),
   );
 
@@ -33,7 +33,7 @@ class Markers {
       snippet: 'Google teste',
     ),
     icon: BitmapDescriptor.defaultMarkerWithHue(
-      BitmapDescriptor.hueRed,
+      BitmapDescriptor.hueGreen,
     ),
   );
 
@@ -45,7 +45,7 @@ class Markers {
       snippet: 'Google teste',
     ),
     icon: BitmapDescriptor.defaultMarkerWithHue(
-      BitmapDescriptor.hueRed,
+      BitmapDescriptor.hueGreen,
     ),
   );
 }

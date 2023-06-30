@@ -11,9 +11,10 @@ class Restauracao {
       LatLng(38.6616396, -9.206664),
       LatLng(38.6617757, -9.2068169),
       LatLng(38.661671, -9.2069792),
+      LatLng(38.6615108, -9.2068035),
     ],
     //onTap creates a pop-up
-    fillColor: Colors.transparent,
+    fillColor: Color.fromARGB(157, 38, 99, 156),
     strokeColor: Colors.teal,
     strokeWidth: 3,
   );
@@ -32,8 +33,9 @@ class Restauracao {
       LatLng(38.6615697, -9.2043724),
       LatLng(38.6615686, -9.2043134),
       LatLng(38.6616618, -9.2043148),
+      LatLng(38.6616608, -9.2046702),
     ],
-    fillColor: Colors.transparent,
+    fillColor: Color.fromARGB(157, 38, 99, 156),
     strokeColor: Colors.teal,
     strokeWidth: 3,
   );
@@ -41,13 +43,13 @@ class Restauracao {
   static const Polygon MySpot = Polygon(
     polygonId: PolygonId('MySpot'),
     points: [
-      LatLng(38.6616608, -9.2046702),
       LatLng(38.660603, -9.205647),
       LatLng(38.6604951, -9.2056456),
       LatLng(38.6604961, -9.2055384),
       LatLng(38.6606051, -9.2055424),
+      LatLng(38.660603, -9.205647),
     ],
-    fillColor: Colors.transparent,
+    fillColor: Color.fromARGB(157, 38, 99, 156),
     strokeColor: Colors.teal,
     strokeWidth: 3,
   );
@@ -56,12 +58,12 @@ class Restauracao {
     polygonId: PolygonId('Casa_Pessoal'),
     points: [
       LatLng(38.6618008, -9.2054684),
-      LatLng(38.6618008, -9.2054684),
       LatLng(38.6617998, -9.2055972),
       LatLng(38.6616668, -9.2055958),
       LatLng(38.6616668, -9.2054644),
+      LatLng(38.6618008, -9.2054684),
     ],
-    fillColor: Colors.transparent,
+    fillColor: Color.fromARGB(157, 38, 99, 156),
     strokeColor: Colors.teal,
     strokeWidth: 3,
   );
@@ -69,13 +71,13 @@ class Restauracao {
   static const Polygon Biblioteca = Polygon(
     polygonId: PolygonId('Biblioteca'),
     points: [
-      LatLng(38.6618008, -9.2054684),
       LatLng(38.6628048, -9.205137),
       LatLng(38.662809, -9.2054052),
       LatLng(38.6626478, -9.2054065),
       LatLng(38.6626425, -9.2051383),
+      LatLng(38.6628048, -9.205137),
     ],
-    fillColor: Colors.transparent,
+    fillColor: Color.fromARGB(157, 38, 99, 156),
     strokeColor: Colors.teal,
     strokeWidth: 3,
   );
@@ -83,13 +85,13 @@ class Restauracao {
   static const Polygon MiniNova = Polygon(
     polygonId: PolygonId('MiniNova'),
     points: [
-      LatLng(38.6628048, -9.205137),
       LatLng(38.6613864, -9.2054917),
       LatLng(38.6613026, -9.2054903),
       LatLng(38.6613037, -9.2053079),
       LatLng(38.6613874, -9.2053106),
+      LatLng(38.6613864, -9.2054917),
     ],
-    fillColor: Colors.transparent,
+    fillColor: Color.fromARGB(157, 38, 99, 156),
     strokeColor: Colors.teal,
     strokeWidth: 3,
   );
@@ -97,13 +99,13 @@ class Restauracao {
   static const Polygon Solucao = Polygon(
     polygonId: PolygonId('Solucao'),
     points: [
-      LatLng(38.6613864, -9.2054917),
       LatLng(38.661422, -9.205143),
       LatLng(38.6614189, -9.2051014),
       LatLng(38.6614649, -9.2051014),
       LatLng(38.6614649, -9.205143),
+      LatLng(38.661422, -9.205143),
     ],
-    fillColor: Colors.transparent,
+    fillColor: Color.fromARGB(157, 38, 99, 156),
     strokeColor: Colors.teal,
     strokeWidth: 3,
   );

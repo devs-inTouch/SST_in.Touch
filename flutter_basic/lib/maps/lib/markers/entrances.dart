@@ -83,4 +83,54 @@ class Entrances {
       infoWindow:
           InfoWindow(title: 'Departamental', snippet: 'Entrada principal'),
       position: LatLng(38.6625998, -9.2075194));
+
+  static const Marker solucao = Marker(
+      markerId: MarkerId('Solução'),
+      infoWindow: InfoWindow(title: 'Solução', snippet: 'Entrada'),
+      position: LatLng(38.6614252, -9.2051368));
+
+  static const Marker mini_nova = Marker(
+      markerId: MarkerId('Mini-Nova'),
+      infoWindow: InfoWindow(title: 'Mini-Nova', snippet: 'Entrada'),
+      position: LatLng(38.6613885, -9.2053594));
+
+  static const Marker casaPessoal = Marker(
+      markerId: MarkerId('casaPessoal'),
+      infoWindow: InfoWindow(title: 'Casa do Pessoal', snippet: 'Entrada'),
+      position: LatLng(38.6617474, -9.2054718));
+
+  static const Marker mySpot = Marker(
+      markerId: MarkerId('mySpot'),
+      infoWindow: InfoWindow(title: 'MySpot', snippet: 'Entrada'),
+      position: LatLng(38.6604851, -9.2056921));
+
+  static const Marker cantina = Marker(
+      markerId: MarkerId('cantina'),
+      infoWindow: InfoWindow(title: 'Cantina', snippet: 'Entrada'),
+      position: LatLng(38.6615049, -9.204734));
+
+  static const Marker tantoFaz = Marker(
+      markerId: MarkerId('tantoFaz'),
+      infoWindow: InfoWindow(title: 'Tanto Faz', snippet: 'Entrada'),
+      position: LatLng(38.6615252, -9.2067804));
+
+  static const Marker paragemMetro = Marker(
+      markerId: MarkerId('paragemMetro'),
+      infoWindow: InfoWindow(title: 'Paragem de metro'),
+      position: LatLng(38.663525, -9.2074946));
+
+  static const Marker paragemAutocarroI = Marker(
+      markerId: MarkerId('paragemAutocarro'),
+      infoWindow: InfoWindow(title: 'Paragem de Autocarro'),
+      position: LatLng(38.6604378, -9.2026715));
+
+  static const Marker paragemAutocarroII = Marker(
+      markerId: MarkerId('paragemAutocarro'),
+      infoWindow: InfoWindow(title: 'Paragem de Autocarro'),
+      position: LatLng(38.6592173, -9.2028349));
+
+  static const Marker paragemAutocarroIII = Marker(
+      markerId: MarkerId('paragemAutocarro'),
+      infoWindow: InfoWindow(title: 'Paragem de Autocarro'),
+      position: LatLng(38.6638168, -9.2066822));
 }
