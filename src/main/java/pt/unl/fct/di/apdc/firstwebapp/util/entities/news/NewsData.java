@@ -3,6 +3,7 @@ package pt.unl.fct.di.apdc.firstwebapp.util.entities.news;
 public class NewsData {
 
     private String title, description, mediaUrl;
+    private long creationDate;
 
     public NewsData() {
     }
@@ -13,6 +14,13 @@ public class NewsData {
         this.mediaUrl = mediaUrl;
     }
 
+    public NewsData(String title, String description, String mediaUrl, long creationDate) {
+        this.title = title;
+        this.description = description;
+        this.mediaUrl = mediaUrl;
+        this.creationDate = creationDate;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -21,7 +29,11 @@ public class NewsData {
         return description;
     }
 
-    public String getUrl() {
+    public String getMediaUrl() {
         return mediaUrl;
+    }
+
+    public long getCreationDate() {
+        return creationDate;
     }
 }
