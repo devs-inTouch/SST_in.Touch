@@ -18,6 +18,7 @@ public enum UserAttributes {
     EMAIL("user_email", String.class),
     CREATION_TIME("user_creation_time", Long.class),
     ROLE("user_role", String.class),
+    STAFF_ROLE("staff_role", String.class),
     STATE("user_is_activated", Boolean.class),
 
     FOLLOWERS("user_followers", List.class),
