@@ -7,6 +7,7 @@ import 'package:flutter_basic/mainpage/presentation/desktop_main_scaffold.dart';
 import 'package:flutter_basic/mainpage/presentation/mobile_main_scaffold.dart';
 import 'package:flutter_basic/mainpage/presentation/responsive_main_page.dart';
 import 'package:flutter_basic/mainpage/presentation/tablet_main_scaffold.dart';
+import 'package:flutter_basic/nucleos/presentation/nucleosPage.dart';
 import 'package:flutter_basic/profile/presentation/profile_scaffold.dart';
 import 'package:flutter_basic/reports/presentation/reportsPage.dart';
 import 'package:flutter_basic/reservaSalas/presentation/responsive_reservasalas.dart';
@@ -165,6 +166,25 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => Test()),
+                    );
+                  },
+                ),
+              ),
+            ),
+            PopupMenuItem(
+              child: Container(
+                color: Colors
+                    .white, // Set the background color of the menu item to white
+                child: ListTile(
+                  leading: const Icon(Icons.groups),
+                  title: const Text('Núcleos'),
+                  onTap: () {
+                    // Handle logout button click
+                    Navigator.pop(context); // Close the menu
+                    // Implement your logic here
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => NucleosPage()),
                     );
                   },
                 ),

@@ -1,5 +1,6 @@
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_basic/constants.dart';
 import 'package:flutter_basic/feeds/application/postRequests.dart';
 import 'package:flutter_basic/feeds/presentation/postBox.dart';
 import 'package:uuid/uuid.dart';
@@ -181,7 +182,7 @@ class FeedState extends State<FeedsPage> {
 
     return Scaffold(
       appBar: MyAppBar(),
-      backgroundColor: Colors.grey[200],
+      backgroundColor: myBackground,
       body: Stack(
         children: [
           Container(

@@ -1,5 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_basic/backoffice/presentation/anomaliasVerifyPage.dart';
+import 'package:flutter_basic/backoffice/presentation/moderacaoFeedsPage.dart';
+import 'package:flutter_basic/backoffice/presentation/pedidosReservaSalaPage.dart';
+import 'package:flutter_basic/backoffice/presentation/rolesUserPage.dart';
+import 'package:flutter_basic/backoffice/presentation/statsAcessoPage.dart';
 
 import '../../constants.dart';
 import '../../myAppBar.dart';
@@ -59,7 +64,12 @@ class BackOfficePage extends State<BackOffice> {
                           width: double.infinity,
                           height: 70,
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => ModeracaoFeedsPage()),
+                              );
+                            },
                             style: styleBackOfficeButtons,
                             child: Text('Moderação de Feeds'),
                           ),
@@ -69,7 +79,12 @@ class BackOfficePage extends State<BackOffice> {
                           width: double.infinity,
                           height: 70,
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => RolesUserPage()),
+                              );
+                            },
                             style: styleBackOfficeButtons,
                             child: Text('Roles de cada Utilizador'),
                           ),
@@ -79,7 +94,12 @@ class BackOfficePage extends State<BackOffice> {
                           width: double.infinity,
                           height: 70,
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => StatsAcessoPage()),
+                              );
+                            },
                             style: styleBackOfficeButtons,
                             child: Text('Estatística e controlo de acessos'),
                           ),
@@ -89,7 +109,12 @@ class BackOfficePage extends State<BackOffice> {
                           width: double.infinity,
                           height: 70,
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => AnomaliasVerifyPage()),
+                              );
+                            },
                             style: styleBackOfficeButtons,
                             child: Text('Verificação das anomalias pendentes'),
                           ),
@@ -99,7 +124,12 @@ class BackOfficePage extends State<BackOffice> {
                           width: double.infinity,
                           height: 70,
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => PedidoReservaSalaPage()),
+                              );
+                            },
                             style:styleBackOfficeButtons,
                             child: Text('Pedidos e reservas de sala'),
                           ),

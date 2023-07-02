@@ -1,17 +1,30 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../constants.dart';
 import '../../myAppBar.dart';
 
-class ReservaSalasPage extends StatelessWidget {
+class ReservaSalasPage extends StatefulWidget {
+  ReservaSalasPage({Key? key}) : super(key: key);
+
+  @override
+  _ReservaSalasPageState createState() => _ReservaSalasPageState();
+}
+
+class _ReservaSalasPageState extends State<ReservaSalasPage> {
   TextEditingController department = TextEditingController();
   TextEditingController room = TextEditingController();
   TextEditingController numberStudents = TextEditingController();
   TextEditingController data = TextEditingController();
-  TextEditingController hora = TextEditingController();
+  String? horaSelecionada;
+  DateTime? selectedDate;
+  late final DateFormat dateFormat = DateFormat('dd/MM/yyyy');
 
-  ReservaSalasPage({super.key});
+  List<String> horasDisponiveis = [
+    '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00',
+    '16:00', '17:00', '18:00', '19:00', '20:00'
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +76,7 @@ class ReservaSalasPage extends StatelessWidget {
                                         child: Padding(
                                           padding: EdgeInsetsDirectional.zero,
                                           child: Text(
-                                            'DEPARTAMENTO',
+                                            'DATA',
                                             style: textStyleReservaSalas,
                                           ),
                                         ),
@@ -72,12 +85,24 @@ class ReservaSalasPage extends StatelessWidget {
                                     SizedBox(width: 20),
                                     Expanded(
                                       flex: 2,
-                                      child: TextField(
-                                        controller: department,
-                                        decoration: InputDecoration(
-                                          filled: true,
-                                          fillColor: Colors.white,
-                                          border: OutlineInputBorder(),
+                                      child: ElevatedButton(
+                                        onPressed: () async {
+                                          final DateTime? pickedDate = await showDatePicker(
+                                            context: context,
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime(2021),
+                                            lastDate: DateTime(2024),
+                                          );
+                                          if (pickedDate != null) {
+                                            setState(() {
+                                              selectedDate = pickedDate;
+                                            });
+                                          }
+                                        },
+                                        child: Text(
+                                          selectedDate != null
+                                              ? dateFormat.format(selectedDate!)
+                                              : 'Selecione uma data',
                                         ),
                                       ),
                                     ),
@@ -89,7 +114,7 @@ class ReservaSalasPage extends StatelessWidget {
                                         child: Padding(
                                           padding: EdgeInsetsDirectional.zero,
                                           child: Text(
-                                            'SALA',
+                                            'HORA',
                                             style: textStyleReservaSalas,
                                           ),
                                         ),
@@ -98,15 +123,30 @@ class ReservaSalasPage extends StatelessWidget {
                                     SizedBox(width: 20),
                                     Expanded(
                                       flex: 2,
-                                      child: TextField(
-                                        controller: room,
-                                        decoration: InputDecoration(
-                                          filled: true,
-                                          fillColor: Colors.white,
-                                          border: OutlineInputBorder(),
+                                      child: DropdownButton<String>(
+                                        value: horaSelecionada,
+                                        hint: Text('Selecione uma hora'),
+                                        items: horasDisponiveis.map((hora) {
+                                          return DropdownMenuItem<String>(
+                                            value: hora,
+                                            child: Text(hora),
+                                          );
+                                        }).toList(),
+                                        onChanged: (String? selectedHour) {
+                                          setState(() {
+                                            horaSelecionada = selectedHour;
+                                          });
+                                        },
+                                        // Set dropdown decoration
+                                        dropdownColor: Colors.white,
+                                        style: TextStyle(color: Colors.white),
+                                        iconEnabledColor: Colors.black,
+                                        underline: Container(
+                                          height: 2,
+                                          color: Colors.white,
                                         ),
                                       ),
-                                    ),
+                                    )
                                   ],
                                 ),
                                 SizedBox(height: 40),
@@ -117,7 +157,9 @@ class ReservaSalasPage extends StatelessWidget {
                                       // Add your desired action when the button is pressed
                                     },
                                     style: ButtonStyle(
-                                      backgroundColor: MaterialStateProperty.all<Color>(Colors.grey[300]!),
+                                      backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Colors.grey[300]!),
                                     ),
                                     child: Text(
                                       'VERIFICAR DISPONIBILIDADE',
@@ -133,88 +175,6 @@ class ReservaSalasPage extends StatelessWidget {
                             ),
                           ),
                           SizedBox(height: 20),
-                          Row(
-                            children: [
-                              Expanded(
-                                flex: 1,
-                                child: Align(
-                                  alignment: Alignment.center,
-                                  child: Padding(
-                                    padding: EdgeInsetsDirectional.zero,
-                                    child: Text(
-                                      'NÚMERO DE ALUNOS',
-                                      style: textStyleReservaSalas,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(width: 20),
-                              Expanded(
-                                flex: 2,
-                                child: TextField(
-                                  controller: numberStudents,
-                                  decoration: InputDecoration(
-                                    filled: true,
-                                    fillColor: Colors.white,
-                                    border: OutlineInputBorder(),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(width: 20),
-                              Expanded(
-                                flex: 1,
-                                child: Align(
-                                  alignment: Alignment.center,
-                                  child: Padding(
-                                    padding: EdgeInsetsDirectional.zero,
-                                    child: Text(
-                                      'DATA',
-                                      style: textStyleReservaSalas,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(width: 20),
-                              Expanded(
-                                flex: 2,
-                                child: TextField(
-                                  controller: data,
-                                  decoration: InputDecoration(
-                                    filled: true,
-                                    fillColor: Colors.white,
-                                    border: OutlineInputBorder(),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(width: 20),
-                              Expanded(
-                                flex: 1,
-                                child: Align(
-                                  alignment: Alignment.center,
-                                  child: Padding(
-                                    padding: EdgeInsetsDirectional.zero,
-                                    child: Text(
-                                      'HORA',
-                                      style: textStyleReservaSalas,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(width: 20),
-                              Expanded(
-                                flex: 2,
-                                child: TextField(
-                                  controller: hora,
-                                  decoration: InputDecoration(
-                                    filled: true,
-                                    fillColor: Colors.white,
-                                    border: OutlineInputBorder(),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 20),
                           Align(
                             alignment: Alignment.bottomRight,
                             child: TextButton(
@@ -222,7 +182,9 @@ class ReservaSalasPage extends StatelessWidget {
                                 // Add your desired action when the button is pressed
                               },
                               style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all<Color>(Colors.blueAccent[200]!),
+                                backgroundColor:
+                                MaterialStateProperty.all<Color>(
+                                    Colors.blueAccent[200]!),
                               ),
                               child: Text(
                                 'CONFIRMAR RESERVA',
