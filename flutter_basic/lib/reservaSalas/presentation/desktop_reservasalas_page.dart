@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_basic/reservaSalas/presentation/salasBox.dart';
 import 'package:intl/intl.dart';
 
 import '../../constants.dart';
 import '../../myAppBar.dart';
+import '../application/reservaRequest.dart';
 
 class ReservaSalasPage extends StatefulWidget {
   ReservaSalasPage({Key? key}) : super(key: key);
@@ -139,7 +141,7 @@ class _ReservaSalasPageState extends State<ReservaSalasPage> {
                                         },
                                         // Set dropdown decoration
                                         dropdownColor: Colors.white,
-                                        style: TextStyle(color: Colors.white),
+                                        style: TextStyle(color: Colors.black),
                                         iconEnabledColor: Colors.black,
                                         underline: Container(
                                           height: 2,
@@ -152,14 +154,44 @@ class _ReservaSalasPageState extends State<ReservaSalasPage> {
                                 SizedBox(height: 40),
                                 Align(
                                   alignment: Alignment.center,
-                                  child: TextButton(
-                                    onPressed: () {
-                                      // Add your desired action when the button is pressed
+                                  child: ElevatedButton(
+                                    onPressed: () async {
+                                      List<SalasBox> roomsList = await ReservaAuth.getRoomsList();
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: Text('Lista de Salas'),
+                                            content: Container(
+                                              width: double.maxFinite,
+                                              child: ListView.builder(
+                                                itemCount: roomsList.length,
+                                                itemBuilder: (BuildContext context, int index) {
+                                                  return SalasBox(
+                                                    name: roomsList[index].name,
+                                                    department: roomsList[index].department,
+                                                    space: roomsList[index].space,
+                                                    date: roomsList[index].date,
+                                                    hour: roomsList[index].hour,
+                                                  );
+                                                },
+                                              ),
+
+                                            ),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: Text('Fechar'),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
                                     },
                                     style: ButtonStyle(
-                                      backgroundColor:
-                                      MaterialStateProperty.all<Color>(
-                                          Colors.grey[300]!),
+                                      backgroundColor: MaterialStateProperty.all<Color>(Colors.grey[300]!),
                                     ),
                                     child: Text(
                                       'VERIFICAR DISPONIBILIDADE',
@@ -170,6 +202,7 @@ class _ReservaSalasPageState extends State<ReservaSalasPage> {
                                       ),
                                     ),
                                   ),
+
                                 ),
                               ],
                             ),

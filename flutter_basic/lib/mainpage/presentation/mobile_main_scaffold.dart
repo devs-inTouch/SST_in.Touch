@@ -1,6 +1,8 @@
 import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/constants.dart';
+import 'package:flutter_basic/mainpage/application/noticiasAuth.dart';
+import 'package:flutter_basic/mainpage/presentation/newsBox.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../hojeNaFCT/avisos_info.dart';
 import '../../hojeNaFCT/exposicoes_info.dart';
@@ -18,6 +20,8 @@ class MobileScaffold extends StatefulWidget {
 }
 
 class _MobileScaffoldState extends State<MobileScaffold> {
+  List<NewsBox> news = [];
+
   DateTime currentDate = DateTime.now();
   List<Map<String, dynamic>> events = [];
   int _currentPageIndex = 0; // Track the current page index
@@ -27,6 +31,19 @@ class _MobileScaffoldState extends State<MobileScaffold> {
     'Exposições',
     'Notícias',
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+  Future<void> fetchData() async {
+    final response = await NoticiasAuth.getNews();
+    setState(() {
+      news = response;
+    });
+    print("done this step noticias");
+  }
 
   AuxMainPage auxMainPage = AuxMainPage();
 
@@ -45,6 +62,9 @@ class _MobileScaffoldState extends State<MobileScaffold> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final fem = size.width / 1440; // 1440 is the reference width
+
     return Scaffold(
       appBar: const MyAppBar(),
       backgroundColor: myBackground,
@@ -211,7 +231,38 @@ class _MobileScaffoldState extends State<MobileScaffold> {
                     color: Colors.black,
                   ),
                 ),
-
+                Container(
+                  width: 500,
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 50,
+                        decoration: topBarDecoration,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            textTopBar('NOTICIAS'),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        width: 500,
+                        child: Padding(
+                          padding: EdgeInsets.all(20.0),
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: news.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              final post = news[index];
+                              post.setFem(fem);
+                              return post;
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
 
               ],
             ),

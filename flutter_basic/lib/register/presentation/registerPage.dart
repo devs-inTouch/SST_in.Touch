@@ -129,17 +129,6 @@ class RegisterHome extends State<Register> {
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 20),
                               child: TextField(
-                                controller: usernameControl,
-                                decoration: InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: 'Username',
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 13),
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 20),
-                              child: TextField(
                                 controller: nameControl,
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(),

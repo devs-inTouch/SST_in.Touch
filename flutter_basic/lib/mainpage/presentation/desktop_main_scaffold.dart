@@ -6,8 +6,11 @@ import '../../hojeNaFCT/noticias_info.dart';
 import '../../hojeNaFCT/restauração_info.dart';
 import '../../myAppBar.dart';
 import '../../weatherBox.dart';
+import '../application/noticiasAuth.dart';
 import 'auxMainpage.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'newsBox.dart';
 
 class DesktopScaffold extends StatefulWidget {
   const DesktopScaffold({Key? key}) : super(key: key);
@@ -17,6 +20,8 @@ class DesktopScaffold extends StatefulWidget {
 }
 
 class _DesktopScaffoldState extends State<DesktopScaffold> {
+  List<NewsBox> news = [];
+
   DateTime currentDate = DateTime.now();
   List<Map<String, dynamic>> events = [];
   int _currentPageIndex = 0; // Track the current page index
@@ -26,6 +31,21 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
     'Exposições',
     'Notícias',
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+  Future<void> fetchData() async {
+    final response = await NoticiasAuth.getNews();
+    setState(() {
+      news = response;
+    });
+    print("done this step noticias");
+  }
+
+
   AuxMainPage auxMainPage = AuxMainPage();
   void goToPreviousPage() {
     setState(() {
@@ -39,9 +59,11 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
       _currentPageIndex = auxMainPage.goToNextPage(_currentPageIndex, pages);
     });
   }
-
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final fem = size.width / 1440; // 1440 is the reference width
+
     return Scaffold(
       appBar: const MyAppBar(),
       backgroundColor: myBackground,
@@ -69,7 +91,7 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                                   .calendar_today_rounded), // Icon calendar
                               const SizedBox(
                                   width:
-                                      5), // Add some spacing between the icon and text
+                                  5), // Add some spacing between the icon and text
                               textTopBar('HOJE NA FCT'), // Text widget
                             ],
                           ),
@@ -99,21 +121,21 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                           ),
                         )
                       else if (pages[_currentPageIndex] == 'Exposições')
-                        Expanded(
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 20.0, horizontal: 20.0),
-                            child: const ExposicoesPage(),
-                          ),
-                        )
-                      else if (pages[_currentPageIndex] == 'Notícias')
-                        Expanded(
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 20.0, horizontal: 20.0),
-                            child: const NoticiasPage(),
-                          ),
-                        ),
+                          Expanded(
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 20.0, horizontal: 20.0),
+                              child: const ExposicoesPage(),
+                            ),
+                          )
+                        else if (pages[_currentPageIndex] == 'Notícias')
+                            Expanded(
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 20.0, horizontal: 20.0),
+                                child: const NoticiasPage(),
+                              ),
+                            ),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 20.0),
                         child: Align(
@@ -222,7 +244,7 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                                       decoration: topBarDecoration,
                                       child: Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                        MainAxisAlignment.center,
                                         children: [
                                           textTopBar('AGENDA'),
                                         ],
@@ -235,7 +257,7 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                                         itemBuilder:
                                             (BuildContext context, int index) {
                                           Map<String, dynamic> event =
-                                              events[index];
+                                          events[index];
                                           return EventCard(event: event);
                                         },
                                       ),
@@ -267,6 +289,45 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
           ],
         ),
       ),
+
+      /**
+      bottomNavigationBar: Container(
+        height: double
+            .infinity, // Expand the container to fill the available height
+        decoration: boxDecoration,
+        child: Column(
+          children: [
+            Container(
+              height: 50,
+              decoration: topBarDecoration,
+              child: Row(
+                mainAxisAlignment:
+                MainAxisAlignment.center,
+                children: [
+                  textTopBar('NOTICIAS'),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: news.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final post = news[index];
+                    post.setFem(fem);
+                    return post;
+                  },
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+
+**/
     );
   }
+
 }
