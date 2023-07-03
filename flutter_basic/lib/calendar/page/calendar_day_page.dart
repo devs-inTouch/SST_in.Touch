@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_basic/myAppBar.dart';
 import 'package:provider/provider.dart';
 
 import '../provider/event_provider.dart';
@@ -16,10 +17,7 @@ class _CalendarDayPageState extends State<CalendarDayPage> {
     final provider = Provider.of<EventProvider>(context);
     final selectedDate = provider.selectedDate;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Calendar Day"),
-        centerTitle: true,
-      ),
+      appBar: MyAppBar(),
       body: CalendarDayWidget(
         fromDate: selectedDate,
       ),

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/calendar/page/event_editing_page.dart';
 import 'package:flutter_basic/calendar/provider/event_provider.dart';
+import 'package:flutter_basic/myAppBar.dart';
 import 'package:provider/provider.dart';
 
-import 'widget/calendar_widget.dart';
+import '../widget/calendar_widget.dart';
 //import 'page/event_editing_page.dart';
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class CalendarPage extends StatelessWidget {
+  const CalendarPage({super.key});
 
   static const String title = "Calendar Events App";
 
@@ -49,6 +50,7 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
+        appBar: MyAppBar(),
         body: const CalendarWidget(),
         floatingActionButton: FloatingActionButton(
           backgroundColor: const Color.fromARGB(255, 10, 2, 100),

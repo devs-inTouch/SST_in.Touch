@@ -13,6 +13,7 @@ import 'package:flutter_basic/reports/presentation/reportsPage.dart';
 import 'package:flutter_basic/reservaSalas/presentation/responsive_reservasalas.dart';
 import 'package:flutter_basic/teste/teste.dart';
 import 'package:flutter_basic/maps/lib/map.dart';
+import 'calendar/page/calendar_page.dart';
 import 'mainpage/application/logoutAuth.dart';
 import 'messages/application/chatScreen.dart';
 import 'notifications/presentation/notificationList.dart';
@@ -165,7 +166,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                     // Implement your logic here
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => Test()),
+                      MaterialPageRoute(builder: (context) => CalendarPage()),
                     );
                   },
                 ),
