@@ -356,6 +356,8 @@ public class RoomReservationResource {
             txn.update(booking2);
             txn.update(room2);
 
+            notification.createNotification("A sua reserva foi confirmada", "System", booking.getString("username"), "Aviso", System.currentTimeMillis());
+
             txn.commit();
 
             return Response.ok(g.toJson("Booking approved successfully")).build();
