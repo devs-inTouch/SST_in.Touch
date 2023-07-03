@@ -6,11 +6,13 @@ import '../utils.dart';
 import 'package:provider/provider.dart';
 
 class EventEditingPage extends StatefulWidget {
+  final DateTime fromDate;
   final Event? event;
 
   const EventEditingPage({
     Key? key,
     this.event,
+    required this.fromDate,
   }) : super(key: key);
 
   @override
@@ -20,6 +22,7 @@ class EventEditingPage extends StatefulWidget {
 class _EventEditingPageState extends State<EventEditingPage> {
   final _formKey = GlobalKey<FormState>();
   final tittleController = TextEditingController();
+  final descriptionController = TextEditingController();
   late DateTime fromDate;
   late DateTime toDate;
 
@@ -28,8 +31,8 @@ class _EventEditingPageState extends State<EventEditingPage> {
     super.initState();
 
     if (widget.event == null) {
-      fromDate = DateTime.now();
-      toDate = DateTime.now().add(const Duration(hours: 2));
+      fromDate = widget.fromDate;
+      toDate = fromDate.add(const Duration(hours: 2));
     } else {
       final event = widget.event!;
       tittleController.text = event.title;
@@ -60,6 +63,8 @@ class _EventEditingPageState extends State<EventEditingPage> {
                 buildTitle(),
                 SizedBox(height: 12),
                 buildDateTimePickers(),
+                SizedBox(height: 12),
+                buildDescription(),
               ],
             ),
           ),
@@ -77,6 +82,19 @@ class _EventEditingPageState extends State<EventEditingPage> {
           ),
         ),
       ];
+
+  Widget buildDescription() => buildHeader(
+        header: 'Description',
+        child: TextFormField(
+            style: const TextStyle(fontSize: 18),
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              hintText: 'Add Description',
+            ),
+            maxLines: 5,
+            onFieldSubmitted: (_) => saveFrom(),
+            controller: descriptionController),
+      );
 
   Widget buildTitle() => TextFormField(
         style: const TextStyle(fontSize: 24),
@@ -243,7 +261,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
     if (isValid) {
       final event = Event(
         title: tittleController.text,
-        description: 'Description',
+        description: descriptionController.text,
         from: fromDate,
         to: toDate,
         isAllDay: false,

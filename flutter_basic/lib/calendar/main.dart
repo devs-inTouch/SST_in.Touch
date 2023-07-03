@@ -49,15 +49,13 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: const Text(title),
-          centerTitle: true,
-        ),
         body: const CalendarWidget(),
         floatingActionButton: FloatingActionButton(
           backgroundColor: const Color.fromARGB(255, 10, 2, 100),
           onPressed: () => Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => EventEditingPage()),
+            MaterialPageRoute(
+                builder: (context) =>
+                    EventEditingPage(fromDate: DateTime.now())),
           ),
           child: const Icon(
             Icons.add,

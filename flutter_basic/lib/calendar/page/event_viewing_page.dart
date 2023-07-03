@@ -64,7 +64,10 @@ class _EventViewingPageState extends State<EventViewingPage> {
           icon: Icon(Icons.edit),
           onPressed: () => Navigator.of(context).pushReplacement(
             MaterialPageRoute(
-              builder: (context) => EventEditingPage(event: event),
+              builder: (context) => EventEditingPage(
+                event: event,
+                fromDate: event.from,
+              ),
             ),
           ),
         ),

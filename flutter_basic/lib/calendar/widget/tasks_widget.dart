@@ -21,19 +21,6 @@ class _TasksWidgetState extends State<TasksWidget> {
   Widget build(BuildContext context) {
     final provider = Provider.of<EventProvider>(context);
     final selectedDate = provider.selectedDate;
-    print(selectedDate);
-    final selectedEvents = provider.eventsOfSelectedDate;
-
-    if (selectedEvents.isEmpty) {
-      return const Center(
-        child: Text(
-          'No Events',
-          style: TextStyle(color: Colors.red, fontSize: 24),
-        ),
-      );
-    }
-    print(provider.selectedDate);
-
     return SfCalendarTheme(
       data: SfCalendarThemeData(
         timeTextStyle: const TextStyle(
