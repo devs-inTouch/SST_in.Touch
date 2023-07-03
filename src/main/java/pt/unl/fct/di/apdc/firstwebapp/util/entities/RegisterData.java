@@ -1,28 +1,6 @@
 package pt.unl.fct.di.apdc.firstwebapp.util.entities;
 
 public class RegisterData {
-
-	public static final String USERNAME = "user_id";
-	public static final String NAME = "user_name";
-	public static final String PASSWORD = "user_password";
-	public static final String EMAIL = "user_email";
-	public static final String CREATION_TIME = "user_creation_time";
-	public static final String TYPE = "user_type";
-	public static final String STATE = "user_state_activated";
-	public static final String STUDENT_NUMBER = "user_student_number";
-	public static final String COURSE = "user_course";
-	public static final String DESCRIPTION = "user_description";
-
-	public static final String VISIBILITY = "user_visibility";
-	public static final String MOBILE = "user_mobile_phone_number";
-	public static final String PHONE = "user_phone_number";
-	public static final String OCCUPATION = "user_occupation";
-	public static final String WORK_ADDRESS = "user_work_address";
-	public static final String ADDRESS = "user_address";
-	public static final String SECOND_ADDRESS = "user_second_address";
-	public static final String POST_CODE = "user_post_code";
-	public static final String NIF = "user_nif";
-
 	
 	private String username;
 	private String name;
@@ -30,31 +8,28 @@ public class RegisterData {
 	private String password;
 	private String studentNumber;
 	private String course;
+	private String role;
+	private String staffRole;
 	private String description;
 	private String department;
-
-	/*private boolean visible;
-	private String mobilePhoneNumber;
-	private String phoneNumber;
-	private String workAddress;
-	private String address;
-	private String secondAddress;
-	private String postCode;
-	private String nif;*/
 
 	
 	public RegisterData() {}
 
 	public RegisterData(String username, String name, String email, String password, String studentNumber,
-						String course, String description, String department) {
+						String course, String role, String staffRole, String description, String department) {
 		this.username = username;
 		this.name = name;
 		this.email = email;
 		this.password = password;
 		this.studentNumber = studentNumber;
 		this.course = course;
+		this.role = role;
+		this.staffRole = staffRole;
 		this.description = description;
 		this.department = department;
+		this.role = role;
+
 
 	}
 
@@ -99,6 +74,20 @@ public class RegisterData {
 	 * @return the course
 	 */
 	public String getCourse() { return course; }
+
+	/**
+	 * @return the role
+	 */
+	public String getRole() {
+		return role;
+	}
+
+	/**
+	 * @return the staffRole
+	 */
+	public String getStaffRole() {
+		return staffRole;
+	}
 
 	/**
 	 * @return the description

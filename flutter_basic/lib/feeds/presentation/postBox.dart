@@ -38,6 +38,10 @@ class PostBox extends StatelessWidget {
     fem = value;
   }
 
+  handleUp() {
+
+  }
+
   @override
   Widget build(BuildContext context) {
     date = DateTime.fromMillisecondsSinceEpoch(creationDate);
@@ -101,13 +105,15 @@ class PostBox extends StatelessWidget {
                   Padding(
                       padding: EdgeInsets.all(10.0),
                       child: IconButton(
-                        onPressed: () {},
+                        onPressed: () { handleUp();},
                         icon: Icon(Icons.arrow_upward_sharp),
+                        color: Colors.white,
                         iconSize: 30,
                       )),
                   IconButton(
                     onPressed: () {},
                     icon: Icon(Icons.arrow_downward_sharp),
+                    color: Colors.white,
                     iconSize: 30,
                   )
                 ])
