@@ -38,7 +38,7 @@ class AnomalyBox extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                 child: Container(
-                  color: Colors.grey[400],
+                  color: Colors.blueAccent[200],
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

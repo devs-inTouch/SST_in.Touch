@@ -1,8 +1,13 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/login/presentation/loginPage.dart';
 import 'package:flutter_basic/register/application/registerAuth.dart';
 
-const List<String> list = <String>['STUDENT', 'TEACHER', 'STAFF'];
+import '../../backoffice/presentation/backOfficePage.dart';
+
+const List<String> list = <String>['ALUNO', 'PROFESSOR', 'STAFF'];
+const List<String> listStaff = <String>['SEGURANÇA', 'BIBLIOTECA', 'DIREÇÃO', 'DIVULGAÇÃO'];
+
 class Register extends StatefulWidget {
 
   const Register({super.key});
@@ -24,6 +29,7 @@ class RegisterHome extends State<Register> {
   late TextEditingController pwdControl;
   late TextEditingController pwdConfirmControl;
   late TextEditingController roleControl;
+  late TextEditingController staffRoleControl;
   late TextEditingController departmentControl, descrpControl,numberControl,
       courseControl;
 
@@ -35,6 +41,7 @@ class RegisterHome extends State<Register> {
     pwdControl = TextEditingController();
     pwdConfirmControl = TextEditingController();
     roleControl = TextEditingController();
+    staffRoleControl=TextEditingController();
     departmentControl = TextEditingController();
     descrpControl = TextEditingController();
     numberControl= TextEditingController();
@@ -45,11 +52,13 @@ class RegisterHome extends State<Register> {
   }
 
   String roleValue = list.first;
+  String staffRoleValue=listStaff.first;
+
 
   void RegisterButtonPressed(String username, String email, String name, String pwd, String studentNumber, String course,
-      String description, String department) {
+      String role, String staffRole, String description, String department) {
 
-    if(RegisterAuth.registerUser(username, email, name, pwd, studentNumber, course,  description, department) == true) {
+    if(RegisterAuth.registerUser(username, email, name, pwd, studentNumber, course, role,staffRole,  description, department) == true) {
       showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -75,37 +84,37 @@ class RegisterHome extends State<Register> {
             fit: BoxFit.cover,
           ),
         ),
-    child: Center(
-        child: SingleChildScrollView(
-          child: Center(
-            child: Column(
+        child: Center(
+          child: SingleChildScrollView(
+            child: Center(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                SizedBox(height: 20),
-            Image.asset('assets/logo-1-RBH.png', height: 65),
-            SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Container(
-                height: MediaQuery.of(context).size.height / 1.3,
-                width: 450, // Definindo a largura como 450 pixels
-                decoration: BoxDecoration(
-                  color: const Color(0xd8ffffff),
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(height: 20),
-                      Text(
-                        'Registo',
-                        style: TextStyle(
-                          fontSize: 35,
-                          fontWeight: FontWeight.bold,
-                        ),
+                  SizedBox(height: 20),
+                  Image.asset('assets/logo-1-RBH.png', height: 65),
+                  SizedBox(height: 20),
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Container(
+                      height: MediaQuery.of(context).size.height / 1.3,
+                      width: 450, // Definindo a largura como 450 pixels
+                      decoration: BoxDecoration(
+                        color: const Color(0xd8ffffff),
+                        borderRadius: BorderRadius.circular(10.0),
                       ),
-                      SizedBox(height: 20),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SizedBox(height: 20),
+                            Text(
+                              'Registo',
+                              style: TextStyle(
+                                fontSize: 35,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(height: 20),
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 20),
                               child: TextField(
@@ -202,46 +211,82 @@ class RegisterHome extends State<Register> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 20),
+                                  padding: EdgeInsets.symmetric(horizontal: 10),
                                   child:
-                                Container(
-                                  width: 110,
-                                  child: DropdownButton(
-                                    value: roleValue,
-                                    onChanged: (String? selected) {
-                                      if (selected is String) {
-                                        setState(() {
-                                          roleValue = selected;
-                                        });
-                                      }
-                                    },
-                                    items: list
-                                        .map<DropdownMenuItem<String>>(
-                                            (String value) {
-                                          return DropdownMenuItem<String>(
-                                            value: value,
-                                            child: Text(value),
-                                          );
-                                        }).toList(),
+                                  Container(
+                                    width: 113,
+                                    child: DropdownButton(
+                                      value: roleValue,
+                                      onChanged: (String? selected) {
+                                        if (selected is String) {
+                                          setState(() {
+                                            roleValue = selected;
+                                          });
+                                        }
+                                      },
+                                      items: list
+                                          .map<DropdownMenuItem<String>>(
+                                              (String value) {
+                                            return DropdownMenuItem<String>(
+                                              value: value,
+                                              child: Text(value),
+                                            );
+                                          }).toList(),
+                                    ),
                                   ),
                                 ),
-                                ),
                                 SizedBox(width: 10),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 15),
-                                  child: Container(
-                                    width:
-                                    110,
-                                    child: TextField(
-                                      controller: numberControl,
-                                      decoration: InputDecoration(
-                                        border: OutlineInputBorder(),
-                                        labelText: 'Número de Aluno',
+                                Visibility(
+                                  visible: roleValue == 'STAFF',
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: 10),
+                                    child: Container(
+                                      width: 121,
+                                      child: DropdownButton(
+                                        value: staffRoleValue,
+                                        onChanged: (String? selected) {
+                                          if (selected is String) {
+                                            setState(() {
+                                              staffRoleValue = selected;
+                                            });
+                                          }
+                                        },
+                                        items: listStaff
+                                            .map<DropdownMenuItem<String>>(
+                                              (String value) {
+                                            return DropdownMenuItem<String>(
+                                              value: value,
+                                              child: Text(value),
+                                            );
+                                          },
+                                        )
+                                            .toList(),
                                       ),
                                     ),
                                   ),
                                 ),
 
+                                Visibility(
+                                  visible: roleValue == 'ALUNO',
+                                  child: SizedBox(width: 10),
+                                ),
+                                SizedBox(width: 10),
+                                Visibility(
+                                  visible: roleValue == 'ALUNO',
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: 15),
+                                    child: Container(
+                                      width: 110,
+                                      child: TextField(
+                                        controller: numberControl,
+                                        decoration: InputDecoration(
+                                          border: OutlineInputBorder(),
+                                          labelText: 'Número de Aluno',
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
                             SizedBox(height: 13),
@@ -373,6 +418,8 @@ class RegisterHome extends State<Register> {
                                     pwdControl.text,
                                     numberControl.text,
                                     courseControl.text,
+                                    roleControl.text,
+                                    staffRoleControl.text,
                                     descrpControl.text,
                                     departmentControl.text,
                                   );
@@ -380,7 +427,7 @@ class RegisterHome extends State<Register> {
                                 }
                               },
                               child: Text(
-                                'Register',
+                                'Registar',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 20,
@@ -407,14 +454,14 @@ class RegisterHome extends State<Register> {
                   ),
 
                 ],
-            ),
+              ),
 
 
             ),
-        ),
+          ),
         ),
       ),
-      );
+    );
 
   }
 

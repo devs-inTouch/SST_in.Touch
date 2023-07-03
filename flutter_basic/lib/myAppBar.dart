@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/anomalies/presentation/anomaliesPage.dart';
-import 'package:flutter_basic/feeds/presentation/responsiveFeed.dart';
+import 'package:flutter_basic/backoffice/presentation/backOfficePage.dart';
+import 'package:flutter_basic/feeds/presentation/feedPage.dart';
+import 'package:flutter_basic/login/presentation/loginPage.dart';
 import 'package:flutter_basic/mainpage/presentation/desktop_main_scaffold.dart';
 import 'package:flutter_basic/mainpage/presentation/mobile_main_scaffold.dart';
 import 'package:flutter_basic/mainpage/presentation/responsive_main_page.dart';
 import 'package:flutter_basic/mainpage/presentation/tablet_main_scaffold.dart';
-import 'package:flutter_basic/profile/presentation/desktop_profile_scaffold.dart';
-import 'package:flutter_basic/profile/presentation/mobile_profile_scaffold.dart';
-import 'package:flutter_basic/profile/presentation/tablet_profile_scaffold.dart';
+import 'package:flutter_basic/nucleos/presentation/nucleosPage.dart';
+import 'package:flutter_basic/profile/presentation/profile_scaffold.dart';
 import 'package:flutter_basic/reports/presentation/reportsPage.dart';
 import 'package:flutter_basic/reservaSalas/presentation/responsive_reservasalas.dart';
 import 'package:flutter_basic/teste/teste.dart';
 import 'package:flutter_basic/maps/lib/map.dart';
+import 'mainpage/application/logoutAuth.dart';
 import 'messages/application/chatScreen.dart';
 import 'notifications/presentation/notificationList.dart';
 
@@ -20,6 +22,34 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+
+  void logoutButtonPressed(BuildContext context) {
+    LogoutAuth.logout().then((isLoggedout) {
+      if (isLoggedout) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const MyApp()),
+        );
+      } else {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Ups... Alguma coisa correu mal...'),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('Ok'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +127,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                     // Implement your logic here
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ResponsiveFeed()),
+                      MaterialPageRoute(builder: (context) => FeedsPage()),
                     );
                   },
                 ),
@@ -136,6 +166,25 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => Test()),
+                    );
+                  },
+                ),
+              ),
+            ),
+            PopupMenuItem(
+              child: Container(
+                color: Colors
+                    .white, // Set the background color of the menu item to white
+                child: ListTile(
+                  leading: const Icon(Icons.groups),
+                  title: const Text('Núcleos'),
+                  onTap: () {
+                    // Handle logout button click
+                    Navigator.pop(context); // Close the menu
+                    // Implement your logic here
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => NucleosPage()),
                     );
                   },
                 ),
@@ -188,7 +237,16 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const ResponsiveLayout(
+                        builder: (context) => const ProfileScaffold(
+                          name: 'John Doe',
+                          imageAssetPath: 'assets/images/profile.jpg',
+                          role: 'Developer',
+                          year: '2002',
+                          nucleos: 'Engineering',
+                        ),
+
+                        /**
+                        ResponsiveLayout(
                           mobileScaffold: MobileProfileScaffold(
                             name: 'John Doe',
                             imageAssetPath: 'assets/images/profile.jpg',
@@ -211,6 +269,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                             nucleos: 'Engineering',
                           ),
                         ),
+                        **/
                       ),
                     );
                   },
@@ -261,6 +320,26 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                 color: Colors
                     .white, // Set the background color of the menu item to white
                 child: ListTile(
+                  leading: const Icon(Icons.admin_panel_settings),
+                  title: const Text('Back-Office'),
+                  onTap: () {
+                    // Handle logout button click
+                    Navigator.pop(context); // Close the menu
+                    // Implement your logic here
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const BackOffice()),
+                    );
+                  },
+                ),
+              ),
+            ),
+            PopupMenuItem(
+              child: Container(
+                color: Colors
+                    .white, // Set the background color of the menu item to white
+                child: ListTile(
                   leading: const Icon(Icons.workspaces),
                   title: const Text('Workspace'),
                   onTap: () {
@@ -286,6 +365,8 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                   onTap: () {
                     // Handle logout button click
                     Navigator.pop(context); // Close the menu
+                    logoutButtonPressed(context);
+                    print("Logout click");
                     // Implement your logic here
                   },
                 ),

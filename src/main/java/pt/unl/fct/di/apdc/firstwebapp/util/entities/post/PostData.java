@@ -11,18 +11,18 @@ public class PostData {
     public PostData() {
     }
 
-    public PostData(String description, String mediaUrl, int ups, int downs) {
+    public PostData(String description, String mediaUrl) {
         this.description = description;
         this.mediaUrl = mediaUrl;
-        this.ups = ups;
-        this.downs = downs;
+        this.ups = 0;
+        this.downs = 0;
     }
 
-    public PostData(String description, String mediaUrl, int ups, int downs, long creationDate) {
+    public PostData(String description, String mediaUrl, long creationDate) {
         this.description = description;
         this.mediaUrl = mediaUrl;
-        this.ups = ups;
-        this.downs = downs;
+        this.ups = 0;
+        this.downs = 0;
         this.creationDate = creationDate;
     }
 

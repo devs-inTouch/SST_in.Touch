@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:image/image.dart' as Im;
 
+import '../../constants.dart';
 import '../../feeds/presentation/anomalyBox.dart';
 import '../../myAppBar.dart';
 
@@ -39,7 +40,7 @@ class AnomalyState extends State<AnomaliesPage> {
   final storageRef = FirebaseStorage.instance.ref();
 
   TextEditingController description = TextEditingController();
-  TextEditingController type = TextEditingController();
+  TextEditingController title = TextEditingController();
 
   bool isUploading = false;
 
@@ -100,14 +101,22 @@ class AnomalyState extends State<AnomaliesPage> {
   }
 
   putInDatabase({required String title, required String description}) {
+    print("title aqui" + title);
+
     AnomalyAuth.makeAnomalyRequest(title, description).then((value) {
       if (value == true) {
         showDialog(
             context: context,
             builder: (context) {
               return SimpleDialog(
-                title: Text('Sucesso'),
-                children: [Text("Anomalia criada")],
+                title: Center(
+                  child: Text('Sucesso'),
+                ),
+                children: [
+                  Center(
+                    child: Text("Anomalia criada"),
+                  ),
+                ],
               );
             });
       } else {
@@ -115,19 +124,17 @@ class AnomalyState extends State<AnomaliesPage> {
             context: context,
             builder: (context) {
               return SimpleDialog(
-                title: Text('Erro'),
-                children: [Text("Tente novamente")],
+                title: Center(
+                  child: Text('Erro'),
+                ),
+                children: [
+                  Center(
+                    child: Text("Tente novamente"),
+                  ),
+                ],
               );
             });
       }
-    });
-  }
-
-  submitPost() async {
-    putInDatabase(title: type.text, description: description.text);
-    description.clear();
-    setState(() {
-      isUploading = false;
     });
   }
 
@@ -143,38 +150,39 @@ class AnomalyState extends State<AnomaliesPage> {
   }
 
   handleSubmit() async {
-    putInDatabase(title: type.text, description: description.text);
+    putInDatabase(title: title.text, description: description.text);
+    title.clear();
     description.clear();
   }
-
-  selectImage(parentContext) {
-    return showDialog(
-        context: parentContext,
-        builder: (context) {
-          return SimpleDialog(
-            title: const Text('Anexar Imagem'),
-            children: [
-              SimpleDialogOption(
-                child: const Text('Escolhe da galeria'),
-                onPressed: () {
-                  handleChoosePhoto(context);
-                },
-              ),
-              SimpleDialogOption(
-                  child: const Text('Cancelar'),
-                  onPressed: () => Navigator.pop(context))
-            ],
-          );
-        });
-  }
-
+  /**
+      selectImage(parentContext) {
+      return showDialog(
+      context: parentContext,
+      builder: (context) {
+      return SimpleDialog(
+      title: const Text('Anexar Imagem'),
+      children: [
+      SimpleDialogOption(
+      child: const Text('Escolhe da galeria'),
+      onPressed: () {
+      handleChoosePhoto(context);
+      },
+      ),
+      SimpleDialogOption(
+      child: const Text('Cancelar'),
+      onPressed: () => Navigator.pop(context))
+      ],
+      );
+      });
+      }
+   **/
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
       appBar: const MyAppBar(),
-      backgroundColor: Colors.grey[300],
+      backgroundColor: myBackground,
       body: Stack(
         children: [
           Container(
@@ -197,12 +205,12 @@ class AnomalyState extends State<AnomaliesPage> {
                   ),
                   Padding(
                     padding:
-                        const EdgeInsets.all(20.0), // Add a margin of 30 pixels
+                    const EdgeInsets.all(20.0), // Add a margin of 30 pixels
                     child: Container(
                       height: 400,
                       width: 1000,
                       decoration: BoxDecoration(
-                        color: Colors.grey[400],
+                        color: Colors.blueAccent[200],
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       child: Column(
@@ -227,7 +235,7 @@ class AnomalyState extends State<AnomaliesPage> {
                                               15.0,
                                               0.0), // Add vertical padding of 15 pixels
                                           child: TextField(
-                                            controller: type,
+                                            controller: title,
                                             maxLength: 50,
                                             decoration: const InputDecoration(
                                               fillColor: Colors.white,
@@ -245,7 +253,7 @@ class AnomalyState extends State<AnomaliesPage> {
                                           child: TextField(
                                             controller: description,
                                             keyboardType:
-                                                TextInputType.multiline,
+                                            TextInputType.multiline,
                                             maxLines: 7,
                                             maxLength: 400,
                                             decoration: const InputDecoration(
@@ -267,30 +275,32 @@ class AnomalyState extends State<AnomaliesPage> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      right:
-                                          20.0), // Add right padding of 30 pixels
-                                  child: ElevatedButton(
+
+                                /**Padding(
+                                    padding: const EdgeInsets.only(
+                                    right:
+                                    20.0), // Add right padding of 30 pixels
+                                    child: ElevatedButton(
                                     onPressed: () {
-                                      selectImage(context);
+                                    selectImage(context);
                                     },
                                     style: ElevatedButton.styleFrom(
-                                      fixedSize: const Size(150, 40),
-                                      backgroundColor: Colors.white,
+                                    fixedSize: const Size(150, 40),
+                                    backgroundColor: Colors.white,
                                     ),
                                     child: const Text(
-                                      'Adicionar foto',
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 15),
+                                    'Adicionar foto',
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                    color: Colors.black, fontSize: 15),
                                     ),
-                                  ),
-                                ),
+                                    ),
+                                    ),
+                                 **/
                                 Padding(
                                   padding: const EdgeInsets.only(
                                       left:
-                                          20.0), // Add left padding of 30 pixels
+                                      20.0), // Add left padding of 30 pixels
                                   child: ElevatedButton(
                                     onPressed: isUploading
                                         ? null
@@ -317,7 +327,7 @@ class AnomalyState extends State<AnomaliesPage> {
                   const SizedBox(height: 10),
                   Padding(
                     padding:
-                        const EdgeInsets.all(20.0), // Add a margin of 30 pixels
+                    const EdgeInsets.all(20.0), // Add a margin of 30 pixels
                     child: Container(
                       width: 800,
                       child: ListView.builder(
@@ -346,3 +356,4 @@ class AnomalyState extends State<AnomaliesPage> {
     );
   }
 }
+	

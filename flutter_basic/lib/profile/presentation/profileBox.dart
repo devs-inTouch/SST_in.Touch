@@ -1,109 +1,145 @@
-
 import 'package:flutter/material.dart';
 
-class ProfileBox extends StatelessWidget {
-
+class ProfileBox extends StatefulWidget {
   final double fem;
   final List map;
 
-
   const ProfileBox({
     required this.fem,
-    required this.map
+    required this.map,
   });
 
+  @override
+  _ProfileBoxState createState() => _ProfileBoxState();
+}
+
+class _ProfileBoxState extends State<ProfileBox> {
+  bool isEditing = false;
+  late TextEditingController _textEditingController;
+  late String description;
+
+  @override
+  void initState() {
+    super.initState();
+    description = widget.map[2];
+    _textEditingController = TextEditingController(text: description);
+  }
+
+  @override
+  void dispose() {
+    _textEditingController.dispose();
+    super.dispose();
+  }
+
+  void startEditing() {
+    setState(() {
+      isEditing = true;
+      _textEditingController.text = description;
+    });
+  }
+
+  void confirmEditing() {
+    setState(() {
+      isEditing = false;
+      description = _textEditingController.text;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20.0),
+      child: Container(
+        height: 200,
+        width: 650,
+        decoration: BoxDecoration(
+          color: Colors.grey.shade200,
+        ),
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.all(15.0),
+              child: Row(
+                children: [
+                  Container(
+                    height: 120,
+                    width: 120,
+                    color: Colors.blue[50],
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          bottom: 0,
+                          right: 0,
+                          child: Icon(
+                            Icons.add_a_photo,
+                            size: 24,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
 
-    return Container(
-      height: 300* fem,
-      width: 650 * fem,
-      decoration: BoxDecoration(
-          color: Colors.grey.shade200
-      ),
-      child: Stack(
-        children: [
-          Align(
-            alignment: Alignment(-0.9,-0.6),
-            child: Container(
-              height: 175* fem,
-              width: 150* fem,
-              decoration: BoxDecoration(
-                color: Colors.blue
+                  SizedBox(width: 8.0),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.map[4],
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        'Nº: ${widget.map[5]} \nEmail: ${widget.map[3]} \nDepartamento: ${widget.map[1]}',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Spacer(),
+                  OutlinedButton(
+                    onPressed: isEditing ? confirmEditing : startEditing,
+                    style: OutlinedButton.styleFrom(
+                      fixedSize: Size(100, 50),
+                      backgroundColor: Colors.blue,
+                    ),
+                    child: Text(
+                      isEditing ? 'Confirmar' : 'Editar',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-          ),
-          Align(
-            alignment: Alignment(-0.35, -0.8),
-            child: Text(
-              map[4],style: TextStyle(
-              fontSize: 15
-            ),
+            Container(
+              padding: EdgeInsets.all(8.0),
+              child: isEditing
+                  ? TextField(
+                controller: _textEditingController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  filled: true,
+                  fillColor: Colors.white,
+                ),
+              )
 
-            )
-          ),
-          Align(
-            alignment: Alignment(0.1, -0.2),
-            child: Container(
-              width: 290 * fem ,
-              height: 135 * fem,
+                  : Text(description),
+              width: double.infinity,
               decoration: BoxDecoration(
                 color: Colors.grey.shade200,
-
-              ),
-              child: Text(
-                map[2],
-
               ),
             ),
-          ),
-          Align(
-            alignment: Alignment(0.9,-0.8),
-
-            child: OutlinedButton(
-              onPressed: () {  },
-              style: OutlinedButton.styleFrom(
-                fixedSize: Size(100* fem, 50* fem),
-                backgroundColor: Colors.blue
-              ), child: Text(
-              'SEGUIR',
-              textAlign: TextAlign.left,
-              style: TextStyle(
-              color: Colors.white,
-              fontSize: 15
-
-            ),
-            ),
-
-
-            ),
-          ),
-
-          Align(
-            alignment: Alignment(-0.8,0.9),
-            child: Container(
-              height: 85* fem,
-              width: 400* fem,
-              decoration: BoxDecoration(
-                color: Colors.grey.shade200
-              ), child: Text('NUCLEOS'),
-            )
-          ),
-          Align(
-            alignment: Alignment(0.95,0),
-            child: Container(
-              width: 120* fem,
-              height: 125* fem,
-              decoration: BoxDecoration(
-                color: Colors.grey.shade200
-              ), child: Text(map[5] + '\n' + map[1], textAlign: TextAlign.center, ),
-           )
-          )
-          
-        ],
+          ],
+        ),
       ),
     );
   }
-  
 }

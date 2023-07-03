@@ -32,19 +32,19 @@ class RegisterAuth {
     hasMinLength;
   }
 
-  static bool registerUser(String username, String email, String name, String pwd, String studentNumber, String course,
-       String description, String department) {
+  static bool registerUser(String username, String email, String name, String pwd, String studentNumber, String course, String role, String staffRole,
+      String description, String department) {
 
-        fetchAuthenticate( username,  email,  name,  pwd, studentNumber, course,
-          description, department);
+    fetchAuthenticate( username,  email,  name,  pwd, studentNumber, course, role, staffRole,
+        description, department);
 
 
-        return true;
+    return true;
 
   }
 
   static Future<bool> fetchAuthenticate(String username, String email, String name, String pwd, String studentNumber, String course,
-       String description, String department) async {
+      String role, String staffRole, String description, String department) async {
     final response = await http.post(
       Uri.parse('https://steel-sequencer-385510.oa.r.appspot.com/rest/register/'),
       headers: <String, String>{
@@ -57,6 +57,8 @@ class RegisterAuth {
         "password":pwd,
         "studentNumber" : studentNumber,
         "course": course,
+        "role":role,
+        "staffRole":staffRole,
         "description":description,
         "department":department
       }),
@@ -69,3 +71,4 @@ class RegisterAuth {
     }
   }
 }
+

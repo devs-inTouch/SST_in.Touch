@@ -1,5 +1,6 @@
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_basic/constants.dart';
 import 'package:flutter_basic/feeds/application/postRequests.dart';
 import 'package:flutter_basic/feeds/presentation/postBox.dart';
 import 'package:uuid/uuid.dart';
@@ -105,8 +106,14 @@ class FeedState extends State<FeedsPage> {
             context: context,
             builder: (context) {
               return SimpleDialog(
-                title: Text('Sucesso'),
-                children: [Text("Publicação criada")],
+                title: Center(
+                  child: Text('Sucesso'),
+                ),
+                children: [
+                  Center(
+                    child: Text("Publicação criada"),
+                  ),
+                ],
               );
             });
       } else {
@@ -114,8 +121,14 @@ class FeedState extends State<FeedsPage> {
             context: context,
             builder: (context) {
               return SimpleDialog(
-                title: Text('Erro'),
-                children: [Text("Tente novamente")],
+                title: Center(
+                  child: Text('Erro'),
+                ),
+                children: [
+                  Center(
+                    child: Text("Tente Novamente"),
+                  ),
+                ],
               );
             });
       }
@@ -160,7 +173,7 @@ class FeedState extends State<FeedsPage> {
 
     return Scaffold(
       appBar: MyAppBar(),
-      backgroundColor: Colors.grey[300],
+      backgroundColor: myBackground,
       body: Stack(
         children: [
           Container(
