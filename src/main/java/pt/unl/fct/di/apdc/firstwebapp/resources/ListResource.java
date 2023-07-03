@@ -239,7 +239,7 @@ public class ListResource {
         return Response.ok(g.toJson(resultList)).build();
     }
 
-    private CompleteQueryResultData getCompleteQueryResultData(Entity user) {
+    /*private CompleteQueryResultData getCompleteQueryResultData(Entity user) {
         return new CompleteQueryResultData(user.getString(RegisterData.USERNAME),
                                         user.getString(RegisterData.NAME),
                                         user.getString(RegisterData.EMAIL),
@@ -256,6 +256,6 @@ public class ListResource {
                                         user.getString(RegisterData.SECOND_ADDRESS),
                                         user.getString(RegisterData.POST_CODE),
                                         user.getString(RegisterData.NIF));
-    }
+    }*/
 }
 

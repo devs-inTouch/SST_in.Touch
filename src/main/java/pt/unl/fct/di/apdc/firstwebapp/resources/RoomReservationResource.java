@@ -7,6 +7,7 @@ import pt.unl.fct.di.apdc.firstwebapp.util.TokenUtil;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.TokenData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.rooms.BookRoomData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.rooms.CreateRoomData;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.rooms.RoomsPerHourData;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -131,6 +132,30 @@ public class RoomReservationResource {
         return Response.ok(g.toJson(list)).build();
 
     }
+
+    @POST
+    @Path("/getroomdate")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    public Response getAvailableRoomsPerHour(RoomsPerHourData data) {
+        Query<Entity> query = Query.newEntityQueryBuilder()
+                .setKind("Room")
+                .setFilter(StructuredQuery.CompositeFilter.and(
+                        StructuredQuery.PropertyFilter.eq("date", data.getDate()),
+                        StructuredQuery.PropertyFilter.eq("hour", data.getHour()),
+                        StructuredQuery.PropertyFilter.eq("available", true)))
+                .build();
+        QueryResults<Entity> results = datastore.run(query);
+
+        List<CreateRoomData> list = new ArrayList<>();
+
+        results.forEachRemaining(room -> {
+            list.add(new CreateRoomData(room.getString("name"), room.getString("department"), (int) room.getLong("space"), room.getString("date"), room.getString("hour")));
+        });
+
+        return Response.ok(g.toJson(list)).build();
+    }
+
 
     @POST
     @Path("/book")
