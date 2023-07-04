@@ -38,12 +38,24 @@ class _ReservaSalasPageState extends State<ReservaSalasPage> {
     '19:00',
     '20:00'
   ];
+
+  List salasDisponiveisList = [];
+
   void initState() {
     super.initState();
     date = dateFormat.format(DateTime.now());
     hour = horasDisponiveis[0];
   }
 
+
+  void fetchSalasDisponiveis() async {
+    final response = await ReservaAuth.getRoomsList(date, hour);
+    setState(() {
+      salasDisponiveisList = response;
+    });
+    print("Salas disponiveis");
+    print(salasDisponiveisList);
+  }
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -175,10 +187,8 @@ class _ReservaSalasPageState extends State<ReservaSalasPage> {
                                 Align(
                                   alignment: Alignment.center,
                                   child: ElevatedButton(
-                                    onPressed: () async {
-                                      List<SalasBox> roomsList =
-                                      await ReservaAuth.getRoomsList(
-                                          date, hour);
+                                    onPressed: () {
+                                      fetchSalasDisponiveis();
                                       showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
@@ -187,18 +197,19 @@ class _ReservaSalasPageState extends State<ReservaSalasPage> {
                                             content: Container(
                                               width: double.maxFinite,
                                               child: ListView.builder(
-                                                itemCount: roomsList.length,
-                                                itemBuilder:
-                                                    (BuildContext context,
-                                                    int index) {
-                                                  return SalasBox(
-                                                    name: roomsList[index].name,
-                                                    department: roomsList[index]
-                                                        .department,
-                                                    space: roomsList[index]
-                                                        .space,
-                                                    date: roomsList[index].date,
-                                                    hour: roomsList[index].hour,
+                                                shrinkWrap: true,
+                                                itemCount: salasDisponiveisList.length,
+                                                itemBuilder: (BuildContext context, int index) {
+                                                  SalasBox salasBox = salasDisponiveisList[index];
+                                                  return Padding(
+                                                    padding: const EdgeInsets.only(bottom: 10.0),
+                                                    child: SalasBox(
+                                                      name: salasBox.name,
+                                                      department: salasBox.department,
+                                                      space: salasBox.space,
+                                                      date: salasBox.date,
+                                                      hour: salasBox.hour,
+                                                    ),
                                                   );
                                                 },
                                               ),

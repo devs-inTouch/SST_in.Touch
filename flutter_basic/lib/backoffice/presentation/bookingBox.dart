@@ -1,25 +1,30 @@
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class SalasBox extends StatelessWidget {
-  final String name;
+class BookingBox  extends StatelessWidget {
+  final String username;
+  final String room;
   final String department;
-  final String space;
+  final int numberStudents;
   final String date;
   final String hour;
 
-  SalasBox({
-    required this.name,
+  BookingBox({
+    required this.username,
+    required this.room,
     required this.department,
-    required this.space,
+    required this.numberStudents,
     required this.date,
     required this.hour,
   });
 
-  factory SalasBox.fromJson(Map<String, dynamic> json) {
-    return SalasBox(
-      name: json['name'],
+  factory BookingBox.fromJson(Map<String, dynamic> json) {
+    return BookingBox(
+      username: json['username'],
+      room: json['room'],
       department: json['department'],
-      space: json['space'],
+      numberStudents: json['numberStudents'],
       date: json['date'],
       hour: json['hour'],
     );
@@ -29,12 +34,13 @@ class SalasBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: ListTile(
-        title: Text('name: $name'),
+        title: Text('Username: $username'),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Text('Room: $room'),
             Text('Department: $department'),
-            Text('Number of Students: $space'),
+            Text('Number of Students: $numberStudents'),
             Text('Date: $date'),
             Text('Hour: $hour'),
           ],
@@ -43,4 +49,3 @@ class SalasBox extends StatelessWidget {
     );
   }
 }
-
