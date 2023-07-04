@@ -9,9 +9,7 @@ import '../../hojeNaFCT/noticias_info.dart';
 import '../../hojeNaFCT/restauração_info.dart';
 import '../../myAppBar.dart';
 import '../../weatherBox.dart';
-import '../application/noticiasAuth.dart';
 import 'auxMainpage.dart';
-import 'newsBox.dart';
 
 class TabletScaffold extends StatefulWidget {
   const TabletScaffold({Key? key}) : super(key: key);
@@ -21,7 +19,6 @@ class TabletScaffold extends StatefulWidget {
 }
 
 class _TabletScaffoldState extends State<TabletScaffold> {
-  List<NewsBox> news = [];
 
   DateTime currentDate = DateTime.now();
   List<Map<String, dynamic>> events = [];
@@ -36,18 +33,6 @@ class _TabletScaffoldState extends State<TabletScaffold> {
   AuxMainPage auxMainPage = AuxMainPage();
 
 
-  @override
-  void initState() {
-    super.initState();
-    fetchData();
-  }
-  Future<void> fetchData() async {
-    final response = await NoticiasAuth.getNews();
-    setState(() {
-      news = response;
-    });
-    print("done this step noticias");
-  }
 
   void goToPreviousPage() {
     setState(() {
@@ -296,3 +281,7 @@ class _TabletScaffoldState extends State<TabletScaffold> {
     );
   }
 }
+
+
+
+

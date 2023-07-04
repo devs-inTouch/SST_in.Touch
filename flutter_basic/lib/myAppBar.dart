@@ -16,6 +16,7 @@ import 'package:flutter_basic/maps/lib/map.dart';
 import 'calendar/page/calendar_page.dart';
 import 'mainpage/application/logoutAuth.dart';
 import 'messages/application/chatScreen.dart';
+import 'noticias/presentation/newsPage.dart';
 import 'notifications/presentation/notificationList.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -172,6 +173,26 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ),
             ),
+            PopupMenuItem(
+              child: Container(
+                color: Colors
+                    .white, // Set the background color of the menu item to white
+                child: ListTile(
+                  leading: const Icon(Icons.newspaper),
+                  title: const Text('Notícias'),
+                  onTap: () {
+                    // Handle logout button click
+                    Navigator.pop(context); // Close the menu
+                    // Implement your logic here
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => NewsPage()),
+                    );
+                  },
+                ),
+              ),
+            ),
+
             PopupMenuItem(
               child: Container(
                 color: Colors

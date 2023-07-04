@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/constants.dart';
 import '../../hojeNaFCT/avisos_info.dart';
@@ -6,11 +7,9 @@ import '../../hojeNaFCT/noticias_info.dart';
 import '../../hojeNaFCT/restauração_info.dart';
 import '../../myAppBar.dart';
 import '../../weatherBox.dart';
-import '../application/noticiasAuth.dart';
 import 'auxMainpage.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'newsBox.dart';
 
 class DesktopScaffold extends StatefulWidget {
   const DesktopScaffold({Key? key}) : super(key: key);
@@ -20,8 +19,6 @@ class DesktopScaffold extends StatefulWidget {
 }
 
 class _DesktopScaffoldState extends State<DesktopScaffold> {
-  List<NewsBox> news = [];
-
   DateTime currentDate = DateTime.now();
   List<Map<String, dynamic>> events = [];
   int _currentPageIndex = 0; // Track the current page index
@@ -32,25 +29,11 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
     'Notícias',
   ];
 
-  @override
-  void initState() {
-    super.initState();
-    fetchData();
-  }
-  Future<void> fetchData() async {
-    final response = await NoticiasAuth.getNews();
-    setState(() {
-      news = response;
-    });
-    print("done this step noticias");
-  }
-
 
   AuxMainPage auxMainPage = AuxMainPage();
   void goToPreviousPage() {
     setState(() {
-      _currentPageIndex =
-          auxMainPage.goToPreviousPage(_currentPageIndex, pages);
+      _currentPageIndex = auxMainPage.goToPreviousPage(_currentPageIndex, pages);
     });
   }
 
@@ -59,6 +42,7 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
       _currentPageIndex = auxMainPage.goToNextPage(_currentPageIndex, pages);
     });
   }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -87,11 +71,9 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Icon(Icons
-                                  .calendar_today_rounded), // Icon calendar
+                              const Icon(Icons.calendar_today_rounded), // Icon calendar
                               const SizedBox(
-                                  width:
-                                  5), // Add some spacing between the icon and text
+                                  width: 5), // Add some spacing between the icon and text
                               textTopBar('HOJE NA FCT'), // Text widget
                             ],
                           ),
@@ -104,7 +86,7 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                           style: hojeNaFCTPageTitles,
                         ),
                       ),
-                      if (pages[_currentPageIndex] == 'RESTAURAÇÃO')
+                      if (pages[_currentPageIndex] == 'Restauração')
                         Expanded(
                           child: Container(
                             padding: const EdgeInsets.symmetric(
@@ -174,8 +156,7 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                           flex: 2,
                           child: GestureDetector(
                             onTap: () {
-                              launchUrl(Uri.parse(
-                                  'https://moovitapp.com/lisboa-2460/poi/pt'));
+                              launchUrl(Uri.parse('https://moovitapp.com/lisboa-2460/poi/pt'));
                             },
                             child: Image.asset(
                               'assets/moovit.png',
@@ -200,8 +181,7 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                                     child: const Padding(
                                       padding: EdgeInsets.only(top: 85),
                                       child: Center(
-                                        child: WeatherBox(
-                                            location: 'Costa Da Caparica'),
+                                        child: WeatherBox(location: 'Costa Da Caparica'),
                                       ),
                                     ),
                                   ),
@@ -234,8 +214,7 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                           return Stack(
                             children: [
                               Container(
-                                height: double
-                                    .infinity, // Expand the container to fill the available height
+                                height: double.infinity,
                                 decoration: boxDecoration,
                                 child: Column(
                                   children: [
@@ -243,8 +222,7 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                                       height: 50,
                                       decoration: topBarDecoration,
                                       child: Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                           textTopBar('AGENDA'),
                                         ],
@@ -254,10 +232,8 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                                       child: ListView.builder(
                                         padding: const EdgeInsets.all(16.0),
                                         itemCount: events.length,
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
-                                          Map<String, dynamic> event =
-                                          events[index];
+                                        itemBuilder: (BuildContext context, int index) {
+                                          Map<String, dynamic> event = events[index];
                                           return EventCard(event: event);
                                         },
                                       ),
@@ -289,45 +265,6 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
           ],
         ),
       ),
-
-      /**
-      bottomNavigationBar: Container(
-        height: double
-            .infinity, // Expand the container to fill the available height
-        decoration: boxDecoration,
-        child: Column(
-          children: [
-            Container(
-              height: 50,
-              decoration: topBarDecoration,
-              child: Row(
-                mainAxisAlignment:
-                MainAxisAlignment.center,
-                children: [
-                  textTopBar('NOTICIAS'),
-                ],
-              ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: news.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    final post = news[index];
-                    post.setFem(fem);
-                    return post;
-                  },
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-
-**/
     );
   }
-
 }

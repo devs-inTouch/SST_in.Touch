@@ -4,10 +4,13 @@ import 'package:flutter_basic/login/presentation/loginPage.dart';
 import 'package:flutter_basic/register/application/registerAuth.dart';
 
 import '../../backoffice/presentation/backOfficePage.dart';
-
 const List<String> list = <String>['ALUNO', 'PROFESSOR', 'STAFF'];
-const List<String> listStaff = <String>['SEGURANÇA', 'BIBLIOTECA', 'DIREÇÃO', 'DIVULGAÇÃO'];
-
+const List<String> listStaff = <String>[
+  'SEGURANÇA',
+  'BIBLIOTECA',
+  'DIREÇÃO',
+  'DIVULGAÇÃO'
+];
 class Register extends StatefulWidget {
 
   const Register({super.key});
@@ -56,9 +59,9 @@ class RegisterHome extends State<Register> {
 
 
   void RegisterButtonPressed(String username, String email, String name, String pwd, String studentNumber, String course,
-      String role, String staffRole, String description, String department) {
+      String role, String description, String department) {
 
-    if(RegisterAuth.registerUser(username, email, name, pwd, studentNumber, course, role,staffRole,  description, department) == true) {
+    if(RegisterAuth.registerUser(username, email, name, pwd, studentNumber, course, role,  description, department) == true) {
       showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -237,19 +240,20 @@ class RegisterHome extends State<Register> {
                                           if (selected is String) {
                                             setState(() {
                                               staffRoleValue = selected;
+                                              if (roleValue == 'STAFF') {
+                                                roleControl.text = selected;
+                                              }
                                             });
                                           }
                                         },
-                                        items: listStaff
-                                            .map<DropdownMenuItem<String>>(
+                                        items: listStaff.map<DropdownMenuItem<String>>(
                                               (String value) {
                                             return DropdownMenuItem<String>(
                                               value: value,
                                               child: Text(value),
                                             );
                                           },
-                                        )
-                                            .toList(),
+                                        ).toList(),
                                       ),
                                     ),
                                   ),
@@ -408,7 +412,6 @@ class RegisterHome extends State<Register> {
                                     numberControl.text,
                                     courseControl.text,
                                     roleControl.text,
-                                    staffRoleControl.text,
                                     descrpControl.text,
                                     departmentControl.text,
                                   );
