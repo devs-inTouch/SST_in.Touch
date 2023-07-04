@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../constants.dart';
 import '../../myAppBar.dart';
 import 'backOfficePage.dart';
@@ -15,38 +14,53 @@ class ModeracaoFeedsPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "MODERAÇÃO DE FEEDS",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 24.0,
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 10.0),
+              color: Colors.grey[300],
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Text(
+                      "MODERAÇÃO DE FEEDS",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24.0,
+                      ),
+                    ),
                   ),
-                ),
-                IconButton(
-                  icon: Icon(Icons.close),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => BackOffice()),
-                    );
-                  },
-                ),
-              ],
+                  IconButton(
+                    icon: Icon(Icons.close),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => BackOffice()),
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
             SizedBox(height: 10.0),
-            Text(
-              "POSTS:",
-              style: TextStyle(fontSize: 18.0),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "POSTS:",
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
             ),
             SizedBox(height: 10.0),
             Container(
               width: double.infinity,
-              height: 200.0,
-              color: Colors.blue,
+              height: 400.0, // Set the desired height here (e.g., 400.0)
+              color: Colors.blueAccent[100],
             ),
           ],
         ),

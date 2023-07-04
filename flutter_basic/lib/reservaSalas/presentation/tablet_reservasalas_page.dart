@@ -20,13 +20,18 @@ import '../application/reservaRequest.dart';
   TextEditingController numberStudents = TextEditingController();
   TextEditingController data = TextEditingController();
   TextEditingController hora = TextEditingController();
-  String? horaSelecionada;
-  DateTime? selectedDate;
+  late String hour= '';
+  late String date = '';
   late final DateFormat dateFormat = DateFormat('dd/MM/yyyy');
   List<String> horasDisponiveis = [
     '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00',
     '16:00', '17:00', '18:00', '19:00', '20:00'
   ];
+  void initState() {
+    super.initState();
+    date = dateFormat.format(DateTime.now());
+    hour = horasDisponiveis[0];
+  }
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -94,13 +99,14 @@ import '../application/reservaRequest.dart';
                                       );
                                       if (pickedDate != null) {
                                         setState(() {
-                                          selectedDate = pickedDate;
+                                          date =
+                                              dateFormat.format(pickedDate);
                                         });
                                       }
                                     },
                                     child: Text(
-                                      selectedDate != null
-                                          ? dateFormat.format(selectedDate!)
+                                      date != null
+                                          ? date!
                                           : 'Selecione uma data',
                                     ),
                                   ),
@@ -123,7 +129,7 @@ import '../application/reservaRequest.dart';
                                 Padding(
                                   padding: EdgeInsets.symmetric(horizontal: 20),
                                   child: DropdownButton<String>(
-                                    value: horaSelecionada,
+                                    value: hour,
                                     hint: Text('Selecione uma hora'),
                                     items: horasDisponiveis.map((hora) {
                                       return DropdownMenuItem<String>(
@@ -133,7 +139,7 @@ import '../application/reservaRequest.dart';
                                     }).toList(),
                                     onChanged: (String? selectedHour) {
                                       setState(() {
-                                        horaSelecionada = selectedHour;
+                                        hour = selectedHour!;
                                       });
                                     },
                                     // Set dropdown decoration
@@ -204,7 +210,7 @@ import '../application/reservaRequest.dart';
                                   alignment: Alignment.center,
                                   child: ElevatedButton(
                                     onPressed: () async {
-                                      List<SalasBox> roomsList = await ReservaAuth.getRoomsList();
+                                      List<SalasBox> roomsList = await ReservaAuth.getRoomsList(date, hour);
                                       showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
