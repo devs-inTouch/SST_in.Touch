@@ -34,7 +34,9 @@ class _EventEditingPageState extends State<EventEditingPage> {
     super.initState();
 
     if (widget.event == null) {
-      fromDate = widget.fromDate;
+      final dateNow = DateTime.now();
+      fromDate = DateTime(widget.fromDate.year, widget.fromDate.month,
+          widget.fromDate.day, dateNow.hour, dateNow.minute);
       toDate = fromDate.add(const Duration(hours: 2));
       color = Colors.blue;
     } else {
@@ -121,7 +123,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
   void pickColor(BuildContext context) => showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text("Escolha uma cor"),
+          title: const Text("Escolha uma cor"),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [

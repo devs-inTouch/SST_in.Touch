@@ -1,11 +1,16 @@
 import 'dart:convert';
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const String appUrl = "https://steel-sequencer-385510.oa.r.appspot.com/rest";
 
 var myBackground = Colors.grey[100];
+
+var fireBaseInstance = FirebaseStorage.instance;
+
+get firebaseInstance => fireBaseInstance;
 
 var textStyleBar = const TextStyle(
   fontSize: 22,

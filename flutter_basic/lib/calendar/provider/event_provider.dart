@@ -25,6 +25,9 @@ class EventProvider extends ChangeNotifier {
             eventDate.day == _selectedDate.day;
       }).toList();
 
+  List<Event> get publicEvents =>
+      _events.where((event) => event.isPublic).toList();
+
   void addEvent(Event event) {
     _events.add(event);
 
