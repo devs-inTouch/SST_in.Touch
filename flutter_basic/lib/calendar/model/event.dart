@@ -7,13 +7,15 @@ class Event {
   final DateTime to;
   final Color backgroundColor;
   final bool isAllDay;
+  final bool isPublic;
 
   const Event({
     required this.title,
     required this.description,
     required this.from,
     required this.to,
-    this.backgroundColor = Colors.blue,
+    required this.backgroundColor,
     this.isAllDay = false,
+    this.isPublic = false,
   });
 }

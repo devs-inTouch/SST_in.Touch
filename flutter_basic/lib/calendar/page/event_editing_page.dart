@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
+import '../../constants.dart';
 import '../model/event.dart';
 import '../provider/event_provider.dart';
 import '../utils.dart';
@@ -25,6 +27,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
   final descriptionController = TextEditingController();
   late DateTime fromDate;
   late DateTime toDate;
+  late Color color;
 
   @override
   void initState() {
@@ -33,11 +36,13 @@ class _EventEditingPageState extends State<EventEditingPage> {
     if (widget.event == null) {
       fromDate = widget.fromDate;
       toDate = fromDate.add(const Duration(hours: 2));
+      color = Colors.blue;
     } else {
       final event = widget.event!;
       tittleController.text = event.title;
       fromDate = event.from;
       toDate = event.to;
+      color = event.backgroundColor;
     }
   }
 
@@ -64,6 +69,8 @@ class _EventEditingPageState extends State<EventEditingPage> {
                 SizedBox(height: 12),
                 buildDateTimePickers(),
                 SizedBox(height: 12),
+                buildColorPicker(),
+                SizedBox(height: 12),
                 buildDescription(),
               ],
             ),
@@ -82,6 +89,77 @@ class _EventEditingPageState extends State<EventEditingPage> {
           ),
         ),
       ];
+
+  Widget buildColorPicker() => buildHeader(
+        header: 'Color',
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: color,
+              ),
+              width: 20,
+              height: 20,
+              alignment: Alignment.bottomRight,
+            ),
+            const SizedBox(width: 5),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                alignment: AlignmentDirectional.center,
+                backgroundColor: primarySwatch,
+                padding: const EdgeInsets.all(12),
+              ),
+              child: const Text('Escolher cor'),
+              onPressed: () => pickColor(context),
+            )
+          ],
+        ),
+      );
+
+  void pickColor(BuildContext context) => showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text("Escolha uma cor"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              selectColor(context),
+              TextButton(
+                child: const Text("Escolher cor",
+                    style: TextStyle(
+                      fontSize: 18,
+                    )),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ],
+          ),
+        ),
+      );
+
+  Widget selectColor(BuildContext context) => BlockPicker(
+        pickerColor: color,
+        availableColors: const [
+          Colors.red,
+          Colors.orange,
+          Colors.yellow,
+          Colors.green,
+          Colors.blue,
+          Colors.indigo,
+          Colors.purple,
+          Colors.pink,
+          Colors.brown,
+          Colors.grey,
+          Colors.black,
+          Colors.teal,
+          Colors.cyan,
+          Colors.lime,
+          Colors.amber,
+          Colors.deepOrange,
+        ],
+        onColorChanged: (pickedColor) => setState(() => color = pickedColor),
+      );
 
   Widget buildDescription() => buildHeader(
         header: 'Description',
@@ -265,6 +343,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
         from: fromDate,
         to: toDate,
         isAllDay: false,
+        backgroundColor: color,
       );
       final isEditing = widget.event != null;
       final provider = Provider.of<EventProvider>(context, listen: false);
