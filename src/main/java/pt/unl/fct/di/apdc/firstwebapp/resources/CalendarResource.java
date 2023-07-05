@@ -50,8 +50,8 @@ public class CalendarResource {
                 txn.rollback();
                 return Response.status(Response.Status.FORBIDDEN).build();
             }
-            int calendarId = getNextCalendarId();
-           Key calendarKey = datastore.newKeyFactory().setKind("Calendar").newKey(calendarId);
+            String calendarId = data.getId();
+            Key calendarKey = datastore.newKeyFactory().setKind("Calendar").newKey(calendarId);
             Entity calendar = Entity.newBuilder(calendarKey)
                     .set("username", givenTokenData.getUsername())
                     .set("title", data.getTitle())
@@ -145,21 +145,6 @@ public class CalendarResource {
 
             return Response.ok(g.toJson(calendarList)).build();
 
-    }
-
-    private int getNextCalendarId() {
-        AtomicInteger max = new AtomicInteger(0);
-        Query<Entity> query = Query.newEntityQueryBuilder()
-                .setKind("Calendar").build();
-
-        QueryResults<Entity> calendarQuery = datastore.run(query);
-
-        calendarQuery.forEachRemaining(calendar -> {
-            int id = Integer.parseInt(calendar.getKey().getId().toString());
-            if(id > max.get())
-                max.set(id);
-        });
-        return max.incrementAndGet();
     }
 
 

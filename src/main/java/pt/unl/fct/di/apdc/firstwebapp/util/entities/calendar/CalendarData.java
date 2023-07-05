@@ -2,16 +2,17 @@ package pt.unl.fct.di.apdc.firstwebapp.util.entities.calendar;
 
 public class CalendarData {
 
-    private  String username, title, description, from, to, backgroundColor;
+    private  String id, username, title, description, from, to, backgroundColor;
     private boolean isAllDay;
     private boolean isPublic;
 
     public CalendarData() {
     }
 
-    public CalendarData(String username, String tittle, String description,
+    public CalendarData(String id, String username, String tittle, String description,
                         String from, String to, String backgroundColor,
                         boolean isAllDay, boolean isPublic) {
+        this.id = id;
         this.username = username;
         this.title = tittle;
         this.description = description;
@@ -20,6 +21,10 @@ public class CalendarData {
         this.backgroundColor = backgroundColor;
         this.isAllDay = isAllDay;
         this.isPublic = isPublic;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getUsername() {
