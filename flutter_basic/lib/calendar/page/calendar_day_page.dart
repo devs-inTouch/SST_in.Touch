@@ -6,8 +6,9 @@ import 'event_editing_page.dart';
 
 class CalendarDayPage extends StatefulWidget {
   final List<Event> events;
+  DateTime selectedDate;
 
-  CalendarDayPage(this.events);
+  CalendarDayPage(this.events, this.selectedDate);
 
   @override
   _CalendarDayPageState createState() => _CalendarDayPageState();
@@ -15,6 +16,7 @@ class CalendarDayPage extends StatefulWidget {
 
 class _CalendarDayPageState extends State<CalendarDayPage> {
   List<Event> get events => widget.events;
+  DateTime get selectedDate => widget.selectedDate;
   @override
   Widget build(BuildContext context) {
     print("_____object_____");
@@ -23,14 +25,14 @@ class _CalendarDayPageState extends State<CalendarDayPage> {
       appBar: MyAppBar(),
       body: CalendarDayWidget(
         events: events,
-        fromDate: events[0].from,
+        fromDate: selectedDate,
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color.fromARGB(255, 10, 2, 100),
         onPressed: () => Navigator.of(context).push(
           MaterialPageRoute(
               builder: (context) => EventEditingPage(
-                    fromDate: events[0].from,
+                    fromDate: selectedDate,
                   )),
         ),
         child: const Icon(

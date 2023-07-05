@@ -24,6 +24,24 @@ class EventRequests {
     }
   }
 
+  static Future<bool> deleteCalendarEvent(String calendarID) async {
+    String tokenAuth = await getTokenAuth();
+
+    final response = await http.post(Uri.parse('$appUrl/calendar/delete'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          HttpHeaders.authorizationHeader: tokenAuth
+        },
+        body: jsonEncode({"calendarId": calendarID}));
+
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   static Future<List<Event>> getCalendarEvents() async {
     String tokenAuth = await getTokenAuth();
     List<Event> map = [];

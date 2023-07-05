@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/calendar/model/event.dart';
-import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import '../model/event_data_source.dart';
 import '../page/calendar_day_page.dart';
-import '../provider/event_provider.dart';
+
 import '../provider/events_request.dart';
 
 class CalendarWidget extends StatefulWidget {
@@ -42,7 +41,8 @@ class CalendarWidgetState extends State<CalendarWidget> {
       onTap: (details) {
         List<Event> dayEvents = getEventsOfDay(details.date);
         Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => CalendarDayPage(dayEvents)),
+          MaterialPageRoute(
+              builder: (context) => CalendarDayPage(dayEvents, details.date!)),
         );
       },
     );
