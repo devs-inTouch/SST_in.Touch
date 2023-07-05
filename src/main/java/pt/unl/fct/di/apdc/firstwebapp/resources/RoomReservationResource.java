@@ -369,6 +369,45 @@ public class RoomReservationResource {
 
     }
 
+    @POST
+    @Path("/notapprove")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    public Response notApproveBooking(@HeaderParam(AUTH) String auth, BookRoomData data) {
+        TokenData givenTokenData = TokenUtil.validateToken(LOG, auth);
+
+        if(givenTokenData == null)
+            return Response.status(Response.Status.FORBIDDEN).build();
+
+        Key userKey = datastore.newKeyFactory().setKind("User").newKey(givenTokenData.getUsername());
+        Transaction txn = datastore.newTransaction();
+
+        try {
+            Entity user = txn.get(userKey);
+            if (user == null)
+                return Response.status(Response.Status.BAD_REQUEST).entity("User not in database").build();
+
+            Key bookingKey = datastore.newKeyFactory().setKind("Booking")
+                    .addAncestor(PathElement.of("User", data.getUsername()))
+                    .newKey(data.getUsername()+ "-" + data.getName() + "-" + data.getDepartment() + "-" + data.getDate() + "-" + data.getHour());
+
+            Entity booking = txn.get(bookingKey);
+            if (booking == null)
+                return Response.status(Response.Status.BAD_REQUEST).entity("Booking not in database").build();
+
+            txn.delete(bookingKey);
+            txn.commit();
+
+            notification.createNotification("A sua reserva foi rejeitada", "System", booking.getString("username"), "Aviso", System.currentTimeMillis());
+
+            return Response.ok(g.toJson("Booking not approved successfully")).build();
+
+        } finally {
+            if(txn.isActive())
+                txn.rollback();
+        }
+    }
+
 
     private int getNextRoom(String name) {
         AtomicInteger max = new AtomicInteger(0);
