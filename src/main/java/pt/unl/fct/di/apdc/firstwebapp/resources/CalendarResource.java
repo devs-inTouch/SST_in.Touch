@@ -61,6 +61,7 @@ public class CalendarResource {
                     .set("backgroundColor", data.getBackgroundColor())
                     .set("isAllDay", data.getIsAllDay())
                     .set("isPublic", data.getIsPublic())
+                    .set("id", calendarId)
                     .build();
             txn.add(calendar);
             txn.commit();
@@ -129,7 +130,7 @@ public class CalendarResource {
             List<CalendarInfoData> calendarList = new ArrayList<>();
             calendarQuery.forEachRemaining(calendar -> {
                 CalendarInfoData calendarData = new CalendarInfoData(
-                        calendar.getKey().getId().intValue(),
+                        calendar.getString("id"),
                         calendar.getString("username"),
                         calendar.getString("title"),
                         calendar.getString("description"),
