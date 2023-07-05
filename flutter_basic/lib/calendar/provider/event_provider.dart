@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
 import '../model/event.dart';
+import 'events_request.dart';
 
 class EventProvider extends ChangeNotifier {
-  final List<Event> _events = [];
+  List<Event> _events = [];
 
-  List<Event> get events => _events;
+  List<Event> get getEvents => _events;
 
   DateTime _selectedDate = DateTime.now();
 
@@ -14,6 +15,11 @@ class EventProvider extends ChangeNotifier {
   void setDate(DateTime date) {
     _selectedDate = date;
 
+    notifyListeners();
+  }
+
+  Future<void> initializeEvents() async {
+    _events = await EventRequests.getCalendarEvents();
     notifyListeners();
   }
 

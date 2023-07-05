@@ -76,7 +76,7 @@ class _EventViewingPageState extends State<EventViewingPage> {
             onPressed: () {
               final provider =
                   Provider.of<EventProvider>(context, listen: false);
-              provider.deleteEvent(event);
+              //provider.deleteEvent(event);
               Navigator.of(context).pop();
             }),
       ];

@@ -30,7 +30,7 @@ class _TasksWidgetState extends State<TasksWidget> {
       ),
       child: SfCalendar(
         view: CalendarView.day,
-        dataSource: EventDataSource(provider.events),
+        dataSource: EventDataSource(provider.getEvents),
         initialDisplayDate: selectedDate,
         appointmentBuilder: appointmentBuilder,
         headerHeight: 0,
