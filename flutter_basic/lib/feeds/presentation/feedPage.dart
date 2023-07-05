@@ -70,8 +70,7 @@ class FeedState extends State<FeedsPage> {
     });
     print("1");
     UploadTask uploadTask;
-    Reference storageRef =
-        FirebaseStorage.instance.ref().child("/posts/" + postId);
+    Reference storageRef = firebaseInstance.ref().child("/posts/" + postId);
 
     final metadata = SettableMetadata(contentType: 'image/jpeg');
     uploadTask = storageRef.putData(selectedImageInBytes, metadata);
@@ -134,8 +133,6 @@ class FeedState extends State<FeedsPage> {
       }
     });
   }
-
-
 
   handleSubmit() async {
     uploadFile();

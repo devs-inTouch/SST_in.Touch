@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/constants.dart';
 import '../../hojeNaFCT/avisos_info.dart';
@@ -8,6 +9,7 @@ import '../../myAppBar.dart';
 import '../../weatherBox.dart';
 import 'auxMainpage.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 
 class DesktopScaffold extends StatefulWidget {
   const DesktopScaffold({Key? key}) : super(key: key);
@@ -26,11 +28,12 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
     'Exposições',
     'Notícias',
   ];
+
+
   AuxMainPage auxMainPage = AuxMainPage();
   void goToPreviousPage() {
     setState(() {
-      _currentPageIndex =
-          auxMainPage.goToPreviousPage(_currentPageIndex, pages);
+      _currentPageIndex = auxMainPage.goToPreviousPage(_currentPageIndex, pages);
     });
   }
 
@@ -42,6 +45,9 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final fem = size.width / 1440; // 1440 is the reference width
+
     return Scaffold(
       appBar: const MyAppBar(),
       backgroundColor: myBackground,
@@ -65,11 +71,9 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Icon(Icons
-                                  .calendar_today_rounded), // Icon calendar
+                              const Icon(Icons.calendar_today_rounded), // Icon calendar
                               const SizedBox(
-                                  width:
-                                      5), // Add some spacing between the icon and text
+                                  width: 5), // Add some spacing between the icon and text
                               textTopBar('HOJE NA FCT'), // Text widget
                             ],
                           ),
@@ -82,7 +86,7 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                           style: hojeNaFCTPageTitles,
                         ),
                       ),
-                      if (pages[_currentPageIndex] == 'RESTAURAÇÃO')
+                      if (pages[_currentPageIndex] == 'Restauração')
                         Expanded(
                           child: Container(
                             padding: const EdgeInsets.symmetric(
@@ -99,21 +103,21 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                           ),
                         )
                       else if (pages[_currentPageIndex] == 'Exposições')
-                        Expanded(
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 20.0, horizontal: 20.0),
-                            child: const ExposicoesPage(),
-                          ),
-                        )
-                      else if (pages[_currentPageIndex] == 'Notícias')
-                        Expanded(
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 20.0, horizontal: 20.0),
-                            child: const NoticiasPage(),
-                          ),
-                        ),
+                          Expanded(
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 20.0, horizontal: 20.0),
+                              child: const ExposicoesPage(),
+                            ),
+                          )
+                        else if (pages[_currentPageIndex] == 'Notícias')
+                            Expanded(
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 20.0, horizontal: 20.0),
+                                child: const NoticiasPage(),
+                              ),
+                            ),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 20.0),
                         child: Align(
@@ -152,8 +156,7 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                           flex: 2,
                           child: GestureDetector(
                             onTap: () {
-                              launchUrl(Uri.parse(
-                                  'https://moovitapp.com/lisboa-2460/poi/pt'));
+                              launchUrl(Uri.parse('https://moovitapp.com/lisboa-2460/poi/pt'));
                             },
                             child: Image.asset(
                               'assets/moovit.png',
@@ -178,8 +181,7 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                                     child: const Padding(
                                       padding: EdgeInsets.only(top: 85),
                                       child: Center(
-                                        child: WeatherBox(
-                                            location: 'Costa Da Caparica'),
+                                        child: WeatherBox(location: 'Costa Da Caparica'),
                                       ),
                                     ),
                                   ),
@@ -212,8 +214,7 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                           return Stack(
                             children: [
                               Container(
-                                height: double
-                                    .infinity, // Expand the container to fill the available height
+                                height: double.infinity,
                                 decoration: boxDecoration,
                                 child: Column(
                                   children: [
@@ -221,8 +222,7 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                                       height: 50,
                                       decoration: topBarDecoration,
                                       child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                           textTopBar('AGENDA'),
                                         ],
@@ -232,10 +232,8 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                                       child: ListView.builder(
                                         padding: const EdgeInsets.all(16.0),
                                         itemCount: events.length,
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
-                                          Map<String, dynamic> event =
-                                              events[index];
+                                        itemBuilder: (BuildContext context, int index) {
+                                          Map<String, dynamic> event = events[index];
                                           return EventCard(event: event);
                                         },
                                       ),
