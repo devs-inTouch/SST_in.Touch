@@ -319,8 +319,8 @@ public class RoomReservationResource {
                 return Response.status(Response.Status.BAD_REQUEST).entity("User not allowed to approve booking").build();*/
 
             Key bookingKey = datastore.newKeyFactory().setKind("Booking")
-                    .addAncestor(PathElement.of("User", givenTokenData.getUsername()))
-                    .newKey(givenTokenData.getUsername()+ "-" + data.getName() + "-" + data.getDepartment() + "-" + data.getDate() + "-" + data.getHour());
+                    .addAncestor(PathElement.of("User", data.getUsername()))
+                    .newKey(data.getUsername()+ "-" + data.getName() + "-" + data.getDepartment() + "-" + data.getDate() + "-" + data.getHour());
 
             Entity booking = txn.get(bookingKey);
             if (booking == null)

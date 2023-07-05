@@ -139,7 +139,7 @@ public class AnomalyResource {
         List<AnomalyInfoData> list = new ArrayList<>();
 
         results.forEachRemaining(t -> {
-            list.add(new AnomalyInfoData(t.getString("username"), t.getString("title"), t.getString("description")));
+            list.add(new AnomalyInfoData(t.getKey().getName(), t.getString("username"), t.getString("title"), t.getString("description")));
         });
 
         return Response.ok(g.toJson(list)).build();
