@@ -91,10 +91,10 @@ public class CalendarResource {
                 txn.rollback();
                 return Response.status(Response.Status.FORBIDDEN).build();
             }
-            Key calendarKey = datastore.newKeyFactory().setKind("Calendar").newKey(Integer.parseInt(data.getCalendarId()));
+            Key calendarKey = datastore.newKeyFactory().setKind("Calendar").newKey(data.getCalendarId());
             Entity calendar = txn.get(calendarKey);
             if(calendar == null)
-                return Response.status(Response.Status.FORBIDDEN).build();
+                return Response.status(Response.Status.NOT_FOUND).build();
             txn.delete(calendarKey);
             txn.commit();
             return Response.ok(g.toJson(CALENDAR_EVENT_DELETED)).build();
