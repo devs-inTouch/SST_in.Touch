@@ -1,43 +1,24 @@
 package pt.unl.fct.di.apdc.firstwebapp.resources;
 
-import static pt.unl.fct.di.apdc.firstwebapp.util.enums.DatastoreEntities.USER;
-import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Globals.AUTH;
-import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Globals.DEFAULT_FORMAT;
-import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Operation.LIST_UNNACTIVATED_USERS;
-import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.ROLE;
-import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.STATE;
-import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.*;
+import com.google.cloud.datastore.*;
+import com.google.gson.Gson;
+import pt.unl.fct.di.apdc.firstwebapp.resources.permissions.PermissionsHolder;
+import pt.unl.fct.di.apdc.firstwebapp.util.DatastoreUtil;
+import pt.unl.fct.di.apdc.firstwebapp.util.TokenUtil;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.TokenData;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects.CompleteQueryResultData;
+import pt.unl.fct.di.apdc.firstwebapp.util.enums.DatastoreEntities;
 
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-
-import com.google.cloud.datastore.Datastore;
-import com.google.cloud.datastore.Entity;
-import com.google.cloud.datastore.Key;
-import com.google.cloud.datastore.Query;
-import com.google.cloud.datastore.QueryResults;
-import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
-import com.google.gson.Gson;
-
-import pt.unl.fct.di.apdc.firstwebapp.resources.permissions.PermissionsHolder;
-import pt.unl.fct.di.apdc.firstwebapp.util.DatastoreUtil;
-import pt.unl.fct.di.apdc.firstwebapp.util.TokenUtil;
-import pt.unl.fct.di.apdc.firstwebapp.util.entities.RegisterData;
-import pt.unl.fct.di.apdc.firstwebapp.util.entities.TokenData;
-import pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects.BaseQueryResultData;
-import pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects.CompleteQueryResultData;
-import pt.unl.fct.di.apdc.firstwebapp.util.enums.DatastoreEntities;
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Globals.AUTH;
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Globals.DEFAULT_FORMAT;
 
 
 @Path("/list")
@@ -248,6 +229,7 @@ public class ListResource {
         return Response.ok(g.toJson(resultList)).build();
     }
 
+    /*
 	@GET
 	@Path("/unactivated")
 	public Response listUnactivatedUsers(@HeaderParam(AUTH) String auth) {
@@ -293,5 +275,6 @@ public class ListResource {
                                         user.getString(ROLE.value),
                                         user.getBoolean(STATE.value));
     }
+    */
 }
 
