@@ -1,7 +1,5 @@
 package pt.unl.fct.di.apdc.firstwebapp.util.enums;
 
-import java.util.List;
-
 /**
  * Used to standardize datastore User attributes' names
  * 
@@ -12,44 +10,35 @@ public enum UserAttributes {
     // TODO check indexes
     
     // Mandatory fields
-    USERNAME("user_id", String.class),
-    NAME("user_name", String.class),
-    PASSWORD("user_password", String.class),
-    EMAIL("user_email", String.class),
-    CREATION_TIME("user_creation_time", Long.class),
-    ROLE("user_role", String.class),
-    STAFF_ROLE("staff_role", String.class),
-    STATE("user_is_activated", Boolean.class),
+    USERNAME("user_id"),
+    NAME("user_name"),
+    PASSWORD("user_password"),
+    EMAIL("user_email"),
+    CREATION_TIME("user_creation_time"),
+    ROLE("user_role"),
+    STATE("user_is_activated"),
 
-    FOLLOWERS("user_followers", List.class),
+    FOLLOWERS("user_followers"),
 
-    FOLLOWING("user_following", List.class),
+    FOLLOWING("user_following"),
     // Optional fields
-    VISIBILITY("user_is_visible", Boolean.class),
-    MOBILE("user_mobile_phone_number", String.class),
-    PHONE("user_phone_number", String.class),
-    DEPARTMENT("user_department", String.class),
-    WORK_ADDRESS("user_work_address", String.class),
-    ADDRESS("user_address", String.class),
-    SECOND_ADDRESS("user_second_address", String.class),
-    POST_CODE("user_post_code", String.class),
-    NIF("user_nif", String.class),
-    STUDENT_NUMBER("user_student_number", String.class),
-    COURSE("user_course", String.class),
-    DESCRIPTION("user_description", String.class);
-
-
-
-
-
+    VISIBILITY("user_is_visible"),
+    MOBILE("user_mobile_phone_number"),
+    PHONE("user_phone_number"),
+    DEPARTMENT("user_department"),
+    WORK_ADDRESS("user_work_address"),
+    ADDRESS("user_address"),
+    SECOND_ADDRESS("user_second_address"),
+    POST_CODE("user_post_code"),
+    NIF("user_nif"),
+    STUDENT_NUMBER("user_student_number"),
+    COURSE("user_course"),
+    DESCRIPTION("user_description");
 
     public final String value;
 
-    public final String type;
-
-    private UserAttributes(String value, Class<?> type) {
+    private UserAttributes(String value) {
         this.value = value;
-        this.type = type.getSimpleName();
     }
     
 }

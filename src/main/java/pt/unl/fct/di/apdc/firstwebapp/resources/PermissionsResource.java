@@ -6,6 +6,8 @@ import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Globals.AUTH;
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Globals.DEFAULT_FORMAT;
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.RoleAttributes.ACCESS;
 
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Operation.*;
+
 import java.util.Map.Entry;
 import java.util.logging.Logger;
 
@@ -26,6 +28,7 @@ import com.google.cloud.datastore.KeyFactory;
 import com.google.cloud.datastore.PathElement;
 import com.google.cloud.datastore.Transaction;
 
+import pt.unl.fct.di.apdc.firstwebapp.resources.permissions.PermissionsHolder;
 import pt.unl.fct.di.apdc.firstwebapp.util.DatastoreUtil;
 import pt.unl.fct.di.apdc.firstwebapp.util.TokenUtil;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.AccessData;
@@ -43,6 +46,8 @@ public class PermissionsResource {
 	private static final Logger LOG = Logger.getLogger(PermissionsResource.class.getName());
 
     private final Datastore datastore = DatastoreUtil.getService();
+
+    private PermissionsHolder ph = PermissionsHolder.getInstance();
     
 
     public PermissionsResource() {}
@@ -62,7 +67,7 @@ public class PermissionsResource {
 
         TokenData token = TokenUtil.validateToken(LOG, auth);
 
-        if (token == null /*|| !PermissionsHolder.getInstance().hasPermission(SHOW_TOKEN.value, token.getRole())*/)
+        if (token == null || !ph.hasAccess(EDIT_ACCESSES.value, token.getRole()))
             return Response.status(Status.FORBIDDEN).build();
 
         KeyFactory clientAccessKeyFactory = datastore.newKeyFactory()

@@ -9,7 +9,6 @@ import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.FOLLOWING
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.NAME;
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.PASSWORD;
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.ROLE;
-import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.STAFF_ROLE;
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.STATE;
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.STUDENT_NUMBER;
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.VISIBILITY;
@@ -68,7 +67,6 @@ public class RegisterResource {
 					.set(EMAIL.value, data.getEmail())
 					.set(STUDENT_NUMBER.value, data.getStudentNumber())
 					.set(ROLE.value, data.getRole())
-					.set(STAFF_ROLE.value, data.getStaffRole())
 					.set(DEPARTMENT.value, data.getDepartment())
 					.set(DESCRIPTION.value, data.getDescription())
 					.set(STATE.value, false)
