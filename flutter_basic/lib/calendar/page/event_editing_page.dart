@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_basic/calendar/widget/calendar_widget.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../constants.dart';
 import '../model/event.dart';
-import '../provider/event_provider.dart';
 import '../utils.dart';
-import 'package:provider/provider.dart';
 import '../provider/events_request.dart';
+import 'calendar_page.dart';
 
 class EventEditingPage extends StatefulWidget {
   final DateTime fromDate;
@@ -24,6 +24,7 @@ class EventEditingPage extends StatefulWidget {
 }
 
 class _EventEditingPageState extends State<EventEditingPage> {
+  final CalendarWidgetState calendarWidgetState = CalendarWidgetState();
   final _formKey = GlobalKey<FormState>();
   final tittleController = TextEditingController();
   final descriptionController = TextEditingController();
@@ -341,6 +342,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
     final isValid = _formKey.currentState!.validate();
     final isEditing = widget.event != null;
     if (isEditing) {
+      int index = calendarWidgetState.events.indexOf(widget.event!);
       if (isValid) {
         final event = Event(
           id: widget.event!.id,
@@ -351,8 +353,9 @@ class _EventEditingPageState extends State<EventEditingPage> {
           isAllDay: false,
           backgroundColor: color,
         );
-        EventRequests.createCalendarEvent(event);
-        Navigator.of(context).pop();
+        EventRequests.editCalendarEvent(event).then((edited) {
+          processRequest(edited, isEditing, event, index);
+        });
       }
     } else {
       if (isValid) {
@@ -365,9 +368,36 @@ class _EventEditingPageState extends State<EventEditingPage> {
           isAllDay: false,
           backgroundColor: color,
         );
-        EventRequests.createCalendarEvent(event);
-        Navigator.of(context).pop();
+        EventRequests.createCalendarEvent(event).then((created) {
+          processRequest(created, isEditing, event, -1);
+        });
       }
+    }
+  }
+
+  void processRequest(bool request, bool isEditing, Event event, int index) {
+    if (request) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => CalendarPage()),
+      );
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Ups... Alguma coisa correu mal...'),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('Ok'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
     }
   }
 

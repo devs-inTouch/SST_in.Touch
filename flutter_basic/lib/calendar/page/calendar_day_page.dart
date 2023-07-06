@@ -6,7 +6,7 @@ import 'event_editing_page.dart';
 
 class CalendarDayPage extends StatefulWidget {
   final List<Event> events;
-  DateTime selectedDate;
+  final DateTime selectedDate;
 
   CalendarDayPage(this.events, this.selectedDate);
 

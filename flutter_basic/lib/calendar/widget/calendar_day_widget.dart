@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/calendar/model/event.dart';
-import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import '../model/event_data_source.dart';
 import '../page/event_viewing_page.dart';
-import '../provider/event_provider.dart';
 
 class CalendarDayWidget extends StatefulWidget {
   final DateTime fromDate;
