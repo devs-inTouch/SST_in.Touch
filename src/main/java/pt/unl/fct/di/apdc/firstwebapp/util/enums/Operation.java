@@ -3,23 +3,25 @@ package pt.unl.fct.di.apdc.firstwebapp.util.enums;
 public enum Operation {
 
     // permissions
-    EDIT_PERMISSIONS("editPermissions"),    //*done
+    EDIT_PERMISSIONS("editPermissions"),                //*done
+    EDIT_ACCESSES("editAccesses"),
 
     // manager operations
-    ACTIVATE_USER("activateUser"),          //*done
-    CHANGE_ATTRIBUTES("changeAttributes"),  //*done
-    CHANGE_PASSWORD("changePassword"),      //*done
-    LIST_USERS("listUsers"),                //*done
-    REMOVE_USER("removeUser"),              //*done
+    ACTIVATE_USER("activateUser"),                      //*done
+    CHANGE_ATTRIBUTES("changeAttributes"),              //*done
+    CHANGE_PASSWORD("changePassword"),                  //*done
+    LIST_USERS("listUsers"),                            //*done
+    REMOVE_USER("removeUser"),                          //*done
+    LIST_UNNACTIVATED_USERS("listUnactivatedUsers"),
 
     // common
-    HOME("home"),                           //*done
-    POST("post"),                           //*done
-    SHOW_PROFILE("showProfile"),            //*done
-    BOOK_ROOM("bookRoom"),                  //*done
+    HOME("home"),                                       //*done
+    POST("post"),                                       //*done
+    SHOW_PROFILE("showProfile"),                        //*done
+    BOOK_ROOM("bookRoom"),                              //*done
 
     // debug
-    SHOW_TOKEN("showToken");                //*done
+    SHOW_TOKEN("showToken");                            //*done
 
     public final String value;
 

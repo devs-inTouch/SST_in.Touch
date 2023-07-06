@@ -1,6 +1,10 @@
 package pt.unl.fct.di.apdc.firstwebapp.resources;
 
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Globals.AUTH;
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Globals.DEFAULT_FORMAT;
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Operation.ACTIVATE_USER;
+
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.*;
 
 import java.util.logging.Logger;
 
@@ -19,6 +23,7 @@ import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.KeyFactory;
 import com.google.cloud.datastore.Transaction;
 
+import pt.unl.fct.di.apdc.firstwebapp.resources.permissions.PermissionsHolder;
 import pt.unl.fct.di.apdc.firstwebapp.util.DatastoreUtil;
 import pt.unl.fct.di.apdc.firstwebapp.util.TokenUtil;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.TokenData;
@@ -26,8 +31,9 @@ import pt.unl.fct.di.apdc.firstwebapp.util.entities.UserData;
 import pt.unl.fct.di.apdc.firstwebapp.util.enums.DatastoreEntities;
 import pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes;
 
-@Path("/activateUser")
-@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+@Path("/userActivation")
+@Consumes(MediaType.APPLICATION_JSON + DEFAULT_FORMAT)
+@Produces(MediaType.APPLICATION_JSON + DEFAULT_FORMAT)
 public class ActivationResource {
 
 	/**
@@ -39,20 +45,27 @@ public class ActivationResource {
 
 	private final KeyFactory userKeyFactory = datastore.newKeyFactory().setKind(DatastoreEntities.USER.value);
 
+	private PermissionsHolder ph = PermissionsHolder.getInstance();
+
 	@POST
-	@Path("/")
-	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/activate")
 	public Response activateUser(@HeaderParam(AUTH) String auth, UserData data) {
 
-		TokenData givenToken = TokenUtil.validateToken(LOG, auth);
+        TokenData token = TokenUtil.validateToken(LOG, auth);
 
-		if (givenToken == null)
-			return Response.status(Status.FORBIDDEN).build();
+        if (token == null)
+            return Response.status(Status.UNAUTHORIZED).build();
+
+        if (!ph.hasAccess(ACTIVATE_USER.value, token.getRole()))
+            return Response.status(Status.FORBIDDEN).build();
 
 		Key targetKey = userKeyFactory.newKey(data.getTargetUsername());
 		Entity target = datastore.get(targetKey);
 
 		if (target == null)
+			return Response.status(Status.NOT_FOUND).build();
+
+		if (!ph.hasPermission(ACTIVATE_USER.value, token.getRole(), target.getString(ROLE.value)))
 			return Response.status(Status.FORBIDDEN).build();
 
 		Transaction txn = datastore.newTransaction();

@@ -101,4 +101,18 @@ public class PermissionsHolder {
 
     }
 
+    public void editAccess(String endpointID, String clientRole, boolean access) {
+
+        
+
+    }
+
+    public void editPermission(String endpointID, String clientRole, String targetRole, boolean access) {
+
+    }
+
+    public int getClearance(String endpointID, String clientRole) {
+        return -1;
+    }
+
 }
