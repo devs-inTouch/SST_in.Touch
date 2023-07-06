@@ -1,7 +1,5 @@
 package pt.unl.fct.di.apdc.firstwebapp.resources;
 
-import com.google.appengine.api.memcache.MemcacheService;
-import com.google.appengine.api.memcache.stdimpl.GCacheFactory;
 import com.google.cloud.datastore.*;
 import com.google.gson.Gson;
 import pt.unl.fct.di.apdc.firstwebapp.util.DatastoreUtil;
@@ -17,16 +15,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 
-import java.util.HashMap;
-import java.util.Map;
-import javax.cache.Cache;
-import javax.cache.CacheException;
-import javax.cache.CacheFactory;
-import javax.cache.CacheManager;
 
 
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Globals.AUTH;
@@ -41,18 +32,8 @@ public class NewsResource {
 
     private final Gson g = new Gson();
 
-    //private final Cache cache;
-
     public NewsResource() {
-        /*try {
-            CacheFactory cacheFactory = CacheManager.getInstance().getCacheFactory();
-            Map<Object, Object> properties = new HashMap<>();
-            properties.put(GCacheFactory.SET_POLICY, MemcacheService.SetPolicy.SET_ALWAYS);
-            properties.put(GCacheFactory.EXPIRATION_DELTA, TimeUnit.HOURS.toSeconds(2));
-            cache = cacheFactory.createCache(null);
-        } catch (CacheException e) {
-            throw new RuntimeException(e);
-        }*/
+
     }
 
     @POST
@@ -89,7 +70,6 @@ public class NewsResource {
 
             txn.add(news);
             txn.commit();
-            //cache.remove((LIST_NEWS).hashCode());
 
             return Response.ok().entity(g.toJson("News created")).build();
 
@@ -129,7 +109,6 @@ public class NewsResource {
 
             txn.delete(newsKey);
             txn.commit();
-            //cache.remove((LIST_NEWS).hashCode());
 
             return Response.ok().entity(g.toJson("News deleted")).build();
 
@@ -146,24 +125,20 @@ public class NewsResource {
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     public Response listNews() {
 
-        /*int hash = LIST_NEWS.hashCode();
-        if(cache.get(hash) != null)
-            return Response.ok().entity(cache.get(hash)).build();*/
+            Query<Entity> query = Query.newEntityQueryBuilder()
+                    .setKind("News").setOrderBy(StructuredQuery.OrderBy.desc("creation_date")).build();
 
-        Query<Entity> query = Query.newEntityQueryBuilder()
-                .setKind("News").setOrderBy(StructuredQuery.OrderBy.desc("creation_date")).build();
+            QueryResults<Entity> newsQuery = datastore.run(query);
 
-        QueryResults<Entity> newsQuery = datastore.run(query);
+            List<NewsInfoData> newsList = new ArrayList<>();
 
-        List<NewsInfoData> newsList = new ArrayList<>();
+            newsQuery.forEachRemaining(t -> {
+                newsList.add(new NewsInfoData(t.getKey().getName(), t.getString("title"), t.getString("description"), t.getString("mediaUrl"), t.getLong("creation_date")));
+            });
 
-        newsQuery.forEachRemaining(t -> {
-            newsList.add(new NewsInfoData(t.getString("title"), t.getString("description"), t.getString("mediaUrl"), t.getLong("creation_date")));
-        });
-
-        //cache.put(hash, g.toJson(newsList));
-        return Response.ok().entity(g.toJson(newsList)).build();
+            return Response.ok().entity(g.toJson(newsList)).build();
     }
+
 
     private int getNextNews() {
         AtomicInteger max = new AtomicInteger(0);
