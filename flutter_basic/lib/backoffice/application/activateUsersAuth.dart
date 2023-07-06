@@ -5,15 +5,15 @@ import 'package:http/http.dart' as http;
 import '../../constants.dart';
 import '../presentation/boxes/bookingBox.dart';
 
-class SalasRequestAuth {
-  static Future<List<BookingBox>> getBookingList() async {
+class ActivateUsersAuth {
+  static Future<List<BookingBox>> getUsersToActivate() async {
     List<BookingBox> map = [];
     String tokenAuth = await getTokenAuth();
 
     final response = await http.post(
-        Uri.parse(
-            'https://steel-sequencer-385510.oa.r.appspot.com/rest/reservation/listallbookings'),
-        headers: <String, String>{HttpHeaders.authorizationHeader: tokenAuth},
+      Uri.parse(
+          'https://steel-sequencer-385510.oa.r.appspot.com/rest/list/unactivated'),
+      headers: <String, String>{HttpHeaders.authorizationHeader: tokenAuth},
     );
 
     if (response.statusCode == 200) {
@@ -24,13 +24,13 @@ class SalasRequestAuth {
     return map;
   }
 
-  static Future<void> approveReservation() async {
+  static Future<void> approveUser() async {
     List<BookingBox> map = [];
     String tokenAuth = await getTokenAuth();
 
     final response = await http.post(
       Uri.parse(
-            'https://steel-sequencer-385510.oa.r.appspot.com/rest/reservation/approve'),
+          'https://steel-sequencer-385510.oa.r.appspot.com/rest/userActivation/activate'),
       headers: <String, String>{HttpHeaders.authorizationHeader: tokenAuth},
     );
 
@@ -48,7 +48,7 @@ class SalasRequestAuth {
 
     final response = await http.post(
       Uri.parse(
-          'https://steel-sequencer-385510.oa.r.appspot.com/rest/reservation/notapprove'),
+          'https://steel-sequencer-385510.oa.r.appspot.com/rest/userActivation/notapprove'),
       headers: <String, String>{HttpHeaders.authorizationHeader: tokenAuth},
     );
 

@@ -3,11 +3,13 @@
 import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/constants.dart';
+import '../../bottomAppBarMobile.dart';
 import '../../hojeNaFCT/avisos_info.dart';
 import '../../hojeNaFCT/exposicoes_info.dart';
 import '../../hojeNaFCT/noticias_info.dart';
 import '../../hojeNaFCT/restauração_info.dart';
 import '../../myAppBar.dart';
+import '../../myAppBarMobile.dart';
 import '../../weatherBox.dart';
 import 'auxMainpage.dart';
 
@@ -48,7 +50,7 @@ class _MobileScaffoldState extends State<MobileScaffold> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: const MyAppBar(),
+      appBar: const MyAppBarMobile(),
       backgroundColor: myBackground,
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -220,6 +222,9 @@ class _MobileScaffoldState extends State<MobileScaffold> {
           ),
         ),
       ),
+      bottomNavigationBar: MyBottomAppBar(),
+
+
     );
   }
 }

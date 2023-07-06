@@ -57,32 +57,227 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: Colors.white,
-      leading: GestureDetector(
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const ResponsiveLayout(
-                mobileScaffold: MobileScaffold(),
-                tabletScaffold: TabletScaffold(),
-                desktopScaffold: DesktopScaffold(),
+      leading: Row(
+        children: [
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ResponsiveLayout(
+                    mobileScaffold: MobileScaffold(),
+                    tabletScaffold: TabletScaffold(),
+                    desktopScaffold: DesktopScaffold(),
+                  ),
+                ),
+              );
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(left: 10.0),
+              child: Image.asset(
+                'assets/Icon.png',
+                height: 35, // Define the desired height for the image
               ),
             ),
-          );
-        },
-        child: Padding(
-          padding: const EdgeInsets.only(left: 10.0),
-          child: Row(
-            children: [
-              Image.asset(
-                'assets/logo-1-RBH.png',
-                height: 35, // Defina a altura desejada para a imagem
-              ),
-            ],
           ),
-        ),
+          Padding(
+            padding: const EdgeInsets.only(left: 10.0),
+            child: IconButton(
+              icon: Icon(Icons.search, color: Colors.black),
+              onPressed: () {
+                // Implement your search logic here
+              },
+            ),
+          ),
+        ],
       ),
       actions: [
+        Expanded(
+          child: Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.home, color: Colors.black),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ResponsiveLayout(
+                          mobileScaffold: MobileScaffold(),
+                          tabletScaffold: TabletScaffold(),
+                          desktopScaffold: DesktopScaffold(),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.map, color: Colors.black),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const GMap()),
+                    );
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.calendar_today, color: Colors.black),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => CalendarPage()),
+                    );
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.list_alt_outlined, color: Colors.black),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => FeedsPage()),
+                    );
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.group, color: Colors.black),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => NucleosPage()),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
+        PopupMenuButton(
+          icon: Icon(Icons.list, color: Colors.black),
+          color: Colors.white,
+          offset: Offset(0, kToolbarHeight),
+          itemBuilder: (BuildContext context) => [
+            PopupMenuItem(
+              child: Container(
+                color: Colors.white,
+                // Set the background color of the menu item to white
+                child: ListTile(
+                  leading: const Icon(Icons.feed),
+                  title: const Text('Feed'),
+                  onTap: () {
+                    // Handle logout button click
+                    Navigator.pop(context); // Close the menu
+                    // Implement your logic here
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => FeedsPage()),
+                    );
+                  },
+                ),
+              ),
+            ),
+            PopupMenuItem(
+              child: Container(
+                color: Colors.white,
+                // Set the background color of the menu item to white
+                child: ListTile(
+                  leading: const Icon(Icons.map),
+                  title: const Text('Maps'),
+                  onTap: () {
+                    // Handle logout button click
+                    Navigator.pop(context); // Close the menu
+                    // Implement your logic here
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const GMap()),
+                    );
+                  },
+                ),
+              ),
+            ),
+            PopupMenuItem(
+              child: Container(
+                color: Colors.white,
+                // Set the background color of the menu item to white
+                child: ListTile(
+                  leading: const Icon(Icons.terminal),
+                  title: const Text('Tests'),
+                  onTap: () {
+                    // Handle logout button click
+                    Navigator.pop(context); // Close the menu
+                    // Implement your logic here
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => CalendarPage()),
+                    );
+                  },
+                ),
+              ),
+            ),
+            PopupMenuItem(
+              child: Container(
+                color: Colors.white,
+                // Set the background color of the menu item to white
+                child: ListTile(
+                  leading: const Icon(Icons.newspaper),
+                  title: const Text('Notícias'),
+                  onTap: () {
+                    // Handle logout button click
+                    Navigator.pop(context); // Close the menu
+                    // Implement your logic here
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => NewsPage()),
+                    );
+                  },
+                ),
+              ),
+            ),
+            PopupMenuItem(
+              child: Container(
+                color: Colors.white,
+                // Set the background color of the menu item to white
+                child: ListTile(
+                  leading: const Icon(Icons.groups),
+                  title: const Text('Núcleos'),
+                  onTap: () {
+                    // Handle logout button click
+                    Navigator.pop(context); // Close the menu
+                    // Implement your logic here
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => NucleosPage()),
+                    );
+                  },
+                ),
+              ),
+            ),
+            PopupMenuItem(
+              child: Container(
+                color: Colors.white,
+                // Set the background color of the menu item to white
+                child: ListTile(
+                  leading: const Icon(Icons.chat),
+                  title: const Text('Chat'),
+                  onTap: () {
+                    // Handle logout button click
+                    Navigator.pop(context); // Close the menu
+                    // Implement your logic here
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ChatScreen(
+                          conversation: null,
+                          onConversationSelected: (Conversation) {},
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
+        ),
         PopupMenuButton<Notification>(
           icon: const Icon(Icons.notifications, color: Colors.black),
           color: Colors.white,
@@ -112,141 +307,14 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
           },
         ),
         PopupMenuButton(
-          icon: const Icon(Icons.list, color: Colors.black),
+          icon: Icon(Icons.person, color: Colors.black),
           color: Colors.white,
-          offset: const Offset(0, kToolbarHeight),
+          offset: Offset(0, kToolbarHeight),
           itemBuilder: (BuildContext context) => [
             PopupMenuItem(
               child: Container(
-                color: Colors
-                    .white, // Set the background color of the menu item to white
-                child: ListTile(
-                  leading: const Icon(Icons.feed),
-                  title: const Text('Feed'),
-                  onTap: () {
-                    // Handle logout button click
-                    Navigator.pop(context); // Close the menu
-                    // Implement your logic here
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => FeedsPage()),
-                    );
-                  },
-                ),
-              ),
-            ),
-            PopupMenuItem(
-              child: Container(
-                color: Colors
-                    .white, // Set the background color of the menu item to white
-                child: ListTile(
-                  leading: const Icon(Icons.map),
-                  title: const Text('Maps'),
-                  onTap: () {
-                    // Handle logout button click
-                    Navigator.pop(context); // Close the menu
-                    // Implement your logic here
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const GMap()),
-                    );
-                  },
-                ),
-              ),
-            ),
-            PopupMenuItem(
-              child: Container(
-                color: Colors
-                    .white, // Set the background color of the menu item to white
-                child: ListTile(
-                  leading: const Icon(Icons.terminal),
-                  title: const Text('Tests'),
-                  onTap: () {
-                    // Handle logout button click
-                    Navigator.pop(context); // Close the menu
-                    // Implement your logic here
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => CalendarPage()),
-                    );
-                  },
-                ),
-              ),
-            ),
-            PopupMenuItem(
-              child: Container(
-                color: Colors
-                    .white, // Set the background color of the menu item to white
-                child: ListTile(
-                  leading: const Icon(Icons.newspaper),
-                  title: const Text('Notícias'),
-                  onTap: () {
-                    // Handle logout button click
-                    Navigator.pop(context); // Close the menu
-                    // Implement your logic here
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => NewsPage()),
-                    );
-                  },
-                ),
-              ),
-            ),
-
-            PopupMenuItem(
-              child: Container(
-                color: Colors
-                    .white, // Set the background color of the menu item to white
-                child: ListTile(
-                  leading: const Icon(Icons.groups),
-                  title: const Text('Núcleos'),
-                  onTap: () {
-                    // Handle logout button click
-                    Navigator.pop(context); // Close the menu
-                    // Implement your logic here
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => NucleosPage()),
-                    );
-                  },
-                ),
-              ),
-            ),
-            PopupMenuItem(
-              child: Container(
-                color: Colors
-                    .white, // Set the background color of the menu item to white
-                child: ListTile(
-                  leading: const Icon(Icons.chat),
-                  title: const Text('Chat'),
-                  onTap: () {
-                    // Handle logout button click
-                    Navigator.pop(context); // Close the menu
-                    // Implement your logic here
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ChatScreen(
-                          conversation: null,
-                          onConversationSelected: (Conversation) {},
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ),
-          ],
-        ),
-        PopupMenuButton(
-          icon: const Icon(Icons.person, color: Colors.black),
-          color: Colors.white,
-          offset: const Offset(0, kToolbarHeight),
-          itemBuilder: (BuildContext context) => [
-            PopupMenuItem(
-              child: Container(
-                color: Colors
-                    .white, // Set the background color of the menu item to white
+                color: Colors.white,
+                // Set the background color of the menu item to white
                 child: ListTile(
                   leading: Theme(
                     data: ThemeData(
@@ -268,30 +336,30 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                         ),
 
                         /**
-                        ResponsiveLayout(
-                          mobileScaffold: MobileProfileScaffold(
+                            ResponsiveLayout(
+                            mobileScaffold: MobileProfileScaffold(
                             name: 'John Doe',
                             imageAssetPath: 'assets/images/profile.jpg',
                             role: 'Developer',
                             year: '2002',
                             nucleos: 'Engineering',
-                          ),
-                          tabletScaffold: TabletProfileScaffold(
+                            ),
+                            tabletScaffold: TabletProfileScaffold(
                             name: 'John Doe',
                             imageAssetPath: 'assets/images/profile.jpg',
                             role: 'Developer',
                             year: '2002',
                             nucleos: 'Engineering',
-                          ),
-                          desktopScaffold: DesktopProfileScaffold(
+                            ),
+                            desktopScaffold: DesktopProfileScaffold(
                             name: 'John Doe',
                             imageAssetPath: 'assets/images/profile.jpg',
                             role: 'Developer',
                             year: '2002',
                             nucleos: 'Engineering',
-                          ),
-                        ),
-                        **/
+                            ),
+                            ),
+                         **/
                       ),
                     );
                   },
@@ -300,8 +368,8 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
             PopupMenuItem(
               child: Container(
-                color: Colors
-                    .white, // Set the background color of the menu item to white
+                color: Colors.white,
+                // Set the background color of the menu item to white
                 child: ListTile(
                   leading: const Icon(Icons.notification_add_outlined),
                   title: const Text('Notify'),
@@ -319,8 +387,8 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
             PopupMenuItem(
               child: Container(
-                color: Colors
-                    .white, // Set the background color of the menu item to white
+                color: Colors.white,
+                // Set the background color of the menu item to white
                 child: ListTile(
                   leading: const Icon(Icons.report),
                   title: const Text('Report'),
@@ -339,8 +407,8 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
             PopupMenuItem(
               child: Container(
-                color: Colors
-                    .white, // Set the background color of the menu item to white
+                color: Colors.white,
+                // Set the background color of the menu item to white
                 child: ListTile(
                   leading: const Icon(Icons.admin_panel_settings),
                   title: const Text('Back-Office'),
@@ -359,8 +427,8 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
             PopupMenuItem(
               child: Container(
-                color: Colors
-                    .white, // Set the background color of the menu item to white
+                color: Colors.white,
+                // Set the background color of the menu item to white
                 child: ListTile(
                   leading: const Icon(Icons.workspaces),
                   title: const Text('Workspace'),
@@ -379,8 +447,8 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
             PopupMenuItem(
               child: Container(
-                color: Colors
-                    .white, // Set the background color of the menu item to white
+                color: Colors.white,
+                // Set the background color of the menu item to white
                 child: ListTile(
                   leading: const Icon(Icons.logout),
                   title: const Text('Logout'),

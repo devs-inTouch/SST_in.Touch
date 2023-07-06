@@ -3,7 +3,7 @@ import 'package:flutter_basic/backoffice/application/salasRequestAuth.dart';
 import '../../constants.dart';
 import '../../myAppBar.dart';
 import 'backOfficePage.dart';
-import 'bookingBox.dart';
+import 'boxes/bookingBox.dart';
 
 
 class PedidoReservaSalaPage extends StatefulWidget {

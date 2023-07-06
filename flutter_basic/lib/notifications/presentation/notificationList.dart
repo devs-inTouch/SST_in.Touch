@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_basic/feeds/presentation/notificationBox.dart';
+import 'package:flutter_basic/notifications/presentation/notificationBox.dart';
 
 import '../../anomalies/presentation/anomaliesPage.dart';
 import '../application/notificationAuth.dart';
