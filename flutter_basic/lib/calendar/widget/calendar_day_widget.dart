@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_basic/calendar/model/event.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
@@ -8,8 +9,10 @@ import '../provider/event_provider.dart';
 
 class CalendarDayWidget extends StatefulWidget {
   final DateTime fromDate;
+  final List<Event> events;
   const CalendarDayWidget({
     Key? key,
+    required this.events,
     required this.fromDate,
   }) : super(key: key);
   @override
@@ -19,11 +22,11 @@ class CalendarDayWidget extends StatefulWidget {
 class CalendarDayWidgetState extends State<CalendarDayWidget> {
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<EventProvider>(context);
-    final selectedDate = provider.selectedDate;
+    final selectedDate = widget.fromDate;
+    final events = widget.events;
     return SfCalendar(
       view: CalendarView.day,
-      dataSource: EventDataSource(provider.events),
+      dataSource: EventDataSource(events),
       initialDisplayDate: selectedDate,
       appointmentBuilder: appointmentBuilder,
       headerHeight: 0,

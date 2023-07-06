@@ -8,9 +8,9 @@ const String appUrl = "https://steel-sequencer-385510.oa.r.appspot.com/rest";
 
 var myBackground = Colors.grey[100];
 
-var fireBaseInstance = FirebaseStorage.instance;
+var fireBaseStorageInstance = FirebaseStorage.instance;
 
-get firebaseInstance => fireBaseInstance;
+get firebaseStorageInstance => fireBaseStorageInstance;
 
 var textStyleBar = const TextStyle(
   fontSize: 22,

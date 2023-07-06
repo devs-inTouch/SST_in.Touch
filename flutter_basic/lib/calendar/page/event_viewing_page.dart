@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_basic/calendar/provider/events_request.dart';
 import 'package:provider/provider.dart';
 
 import '../model/event.dart';
@@ -74,9 +75,7 @@ class _EventViewingPageState extends State<EventViewingPage> {
         IconButton(
             icon: Icon(Icons.delete),
             onPressed: () {
-              final provider =
-                  Provider.of<EventProvider>(context, listen: false);
-              provider.deleteEvent(event);
+              EventRequests.deleteCalendarEvent(event.id);
               Navigator.of(context).pop();
             }),
       ];

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../constants.dart';
 import '../model/event.dart';
 import '../provider/event_provider.dart';
 import '../utils.dart';
 import 'package:provider/provider.dart';
+import '../provider/events_request.dart';
 
 class EventEditingPage extends StatefulWidget {
   final DateTime fromDate;
@@ -337,25 +339,40 @@ class _EventEditingPageState extends State<EventEditingPage> {
 
   Future saveFrom() async {
     final isValid = _formKey.currentState!.validate();
-
-    if (isValid) {
-      final event = Event(
-        title: tittleController.text,
-        description: descriptionController.text,
-        from: fromDate,
-        to: toDate,
-        isAllDay: false,
-        backgroundColor: color,
-      );
-      final isEditing = widget.event != null;
-      final provider = Provider.of<EventProvider>(context, listen: false);
-
-      if (isEditing) {
-        provider.editEvent(event, widget.event!);
-      } else {
-        provider.addEvent(event);
+    final isEditing = widget.event != null;
+    if (isEditing) {
+      if (isValid) {
+        final event = Event(
+          id: widget.event!.id,
+          title: tittleController.text,
+          description: descriptionController.text,
+          from: fromDate,
+          to: toDate,
+          isAllDay: false,
+          backgroundColor: color,
+        );
+        EventRequests.createCalendarEvent(event);
+        Navigator.of(context).pop();
       }
-      Navigator.of(context).pop();
+    } else {
+      if (isValid) {
+        final event = Event(
+          id: createId(),
+          title: tittleController.text,
+          description: descriptionController.text,
+          from: fromDate,
+          to: toDate,
+          isAllDay: false,
+          backgroundColor: color,
+        );
+        EventRequests.createCalendarEvent(event);
+        Navigator.of(context).pop();
+      }
     }
+  }
+
+  String createId() {
+    var uuid = const Uuid();
+    return uuid.v1().toString();
   }
 }
