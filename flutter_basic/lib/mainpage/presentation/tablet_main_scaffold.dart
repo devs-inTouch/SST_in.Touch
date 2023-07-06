@@ -19,6 +19,7 @@ class TabletScaffold extends StatefulWidget {
 }
 
 class _TabletScaffoldState extends State<TabletScaffold> {
+
   DateTime currentDate = DateTime.now();
   List<Map<String, dynamic>> events = [];
   int _currentPageIndex = 0; // Track the current page index
@@ -30,6 +31,8 @@ class _TabletScaffoldState extends State<TabletScaffold> {
   ];
 
   AuxMainPage auxMainPage = AuxMainPage();
+
+
 
   void goToPreviousPage() {
     setState(() {
@@ -46,6 +49,9 @@ class _TabletScaffoldState extends State<TabletScaffold> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final fem = size.width / 1440; // 1440 is the reference width
+
     return Scaffold(
       appBar: const MyAppBar(),
       backgroundColor: myBackground,
@@ -266,10 +272,16 @@ class _TabletScaffoldState extends State<TabletScaffold> {
                   ),
                 ],
               ),
+
             ),
           ],
         ),
+
       ),
     );
   }
 }
+
+
+
+

@@ -101,7 +101,6 @@ public class ListResource {
         return Response.ok(g.toJson(resultList)).build();
     }
     
-
 	@GET
 	@Path("/unactivated")
 	public Response listUnactivatedUsers(@HeaderParam(AUTH) String auth) {

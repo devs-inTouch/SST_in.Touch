@@ -1,0 +1,122 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
+import '../../constants.dart';
+import '../../myAppBar.dart';
+import '../application/noticiasAuth.dart';
+import 'newsBox.dart';
+
+class NewsPage extends StatefulWidget {
+  const NewsPage({Key? key}) : super(key: key);
+
+  @override
+  State<NewsPage> createState() => _NewsPageState();
+}
+
+class _NewsPageState extends State<NewsPage> {
+  List<NewsBox> news = [];
+
+  DateTime currentDate = DateTime.now();
+  List<Map<String, dynamic>> events = [];
+  int _currentPageIndex = 0; // Track the current page index
+  List<String> pages = [
+    'Restauração',
+    'Avisos',
+    'Exposições',
+    'Notícias',
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
+  Future<void> fetchData() async {
+    final response = await NoticiasAuth.getNews();
+    setState(() {
+      news = response;
+    });
+    print("done this step noticias");
+  }
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final fem = size.width / 1440; // 1440 is the reference width
+
+    return Scaffold(
+      appBar: const MyAppBar(),
+      backgroundColor: myBackground,
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Container(
+            width: 600,
+            decoration: BoxDecoration(
+              color: Colors.white,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start, // Align children to the start
+              children: [
+                Container(
+                  height: 70,
+                  width: 600, // Increase the height of the container
+                  decoration: BoxDecoration(
+                    color: Colors.blueAccent[200],
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.newspaper,
+                        color: Colors.white,
+                      ),
+                      SizedBox(width: 5),
+                      Text(
+                        'NOTÍCIAS DA FACULDADE',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20, // Increase the font size
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Center( // Center the news boxes
+                      child: Container(
+                        width: 500,
+                        padding: const EdgeInsets.fromLTRB(15.0,20.0,15.0,20.0), // Add padding to the container
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: news.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            final post = news[index];
+                            post.setFem(fem);
+                            return post;
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+}
+
+
+
+
+
+
