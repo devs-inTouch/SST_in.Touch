@@ -31,6 +31,8 @@ class _EventEditingPageState extends State<EventEditingPage> {
   late DateTime fromDate;
   late DateTime toDate;
   late Color color;
+  late bool isAllDay;
+  late bool isPublic;
 
   @override
   void initState() {
@@ -42,12 +44,16 @@ class _EventEditingPageState extends State<EventEditingPage> {
           widget.fromDate.day, dateNow.hour, dateNow.minute);
       toDate = fromDate.add(const Duration(hours: 2));
       color = Colors.blue;
+      isAllDay = false;
+      isPublic = false;
     } else {
       final event = widget.event!;
       tittleController.text = event.title;
       fromDate = event.from;
       toDate = event.to;
       color = event.backgroundColor;
+      isAllDay = event.isAllDay;
+      isPublic = event.isPublic;
     }
   }
 
@@ -75,6 +81,8 @@ class _EventEditingPageState extends State<EventEditingPage> {
                 buildDateTimePickers(),
                 SizedBox(height: 12),
                 buildColorPicker(),
+                SizedBox(height: 12),
+                buildSwithchesPickers(),
                 SizedBox(height: 12),
                 buildDescription(),
               ],
@@ -189,6 +197,51 @@ class _EventEditingPageState extends State<EventEditingPage> {
         validator: (title) =>
             title != null && title.isEmpty ? 'Title cannot be empty' : null,
         controller: tittleController,
+      );
+
+  Widget buildSwithchesPickers() => Column(
+        children: [
+          buildAllDay(),
+          buildIsPublic(),
+        ],
+      );
+
+  Widget buildAllDay() => Row(
+        children: [
+          const Text(
+            'É o dia todo?',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Switch(
+            value: isPublic,
+            onChanged: (value) {
+              setState(() {
+                isPublic = value;
+              });
+            },
+          ),
+        ],
+      );
+
+  Widget buildIsPublic() => Row(
+        children: [
+          const Text(
+            'É publico?',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Switch(
+            value: isAllDay,
+            onChanged: (value) {
+              setState(() {
+                isAllDay = value;
+              });
+            },
+          ),
+        ],
       );
 
   Widget buildDateTimePickers() => Column(
@@ -345,14 +398,14 @@ class _EventEditingPageState extends State<EventEditingPage> {
       int index = calendarWidgetState.events.indexOf(widget.event!);
       if (isValid) {
         final event = Event(
-          id: widget.event!.id,
-          title: tittleController.text,
-          description: descriptionController.text,
-          from: fromDate,
-          to: toDate,
-          isAllDay: false,
-          backgroundColor: color,
-        );
+            id: widget.event!.id,
+            title: tittleController.text,
+            description: descriptionController.text,
+            from: fromDate,
+            to: toDate,
+            backgroundColor: color,
+            isAllDay: isAllDay,
+            isPublic: isPublic);
         EventRequests.editCalendarEvent(event).then((edited) {
           processRequest(edited, isEditing, event, index);
         });
@@ -360,14 +413,14 @@ class _EventEditingPageState extends State<EventEditingPage> {
     } else {
       if (isValid) {
         final event = Event(
-          id: createId(),
-          title: tittleController.text,
-          description: descriptionController.text,
-          from: fromDate,
-          to: toDate,
-          isAllDay: false,
-          backgroundColor: color,
-        );
+            id: createId(),
+            title: tittleController.text,
+            description: descriptionController.text,
+            from: fromDate,
+            to: toDate,
+            backgroundColor: color,
+            isAllDay: false,
+            isPublic: isPublic);
         EventRequests.createCalendarEvent(event).then((created) {
           processRequest(created, isEditing, event, -1);
         });

@@ -17,8 +17,8 @@ class Event {
     required this.from,
     required this.to,
     required this.backgroundColor,
-    this.isAllDay = false,
-    this.isPublic = false,
+    required this.isAllDay,
+    required this.isPublic,
   });
 
   Map<String, dynamic> toJson() {

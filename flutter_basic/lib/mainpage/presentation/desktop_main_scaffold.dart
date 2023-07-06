@@ -1,6 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/constants.dart';
+import '../../calendar/widget/calendar_schedule_widget.dart';
 import '../../hojeNaFCT/avisos_info.dart';
 import '../../hojeNaFCT/exposicoes_info.dart';
 import '../../hojeNaFCT/noticias_info.dart';
@@ -9,7 +9,6 @@ import '../../myAppBar.dart';
 import '../../weatherBox.dart';
 import 'auxMainpage.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 
 class DesktopScaffold extends StatefulWidget {
   const DesktopScaffold({Key? key}) : super(key: key);
@@ -29,11 +28,11 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
     'Notícias',
   ];
 
-
   AuxMainPage auxMainPage = AuxMainPage();
   void goToPreviousPage() {
     setState(() {
-      _currentPageIndex = auxMainPage.goToPreviousPage(_currentPageIndex, pages);
+      _currentPageIndex =
+          auxMainPage.goToPreviousPage(_currentPageIndex, pages);
     });
   }
 
@@ -71,9 +70,11 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Icon(Icons.calendar_today_rounded), // Icon calendar
+                              const Icon(Icons
+                                  .calendar_today_rounded), // Icon calendar
                               const SizedBox(
-                                  width: 5), // Add some spacing between the icon and text
+                                  width:
+                                      5), // Add some spacing between the icon and text
                               textTopBar('HOJE NA FCT'), // Text widget
                             ],
                           ),
@@ -103,21 +104,21 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                           ),
                         )
                       else if (pages[_currentPageIndex] == 'Exposições')
-                          Expanded(
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 20.0, horizontal: 20.0),
-                              child: const ExposicoesPage(),
-                            ),
-                          )
-                        else if (pages[_currentPageIndex] == 'Notícias')
-                            Expanded(
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 20.0, horizontal: 20.0),
-                                child: const NoticiasPage(),
-                              ),
-                            ),
+                        Expanded(
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 20.0, horizontal: 20.0),
+                            child: const ExposicoesPage(),
+                          ),
+                        )
+                      else if (pages[_currentPageIndex] == 'Notícias')
+                        Expanded(
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 20.0, horizontal: 20.0),
+                            child: const NoticiasPage(),
+                          ),
+                        ),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 20.0),
                         child: Align(
@@ -156,7 +157,8 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                           flex: 2,
                           child: GestureDetector(
                             onTap: () {
-                              launchUrl(Uri.parse('https://moovitapp.com/lisboa-2460/poi/pt'));
+                              launchUrl(Uri.parse(
+                                  'https://moovitapp.com/lisboa-2460/poi/pt'));
                             },
                             child: Image.asset(
                               'assets/moovit.png',
@@ -181,7 +183,8 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                                     child: const Padding(
                                       padding: EdgeInsets.only(top: 85),
                                       child: Center(
-                                        child: WeatherBox(location: 'Costa Da Caparica'),
+                                        child: WeatherBox(
+                                            location: 'Costa Da Caparica'),
                                       ),
                                     ),
                                   ),
@@ -206,7 +209,8 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                     ),
                   ),
                   const SizedBox(height: 25.0),
-                  Expanded(
+                  const CalendarScheduleWidget()
+                  /*  Expanded(
                     child: FractionallySizedBox(
                       widthFactor: 1,
                       child: LayoutBuilder(
@@ -222,18 +226,19 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                                       height: 50,
                                       decoration: topBarDecoration,
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          textTopBar('AGENDA'),
-                                        ],
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [],
                                       ),
                                     ),
                                     Expanded(
                                       child: ListView.builder(
                                         padding: const EdgeInsets.all(16.0),
                                         itemCount: events.length,
-                                        itemBuilder: (BuildContext context, int index) {
-                                          Map<String, dynamic> event = events[index];
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          Map<String, dynamic> event =
+                                              events[index];
                                           return EventCard(event: event);
                                         },
                                       ),
@@ -258,7 +263,7 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                         },
                       ),
                     ),
-                  ),
+                  ), */
                 ],
               ),
             ),
