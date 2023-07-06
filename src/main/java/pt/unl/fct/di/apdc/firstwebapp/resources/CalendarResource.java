@@ -75,6 +75,48 @@ public class CalendarResource {
     }
 
     @POST
+    @Path("/update")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updateCalendarEvent(@HeaderParam(AUTH) String auth, CalendarData data) {
+        TokenData givenTokenData = TokenUtil.validateToken(LOG, auth);
+
+        if(givenTokenData == null)
+            return Response.status(Response.Status.FORBIDDEN).build();
+
+        Key userKey = datastore.newKeyFactory().setKind("User").newKey(givenTokenData.getUsername());
+        Transaction txn = datastore.newTransaction();
+        try {
+            Entity user = txn.get(userKey);
+            if(user == null) {
+                txn.rollback();
+                return Response.status(Response.Status.FORBIDDEN).build();
+            }
+            Key calendarKey = datastore.newKeyFactory().setKind("Calendar").newKey(data.getId());
+            Entity calendar = txn.get(calendarKey);
+            if(calendar == null)
+                return Response.status(Response.Status.NOT_FOUND).build();
+            calendar = Entity.newBuilder(calendarKey)
+                    .set("username", givenTokenData.getUsername())
+                    .set("title", data.getTitle())
+                    .set("description", data.getDescription())
+                    .set("from", data.getFrom())
+                    .set("to", data.getTo())
+                    .set("backgroundColor", data.getBackgroundColor())
+                    .set("isAllDay", data.getIsAllDay())
+                    .set("isPublic", data.getIsPublic())
+                    .set("id", data.getId())
+                    .build();
+            txn.update(calendar);
+            txn.commit();
+            return Response.ok(g.toJson(CALENDA_EVENT_CREATED_SUCESSFULLY)).build();
+        }finally {
+            if (txn.isActive()) {
+                txn.rollback();
+            }
+        }
+    }
+
+    @POST
     @Path("/delete")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response deleteCalendarEvent(@HeaderParam(AUTH) String auth, CalendarDeleteData data) {
