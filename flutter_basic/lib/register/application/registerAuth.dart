@@ -50,24 +50,23 @@ class RegisterAuth {
       String description,
       String department) {
     String activateCode = createId();
-    String link = '$appUrl/register/activate?code=$activateCode';
+    String link =
+        '$appUrl/register/activate?code=$activateCode&username=$username';
     Map<String, dynamic> obj = {
       "username": username,
       "name": name,
       "email": email,
       "activateLink": link
     };
-    sendEmail(obj);
-    return true;
-    /*  fetchAuthenticate(username, email, name, pwd, studentNumber, course, role,
-            description, department)
+    fetchAuthenticate(username, email, name, pwd, studentNumber, course, role,
+            description, department, activateCode)
         .then((response) {
       if (response) {
-        String emailBody = createEmailBody(username);
+        sendEmail(obj);
         return true;
       }
     });
-    return false; */
+    return false;
   }
 
   static void sendEmail(Map<String, dynamic> obj) async {
@@ -100,9 +99,10 @@ Future<bool> fetchAuthenticate(
     String course,
     String role,
     String description,
-    String department) async {
+    String department,
+    String activateCode) async {
   final response = await http.post(
-    Uri.parse('https://steel-sequencer-385510.oa.r.appspot.com/rest/register/'),
+    Uri.parse('$appUrl/register/create'),
     headers: <String, String>{
       'Content-Type': 'application/json',
     },
@@ -115,7 +115,8 @@ Future<bool> fetchAuthenticate(
       "course": course,
       "role": role,
       "description": description,
-      "department": department
+      "department": department,
+      "activateAccount": activateCode
     }),
   );
 
