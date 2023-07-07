@@ -16,22 +16,17 @@ import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.VISIBILIT
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import com.google.cloud.datastore.*;
 import org.apache.commons.codec.digest.DigestUtils;
-
-import com.google.cloud.datastore.Datastore;
-import com.google.cloud.datastore.Entity;
-import com.google.cloud.datastore.Key;
-import com.google.cloud.datastore.Transaction;
 
 import pt.unl.fct.di.apdc.firstwebapp.util.DatastoreUtil;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.RegisterData;
+import pt.unl.fct.di.apdc.firstwebapp.util.enums.DatastoreEntities;
 
 @Path("/register")
 public class RegisterResource {
@@ -44,6 +39,9 @@ public class RegisterResource {
 	private static final String USER_ALREADY_EXISTS = "Utilizador já criado";
 
 	private final Datastore datastore = DatastoreUtil.getService();
+
+	private final KeyFactory userKeyFactory = datastore.newKeyFactory().setKind(DatastoreEntities.USER.value);
+
 
 
 	public RegisterResource() {}
@@ -85,6 +83,42 @@ public class RegisterResource {
 				txn.rollback();
 			}
 		}
+	}
 
+	@GET
+	@Path("/activate")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+	public Response activateUser(@QueryParam("code") String code, @QueryParam("username") String username) {
+		Transaction txn = datastore.newTransaction();
+		try {
+			{
+				Key userKey = userKeyFactory.newKey(username);
+				Entity user = txn.get(userKey);
+				if (user == null) {
+					LOG.warning("Failed activate " +username+ " because it does not exist.");
+					return Response.status(Status.NOT_FOUND).build();
+				}
+				String userActivateCode = user.getString("user_activate_code");
+
+				if(!userActivateCode.equals(code)) {
+					LOG.warning("Failed activate " + username + " because the code is wrong.");
+					return Response.status(Status.BAD_REQUEST).build();
+				}
+
+				Entity updatedUser = Entity.newBuilder(user)
+						.set("STATE", true)
+						.build();
+				txn.update(updatedUser);
+
+				txn.commit();
+
+				return Response.status(Status.OK).entity("Utilizador ativado").build();
+			}
+		}finally {
+			if (txn.isActive()) {
+				txn.rollback();
+			}
+		}
 	}
 }
