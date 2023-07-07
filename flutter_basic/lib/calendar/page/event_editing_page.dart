@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/calendar/widget/calendar_widget.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-import 'package:uuid/uuid.dart';
 
 import '../../constants.dart';
 import '../model/event.dart';
@@ -452,10 +451,5 @@ class _EventEditingPageState extends State<EventEditingPage> {
         },
       );
     }
-  }
-
-  String createId() {
-    var uuid = const Uuid();
-    return uuid.v1().toString();
   }
 }

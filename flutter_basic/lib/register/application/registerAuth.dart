@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:emailjs/emailjs.dart';
+import 'package:flutter_basic/constants.dart';
 import 'package:http/http.dart' as http;
 
 class RegisterAuth {
@@ -7,7 +8,6 @@ class RegisterAuth {
   static const String emailJsTemplateID = 'template_zyyib8q';
   static const String emailJsPublicKey = 'Rw2KylH8VjSgE6oQ-';
   static const String emailJsPrivateKey = 'nVegrjC7Pqfkv7dV0swMd';
-
   static bool emptyFields(String username, String email, String name,
       String pwd, String pwdConfirm) {
     return username.isEmpty &&
@@ -49,11 +49,13 @@ class RegisterAuth {
       String role,
       String description,
       String department) {
+    String activateCode = createId();
+    String link = '$appUrl/register/activate?code=$activateCode';
     Map<String, dynamic> obj = {
       "username": username,
       "name": name,
       "email": email,
-      "activateLink": "ADICIONAR"
+      "activateLink": link
     };
     sendEmail(obj);
     return true;

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uuid/uuid.dart';
 
 const String appUrl = "https://steel-sequencer-385510.oa.r.appspot.com/rest";
 
@@ -20,6 +21,11 @@ var textStyleEvents = const TextStyle(
   color: Colors.white,
   fontSize: 16.0,
 );
+
+String createId() {
+  var uuid = const Uuid();
+  return uuid.v1().toString();
+}
 
 const MaterialColor primarySwatch = MaterialColor(0xFF020279, {
   50: Color.fromRGBO(2, 2, 121, 0.1),
