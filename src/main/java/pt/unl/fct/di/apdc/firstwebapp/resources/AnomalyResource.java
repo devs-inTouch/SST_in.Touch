@@ -8,6 +8,7 @@ import pt.unl.fct.di.apdc.firstwebapp.util.entities.TokenData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.anomaly.AnomalyData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.anomaly.AnomalyDeleteData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.anomaly.AnomalyInfoData;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.anomaly.ApproveAnomalyData;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -28,7 +29,7 @@ public class AnomalyResource {
     private static final String ANOMALY_NOT_IN_DATABASE = "Anomaly not in database";
     private static final String ANOMALY_DELETED_SUCCESSFULLY = "Anomaly deleted successfully";
     private static final String USER_NOT_ALLOWED_TO_DELETE_ANOMALY = "User not allowed to delete anomaly";
-    private static final String ANOMALY_CREATED = "New anomaly!";
+    private static final String ANOMALY_CREATED = "Nova anomalia, aguardar confirmacao";
     private static final String ANOMALY_TYPE = "Anomaly";
 
     private final Datastore datastore = DatastoreUtil.getService();
@@ -69,12 +70,13 @@ public class AnomalyResource {
                     .set("title", data.getTitle())
                     .set("description", data.getDescription())
                     .set("creation_date", System.currentTimeMillis())
+                    .set("isApproved", false)
                     .build();
 
             txn.add(anomaly);
             txn.commit();
 
-            notification.createNotificationToAll(ANOMALY_CREATED, ANOMALY_TYPE);
+            notification.createNotification(ANOMALY_CREATED,"System", givenTokenData.getUsername(), ANOMALY_TYPE, System.currentTimeMillis());
             return Response.ok(g.toJson(ANOMALY_CREATED_SUCCESSFULLY)).build();
         } finally {
             if (txn.isActive()) {
@@ -84,7 +86,7 @@ public class AnomalyResource {
         }
     }
 
-    @POST
+    /*@POST
     @Path("/delete")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
@@ -124,16 +126,17 @@ public class AnomalyResource {
             }
         }
 
-    }
+    }*/
 
     @POST
-    @Path("/list")
+    @Path("/listnotapproved")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    public Response listAnomalies() {
+    public Response listNotApprovedAnomalies() {
         LOG.fine("Attempt to list anomalies");
 
-        Query<Entity> query = Query.newEntityQueryBuilder().setKind("Anomaly").build();
+        Query<Entity> query = Query.newEntityQueryBuilder().setKind("Anomaly")
+                .setFilter(StructuredQuery.PropertyFilter.eq("isApproved", false)).build();
         QueryResults<Entity> results = datastore.run(query);
 
         List<AnomalyInfoData> list = new ArrayList<>();
@@ -143,6 +146,111 @@ public class AnomalyResource {
         });
 
         return Response.ok(g.toJson(list)).build();
+    }
+
+    @POST
+    @Path("/listapproved")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    public Response listApprovedAnomalies() {
+        LOG.fine("Attempt to list anomalies");
+
+        Query<Entity> query = Query.newEntityQueryBuilder().setKind("Anomaly")
+                .setFilter(StructuredQuery.PropertyFilter.eq("isApproved", true)).build();
+        QueryResults<Entity> results = datastore.run(query);
+
+        List<AnomalyInfoData> list = new ArrayList<>();
+
+        results.forEachRemaining(t -> {
+            list.add(new AnomalyInfoData(t.getKey().getName(), t.getString("username"), t.getString("title"), t.getString("description")));
+        });
+
+        return Response.ok(g.toJson(list)).build();
+
+    }
+
+    @POST
+    @Path("/approve")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    public Response approveAnomaly(@HeaderParam(AUTH) String auth, ApproveAnomalyData data) {
+        TokenData givenTokenData = TokenUtil.validateToken(LOG, auth);
+
+        if(givenTokenData == null)
+            return Response.status(Response.Status.FORBIDDEN).build();
+
+        Key userKey = datastore.newKeyFactory().setKind("User").newKey(givenTokenData.getUsername());
+        Key anomalyKey = datastore.newKeyFactory().setKind("Anomaly").newKey(Integer.parseInt(data.getAnomalyId()));
+
+        Transaction txn = datastore.newTransaction();
+        try {
+            Entity user = txn.get(userKey);
+            Entity anomaly = txn.get(anomalyKey);
+            if (user == null)
+                return Response.status(Response.Status.BAD_REQUEST).entity(USER_NOT_IN_DATABASE).build();
+
+            if (anomaly == null)
+                return Response.status(Response.Status.BAD_REQUEST).entity(ANOMALY_NOT_IN_DATABASE).build();
+
+
+
+           Entity newAnomaly = Entity.newBuilder(anomalyKey)
+                    .set("username", anomaly.getString("username"))
+                    .set("title", anomaly.getString("title"))
+                    .set("description", anomaly.getString("description"))
+                    .set("creation_date", anomaly.getLong("creation_date"))
+                    .set("isApproved", true)
+                    .build();
+
+            txn.update(newAnomaly);
+            txn.commit();
+
+            notification.createNotificationToAll("Atencao, nova anomalia", ANOMALY_TYPE);
+            return Response.ok(g.toJson(newAnomaly)).build();
+
+        } finally {
+            if(txn.isActive()) {
+                txn.rollback();
+            }
+        }
+    }
+
+    @POST
+    @Path("/notApprove")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    public Response notApproveAnomaly(@HeaderParam(AUTH) String auth, ApproveAnomalyData data) {
+        TokenData givenTokenData = TokenUtil.validateToken(LOG, auth);
+
+        if(givenTokenData == null)
+            return Response.status(Response.Status.FORBIDDEN).build();
+
+        Key userKey = datastore.newKeyFactory().setKind("User").newKey(givenTokenData.getUsername());
+        Key anomalyKey = datastore.newKeyFactory().setKind("Anomaly").newKey(Integer.parseInt(data.getAnomalyId()));
+
+        Transaction txn = datastore.newTransaction();
+
+        try {
+            Entity user = txn.get(userKey);
+            Entity anomaly = txn.get(anomalyKey);
+            if (user == null)
+                return Response.status(Response.Status.BAD_REQUEST).entity(USER_NOT_IN_DATABASE).build();
+
+            if (anomaly == null)
+                return Response.status(Response.Status.BAD_REQUEST).entity(ANOMALY_NOT_IN_DATABASE).build();
+
+            txn.delete(anomalyKey);
+            txn.commit();
+
+            notification.createNotification("Anomalia rejeitada", "System", anomaly.getString("username"), ANOMALY_TYPE, System.currentTimeMillis());
+            return Response.ok(g.toJson(ANOMALY_DELETED_SUCCESSFULLY)).build();
+
+        } finally {
+            if(txn.isActive()) {
+                txn.rollback();
+            }
+        }
+
     }
 
     private int getNextAnomaly() {
