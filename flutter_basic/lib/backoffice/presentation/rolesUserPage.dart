@@ -32,7 +32,7 @@ class RolesUserPage extends StatefulWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const MyAppBar(),
+      appBar:  MyAppBar(),
       backgroundColor: myBackground,
       body: Container(
         padding: EdgeInsets.all(16.0),

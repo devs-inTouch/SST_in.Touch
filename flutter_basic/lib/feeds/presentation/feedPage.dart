@@ -63,43 +63,33 @@ class FeedState extends State<FeedsPage> {
         selectedImageInBytes = fileResult.files.first.bytes!;
       });
     }
-    print("Chegou aqui");
-    print(selectFile);
+    Navigator.pop(context);
+
   }
 
-  uploadFile() async {
-    setState(() {
-      isUploading = true;
-    });
-    print("1");
+  Future<String> uploadFile() async {
+
+
     UploadTask uploadTask;
     Reference storageRef =
+<<<<<<< Updated upstream
         firebaseStorageInstance.ref().child("/posts/" + postId);
+=======
+        fireBaseInstance.ref().child("/posts/" + postId);
+>>>>>>> Stashed changes
 
     final metadata = SettableMetadata(contentType: 'image/jpeg');
     uploadTask = storageRef.putData(selectedImageInBytes, metadata);
-    print("1");
+
+
     await uploadTask.whenComplete(() => null);
-    String imageUrl = await storageRef.getDownloadURL();
-    if (imageUrl != "") {
-      setState(() {
-        mediaURL = imageUrl;
-      });
-    }
-    print("Image uploaded");
-    print(mediaURL);
-    setState(() {
-      isUploading = false;
-    });
+    String imageUrl = "";
+    imageUrl = await storageRef.getDownloadURL();
+    return imageUrl;
+
   }
 
-  /*
-  Future<String> uploadImage(filename, blob) async {
-      UploadTask task = storageRef.child("post_$postId.jpg").putFile(filename);
-      TaskSnapshot storage = await task;
-      String downloadUrl = await storage.ref.getDownloadURL();
-      return downloadUrl;
-  }*/
+
 
   putInDatabase({required String mediaUrl, required String desc}) {
     print("Media aqui" + mediaUrl);
@@ -139,11 +129,19 @@ class FeedState extends State<FeedsPage> {
   }
 
   handleSubmit() async {
-    uploadFile();
+    setState(() {
+      isUploading = true;
+    });
+    String image = await uploadFile();
+    print(image);
     print("aqui");
-    putInDatabase(mediaUrl: mediaURL, desc: description.text);
+    putInDatabase(mediaUrl: image, desc: description.text);
     print("Ali");
     description.clear();
+    print("Image uploaded");
+    setState(() {
+      isUploading = false;
+    });
   }
 
   selectImage(parentContext) {

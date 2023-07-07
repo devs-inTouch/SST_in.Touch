@@ -1,6 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/anomalies/presentation/anomaliesPage.dart';
 import 'package:flutter_basic/backoffice/presentation/backOfficePage.dart';
+import 'package:flutter_basic/constants.dart';
 import 'package:flutter_basic/feeds/presentation/feedPage.dart';
 import 'package:flutter_basic/login/presentation/loginPage.dart';
 import 'package:flutter_basic/mainpage/presentation/desktop_main_scaffold.dart';
@@ -8,22 +10,35 @@ import 'package:flutter_basic/mainpage/presentation/mobile_main_scaffold.dart';
 import 'package:flutter_basic/mainpage/presentation/responsive_main_page.dart';
 import 'package:flutter_basic/mainpage/presentation/tablet_main_scaffold.dart';
 import 'package:flutter_basic/nucleos/presentation/nucleosPage.dart';
+import 'package:flutter_basic/profile/application/profleRequests.dart';
 import 'package:flutter_basic/profile/presentation/profile_scaffold.dart';
 import 'package:flutter_basic/reports/presentation/reportsPage.dart';
 import 'package:flutter_basic/reservaSalas/presentation/responsive_reservasalas.dart';
 import 'package:flutter_basic/teste/teste.dart';
 import 'package:flutter_basic/maps/lib/map.dart';
+<<<<<<< Updated upstream
 import 'calendar/page/calendar_page.dart';
+=======
+import 'package:image_network/image_network.dart';
+>>>>>>> Stashed changes
 import 'mainpage/application/logoutAuth.dart';
 import 'messages/application/chatScreen.dart';
 import 'noticias/presentation/newsPage.dart';
 import 'notifications/presentation/notificationList.dart';
+import 'package:http/http.dart' as http;
+import 'package:cached_network_image/cached_network_image.dart';
 
-class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const MyAppBar({super.key});
+class MyAppBar extends StatefulWidget implements PreferredSizeWidget {
+  @override
+  _MyAppBarState createState() => _MyAppBarState();
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+}
+
+class _MyAppBarState extends State<MyAppBar> {
+  final TextEditingController searchValue = TextEditingController();
+  List received = [];
 
   void logoutButtonPressed(BuildContext context) {
     LogoutAuth.logout().then((isLoggedout) {
@@ -53,10 +68,21 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
     });
   }
 
+
+
+  handleSearch() async{
+    List searchResults = await ProfileRequests.getSearch(searchValue.text);
+    setState(() {
+      received = searchResults;
+    });
+
+  }
+
   @override
   Widget build(BuildContext context) {
-    return AppBar(
+    return Column(children: [AppBar(
       backgroundColor: Colors.white,
+<<<<<<< Updated upstream
       leading: Row(
         children: [
           GestureDetector(
@@ -77,6 +103,15 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
               child: Image.asset(
                 'assets/Icon.png',
                 height: 35, // Define the desired height for the image
+=======
+      leading: GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const ProfileScaffold(
+                name: 'John Doe',
+>>>>>>> Stashed changes
               ),
             ),
           ),
@@ -91,7 +126,29 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
         ],
       ),
+      centerTitle: true,
+      title: Container(
+        width: 400,
+        child: Column(
+          children: [
+            TextFormField(
+              controller: searchValue,
+              decoration: InputDecoration(
+                hintText: "Pesquisa utilizadores",
+                filled: true,
+                prefixIcon: Icon(Icons.account_box),
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.search),
+                  onPressed: handleSearch,
+                ),
+              ),
+            ),
+
+          ],
+        ),
+      ),
       actions: [
+<<<<<<< Updated upstream
         Expanded(
           child: Center(
             child: Row(
@@ -278,6 +335,10 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
           ],
         ),
+=======
+
+
+>>>>>>> Stashed changes
         PopupMenuButton<Notification>(
           icon: const Icon(Icons.notifications, color: Colors.black),
           color: Colors.white,
@@ -328,11 +389,8 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) => const ProfileScaffold(
-                          name: 'John Doe',
-                          imageAssetPath: 'assets/images/profile.jpg',
-                          role: 'Developer',
-                          year: '2002',
-                          nucleos: 'Engineering',
+                          name: '',
+
                         ),
 
                         /**
@@ -465,6 +523,41 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
           ],
         ),
       ],
-    );
+    ),
+      if (received.isNotEmpty)
+        Container(
+          width: 300,
+          child:Padding(padding: EdgeInsets.all(20.0),
+
+          child: ListView.builder(
+            itemCount: received.length,
+            itemBuilder: (BuildContext context, int index) {
+              final suggestion = received[index];
+              return ListTile(
+                leading: CircleAvatar(
+                  backgroundColor: Colors.black,
+                  backgroundImage: CachedNetworkImageProvider('https://firebasestorage.googleapis.com/v0/b/steel-sequencer-385510.appspot.com/o/posts%2Fdb67fe40-fef0-40a3-af4e-5e8e7844ea3e?alt=media&token=4e5817ec-6634-48ec-aad4-6182a85583e5'),
+                ),
+                title: Text(suggestion),
+
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ProfileScaffold(
+                        name: suggestion.toString(),
+                      ),
+                    ),
+                  );
+                },
+              );
+            }
+          ),
+        ),
+        )
+    ]);
   }
 }
+
+
+

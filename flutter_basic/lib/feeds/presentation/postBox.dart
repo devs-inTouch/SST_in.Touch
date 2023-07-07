@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_basic/constants.dart';
 import 'package:image_network/image_network.dart';
+import 'package:flutter_basic/feeds/application/postRequests.dart';
 
-class PostBox extends StatelessWidget {
+
+
+class PostBox extends StatefulWidget {
   final String postIdentifier;
   final String username;
   final String description;
@@ -34,31 +38,84 @@ class PostBox extends StatelessWidget {
     );
   }
 
+  @override
+  State<PostBox> createState() => BoxState();
+
+
+
   void setFem(double value) {
     fem = value;
   }
+}
 
-  handleUp() {
+  class BoxState extends State<PostBox> {
 
-  }
+    bool isUp = false;
+    bool isDown = false;
+    int numUps = 0;
+    int numDowns = 0;
+    Color upButtonColor = Colors.white;
+    Color downButtonColor = Colors.white;
+
+    @override
+    void initState() {
+      super.initState();
+      fetchData(widget.postIdentifier);
+    }
+
+    fetchData(String postID) async {
+      List<String> ups = await PostRequests.checkUps(postID);
+      List<String> downs = await PostRequests.checkDowns(postID);
+      setState(() {
+        numUps = int.parse(ups[1]);
+        numDowns = int.parse(downs[1]);
+        isUp = ups[0].toLowerCase() == "true";
+        isDown = downs[0].toLowerCase() == "true";
+        if(isUp) {
+          upButtonColor = Colors.blue;
+          downButtonColor = Colors.white;
+        } else if(isDown) {
+          upButtonColor = Colors.white;
+          downButtonColor = Colors.blue;
+        } else if(!isDown && !isUp){
+          upButtonColor = Colors.white;
+          downButtonColor = Colors.white;
+        }
+      });
+    }
+
+
+    handleUp(String postID) async {
+      bool done = await PostRequests.clickedUp(postID);
+      if(done) {
+        fetchData(postID);
+      }
+    }
+
+    handleDown(String postID) async{
+      bool done = await PostRequests.clickedDown(postID);
+      if(done) {
+       fetchData(postID);
+      }
+    }
 
   @override
   Widget build(BuildContext context) {
-    date = DateTime.fromMillisecondsSinceEpoch(creationDate);
-    String dateTime = date.day.toString() +
+    widget.date = DateTime.fromMillisecondsSinceEpoch(widget.creationDate);
+    String dateTime = widget.date.day.toString() +
         "-" +
-        date.month.toString() +
+        widget.date.month.toString() +
         "-" +
-        date.year.toString() +
+        widget.date.year.toString() +
         ", " +
-        date.hour.toString() +
+        widget.date.hour.toString() +
         ":" +
-        date.minute.toString();
+        widget.date.minute.toString();
 
     return Padding(
         padding: EdgeInsets.symmetric(vertical: 4.0),
         child: Container(
-            width: 650 * fem,
+            width: 650 * widget.fem,
             decoration: BoxDecoration(color: Color.fromRGBO(217, 217, 217, 1)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -72,7 +129,7 @@ class PostBox extends StatelessWidget {
                         decoration: BoxDecoration(color: Colors.white),
                       )),
                   Text(
-                    username,
+                    widget.username,
                     style: TextStyle(fontSize: 15),
                   ),
                   Spacer(),
@@ -87,7 +144,7 @@ class PostBox extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
                   child: Text(
-                    description,
+                    widget.description,
                     textAlign: TextAlign.left,
                     style: TextStyle(fontSize: 22),
                   ),
@@ -97,29 +154,32 @@ class PostBox extends StatelessWidget {
                         padding: EdgeInsets.all(10.0),
                         child: ImageNetwork(
                           image:
-                              'https://firebasestorage.googleapis.com/v0/b/steel-sequencer-385510.appspot.com/o/cat2.jpg?alt=media&token=81c06104-7b39-40e4-add8-b6dc88da2d8f',
-                          height: 300 * fem,
-                          width: 300 * fem,
+                          widget.mediaUrl,
+                          height: 300 * widget.fem,
+                          width: 300 * widget.fem,
                         ))),
                 Row(children: [
                   Padding(
                       padding: EdgeInsets.all(10.0),
                       child: IconButton(
-                        onPressed: () { handleUp();},
+                        onPressed: () { handleUp(widget.postIdentifier);},
                         icon: Icon(Icons.arrow_upward_sharp),
-                        color: Colors.white,
+                        color: upButtonColor,
                         iconSize: 30,
                       )),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () { handleDown(widget.postIdentifier);},
                     icon: Icon(Icons.arrow_downward_sharp),
-                    color: Colors.white,
+                    color: downButtonColor,
                     iconSize: 30,
                   )
                 ])
               ],
             )));
   }
+
+
+
 }
 
 class ExpandedImageScreen extends StatelessWidget {

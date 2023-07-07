@@ -7,6 +7,10 @@ import 'package:uuid/uuid.dart';
 
 const String appUrl = "https://steel-sequencer-385510.oa.r.appspot.com/rest";
 
+var fireBaseInstance = FirebaseStorage.instance;
+
+get firebaseInstance => fireBaseInstance;
+
 var myBackground = Colors.grey[100];
 
 var fireBaseStorageInstance = FirebaseStorage.instance;

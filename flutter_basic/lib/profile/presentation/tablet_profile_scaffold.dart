@@ -6,37 +6,39 @@ import '../../feeds/application/postRequests.dart';
 import '../../myAppBar.dart';
 import '../application/profleRequests.dart';
 
-class ProfileScaffold extends StatefulWidget {
+class TabletProfileScaffold extends StatefulWidget {
   final String name;
+  final String imageAssetPath;
+  final String role;
+  final String year;
+  final String nucleos;
 
-
-  const ProfileScaffold({
+  const TabletProfileScaffold({
     required this.name,
-
+    required this.imageAssetPath,
+    required this.role,
+    required this.year,
+    required this.nucleos,
   });
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
 
-class _ProfilePageState extends State<ProfileScaffold> {
+class _ProfilePageState extends State<TabletProfileScaffold> {
   List _posts = [];
 
   List userInfo = [];
-
   String userWanted = '';
-
-
 
   @override
   void initState() {
     super.initState();
-    fetchUserWanted();
-    print("object " + userWanted);
-
+    fetchData();
+    fetchDataForPosts();
+    fetchUserLogged();
   }
-
-  Future<void> fetchUserWanted() async {
+  Future<void> fetchUserLogged() async {
     final response = await ProfileRequests.getUsername();
     if(widget.name == '') {
       setState(() {
@@ -46,10 +48,6 @@ class _ProfilePageState extends State<ProfileScaffold> {
       setState(() {
         userWanted = widget.name;
       });
-    }
-    if(response.isNotEmpty) {
-      fetchData();
-      fetchDataForPosts();
     }
   }
   //mudar
@@ -63,7 +61,6 @@ class _ProfilePageState extends State<ProfileScaffold> {
 
   Future<void> fetchData() async {
     List response;
-    print("USER " + userWanted);
     response = await ProfileRequests.getUserInfo(userWanted);
 
     setState(() {
@@ -87,39 +84,38 @@ class _ProfilePageState extends State<ProfileScaffold> {
       backgroundColor: myBackground,
       body: userInfo.isNotEmpty
           ? Stack(
-          children: [
-      Container(
-      decoration: BoxDecoration(color: Colors.white),
-        width: size.width,
-        height: size.height,
-        child: Scrollbar(
-          child: SingleChildScrollView(
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: 10,
-                    ),
-                    ProfileBox(fem: fem, map: userInfo),
-                    SizedBox(height: 10),
-                    Container(
-                        width: 650,
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: _posts.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            final post = _posts[index];
-                            post.setFem(fem);
-                            return post;
-                          },
-                        ))
-                  ])),
-        ),
-      ),
-          ],
+        children: [
+          Container(
+            decoration: BoxDecoration(color: Colors.white),
+            width: size.width,
+            height: size.height,
+            child: Scrollbar(
+              child: SingleChildScrollView(
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: 10,
+                        ),
+                        ProfileBox(fem: fem, map: userInfo),
+                        SizedBox(height: 10),
+                        Container(
+                            width: 650,
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: _posts.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                final post = _posts[index];
+                                post.setFem(fem);
+                                return post;
+                              },
+                            ))
+                      ])),
+            ),
+          ),
+        ],
       )
           : LinearProgressIndicator(),
     );
   }
-
 }

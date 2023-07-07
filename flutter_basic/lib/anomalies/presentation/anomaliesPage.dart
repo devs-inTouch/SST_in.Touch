@@ -181,7 +181,7 @@ class AnomalyState extends State<AnomaliesPage> {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-      appBar: const MyAppBar(),
+      appBar:  MyAppBar(),
       backgroundColor: myBackground,
       body: Stack(
         children: [
