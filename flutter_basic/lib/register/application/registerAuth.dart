@@ -119,7 +119,7 @@ Future<bool> fetchAuthenticate(
       "activateAccount": activateCode
     }),
   );
-
+  print(response.statusCode);
   if (response.statusCode == 200) {
     return true;
   } else {

@@ -5,6 +5,7 @@ import 'package:flutter_basic/mainpage/presentation/responsive_main_page.dart';
 import 'package:flutter_basic/mainpage/presentation/tablet_main_scaffold.dart';
 import 'package:flutter_basic/mainpage/presentation/desktop_main_scaffold.dart';
 import 'package:flutter_basic/mainpage/presentation/mobile_main_scaffold.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../constants.dart';
 
@@ -39,6 +40,12 @@ class LoginHomePage extends State<Login> {
     usernameControl = TextEditingController();
     pwdControl = TextEditingController();
     super.initState();
+    // Check if the account has been activated
+    print("Check PARAM");
+    print(Uri.base.queryParameters.containsKey('activated'));
+    if (Uri.base.queryParameters.containsKey('activated')) {
+      displayActivationMessage();
+    }
   }
 
   bool passwordVisible = true;
@@ -230,6 +237,18 @@ class LoginHomePage extends State<Login> {
           ),
         ),
       ),
+    );
+  }
+
+  // Function to display a pop-up message
+  void displayActivationMessage() {
+    Fluttertoast.showToast(
+      msg: 'Your account has been activated!',
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.white,
+      textColor: primarySwatch,
     );
   }
 }
