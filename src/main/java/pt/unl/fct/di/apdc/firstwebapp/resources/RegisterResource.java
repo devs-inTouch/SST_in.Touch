@@ -1,18 +1,5 @@
 package pt.unl.fct.di.apdc.firstwebapp.resources;
 
-import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.CREATION_TIME;
-import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.DEPARTMENT;
-import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.DESCRIPTION;
-import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.EMAIL;
-import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.FOLLOWERS;
-import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.FOLLOWING;
-import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.NAME;
-import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.PASSWORD;
-import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.ROLE;
-import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.STATE;
-import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.STUDENT_NUMBER;
-import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.VISIBILITY;
-
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
@@ -27,6 +14,8 @@ import org.apache.commons.codec.digest.DigestUtils;
 import pt.unl.fct.di.apdc.firstwebapp.util.DatastoreUtil;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.RegisterData;
 import pt.unl.fct.di.apdc.firstwebapp.util.enums.DatastoreEntities;
+
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.*;
 
 @Path("/register")
 public class RegisterResource {
@@ -71,6 +60,7 @@ public class RegisterResource {
 					.set(VISIBILITY.value, false)
 					.set(FOLLOWERS.value, new ArrayList<>())
 					.set(FOLLOWING.value, new ArrayList<>())
+					.set(ACTIVATE_ACCOUNT.value, data.getActivateAccount())
 					.build();
 
 			txn.add(user);
@@ -107,7 +97,8 @@ public class RegisterResource {
 				}
 
 				Entity updatedUser = Entity.newBuilder(user)
-						.set("STATE", true)
+						.set(STATE.value, true)
+						.remove(ACTIVATE_ACCOUNT.value)
 						.build();
 				txn.update(updatedUser);
 
