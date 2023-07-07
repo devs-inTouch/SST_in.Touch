@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/backoffice/presentation/backOfficePage.dart';
+import 'package:flutter_basic/backoffice/presentation/responsive_backOffice.dart';
 import '../../constants.dart';
 import '../../myAppBar.dart';
 import '../application/statsValueAuth.dart';
@@ -34,7 +35,6 @@ import '../application/statsValueAuth.dart';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const MyAppBar(),
       backgroundColor: myBackground,
       body: Container(
         padding: EdgeInsets.fromLTRB(16.0, 40.0, 16.0, 16.0), // Updated padding
@@ -61,7 +61,7 @@ import '../application/statsValueAuth.dart';
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => BackOffice()),
+                        MaterialPageRoute(builder: (context) => ResponsiveBackOffice()),
                       );
                     },
                   ),

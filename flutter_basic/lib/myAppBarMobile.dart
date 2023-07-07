@@ -58,26 +58,15 @@ class MyAppBarMobile extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
-        title: Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 10.0),
-              child: Image.asset(
-                'assets/logo-1-RBH.png',
-                height: 35, // Define the desired height for the image
-                fit: BoxFit.contain,
-              ),
-            ),
-            const SizedBox(width: 10.0),
-            IconButton(
-              icon: Icon(Icons.search, color: Colors.black),
-              onPressed: () {
-                // Implement your search logic here
-              },
-            ),
-          ],
+        title: Image.asset(
+          'assets/logo-1-RBH.png',
+          height: 35, // Defina a altura desejada para o logo
+          fit: BoxFit.fitHeight, // Ajusta a imagem para preencher a altura
         ),
+
+
         actions: [
           PopupMenuButton<Notification>(
             icon: const Icon(Icons.notifications, color: Colors.black),

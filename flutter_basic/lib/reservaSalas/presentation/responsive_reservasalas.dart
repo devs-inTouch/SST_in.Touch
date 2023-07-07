@@ -6,8 +6,8 @@ class ResponsiveReservaSalas extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
-      if(constraints.maxWidth<1100){
-        return ReservaSalasPageTablet();
+      if(constraints.maxWidth < 600){
+        return ReservaSalasPageMobile();
       }else {
         return ReservaSalasPage();
       }

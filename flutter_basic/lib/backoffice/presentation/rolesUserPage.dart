@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/backoffice/presentation/boxes/userRoleBox.dart';
 import 'package:flutter_basic/backoffice/presentation/boxes/usersToActivateBox.dart';
+import 'package:flutter_basic/backoffice/presentation/responsive_backOffice.dart';
 import '../../constants.dart';
 import '../../myAppBar.dart';
 import '../application/usersRoleChangeAuth.dart';
@@ -32,7 +33,6 @@ class RolesUserPage extends StatefulWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const MyAppBar(),
       backgroundColor: myBackground,
       body: Container(
         padding: EdgeInsets.all(16.0),
@@ -60,7 +60,7 @@ class RolesUserPage extends StatefulWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => BackOffice()),
+                        MaterialPageRoute(builder: (context) => ResponsiveBackOffice()),
                       );
                     },
                   ),

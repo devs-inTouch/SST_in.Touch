@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_basic/backoffice/presentation/responsive_backOffice.dart';
 import '../../constants.dart';
 import '../../myAppBar.dart';
 import '../application/activateUsersAuth.dart';
@@ -33,7 +34,6 @@ import 'boxes/usersToActivateBox.dart';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const MyAppBar(),
       backgroundColor: myBackground,
       body: Container(
         padding: EdgeInsets.all(16.0),
@@ -61,7 +61,7 @@ import 'boxes/usersToActivateBox.dart';
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => BackOffice()),
+                        MaterialPageRoute(builder: (context) => ResponsiveBackOffice()),
                       );
                     },
                   ),

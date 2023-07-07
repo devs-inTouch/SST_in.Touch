@@ -1,11 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_basic/anomalies/presentation/responsive_anomaliesPage.dart';
+import 'package:flutter_basic/calendar/page/responsive_calendar.dart';
+import 'package:flutter_basic/feeds/presentation/responsiveFeed.dart';
+import 'package:flutter_basic/maps/lib/responsiveMap.dart';
+import 'package:flutter_basic/nucleos/presentation/responsive_nucleos_page.dart';
 import 'package:flutter_basic/profile/presentation/profile_scaffold.dart';
 import 'package:flutter_basic/reports/presentation/reportsPage.dart';
+import 'package:flutter_basic/reports/presentation/responsive_reportsPage.dart';
 import 'package:flutter_basic/reservaSalas/presentation/responsive_reservasalas.dart';
 
 import 'anomalies/presentation/anomaliesPage.dart';
 import 'backoffice/presentation/backOfficePage.dart';
+import 'backoffice/presentation/responsive_backOffice.dart';
 import 'calendar/page/calendar_page.dart';
 import 'feeds/presentation/feedPage.dart';
 import 'login/presentation/loginPage.dart';
@@ -73,7 +80,7 @@ class MyBottomAppBar extends StatelessWidget {
                       // Implement your logic here
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => FeedsPage()),
+                        MaterialPageRoute(builder: (context) => ResponsiveFeedPage()),
                       );
                     },
                   ),
@@ -92,7 +99,7 @@ class MyBottomAppBar extends StatelessWidget {
                       // Implement your logic here
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const GMap()),
+                        MaterialPageRoute(builder: (context) =>  ResponsiveMap()),
                       );
                     },
                   ),
@@ -111,7 +118,7 @@ class MyBottomAppBar extends StatelessWidget {
                       // Implement your logic here
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => CalendarPage()),
+                        MaterialPageRoute(builder: (context) => ResponsiveCalendarLayout()),
                       );
                     },
                   ),
@@ -149,7 +156,7 @@ class MyBottomAppBar extends StatelessWidget {
                       // Implement your logic here
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => NucleosPage()),
+                        MaterialPageRoute(builder: (context) => ResponsiveNucleosPage()),
                       );
                     },
                   ),
@@ -205,7 +212,7 @@ class MyBottomAppBar extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const GMap()),
+                    MaterialPageRoute(builder: (context) =>  ResponsiveMap()),
                   );
                 },
               ),
@@ -213,15 +220,19 @@ class MyBottomAppBar extends StatelessWidget {
               IconButton(
                 icon: Icon(Icons.calendar_today),
                 onPressed: () {
-                  // Implement calendar button logic
-                },
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ResponsiveCalendarLayout()),
+                  );                },
               ),
               SizedBox(height: 5),
               IconButton(
                 icon: Icon(Icons.group),
                 onPressed: () {
-                  // Implement groups button logic
-                },
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ResponsiveNucleosPage()),
+                  );                },
               ),
               SizedBox(height: 5),
               IconButton(
@@ -229,7 +240,7 @@ class MyBottomAppBar extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => FeedsPage()),
+                    MaterialPageRoute(builder: (context) => ResponsiveFeedPage()),
                   );
                 },
               ),
@@ -309,7 +320,7 @@ class MyBottomAppBar extends StatelessWidget {
                       // Implement your logic here
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => ReportsPage()),
+                        MaterialPageRoute(builder: (context) => ResponsiveReportsPage()),
                       );
                     },
                   ),
@@ -329,7 +340,7 @@ class MyBottomAppBar extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const AnomaliesPage()),
+                            builder: (context) =>  ResponsiveAnomalyPage()),
                       );
                     },
                   ),
@@ -349,7 +360,7 @@ class MyBottomAppBar extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const BackOffice()),
+                            builder: (context) =>  ResponsiveBackOffice()),
                       );
                     },
                   ),

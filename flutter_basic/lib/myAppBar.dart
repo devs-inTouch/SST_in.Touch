@@ -10,14 +10,21 @@ import 'package:flutter_basic/mainpage/presentation/tablet_main_scaffold.dart';
 import 'package:flutter_basic/nucleos/presentation/nucleosPage.dart';
 import 'package:flutter_basic/profile/presentation/profile_scaffold.dart';
 import 'package:flutter_basic/reports/presentation/reportsPage.dart';
+import 'package:flutter_basic/reports/presentation/responsive_reportsPage.dart';
 import 'package:flutter_basic/reservaSalas/presentation/responsive_reservasalas.dart';
 import 'package:flutter_basic/teste/teste.dart';
 import 'package:flutter_basic/maps/lib/map.dart';
+import 'anomalies/presentation/responsive_anomaliesPage.dart';
+import 'backoffice/presentation/responsive_backOffice.dart';
 import 'calendar/page/calendar_page.dart';
+import 'calendar/page/responsive_calendar.dart';
+import 'feeds/presentation/responsiveFeed.dart';
 import 'mainpage/application/logoutAuth.dart';
+import 'maps/lib/responsiveMap.dart';
 import 'messages/application/chatScreen.dart';
 import 'noticias/presentation/newsPage.dart';
 import 'notifications/presentation/notificationList.dart';
+import 'nucleos/presentation/responsive_nucleos_page.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   const MyAppBar({super.key});
@@ -80,15 +87,6 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 10.0),
-            child: IconButton(
-              icon: Icon(Icons.search, color: Colors.black),
-              onPressed: () {
-                // Implement your search logic here
-              },
-            ),
-          ),
         ],
       ),
       actions: [
@@ -117,7 +115,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const GMap()),
+                      MaterialPageRoute(builder: (context) => ResponsiveMap()),
                     );
                   },
                 ),
@@ -126,7 +124,8 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => CalendarPage()),
+                      MaterialPageRoute(builder: (context) => ResponsiveCalendarLayout(),
+                      ),
                     );
                   },
                 ),
@@ -135,7 +134,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => FeedsPage()),
+                      MaterialPageRoute(builder: (context) => ResponsiveFeedPage()),
                     );
                   },
                 ),
@@ -144,7 +143,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => NucleosPage()),
+                      MaterialPageRoute(builder: (context) => ResponsiveNucleosPage()),
                     );
                   },
                 ),
@@ -170,7 +169,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                     // Implement your logic here
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => FeedsPage()),
+                      MaterialPageRoute(builder: (context) => ResponsiveFeedPage()),
                     );
                   },
                 ),
@@ -189,7 +188,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                     // Implement your logic here
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const GMap()),
+                      MaterialPageRoute(builder: (context) => ResponsiveMap()),
                     );
                   },
                 ),
@@ -208,7 +207,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                     // Implement your logic here
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => CalendarPage()),
+                      MaterialPageRoute(builder: (context) => ResponsiveCalendarLayout()),
                     );
                   },
                 ),
@@ -246,7 +245,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                     // Implement your logic here
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => NucleosPage()),
+                      MaterialPageRoute(builder: (context) => ResponsiveNucleosPage()),
                     );
                   },
                 ),
@@ -379,7 +378,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                     // Implement your logic here
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ReportsPage()),
+                      MaterialPageRoute(builder: (context) => ResponsiveReportsPage()),
                     );
                   },
                 ),
@@ -399,7 +398,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const AnomaliesPage()),
+                          builder: (context) => ResponsiveAnomalyPage()),
                     );
                   },
                 ),
@@ -419,7 +418,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const BackOffice()),
+                          builder: (context) =>  ResponsiveBackOffice()),
                     );
                   },
                 ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_basic/login/presentation/recoverPasswordPage.dart';
 import 'package:flutter_basic/register/presentation/registerPage.dart';
 import 'package:flutter_basic/login/application/loginAuth.dart';
 import 'package:flutter_basic/mainpage/presentation/responsive_main_page.dart';
@@ -6,7 +7,6 @@ import 'package:flutter_basic/mainpage/presentation/tablet_main_scaffold.dart';
 import 'package:flutter_basic/mainpage/presentation/desktop_main_scaffold.dart';
 import 'package:flutter_basic/mainpage/presentation/mobile_main_scaffold.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
 import '../../constants.dart';
 
 class MyApp extends StatelessWidget {
@@ -101,22 +101,11 @@ class LoginHomePage extends State<Login> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Align(
-                    alignment: Alignment.topCenter,
-                    child: Image.asset(
-                      'assets/logo-1-RBH.png',
-                      height: 65,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
+                  SizedBox(height: 40),
+                  Image.asset('assets/logo-1-RBH.png', height: 65),
+                  SizedBox(height: 40),
                   Padding(
-                    padding: const EdgeInsets.all(
-                        20.0), // Add 20 pixels padding to all sides
+                    padding: const EdgeInsets.all(20.0), // Add 20 pixels padding to all sides
                     child: Container(
                       height: 475,
                       width: 450,
@@ -204,9 +193,13 @@ class LoginHomePage extends State<Login> {
                             ),
                             TextButton(
                               onPressed: () {
-                                debugPrint('Received click');
-                              },
-                              child: const Text('Esqueceste a senha?'),
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const RecoverPassword(),
+                                  ),
+                                );                              },
+                              child: const Text('Esqueceste a tua password?'),
                             ),
                             const SizedBox(
                               height: 20,
