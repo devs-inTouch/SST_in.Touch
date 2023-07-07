@@ -6,8 +6,6 @@ import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Globals.AUTH;
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Globals.DEFAULT_FORMAT;
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.RoleAttributes.ACCESS;
 
-import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Operation.*;
-
 import java.util.Map.Entry;
 import java.util.logging.Logger;
 
@@ -67,7 +65,7 @@ public class PermissionsResource {
 
         TokenData token = TokenUtil.validateToken(LOG, auth);
 
-        if (token == null || !ph.hasAccess(EDIT_ACCESSES.value, token.getRole()))
+        if (token == null /*|| !ph.hasAccess(EDIT_ACCESSES.value, token.getRole())*/)
             return Response.status(Status.FORBIDDEN).build();
 
         KeyFactory clientAccessKeyFactory = datastore.newKeyFactory()
@@ -125,17 +123,19 @@ public class PermissionsResource {
                 String targetRole = parts[1];
 
                 KeyFactory permissionsKeyFactory = datastore.newKeyFactory()
-                    .addAncestors(PathElement.of(OPERATION.value, data.getOperationID()),
+                    .addAncestors(
+                        PathElement.of(OPERATION.value, data.getOperationID()),
                         PathElement.of(ROLE.value, clientRole))
                     .setKind(ROLE.value);
                     
-                Key roleAccessKey = permissionsKeyFactory.newKey(targetRole);
+                Key permissionKey = permissionsKeyFactory.newKey(targetRole);
 
-                Entity roleAccess = Entity.newBuilder(roleAccessKey)
+                Entity permission = Entity.newBuilder(permissionKey)
                                     .set(ACCESS.value, e.getValue())
                                     .build();
                 
-                txn.put(roleAccess);
+                txn.put(permission);
+                ph.editPermission(auth, clientRole, targetRole, e.getValue());
             }
 
             txn.commit();
@@ -145,7 +145,7 @@ public class PermissionsResource {
         } catch (Exception e) {
 			txn.rollback();
 			LOG.severe(e.getMessage());
-			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getLocalizedMessage()).build();
 			
 		} finally {
 			if (txn.isActive()) {
@@ -169,7 +169,6 @@ public class PermissionsResource {
         Transaction txn = datastore.newTransaction();
 
         try {
-
             for (UserRole cr : UserRole.values()) {
 
                     KeyFactory accessesKeyFactory = datastore.newKeyFactory()
@@ -181,7 +180,6 @@ public class PermissionsResource {
                     Entity access = Entity.newBuilder(accessKey)
                                     .set(ACCESS.value, true)
                                     .build();
-
                 for (UserRole tr : UserRole.values()) {
 
                     KeyFactory permissionsKeyFactory = datastore.newKeyFactory()
