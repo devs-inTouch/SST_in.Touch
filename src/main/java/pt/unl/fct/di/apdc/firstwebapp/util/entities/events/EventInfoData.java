@@ -6,17 +6,19 @@ public class EventInfoData {
 
     private String eventId, title, description, date, from, to;
     private List<String> list;
+    private boolean isAllDay;
 
     public EventInfoData() {
     }
 
-    public EventInfoData(String eventId, String title, String description, String date, String from, String to, List<String> list) {
+    public EventInfoData(String eventId, String title, String description, String date, String from, String to,Boolean isAllDay, List<String> list) {
         this.eventId = eventId;
         this.title = title;
         this.description = description;
         this.date = date;
         this.from = from;
         this.to = to;
+        this.isAllDay = isAllDay;
         this.list = list;
     }
 
@@ -46,5 +48,9 @@ public class EventInfoData {
 
     public List<String> getList() {
         return list;
+    }
+
+    public boolean getIsAllDay() {
+        return isAllDay;
     }
 }

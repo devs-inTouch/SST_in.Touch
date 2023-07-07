@@ -30,6 +30,8 @@ public class EventResource {
 
     private final Gson g = new Gson();
 
+    private final String backgroundColor = "4294918273";
+
 
     public EventResource() {
     }
@@ -65,6 +67,7 @@ public class EventResource {
                     .set("date", data.getDate())
                     .set("from", data.getFrom())
                     .set("to", data.getTo())
+                    .set("isAllDay", data.getIsAllDay())
                     .set("subscribers", new ArrayList<>())
                     .build();
 
@@ -135,7 +138,7 @@ public class EventResource {
         List<EventInfoData> list = new ArrayList<>();
 
         eventQuery.forEachRemaining(t -> {
-            list.add(new EventInfoData(t.getKey().getId().toString(), t.getString("title"), t.getString("description"), t.getString("date"), t.getString("from"), t.getString("to"), Collections.singletonList(t.getString("subscribers"))));
+            list.add(new EventInfoData(t.getKey().getId().toString(), t.getString("title"), t.getString("description"), t.getString("date"), t.getString("from"), t.getString("to"),t.getBoolean("isAllDay"), Collections.singletonList(t.getString("subscribers"))));
         });
 
         return Response.ok(g.toJson(list)).build();
@@ -177,6 +180,7 @@ public class EventResource {
                     .set("date", event.getString("date"))
                     .set("from", event.getString("from"))
                     .set("to", event.getString("to"))
+                    .set("isAllDay", event.getBoolean("isAllDay"))
                     .set("subscribers", newList)
                     .build();
 
@@ -185,14 +189,15 @@ public class EventResource {
             if (calendar != null)
                 return Response.status(Response.Status.BAD_REQUEST).entity("Event already in calendar").build();
 
+
             Entity updatedCalendar = Entity.newBuilder(calendarKey)
                     .set("username", givenTokenData.getUsername())
                     .set("title", event.getString("title"))
                     .set("description", event.getString("description"))
                     .set("from", event.getString("from"))
                     .set("to", event.getString("to"))
-                    .set("backgroundColor", "white")
-                    .set("isAllDay", false)
+                    .set("backgroundColor", backgroundColor)
+                    .set("isAllDay", event.getBoolean("isAllDay"))
                     .set("isPublic", true)
                     .set("id", data.getEventId())
                     .build();
