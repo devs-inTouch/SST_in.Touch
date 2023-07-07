@@ -1,8 +1,10 @@
 package pt.unl.fct.di.apdc.firstwebapp.resources;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
+import javax.swing.*;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -36,7 +38,7 @@ public class RegisterResource {
 	public RegisterResource() {}
 
 	@POST
-	@Path("/")
+	@Path("/create")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response registerUser(RegisterData data){
 
@@ -86,14 +88,13 @@ public class RegisterResource {
 				Key userKey = userKeyFactory.newKey(username);
 				Entity user = txn.get(userKey);
 				if (user == null) {
-					LOG.warning("Failed activate " +username+ " because it does not exist.");
-					return Response.status(Status.NOT_FOUND).build();
+					return Response.status(Status.NOT_FOUND).entity("Utilizador não encontrado").build();
 				}
-				String userActivateCode = user.getString("user_activate_code");
+
+				String userActivateCode = user.getString(ACTIVATE_ACCOUNT.value);
 
 				if(!userActivateCode.equals(code)) {
-					LOG.warning("Failed activate " + username + " because the code is wrong.");
-					return Response.status(Status.BAD_REQUEST).build();
+					return Response.status(Status.BAD_REQUEST).entity("Failed activate " + username + " because the code is wrong.").build();
 				}
 
 				Entity updatedUser = Entity.newBuilder(user)
@@ -103,10 +104,13 @@ public class RegisterResource {
 				txn.update(updatedUser);
 
 				txn.commit();
+				//JOptionPane.showMessageDialog(null, "User " + username + " has been activated!");
 
-				return Response.status(Status.OK).entity("Utilizador ativado").build();
+				return Response.temporaryRedirect(new java.net.URI("https://steel-sequencer-385510.oa.r.appspot.com/?activated=true")).build();
 			}
-		}finally {
+		} catch (URISyntaxException e) {
+			throw new RuntimeException(e);
+		} finally {
 			if (txn.isActive()) {
 				txn.rollback();
 			}
