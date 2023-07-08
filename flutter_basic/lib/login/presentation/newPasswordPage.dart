@@ -136,13 +136,7 @@ class NewPassword extends State<NewPasswordPage> {
                                 fixedSize: Size(200, 50),
                                 backgroundColor: Colors.blue,
                               ),
-                              onPressed: () {
-                                recoverPasswordButtonPressed(
-                                  pwdControl.text,
-                                  pwdConfirmControl.text,
-                                );
-                              },
-                              child: Text(
+                              child: const Text(
                                 'Recuperar password',
                                 style: TextStyle(
                                   color: Colors.white,
@@ -150,9 +144,17 @@ class NewPassword extends State<NewPasswordPage> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
+                              onPressed: () {
+                                print('Recuperar password');
+                                recoverPasswordButtonPressed(
+                                  pwdControl.text,
+                                  pwdConfirmControl.text,
+                                );
+                              },
                             ),
                             SizedBox(height: 20),
                             TextButton(
+                              child: const Text('Voltar'),
                               onPressed: () {
                                 // RecoverPassWordAuth.hasEmail(emailControl.text);
                                 Navigator.push(
@@ -162,7 +164,6 @@ class NewPassword extends State<NewPasswordPage> {
                                   ),
                                 );
                               },
-                              child: const Text('Voltar'),
                             ),
                           ],
                         ),

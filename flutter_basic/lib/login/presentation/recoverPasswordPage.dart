@@ -13,31 +13,60 @@ class RecoverPassword extends StatefulWidget {
 
 class RegisterHome extends State<RecoverPassword> {
   late TextEditingController emailControl;
-  late TextEditingController pwdControl;
-  late TextEditingController pwdConfirmControl;
   bool passwordVisible = false;
   bool passwordConfVisible = false;
 
   @override
   void initState() {
     emailControl = TextEditingController();
-    pwdControl = TextEditingController();
-    pwdConfirmControl = TextEditingController();
     super.initState();
   }
 
-  void recoverPasswordButtonPressed(
-      String email) {
-    if (email.isNotEmpty) {
+  Future<void> recoverPasswordButtonPressed(String email) async {
+    if (emailControl.text.isNotEmpty) {
+      bool res = await RecoverPassWordAuth.hasEmail(emailControl.text);
+      print(res);
+      if (res) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const EmailCodePage()),
+        );
+      } else {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Error'),
+              content: const Text('Email not found.'),
+              actions: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+      }
+    } else {
       showDialog(
         context: context,
         builder: (BuildContext context) {
-          return const AlertDialog(title: Text('Done'));
+          return AlertDialog(
+            title: const Text('Error'),
+            content: const Text('Email is required.'),
+            actions: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
         },
-      );
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const EmailCodePage()),
       );
     }
   }
@@ -60,9 +89,9 @@ class RegisterHome extends State<RecoverPassword> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(height: 40),
+                  const SizedBox(height: 40),
                   Image.asset('assets/logo-1-RBH.png', height: 65),
-                  SizedBox(height: 40),
+                  const SizedBox(height: 40),
                   Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Container(
@@ -77,38 +106,33 @@ class RegisterHome extends State<RecoverPassword> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            SizedBox(height: 20),
-                            Text(
+                            const SizedBox(height: 20),
+                            const Text(
                               'Recuperação da password',
                               style: TextStyle(
                                 fontSize: 28,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
                             Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 20),
                               child: TextField(
                                 controller: emailControl,
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   border: OutlineInputBorder(),
                                   labelText: 'Email',
                                 ),
                               ),
                             ),
-                            SizedBox(height: 16),
+                            const SizedBox(height: 16),
                             OutlinedButton(
                               style: OutlinedButton.styleFrom(
-                                fixedSize: Size(200, 50),
+                                fixedSize: const Size(200, 50),
                                 backgroundColor: Colors.blue,
                               ),
-                              onPressed: () {
-                                recoverPasswordButtonPressed(
-                                  emailControl.text
-                                );
-                              },
-                              child: Text(
+                              child: const Text(
                                 'Recuperar password',
                                 style: TextStyle(
                                   color: Colors.white,
@@ -116,9 +140,13 @@ class RegisterHome extends State<RecoverPassword> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
+                              onPressed: () {
+                                recoverPasswordButtonPressed(emailControl.text);
+                              },
                             ),
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
                             TextButton(
+                              child: const Text('Voltar'),
                               onPressed: () {
                                 RecoverPassWordAuth.hasEmail(emailControl.text);
                                 Navigator.push(
@@ -128,14 +156,13 @@ class RegisterHome extends State<RecoverPassword> {
                                   ),
                                 );
                               },
-                              child: const Text('Voltar'),
                             ),
                           ],
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(height: 40),
+                  const SizedBox(height: 40),
                 ],
               ),
             ),

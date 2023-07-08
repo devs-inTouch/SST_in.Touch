@@ -10,16 +10,22 @@ class RecoverPassWordAuth {
     return email.isEmpty;
   }
 
-  static bool hasEmail(String email) {
+  static Future<bool> hasEmail(String email) async {
     String code = createId();
-    Map<String, dynamic> obj = {"email": email, "code": code};
-    fetchAuthenticate(email).then((response) {
-      if (response) {
-        sendEmail(obj);
-        return true;
-      }
-    });
-    return false;
+    Map<String, String> obj = {"email": email, "code": code};
+    final response =
+        await http.post(Uri.parse('$appUrl/modify/recoverPassword'),
+            headers: <String, String>{
+              'Content-Type': 'application/json',
+            },
+            body: jsonEncode(obj));
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      sendEmail(obj);
+      return true;
+    } else {
+      return false;
+    }
   }
 
   static void sendEmail(Map<String, dynamic> obj) async {
