@@ -8,7 +8,8 @@ public enum DatastoreEntities {
     ROLE("Role"),
     POST("Post"),
     ANOMALY("Anomaly"),
-    BOOKING("Booking");
+    BOOKING("Booking"),
+    NEWS("News");
 
     public final String value;
 

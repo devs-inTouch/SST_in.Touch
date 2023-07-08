@@ -13,12 +13,13 @@ public class StatsData {
     public StatsData() {}
 
     public StatsData(long onlineUsers, long postsDone, long unhandledReports, long unactivatedAccounts,
-            long unhandledReservations) {
+            long unhandledReservations, long unhandledAnomalies) {
         this.onlineUsers = onlineUsers;
         this.postsDone = postsDone;
         this.unhandledReports = unhandledReports;
         this.unactivatedAccounts = unactivatedAccounts;
         this.unhandledReservations = unhandledReservations;
+        this.unhandledAnomalies = unhandledAnomalies;
     }
 
     /**
@@ -54,6 +55,13 @@ public class StatsData {
      */
     public long getUnhandledReservations() {
         return unhandledReservations;
+    }
+
+    /**
+     * @return the unhandledAnomalies
+     */
+    public long getUnhandledAnomalies() {
+        return unhandledAnomalies;
     }
     
 }

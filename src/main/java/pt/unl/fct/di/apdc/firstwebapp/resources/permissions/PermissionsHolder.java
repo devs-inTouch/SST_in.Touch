@@ -103,11 +103,29 @@ public class PermissionsHolder {
 
     public void editAccess(String endpointID, String clientRole, boolean access) {
 
-        
+        String key = String.format(KEY_FORMAT, endpointID, clientRole);
+
+        Boolean current = accesses.get(key);
+
+        if (current == null)
+            loadPermissions(endpointID);
+        else
+            accesses.put(key, access);
 
     }
 
     public void editPermission(String endpointID, String clientRole, String targetRole, boolean access) {
+
+        String key = String.format(KEY_FORMAT,
+                                String.format(KEY_FORMAT, endpointID, clientRole),
+                                targetRole);
+
+        Boolean current = permissions.get(key);
+
+        if (current == null)
+            loadPermissions(endpointID);
+        else
+            accesses.put(key, access);
 
     }
 

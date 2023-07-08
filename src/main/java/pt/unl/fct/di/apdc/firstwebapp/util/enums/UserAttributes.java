@@ -21,6 +21,8 @@ public enum UserAttributes {
     FOLLOWERS("user_followers"),
 
     FOLLOWING("user_following"),
+
+    ACTIVATE_ACCOUNT("user_activate_account"),
     // Optional fields
     VISIBILITY("user_is_visible"),
     MOBILE("user_mobile_phone_number"),

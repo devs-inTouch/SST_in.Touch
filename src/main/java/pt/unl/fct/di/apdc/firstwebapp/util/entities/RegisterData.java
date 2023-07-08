@@ -12,11 +12,13 @@ public class RegisterData {
 	private String description;
 	private String department;
 
+	private String activateAccount;
+
 	
 	public RegisterData() {}
 
 	public RegisterData(String username, String name, String email, String password, String studentNumber,
-						String course, String role, String description, String department) {
+						String course, String role, String description, String department, String activateAccount) {
 		this.username = username;
 		this.name = name;
 		this.email = email;
@@ -27,6 +29,7 @@ public class RegisterData {
 		this.description = description;
 		this.department = department;
 		this.role = role;
+		this.activateAccount = activateAccount;
 
 
 	}
@@ -85,6 +88,13 @@ public class RegisterData {
 	 */
 	public String getDepartment() {
 		return department;
+	}
+
+	/**
+	 * @return the activateAccount
+	 */
+	public String getActivateAccount() {
+		return activateAccount;
 	}
 
 }

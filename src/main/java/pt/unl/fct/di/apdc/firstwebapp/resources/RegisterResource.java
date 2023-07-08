@@ -1,37 +1,23 @@
 package pt.unl.fct.di.apdc.firstwebapp.resources;
 
-import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.CREATION_TIME;
-import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.DEPARTMENT;
-import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.DESCRIPTION;
-import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.EMAIL;
-import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.FOLLOWERS;
-import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.FOLLOWING;
-import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.NAME;
-import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.PASSWORD;
-import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.ROLE;
-import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.STATE;
-import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.STUDENT_NUMBER;
-import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.VISIBILITY;
-
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
+import javax.swing.*;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import com.google.cloud.datastore.*;
 import org.apache.commons.codec.digest.DigestUtils;
-
-import com.google.cloud.datastore.Datastore;
-import com.google.cloud.datastore.Entity;
-import com.google.cloud.datastore.Key;
-import com.google.cloud.datastore.Transaction;
 
 import pt.unl.fct.di.apdc.firstwebapp.util.DatastoreUtil;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.RegisterData;
+import pt.unl.fct.di.apdc.firstwebapp.util.enums.DatastoreEntities;
+
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.*;
 
 @Path("/register")
 public class RegisterResource {
@@ -45,11 +31,14 @@ public class RegisterResource {
 
 	private final Datastore datastore = DatastoreUtil.getService();
 
+	private final KeyFactory userKeyFactory = datastore.newKeyFactory().setKind(DatastoreEntities.USER.value);
+
+
 
 	public RegisterResource() {}
 
 	@POST
-	@Path("/")
+	@Path("/create")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response registerUser(RegisterData data){
 
@@ -73,6 +62,7 @@ public class RegisterResource {
 					.set(VISIBILITY.value, false)
 					.set(FOLLOWERS.value, new ArrayList<>())
 					.set(FOLLOWING.value, new ArrayList<>())
+					.set(ACTIVATE_ACCOUNT.value, data.getActivateAccount())
 					.build();
 
 			txn.add(user);
@@ -85,6 +75,45 @@ public class RegisterResource {
 				txn.rollback();
 			}
 		}
+	}
 
+	@GET
+	@Path("/activate")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+	public Response activateUser(@QueryParam("code") String code, @QueryParam("username") String username) {
+		Transaction txn = datastore.newTransaction();
+		try {
+			{
+				Key userKey = userKeyFactory.newKey(username);
+				Entity user = txn.get(userKey);
+				if (user == null) {
+					return Response.status(Status.NOT_FOUND).entity("Utilizador não encontrado").build();
+				}
+
+				String userActivateCode = user.getString(ACTIVATE_ACCOUNT.value);
+
+				if(!userActivateCode.equals(code)) {
+					return Response.status(Status.BAD_REQUEST).entity("Failed activate " + username + " because the code is wrong.").build();
+				}
+
+				Entity updatedUser = Entity.newBuilder(user)
+						.set(STATE.value, true)
+						.remove(ACTIVATE_ACCOUNT.value)
+						.build();
+				txn.update(updatedUser);
+
+				txn.commit();
+				//JOptionPane.showMessageDialog(null, "User " + username + " has been activated!");
+
+				return Response.temporaryRedirect(new java.net.URI("https://steel-sequencer-385510.oa.r.appspot.com/?activated=true")).build();
+			}
+		} catch (URISyntaxException e) {
+			throw new RuntimeException(e);
+		} finally {
+			if (txn.isActive()) {
+				txn.rollback();
+			}
+		}
 	}
 }

@@ -11,6 +11,7 @@ import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Globals.COUNT;
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Globals.DEFAULT_FORMAT;
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Operation.LIST_UNNACTIVATED_USERS;
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Operation.LIST_USERS;
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Operation.STATS;
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.TokenAttributes.EXPIRATION_TIME;
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.CREATION_TIME;
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.EMAIL;
@@ -110,7 +111,7 @@ public class ListResource {
         if (token == null)
             return Response.status(Status.UNAUTHORIZED).build();
 
-        if (!ph.hasAccess(LIST_USERS.value, token.getRole()))
+        if (!ph.hasAccess(LIST_UNNACTIVATED_USERS.value, token.getRole()))
             return Response.status(Status.FORBIDDEN).build();
 
 		List<BaseQueryResultData> result = new ArrayList<>();
@@ -141,7 +142,7 @@ public class ListResource {
         if (token == null)
             return Response.status(Status.UNAUTHORIZED).build();
 
-        if (!ph.hasAccess(LIST_USERS.value, token.getRole()))
+        if (!ph.hasAccess(STATS.value, token.getRole()))
             return Response.status(Status.FORBIDDEN).build();
 
         var stats = new StatsData(
@@ -149,6 +150,7 @@ public class ListResource {
                         getNumPosts(),
                         getNumAnomalies(),
                         getNumUnactivatedUsers(),
+                        0l, //TODO put appropriate value
                         0l //TODO put appropriate value
                     );
 

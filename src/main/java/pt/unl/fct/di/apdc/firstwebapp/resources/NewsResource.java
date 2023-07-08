@@ -8,6 +8,7 @@ import pt.unl.fct.di.apdc.firstwebapp.util.entities.TokenData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.news.NewsData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.news.NewsDeleteData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.news.NewsInfoData;
+import pt.unl.fct.di.apdc.firstwebapp.util.enums.DatastoreEntities;
 
 
 import javax.ws.rs.*;
@@ -25,8 +26,14 @@ import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Globals.AUTH;
 @Path("/news")
 public class NewsResource {
 
+    private static final String USER_NOT_IN_DATABASE = "User not in database";
     private static final Logger LOG = Logger.getLogger(NewsResource.class.getName());
     private static final String LIST_NEWS = "listNews";
+    private static final String USER_NOT_ALLOWED_TO_CREATE_NEWS = "User not allowed to create news";
+    private static final String NEWS_CREATED = "News created";
+    private static final String USER_NOT_ALLOWED_TO_DELETE_NEWS = "User not allowed to delete news";
+    private static final String NEWS_NOT_IN_DATABASE = "News not in database";
+    private static final String NEWS_DELETED = "News deleted";
 
     private final Datastore datastore = DatastoreUtil.getService();
 
@@ -47,20 +54,20 @@ public class NewsResource {
         if(givenTokenData == null)
             return Response.status(Response.Status.FORBIDDEN).build();
 
-        Key userKey = datastore.newKeyFactory().setKind("User").newKey(givenTokenData.getUsername());
+        Key userKey = datastore.newKeyFactory().setKind(DatastoreEntities.USER.value).newKey(givenTokenData.getUsername());
         Transaction txn = datastore.newTransaction();
 
         try {
             Entity user = txn.get(userKey);
 
             if(user == null)
-                return Response.status(Response.Status.BAD_REQUEST).entity("User not in database").build();
+                return Response.status(Response.Status.BAD_REQUEST).entity(USER_NOT_IN_DATABASE).build();
 
             if(!user.getString("user_role").equals("admin"))
-                return Response.status(Response.Status.BAD_REQUEST).entity("User not allowed to create news").build();
+                return Response.status(Response.Status.BAD_REQUEST).entity(USER_NOT_ALLOWED_TO_CREATE_NEWS).build();
 
             int newsId = getNextNews();
-            Key newsKey = datastore.newKeyFactory().setKind("News").newKey(newsId);
+            Key newsKey = datastore.newKeyFactory().setKind(DatastoreEntities.NEWS.value).newKey(newsId);
             Entity news = Entity.newBuilder(newsKey)
                     .set("title", data.getTitle())
                     .set("description", data.getDescription())
@@ -71,7 +78,7 @@ public class NewsResource {
             txn.add(news);
             txn.commit();
 
-            return Response.ok().entity(g.toJson("News created")).build();
+            return Response.ok().entity(g.toJson(NEWS_CREATED)).build();
 
     } finally {
             if(txn.isActive())
@@ -89,28 +96,28 @@ public class NewsResource {
         if(givenTokenData == null)
             return Response.status(Response.Status.FORBIDDEN).build();
 
-        Key userKey = datastore.newKeyFactory().setKind("User").newKey(givenTokenData.getUsername());
+        Key userKey = datastore.newKeyFactory().setKind(DatastoreEntities.USER.value).newKey(givenTokenData.getUsername());
         Transaction txn = datastore.newTransaction();
 
         try {
             Entity user = txn.get(userKey);
 
             if(user == null)
-                return Response.status(Response.Status.BAD_REQUEST).entity("User not in database").build();
+                return Response.status(Response.Status.BAD_REQUEST).entity(USER_NOT_IN_DATABASE).build();
 
             if(!user.getString("user_role").equals("admin"))
-                return Response.status(Response.Status.BAD_REQUEST).entity("User not allowed to delete news").build();
+                return Response.status(Response.Status.BAD_REQUEST).entity(USER_NOT_ALLOWED_TO_DELETE_NEWS).build();
 
-            Key newsKey = datastore.newKeyFactory().setKind("News").newKey(data.getNewsId());
+            Key newsKey = datastore.newKeyFactory().setKind(DatastoreEntities.NEWS.value).newKey(data.getNewsId());
             Entity news = txn.get(newsKey);
 
             if(news == null)
-                return Response.status(Response.Status.BAD_REQUEST).entity("News not in database").build();
+                return Response.status(Response.Status.BAD_REQUEST).entity(NEWS_NOT_IN_DATABASE).build();
 
             txn.delete(newsKey);
             txn.commit();
 
-            return Response.ok().entity(g.toJson("News deleted")).build();
+            return Response.ok().entity(g.toJson(NEWS_DELETED)).build();
 
         } finally {
             if(txn.isActive())
@@ -126,7 +133,7 @@ public class NewsResource {
     public Response listNews() {
 
             Query<Entity> query = Query.newEntityQueryBuilder()
-                    .setKind("News").setOrderBy(StructuredQuery.OrderBy.desc("creation_date")).build();
+                    .setKind(DatastoreEntities.NEWS.value).setOrderBy(StructuredQuery.OrderBy.desc("creation_date")).build();
 
             QueryResults<Entity> newsQuery = datastore.run(query);
 
@@ -144,7 +151,7 @@ public class NewsResource {
         AtomicInteger max = new AtomicInteger(0);
 
         Query<Entity> query = Query.newEntityQueryBuilder()
-                .setKind("News").build();
+                .setKind(DatastoreEntities.NEWS.value).build();
 
         QueryResults<Entity> newsQuery = datastore.run(query);
 
