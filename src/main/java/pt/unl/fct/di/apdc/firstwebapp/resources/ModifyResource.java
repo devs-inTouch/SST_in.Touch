@@ -14,10 +14,13 @@ import javax.ws.rs.core.Response.Status;
 
 import com.google.cloud.datastore.*;
 
+import com.google.gson.Gson;
 import pt.unl.fct.di.apdc.firstwebapp.util.TokenUtil;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.AttributeChangeData;
-import pt.unl.fct.di.apdc.firstwebapp.util.entities.RecoverPasswordData;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.changePassword.PasswordCodeData;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.changePassword.RecoverPasswordData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.TokenData;
+import pt.unl.fct.di.apdc.firstwebapp.util.enums.DatastoreEntities;
 import pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes;
 
 @Path("/modify")
@@ -25,6 +28,9 @@ public class ModifyResource {
 
     private final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
 	private static final Logger LOG = Logger.getLogger(ModifyResource.class.getName());
+
+    private final KeyFactory userKeyFactory = datastore.newKeyFactory().setKind(DatastoreEntities.USER.value);
+    private final Gson g = new Gson();
 
     private static final String KIND = "User";
 
@@ -40,9 +46,44 @@ public class ModifyResource {
                 .setFilter(StructuredQuery.PropertyFilter.eq("user_email", data.getEmail()))
                 .build();
         QueryResults<Entity> result = datastore.run(query);
-        if(result.hasNext())
-            return Response.status(Status.OK).entity("utilizador encontrado").build();
-        return Response.status(Status.NOT_FOUND).entity("utilizador não esta registado na base de dados").build();
+        Transaction txn = datastore.newTransaction();
+        try{
+            if(result.hasNext()) {
+                Entity user = result.next();
+                String id = user.getKey().getName();
+                user = Entity.newBuilder(user)
+                        .set("code_password", data.getCode())
+                        .build();
+                txn.update(user);
+                txn.commit();
+                return Response.status(Status.OK).entity(g.toJson(id)).build();
+            }
+            return Response.status(Status.NOT_FOUND).entity("utilizador não esta registado na base de dados").build();
+        }finally{
+            if(txn.isActive())
+                txn.rollback();
+        }
+    }
+
+    @POST
+    @Path("changePassword")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response changePassWord(PasswordCodeData data) {
+
+        Key userKey = userKeyFactory.newKey(data.getUserId());
+        Entity user = datastore.get(userKey);
+
+        if(user == null)
+            return Response.status(Status.NOT_FOUND).entity("utilizador não esta registado na base de dados").build();
+
+        String userCode = user.getString("code_password");
+
+
+        if(!userCode.equals(data.getCode()))
+            return Response.status(Status.FORBIDDEN).entity("Código de recuperação errado").build();
+
+        return Response.status(Status.OK).entity(g.toJson(data.getUserId())).build();
+
     }
 
     @POST
