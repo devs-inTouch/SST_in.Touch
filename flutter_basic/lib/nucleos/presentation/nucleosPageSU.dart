@@ -5,7 +5,7 @@ import '../../myAppBar.dart';
 import 'nucleosBox.dart';
 import 'nucleosCriacaoPage.dart';
 
-class NucleosPage extends StatelessWidget {
+class NucleosPageSU extends StatelessWidget {
   final List<String> nucleosList = [
     'Núcleo 1',
     'Núcleo 2',
@@ -34,23 +34,34 @@ class NucleosPage extends StatelessWidget {
                       fontSize: 20.0,
                     ),
                   ),
-              SizedBox(height: 10),
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: nucleosList.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: NucleosBox( nucleosList[index]),
-                  );
-                },
-              ),
+                  SizedBox(height: 10),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: nucleosList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Padding(
+                        padding: EdgeInsets.all(10.0),
+                        child: NucleosBox( nucleosList[index]),
+                      );
+                    },
+                  ),
                 ],
               ),
             ),
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const NucleosCriacaoPage(),
+            ),
+          );        },
+        child: Icon(Icons.add),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }

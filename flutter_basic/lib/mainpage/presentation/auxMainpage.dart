@@ -104,37 +104,3 @@ class AuxMainPage {
     }
   }
 }
-
-class EventCard extends StatelessWidget {
-  final Map<String, dynamic> event;
-
-  const EventCard({required this.event});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8.0),
-      padding: const EdgeInsets.all(16.0),
-      decoration: boxEventDecoration,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Data: ${DateFormat('MMMM dd, yyyy').format(event['Data'])}',
-            style: textStyleEvents,
-          ),
-          const SizedBox(height: 8.0),
-          Text(
-            'Evento: ${event['Evento']}',
-            style: textStyleEvents,
-          ),
-          const SizedBox(height: 8.0),
-          Text(
-            'Dias Restantes: ${event['DiasRestantesTexto']}',
-            style: textStyleEvents,
-          ),
-        ],
-      ),
-    );
-  }
-}

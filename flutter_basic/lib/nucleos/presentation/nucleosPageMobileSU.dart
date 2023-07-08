@@ -5,7 +5,7 @@ import '../../constants.dart';
 import '../../myAppBarMobile.dart';
 import 'nucleosBox.dart';
 
-class NucleosPageMobile extends StatelessWidget {
+class NucleosPageMobileSU extends StatelessWidget {
   final List<String> nucleosList = [
     'Núcleo 1',
     'Núcleo 2',
@@ -52,7 +52,17 @@ class NucleosPageMobile extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: MyBottomAppBar(),
-
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const NucleosCriacaoPage(),
+            ),
+          );        },
+        child: Icon(Icons.add),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }

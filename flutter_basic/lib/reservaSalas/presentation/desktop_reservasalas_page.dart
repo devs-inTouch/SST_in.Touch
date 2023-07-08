@@ -61,7 +61,7 @@ class _ReservaSalasPageState extends State<ReservaSalasPage> {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      appBar: MyAppBar(context: context),
+      appBar: MyAppBar(),
       backgroundColor: myBackground,
       body: Center(
         child: Container(

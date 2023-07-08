@@ -80,10 +80,7 @@ import '../application/reservaRequest.dart';
                                     padding: EdgeInsetsDirectional.zero,
                                     child: Text(
                                       'DATA',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                      ),
+                                      style: textStyleReservaSalas,
                                     ),
                                   ),
                                 ),
@@ -119,10 +116,7 @@ import '../application/reservaRequest.dart';
                                     padding: EdgeInsetsDirectional.zero,
                                     child: Text(
                                       'HORA',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                      ),
+                                      style: textStyleReservaSalas,
                                     ),
                                   ),
                                 ),

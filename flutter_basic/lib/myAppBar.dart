@@ -27,6 +27,7 @@ import 'noticias/presentation/newsPage.dart';
 import 'noticias/presentation/responsiveNewsPage.dart';
 import 'notifications/presentation/notificationList.dart';
 import 'nucleos/presentation/responsive_nucleos_page.dart';
+import 'nucleos/presentation/responsive_nucleos_page_SU.dart';
 
 class MyAppBar extends StatefulWidget implements PreferredSizeWidget {
   const MyAppBar({Key? key}) : super(key: key);
@@ -167,13 +168,24 @@ class _MyAppBarState extends State<MyAppBar> {
                 IconButton(
                   icon: Icon(Icons.group, color: Colors.black),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ResponsiveNucleosPage()),
-                    );
+                    if (role == 'superUser') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ResponsiveNucleosPageSU(),
+                        ),
+                      );
+                    } else {
+                      Navigator.push( 
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ResponsiveNucleosPage(),
+                        ),
+                      );
+                    }
                   },
                 ),
+
               ],
             ),
           ),
@@ -265,19 +277,26 @@ class _MyAppBarState extends State<MyAppBar> {
             PopupMenuItem(
               child: Container(
                 color: Colors.white,
-                // Set the background color of the menu item to white
                 child: ListTile(
                   leading: const Icon(Icons.groups),
                   title: const Text('Núcleos'),
                   onTap: () {
-                    // Handle logout button click
                     Navigator.pop(context); // Close the menu
-                    // Implement your logic here
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ResponsiveNucleosPage()),
-                    );
+                    if (role == 'superUser') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ResponsiveNucleosPageSU(),
+                        ),
+                      );
+                    } else {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ResponsiveNucleosPage(),
+                        ),
+                      );
+                    }
                   },
                 ),
               ),
@@ -396,26 +415,25 @@ class _MyAppBarState extends State<MyAppBar> {
                 ),
               ),
             ),
-            PopupMenuItem(
-              child: Container(
-                color: Colors.white,
-                // Set the background color of the menu item to white
-                child: ListTile(
-                  leading: const Icon(Icons.notification_add_outlined),
-                  title: const Text('Notify'),
-                  onTap: () {
-                    // Handle logout button click
-                    Navigator.pop(context); // Close the menu
-                    // Implement your logic here
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ResponsiveReportsPage()),
-                    );
-                  },
+            if (role == 'superUser')
+              PopupMenuItem(
+                child: Container(
+                  color: Colors.white,
+                  child: ListTile(
+                    leading: const Icon(Icons.notification_add_outlined),
+                    title: const Text('Notify'),
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ResponsiveReportsPage(),
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
-            ),
             PopupMenuItem(
               child: Container(
                 color: Colors.white,
@@ -436,26 +454,27 @@ class _MyAppBarState extends State<MyAppBar> {
                 ),
               ),
             ),
-            PopupMenuItem(
-              child: Container(
-                color: Colors.white,
-                // Set the background color of the menu item to white
-                child: ListTile(
-                  leading: const Icon(Icons.admin_panel_settings),
-                  title: const Text('Back-Office'),
-                  onTap: () {
-                    // Handle logout button click
-                    Navigator.pop(context); // Close the menu
-                    // Implement your logic here
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ResponsiveBackOffice()),
-                    );
-                  },
+            if (role == 'superUser')
+              PopupMenuItem(
+                child: Container(
+                  color: Colors.white,
+                  // Set the background color of the menu item to white
+                  child: ListTile(
+                    leading: const Icon(Icons.admin_panel_settings),
+                    title: const Text('Back-Office'),
+                    onTap: () {
+                      // Handle logout button click
+                      Navigator.pop(context); // Close the menu
+                      // Implement your logic here
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ResponsiveBackOffice()),
+                      );
+                    },
+                  ),
                 ),
               ),
-            ),
             PopupMenuItem(
               child: Container(
                 color: Colors.white,

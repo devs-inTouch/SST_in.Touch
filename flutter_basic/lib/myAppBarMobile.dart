@@ -15,16 +15,35 @@ import 'package:flutter_basic/teste/teste.dart';
 import 'package:flutter_basic/maps/lib/map.dart';
 import 'bottomAppBarMobile.dart';
 import 'calendar/page/calendar_page.dart';
+import 'constants.dart';
 import 'mainpage/application/logoutAuth.dart';
 import 'messages/application/chatScreen.dart';
 import 'noticias/presentation/newsPage.dart';
 import 'notifications/presentation/notificationList.dart';
 
-class MyAppBarMobile extends StatelessWidget implements PreferredSizeWidget {
+class MyAppBarMobile extends StatefulWidget implements PreferredSizeWidget {
   const MyAppBarMobile({Key? key}) : super(key: key);
 
   @override
+  _MyAppBarMobileState createState() => _MyAppBarMobileState();
+
+  @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+}
+
+
+  class _MyAppBarMobileState extends State<MyAppBarMobile> {
+  String? role;
+
+  @override
+  void initState() {
+  super.initState();
+  getRole().then((value) {
+  setState(() {
+  role = value;
+  });
+  });
+  }
 
   void logoutButtonPressed(BuildContext context) {
     LogoutAuth.logout().then((isLoggedout) {

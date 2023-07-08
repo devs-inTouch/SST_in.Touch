@@ -41,7 +41,7 @@ class LoginAuth {
       Map<String, dynamic> decodedJson = json.decode(decodedString);
       String role = decodedJson['role'];
       print("ROLE: $role");
-
+      saveToSharedPreferences('Role', role);
       return AuthResult(true, role);
     } else {
       return AuthResult(false, "");
