@@ -46,8 +46,8 @@ class _EventViewingPageState extends State<EventViewingPage> {
   Widget buildDateTime(Event event) {
     return Column(
       children: [
-        buildDate(event.isAllDay ? 'All-day' : 'From', event.from),
-        if (!event.isAllDay) buildDate('To', event.to),
+        buildDate(event.isAllDay ? 'Todo o dia' : 'De', event.from),
+        if (!event.isAllDay) buildDate('Para', event.to),
       ],
     );
   }

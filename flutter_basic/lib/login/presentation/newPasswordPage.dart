@@ -61,7 +61,7 @@ class NewPassword extends State<NewPasswordPage> {
                     padding: const EdgeInsets.all(20.0),
                     child: Container(
                       padding: const EdgeInsets.all(20),
-                      height: 475,
+                      height: 350,
                       width: 450,
                       decoration: BoxDecoration(
                         color: const Color(0xd8ffffff),
@@ -130,7 +130,7 @@ class NewPassword extends State<NewPasswordPage> {
                                 ),
                               ),
                             ),
-                            SizedBox(height: 16),
+                            SizedBox(height: 30),
                             OutlinedButton(
                               style: OutlinedButton.styleFrom(
                                 fixedSize: Size(200, 50),

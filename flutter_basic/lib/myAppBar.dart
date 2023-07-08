@@ -12,6 +12,7 @@ import 'package:flutter_basic/profile/presentation/profile_scaffold.dart';
 import 'package:flutter_basic/reports/presentation/reportsPage.dart';
 import 'package:flutter_basic/reports/presentation/responsive_reportsPage.dart';
 import 'package:flutter_basic/reservaSalas/presentation/responsive_reservasalas.dart';
+import 'package:flutter_basic/searchBarPage/presentation/responsive_searchPage.dart';
 import 'package:flutter_basic/teste/teste.dart';
 import 'package:flutter_basic/maps/lib/map.dart';
 import 'anomalies/presentation/responsive_anomaliesPage.dart';
@@ -40,7 +41,25 @@ class MyAppBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _MyAppBarState extends State<MyAppBar> {
+
+  List<String> profiles = [
+    "John Doe",
+    "Jane Smith",
+    "Alex Johnson",
+    // Add more profiles as needed
+  ];
   String? role;
+  List<String> searchResults = [];
+
+  void searchProfiles(String query) {
+    // Filter the profiles based on the search query
+    List<String> results = profiles.where((profile) =>
+        profile.toLowerCase().contains(query.toLowerCase())).toList();
+
+    setState(() {
+      searchResults = results;
+    });
+  }
 
   @override
   void initState() {
@@ -136,6 +155,15 @@ class _MyAppBarState extends State<MyAppBar> {
                   },
                 ),
                 IconButton(
+                  icon: Icon(Icons.person_search, color: Colors.black),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ResponsiveSearchPage()),
+                    );
+                  },
+                ),
+                IconButton(
                   icon: Icon(Icons.map, color: Colors.black),
                   onPressed: () {
                     Navigator.push(
@@ -176,7 +204,7 @@ class _MyAppBarState extends State<MyAppBar> {
                         ),
                       );
                     } else {
-                      Navigator.push( 
+                      Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => ResponsiveNucleosPage(),

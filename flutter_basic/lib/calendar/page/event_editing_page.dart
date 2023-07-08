@@ -94,7 +94,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
         ElevatedButton.icon(
           onPressed: saveFrom,
           icon: const Icon(Icons.done),
-          label: const Text('SAVE'),
+          label: const Text('Gravar'),
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.transparent,
             shadowColor: Colors.transparent,
@@ -103,7 +103,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
       ];
 
   Widget buildColorPicker() => buildHeader(
-        header: 'Color',
+        header: 'Cor',
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -174,12 +174,12 @@ class _EventEditingPageState extends State<EventEditingPage> {
       );
 
   Widget buildDescription() => buildHeader(
-        header: 'Description',
+        header: 'Descrição',
         child: TextFormField(
             style: const TextStyle(fontSize: 18),
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
-              hintText: 'Add Description',
+              hintText: 'Adicionar descrição',
             ),
             maxLines: 5,
             onFieldSubmitted: (_) => saveFrom(),
@@ -190,11 +190,11 @@ class _EventEditingPageState extends State<EventEditingPage> {
         style: const TextStyle(fontSize: 24),
         decoration: const InputDecoration(
           border: UnderlineInputBorder(),
-          hintText: 'Add Title',
+          hintText: 'Adicionar título',
         ),
         onFieldSubmitted: (_) => saveFrom(),
         validator: (title) =>
-            title != null && title.isEmpty ? 'Title cannot be empty' : null,
+            title != null && title.isEmpty ? 'O paramêtro título não pode estar vazio' : null,
         controller: tittleController,
       );
 
@@ -251,7 +251,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
       );
 
   Widget buildFrom() => buildHeader(
-        header: 'FROM',
+        header: 'DE',
         child: Row(
           children: [
             Expanded(
@@ -271,7 +271,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
         ),
       );
   Widget buildTo() => buildHeader(
-        header: 'To',
+        header: 'PARA',
         child: Row(
           children: [
             Expanded(
