@@ -20,12 +20,12 @@ class MyApp extends StatelessWidget {
           primarySwatch: primarySwatch,
           scaffoldBackgroundColor: Colors.white,
         ),
-        home: const Login());
+        home: Login());
   }
 }
 
 class Login extends StatefulWidget {
-  const Login({super.key});
+  Login({super.key});
 
   @override
   State<Login> createState() => LoginHomePage();
@@ -34,6 +34,8 @@ class Login extends StatefulWidget {
 class LoginHomePage extends State<Login> {
   late TextEditingController usernameControl;
   late TextEditingController pwdControl;
+
+  late String role;
 
   @override
   void initState() {
@@ -51,8 +53,9 @@ class LoginHomePage extends State<Login> {
   bool passwordVisible = true;
 
   void loginButtonPressed(String username, String pwd) {
-    LoginAuth.userLogin(username, pwd).then((isLogged) {
-      if (isLogged) {
+    LoginAuth.userLogin(username, pwd).then((AuthResult authResult) {
+      if (authResult.getSuccess) {
+        role = authResult.getRole;
         //AnomalyAuth.listAnomaly();
         //NotificationAuth.notificationList();
         Navigator.pushReplacement(
@@ -105,7 +108,8 @@ class LoginHomePage extends State<Login> {
                   Image.asset('assets/logo-1-RBH.png', height: 65),
                   SizedBox(height: 40),
                   Padding(
-                    padding: const EdgeInsets.all(20.0), // Add 20 pixels padding to all sides
+                    padding: const EdgeInsets.all(
+                        20.0), // Add 20 pixels padding to all sides
                     child: Container(
                       height: 475,
                       width: 450,
@@ -196,9 +200,11 @@ class LoginHomePage extends State<Login> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => const RecoverPassword(),
+                                    builder: (context) =>
+                                        const RecoverPassword(),
                                   ),
-                                );                              },
+                                );
+                              },
                               child: const Text('Esqueceste a tua password?'),
                             ),
                             const SizedBox(

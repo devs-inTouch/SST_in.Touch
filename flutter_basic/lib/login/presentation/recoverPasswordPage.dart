@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/login/presentation/loginPage.dart';
-import 'package:flutter_basic/register/application/registerAuth.dart';
-
-import '../../backoffice/presentation/backOfficePage.dart';
 
 class RecoverPassword extends StatefulWidget {
   const RecoverPassword({Key? key});
@@ -26,7 +23,8 @@ class RegisterHome extends State<RecoverPassword> {
     super.initState();
   }
 
-  void recoverPasswordButtonPressed(String email, String pwd, String pwdConfirm) {
+  void recoverPasswordButtonPressed(
+      String email, String pwd, String pwdConfirm) {
     if (email.isNotEmpty && pwd.isNotEmpty && pwd == pwdConfirm) {
       showDialog(
         context: context,
@@ -86,7 +84,8 @@ class RegisterHome extends State<RecoverPassword> {
                             ),
                             SizedBox(height: 20),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
                               child: TextField(
                                 controller: emailControl,
                                 decoration: InputDecoration(
@@ -97,7 +96,8 @@ class RegisterHome extends State<RecoverPassword> {
                             ),
                             SizedBox(height: 16),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
                               child: TextField(
                                 obscureText: !passwordVisible,
                                 controller: pwdControl,
@@ -106,7 +106,9 @@ class RegisterHome extends State<RecoverPassword> {
                                   labelText: 'Password',
                                   suffixIcon: IconButton(
                                     icon: Icon(
-                                      passwordVisible ? Icons.visibility : Icons.visibility_off,
+                                      passwordVisible
+                                          ? Icons.visibility
+                                          : Icons.visibility_off,
                                     ),
                                     onPressed: () {
                                       setState(() {
@@ -119,7 +121,8 @@ class RegisterHome extends State<RecoverPassword> {
                             ),
                             SizedBox(height: 16),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
                               child: TextField(
                                 obscureText: !passwordConfVisible,
                                 controller: pwdConfirmControl,
@@ -128,11 +131,14 @@ class RegisterHome extends State<RecoverPassword> {
                                   labelText: 'Confirmar password',
                                   suffixIcon: IconButton(
                                     icon: Icon(
-                                      passwordConfVisible ? Icons.visibility : Icons.visibility_off,
+                                      passwordConfVisible
+                                          ? Icons.visibility
+                                          : Icons.visibility_off,
                                     ),
                                     onPressed: () {
                                       setState(() {
-                                        passwordConfVisible = !passwordConfVisible;
+                                        passwordConfVisible =
+                                            !passwordConfVisible;
                                       });
                                     },
                                   ),
@@ -167,7 +173,7 @@ class RegisterHome extends State<RecoverPassword> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => const Login(),
+                                    builder: (context) => Login(),
                                   ),
                                 );
                               },
