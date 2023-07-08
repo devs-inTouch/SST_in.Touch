@@ -111,7 +111,7 @@ public class AnomalyResource {
             if (!user.getString("user_role").equals("admin"))
                 return Response.status(Response.Status.BAD_REQUEST).entity(USER_NOT_ALLOWED_TO_DELETE_ANOMALY).build();
 
-            Key k = datastore.newKeyFactory().setKind("Anomaly").newKey(data.getAnomalyId());
+            Key k = datastore.newKeyFactory().setKind("Anomaly").newKey(Integer.parseInt(data.getAnomalyId()));
             Entity anomaly = txn.get(k);
             if (anomaly == null)
                 return Response.status(Response.Status.BAD_REQUEST).entity(ANOMALY_NOT_IN_DATABASE).build();
@@ -209,7 +209,7 @@ public class AnomalyResource {
             txn.commit();
 
             notification.createNotificationToAll(NOVA_ANOMALIA, ANOMALY_TYPE);
-            return Response.ok(g.toJson(newAnomaly)).build();
+            return Response.ok(g.toJson(NOVA_ANOMALIA)).build();
 
         } finally {
             if(txn.isActive()) {
