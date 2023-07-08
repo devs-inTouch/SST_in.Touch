@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_basic/calendar/widget/calendar_widget.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-import 'package:uuid/uuid.dart';
 
 import '../../constants.dart';
 import '../model/event.dart';
-import '../provider/event_provider.dart';
 import '../utils.dart';
-import 'package:provider/provider.dart';
 import '../provider/events_request.dart';
+import 'calendar_page.dart';
 
 class EventEditingPage extends StatefulWidget {
   final DateTime fromDate;
@@ -24,12 +23,15 @@ class EventEditingPage extends StatefulWidget {
 }
 
 class _EventEditingPageState extends State<EventEditingPage> {
+  final CalendarWidgetState calendarWidgetState = CalendarWidgetState();
   final _formKey = GlobalKey<FormState>();
   final tittleController = TextEditingController();
   final descriptionController = TextEditingController();
   late DateTime fromDate;
   late DateTime toDate;
   late Color color;
+  late bool isAllDay;
+  late bool isPublic;
 
   @override
   void initState() {
@@ -41,12 +43,16 @@ class _EventEditingPageState extends State<EventEditingPage> {
           widget.fromDate.day, dateNow.hour, dateNow.minute);
       toDate = fromDate.add(const Duration(hours: 2));
       color = Colors.blue;
+      isAllDay = false;
+      isPublic = false;
     } else {
       final event = widget.event!;
       tittleController.text = event.title;
       fromDate = event.from;
       toDate = event.to;
       color = event.backgroundColor;
+      isAllDay = event.isAllDay;
+      isPublic = event.isPublic;
     }
   }
 
@@ -74,6 +80,8 @@ class _EventEditingPageState extends State<EventEditingPage> {
                 buildDateTimePickers(),
                 SizedBox(height: 12),
                 buildColorPicker(),
+                SizedBox(height: 12),
+                buildSwithchesPickers(),
                 SizedBox(height: 12),
                 buildDescription(),
               ],
@@ -188,6 +196,51 @@ class _EventEditingPageState extends State<EventEditingPage> {
         validator: (title) =>
             title != null && title.isEmpty ? 'Title cannot be empty' : null,
         controller: tittleController,
+      );
+
+  Widget buildSwithchesPickers() => Column(
+        children: [
+          buildAllDay(),
+          buildIsPublic(),
+        ],
+      );
+
+  Widget buildAllDay() => Row(
+        children: [
+          const Text(
+            'É o dia todo?',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Switch(
+            value: isPublic,
+            onChanged: (value) {
+              setState(() {
+                isPublic = value;
+              });
+            },
+          ),
+        ],
+      );
+
+  Widget buildIsPublic() => Row(
+        children: [
+          const Text(
+            'É publico?',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Switch(
+            value: isAllDay,
+            onChanged: (value) {
+              setState(() {
+                isAllDay = value;
+              });
+            },
+          ),
+        ],
       );
 
   Widget buildDateTimePickers() => Column(
@@ -341,38 +394,62 @@ class _EventEditingPageState extends State<EventEditingPage> {
     final isValid = _formKey.currentState!.validate();
     final isEditing = widget.event != null;
     if (isEditing) {
+      int index = calendarWidgetState.events.indexOf(widget.event!);
       if (isValid) {
         final event = Event(
-          id: widget.event!.id,
-          title: tittleController.text,
-          description: descriptionController.text,
-          from: fromDate,
-          to: toDate,
-          isAllDay: false,
-          backgroundColor: color,
-        );
-        EventRequests.createCalendarEvent(event);
-        Navigator.of(context).pop();
+            id: widget.event!.id,
+            title: tittleController.text,
+            description: descriptionController.text,
+            from: fromDate,
+            to: toDate,
+            backgroundColor: color,
+            isAllDay: isAllDay,
+            isPublic: isPublic);
+        EventRequests.editCalendarEvent(event).then((edited) {
+          processRequest(edited, isEditing, event, index);
+        });
       }
     } else {
       if (isValid) {
         final event = Event(
-          id: createId(),
-          title: tittleController.text,
-          description: descriptionController.text,
-          from: fromDate,
-          to: toDate,
-          isAllDay: false,
-          backgroundColor: color,
-        );
-        EventRequests.createCalendarEvent(event);
-        Navigator.of(context).pop();
+            id: createId(),
+            title: tittleController.text,
+            description: descriptionController.text,
+            from: fromDate,
+            to: toDate,
+            backgroundColor: color,
+            isAllDay: false,
+            isPublic: isPublic);
+        EventRequests.createCalendarEvent(event).then((created) {
+          processRequest(created, isEditing, event, -1);
+        });
       }
     }
   }
 
-  String createId() {
-    var uuid = const Uuid();
-    return uuid.v1().toString();
+  void processRequest(bool request, bool isEditing, Event event, int index) {
+    if (request) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => CalendarPage()),
+      );
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Ups... Alguma coisa correu mal...'),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('Ok'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 }

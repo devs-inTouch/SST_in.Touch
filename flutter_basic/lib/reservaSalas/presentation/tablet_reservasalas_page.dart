@@ -3,18 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_basic/reservaSalas/presentation/salasBox.dart';
 import 'package:intl/intl.dart';
 
+import '../../bottomAppBarMobile.dart';
 import '../../constants.dart';
 import '../../myAppBar.dart';
 import '../application/reservaRequest.dart';
 
-  class ReservaSalasPageTablet extends StatefulWidget {
-  ReservaSalasPageTablet({Key? key}) : super(key: key);
+  class ReservaSalasPageMobile extends StatefulWidget {
+    ReservaSalasPageMobile({Key? key}) : super(key: key);
 
   @override
   _ReservaSalasPageState createState() => _ReservaSalasPageState();
   }
 
-  class _ReservaSalasPageState extends State<ReservaSalasPageTablet> {
+  class _ReservaSalasPageState extends State<ReservaSalasPageMobile> {
   TextEditingController department = TextEditingController();
   TextEditingController room = TextEditingController();
   TextEditingController numberStudents = TextEditingController();
@@ -79,10 +80,7 @@ import '../application/reservaRequest.dart';
                                     padding: EdgeInsetsDirectional.zero,
                                     child: Text(
                                       'DATA',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                      ),
+                                      style: textStyleReservaSalas,
                                     ),
                                   ),
                                 ),
@@ -118,10 +116,7 @@ import '../application/reservaRequest.dart';
                                     padding: EdgeInsetsDirectional.zero,
                                     child: Text(
                                       'HORA',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                      ),
+                                      style: textStyleReservaSalas,
                                     ),
                                   ),
                                 ),
@@ -316,6 +311,8 @@ import '../application/reservaRequest.dart';
           ),
         ),
       ),
+      bottomNavigationBar: MyBottomAppBar(),
+
     );
   }
 }

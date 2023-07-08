@@ -1,13 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_basic/backoffice/presentation/responsive_backOffice.dart';
 import '../../constants.dart';
 import '../../myAppBar.dart';
+import '../application/activateUsersAuth.dart';
 import 'backOfficePage.dart';
+import 'boxes/usersToActivateBox.dart';
 
-class AtivacaoContasPage extends StatelessWidget {
+
+
+  class AtivacaoContasPage extends StatefulWidget {
+  const AtivacaoContasPage({super.key});
+  @override
+  ContasPageState createState() => ContasPageState();
+  }
+  class ContasPageState extends State<AtivacaoContasPage> {
+  List contasPorAtivarList = [];
+  bool showNotifications = true;
+
+  @override
+  void initState() {
+  super.initState();
+  fetchNotifications();
+  }
+
+  void fetchNotifications() async {
+  final response = await ActivateUsersAuth.getUsersToActivate();
+  setState(() {
+    contasPorAtivarList = response;
+  });
+  print("Contas por ativar fetched");
+  print(contasPorAtivarList);
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const MyAppBar(),
       backgroundColor: myBackground,
       body: Container(
         padding: EdgeInsets.all(16.0),
@@ -35,7 +61,7 @@ class AtivacaoContasPage extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => BackOffice()),
+                        MaterialPageRoute(builder: (context) => ResponsiveBackOffice()),
                       );
                     },
                   ),
@@ -58,9 +84,20 @@ class AtivacaoContasPage extends StatelessWidget {
             ),
             SizedBox(height: 10.0),
             Container(
-              width: double.infinity,
-              height: 400.0, // Set the desired height here (e.g., 400.0)
-              color: Colors.blueAccent[100],
+              width: 800,
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: contasPorAtivarList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  UsersToAtivateBox usersToAtivateBox = contasPorAtivarList[index];
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 10.0),
+                    child: UsersToAtivateBox(
+                      targetUsername: usersToAtivateBox.targetUsername,
+                    ),
+                  );
+                },
+              ),
             ),
           ],
         ),

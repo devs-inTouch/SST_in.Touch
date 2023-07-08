@@ -1,13 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_basic/backoffice/presentation/boxes/userRoleBox.dart';
+import 'package:flutter_basic/backoffice/presentation/boxes/usersToActivateBox.dart';
+import 'package:flutter_basic/backoffice/presentation/responsive_backOffice.dart';
 import '../../constants.dart';
 import '../../myAppBar.dart';
+import '../application/usersRoleChangeAuth.dart';
 import 'backOfficePage.dart';
 
-class RolesUserPage extends StatelessWidget {
+class RolesUserPage extends StatefulWidget {
+  const RolesUserPage({super.key});
+
+  @override
+  State<RolesUserPage> createState() => RolesUserState();
+  }
+
+  class RolesUserState extends State<RolesUserPage> {
+  List users = [];
+
+  @override
+  void initState() {
+  super.initState();
+  fetchUsers();
+  }
+
+  Future<void> fetchUsers() async {
+  final response = await UserRoleChangeAuth.getUsersAndRoles();
+  setState(() {
+    users = response;
+  });
+  print("Users fetched");
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const MyAppBar(),
       backgroundColor: myBackground,
       body: Container(
         padding: EdgeInsets.all(16.0),
@@ -35,7 +60,7 @@ class RolesUserPage extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => BackOffice()),
+                        MaterialPageRoute(builder: (context) => ResponsiveBackOffice()),
                       );
                     },
                   ),
@@ -58,9 +83,21 @@ class RolesUserPage extends StatelessWidget {
             ),
             SizedBox(height: 10.0),
             Container(
-              width: double.infinity,
-              height: 400.0, // Set the desired height here (e.g., 400.0)
-              color: Colors.blueAccent[100],
+              width: 800,
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: users.length,
+                itemBuilder: (BuildContext context, int index) {
+                  UserRoleBox userRoleBox = users[index];
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 10.0),
+                    child: UserRoleBox(
+                      username: userRoleBox.username,
+                      role: userRoleBox.role,
+                    ),
+                  );
+                },
+              ),
             ),
           ],
         ),

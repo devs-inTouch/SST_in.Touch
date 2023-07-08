@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/calendar/page/event_editing_page.dart';
-import 'package:flutter_basic/calendar/provider/event_provider.dart';
 import 'package:flutter_basic/myAppBar.dart';
-import 'package:provider/provider.dart';
 
-import '../../constants.dart';
-import '../model/event.dart';
-import '../provider/events_request.dart';
 import '../widget/calendar_widget.dart';
 //import 'page/event_editing_page.dart';
 

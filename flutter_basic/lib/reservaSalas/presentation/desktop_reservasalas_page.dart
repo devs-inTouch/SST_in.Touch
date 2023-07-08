@@ -47,7 +47,6 @@ class _ReservaSalasPageState extends State<ReservaSalasPage> {
     hour = horasDisponiveis[0];
   }
 
-
   void fetchSalasDisponiveis() async {
     final response = await ReservaAuth.getRoomsList(date, hour);
     setState(() {
@@ -56,6 +55,7 @@ class _ReservaSalasPageState extends State<ReservaSalasPage> {
     print("Salas disponiveis");
     print(salasDisponiveisList);
   }
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -118,7 +118,7 @@ class _ReservaSalasPageState extends State<ReservaSalasPage> {
                                       child: ElevatedButton(
                                         onPressed: () async {
                                           final DateTime? pickedDate =
-                                          await showDatePicker(
+                                              await showDatePicker(
                                             context: context,
                                             initialDate: DateTime.now(),
                                             firstDate: DateTime(2021),
@@ -158,14 +158,12 @@ class _ReservaSalasPageState extends State<ReservaSalasPage> {
                                       child: DropdownButton<String>(
                                         value: hour,
                                         hint: Text('Selecione uma hora'),
-                                        items: horasDisponiveis
-                                            .map((hora) {
+                                        items: horasDisponiveis.map((hora) {
                                           return DropdownMenuItem<String>(
                                             value: hora,
                                             child: Text(hora),
                                           );
-                                        })
-                                            .toList(),
+                                        }).toList(),
                                         onChanged: (String? selectedHour) {
                                           setState(() {
                                             hour = selectedHour!;
@@ -198,14 +196,22 @@ class _ReservaSalasPageState extends State<ReservaSalasPage> {
                                               width: double.maxFinite,
                                               child: ListView.builder(
                                                 shrinkWrap: true,
-                                                itemCount: salasDisponiveisList.length,
-                                                itemBuilder: (BuildContext context, int index) {
-                                                  SalasBox salasBox = salasDisponiveisList[index];
+                                                itemCount:
+                                                    salasDisponiveisList.length,
+                                                itemBuilder:
+                                                    (BuildContext context,
+                                                        int index) {
+                                                  SalasBox salasBox =
+                                                      salasDisponiveisList[
+                                                          index];
                                                   return Padding(
-                                                    padding: const EdgeInsets.only(bottom: 10.0),
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            bottom: 10.0),
                                                     child: SalasBox(
                                                       name: salasBox.name,
-                                                      department: salasBox.department,
+                                                      department:
+                                                          salasBox.department,
                                                       space: salasBox.space,
                                                       date: salasBox.date,
                                                       hour: salasBox.hour,
@@ -228,8 +234,8 @@ class _ReservaSalasPageState extends State<ReservaSalasPage> {
                                     },
                                     style: ButtonStyle(
                                       backgroundColor:
-                                      MaterialStateProperty.all<Color>(
-                                          Colors.grey[300]!),
+                                          MaterialStateProperty.all<Color>(
+                                              Colors.grey[300]!),
                                     ),
                                     child: Text(
                                       'VERIFICAR DISPONIBILIDADE',
@@ -253,8 +259,8 @@ class _ReservaSalasPageState extends State<ReservaSalasPage> {
                               },
                               style: ButtonStyle(
                                 backgroundColor:
-                                MaterialStateProperty.all<Color>(
-                                    Colors.blueAccent[200]!),
+                                    MaterialStateProperty.all<Color>(
+                                        Colors.blueAccent[200]!),
                               ),
                               child: Text(
                                 'CONFIRMAR RESERVA',

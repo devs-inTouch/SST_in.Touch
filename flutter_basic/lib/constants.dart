@@ -3,8 +3,13 @@ import 'dart:convert';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uuid/uuid.dart';
 
 const String appUrl = "https://steel-sequencer-385510.oa.r.appspot.com/rest";
+
+const String emailJsServiceID = 'service_ttj4pgn';
+const String emailJsPublicKey = 'Rw2KylH8VjSgE6oQ-';
+const String emailJsPrivateKey = 'nVegrjC7Pqfkv7dV0swMd';
 
 var myBackground = Colors.grey[100];
 
@@ -20,6 +25,11 @@ var textStyleEvents = const TextStyle(
   color: Colors.white,
   fontSize: 16.0,
 );
+
+String createId() {
+  var uuid = const Uuid();
+  return uuid.v1().toString();
+}
 
 const MaterialColor primarySwatch = MaterialColor(0xFF020279, {
   50: Color.fromRGBO(2, 2, 121, 0.1),
@@ -73,7 +83,10 @@ final buttonStyle = ElevatedButton.styleFrom(
     borderRadius: BorderRadius.circular(10.0),
   ),
 );
-
+var mainMenuDecoration = BoxDecoration(
+  color: Colors.blueAccent[200],
+  borderRadius: BorderRadius.circular(10),
+);
 var topBarDecoration = BoxDecoration(
   color: Colors.grey[400],
   borderRadius: const BorderRadius.only(
@@ -173,6 +186,12 @@ Future<String> getTokenAuth() async {
   String tokenAuth = map['token'];
   print("TOKENN: " + tokenAuth);
   return tokenAuth;
+}
+
+Future<String> getRole() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? jsonValue = prefs.getString('Role');
+  return jsonValue!;
 }
 
 Future<void> saveToSharedPreferences(String key, String jsonValue) async {

@@ -1,13 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/backoffice/presentation/backOfficePage.dart';
+import 'package:flutter_basic/backoffice/presentation/responsive_backOffice.dart';
 import '../../constants.dart';
 import '../../myAppBar.dart';
+import '../application/statsValueAuth.dart';
 
-class StatsAcessoPage extends StatelessWidget {
+
+
+  class StatsAcessoPage extends StatefulWidget {
+  const StatsAcessoPage({super.key});
+  @override
+  NotificationState createState() => NotificationState();
+  }
+
+  class NotificationState extends State<StatsAcessoPage> {
+  List statsList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchStats();
+  }
+
+  void fetchStats() async {
+    final response = await StatsValueAuth.getStats();
+    setState(() {
+      statsList = response;
+    });
+    print("stats fetched");
+    print(statsList);
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const MyAppBar(),
       backgroundColor: myBackground,
       body: Container(
         padding: EdgeInsets.fromLTRB(16.0, 40.0, 16.0, 16.0), // Updated padding
@@ -34,7 +61,7 @@ class StatsAcessoPage extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => BackOffice()),
+                        MaterialPageRoute(builder: (context) => ResponsiveBackOffice()),
                       );
                     },
                   ),
@@ -74,7 +101,7 @@ class StatsAcessoPage extends StatelessWidget {
                             color: Colors.white,
                             child: Center(
                               child: Text(
-                                "123",
+                                statsList.isNotEmpty ? statsList[0].toString() : 'N/A',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black,
@@ -111,7 +138,7 @@ class StatsAcessoPage extends StatelessWidget {
                             color: Colors.white,
                             child: Center(
                               child: Text(
-                                "456",
+                                statsList.isNotEmpty ? statsList[1].toString() : 'N/A',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black,
@@ -148,7 +175,7 @@ class StatsAcessoPage extends StatelessWidget {
                             color: Colors.white,
                             child: Center(
                               child: Text(
-                                "789",
+                                statsList.isNotEmpty ? statsList[2].toString() : 'N/A',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black,
@@ -185,7 +212,7 @@ class StatsAcessoPage extends StatelessWidget {
                             color: Colors.white,
                             child: Center(
                               child: Text(
-                                "321",
+                                statsList.isNotEmpty ? statsList[0].onlineUsers.toString() : 'N/A',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black,
@@ -222,7 +249,7 @@ class StatsAcessoPage extends StatelessWidget {
                             color: Colors.white,
                             child: Center(
                               child: Text(
-                                "654",
+                                statsList.isNotEmpty ? statsList[0].onlineUsers.toString() : 'N/A',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black,

@@ -1,9 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/login/presentation/loginPage.dart';
 import 'package:flutter_basic/register/application/registerAuth.dart';
 
 import '../../backoffice/presentation/backOfficePage.dart';
+
 const List<String> list = <String>['ALUNO', 'PROFESSOR', 'STAFF'];
 const List<String> listStaff = <String>[
   'SEGURANÇA',
@@ -11,18 +11,15 @@ const List<String> listStaff = <String>[
   'DIREÇÃO',
   'DIVULGAÇÃO'
 ];
-class Register extends StatefulWidget {
 
+class Register extends StatefulWidget {
   const Register({super.key});
 
   @override
   State<Register> createState() => RegisterHome();
-
-
 }
 
 class RegisterHome extends State<Register> {
-
   bool passwordVisible = true;
   bool passwordConfVisible = true;
 
@@ -33,7 +30,9 @@ class RegisterHome extends State<Register> {
   late TextEditingController pwdConfirmControl;
   late TextEditingController roleControl;
   late TextEditingController staffRoleControl;
-  late TextEditingController departmentControl, descrpControl,numberControl,
+  late TextEditingController departmentControl,
+      descrpControl,
+      numberControl,
       courseControl;
 
   @override
@@ -44,35 +43,41 @@ class RegisterHome extends State<Register> {
     pwdControl = TextEditingController();
     pwdConfirmControl = TextEditingController();
     roleControl = TextEditingController();
-    staffRoleControl=TextEditingController();
+    staffRoleControl = TextEditingController();
     departmentControl = TextEditingController();
     descrpControl = TextEditingController();
-    numberControl= TextEditingController();
+    numberControl = TextEditingController();
     courseControl = TextEditingController();
-
 
     super.initState();
   }
 
   String roleValue = list.first;
-  String staffRoleValue=listStaff.first;
+  String staffRoleValue = listStaff.first;
 
-
-  void RegisterButtonPressed(String username, String email, String name, String pwd, String studentNumber, String course,
-      String role, String description, String department) {
-
-    if(RegisterAuth.registerUser(username, email, name, pwd, studentNumber, course, role,  description, department) == true) {
+  void RegisterButtonPressed(
+      String username,
+      String email,
+      String name,
+      String pwd,
+      String studentNumber,
+      String course,
+      String role,
+      String description,
+      String department) {
+    if (RegisterAuth.registerUser(username, email, name, pwd, studentNumber,
+            course, role, description, department) ==
+        true) {
       showDialog(
           context: context,
           builder: (BuildContext context) {
-            return const AlertDialog(
-                title: Text('Registado'));});
+            return const AlertDialog(title: Text('Registado'));
+          });
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => const MyApp()),
       );
     }
-
   }
 
   @override
@@ -180,7 +185,8 @@ class RegisterHome extends State<Register> {
                                     ),
                                     onPressed: () {
                                       setState(() {
-                                        passwordConfVisible = !passwordConfVisible;
+                                        passwordConfVisible =
+                                            !passwordConfVisible;
                                       });
                                     },
                                   ),
@@ -204,8 +210,7 @@ class RegisterHome extends State<Register> {
                               children: [
                                 Padding(
                                   padding: EdgeInsets.symmetric(horizontal: 10),
-                                  child:
-                                  Container(
+                                  child: Container(
                                     width: 113,
                                     child: DropdownButton(
                                       value: roleValue,
@@ -216,14 +221,13 @@ class RegisterHome extends State<Register> {
                                           });
                                         }
                                       },
-                                      items: list
-                                          .map<DropdownMenuItem<String>>(
-                                              (String value) {
-                                            return DropdownMenuItem<String>(
-                                              value: value,
-                                              child: Text(value),
-                                            );
-                                          }).toList(),
+                                      items: list.map<DropdownMenuItem<String>>(
+                                          (String value) {
+                                        return DropdownMenuItem<String>(
+                                          value: value,
+                                          child: Text(value),
+                                        );
+                                      }).toList(),
                                     ),
                                   ),
                                 ),
@@ -231,7 +235,8 @@ class RegisterHome extends State<Register> {
                                 Visibility(
                                   visible: roleValue == 'STAFF',
                                   child: Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 10),
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 10),
                                     child: Container(
                                       width: 121,
                                       child: DropdownButton(
@@ -246,8 +251,9 @@ class RegisterHome extends State<Register> {
                                             });
                                           }
                                         },
-                                        items: listStaff.map<DropdownMenuItem<String>>(
-                                              (String value) {
+                                        items: listStaff
+                                            .map<DropdownMenuItem<String>>(
+                                          (String value) {
                                             return DropdownMenuItem<String>(
                                               value: value,
                                               child: Text(value),
@@ -258,7 +264,6 @@ class RegisterHome extends State<Register> {
                                     ),
                                   ),
                                 ),
-
                                 Visibility(
                                   visible: roleValue == 'ALUNO',
                                   child: SizedBox(width: 10),
@@ -267,7 +272,8 @@ class RegisterHome extends State<Register> {
                                 Visibility(
                                   visible: roleValue == 'ALUNO',
                                   child: Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 15),
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 15),
                                     child: Container(
                                       width: 110,
                                       child: TextField(
@@ -335,7 +341,8 @@ class RegisterHome extends State<Register> {
                                     context: context,
                                     builder: (BuildContext context) {
                                       return AlertDialog(
-                                        title: Text('Preenchas pelo menos os campos: '
+                                        title: Text(
+                                            'Preenchas pelo menos os campos: '
                                             'Username, nome, password e email'),
                                         actions: <Widget>[
                                           TextButton(
@@ -348,13 +355,15 @@ class RegisterHome extends State<Register> {
                                       );
                                     },
                                   );
+                                  //TODO: correct caracteres especiais
                                 } else if (RegisterAuth.hasSpecialChars(
                                     pwdControl.text)) {
                                   showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
                                       return AlertDialog(
-                                        title: Text('Password contém caracteres inválidos'),
+                                        title: Text(
+                                            'Password contém caracteres inválidos'),
                                         actions: <Widget>[
                                           TextButton(
                                             child: Text('Ok'),
@@ -372,7 +381,8 @@ class RegisterHome extends State<Register> {
                                     context: context,
                                     builder: (BuildContext context) {
                                       return AlertDialog(
-                                        title: Text('Passwords são diferentes!'),
+                                        title:
+                                            Text('Passwords são diferentes!'),
                                         actions: <Widget>[
                                           TextButton(
                                             child: Text('Ok'),
@@ -390,7 +400,8 @@ class RegisterHome extends State<Register> {
                                     context: context,
                                     builder: (BuildContext context) {
                                       return AlertDialog(
-                                        title: Text('Password tem de ter no mínimo 5 caracteres,'
+                                        title: Text(
+                                            'Password tem de ter no mínimo 5 caracteres,'
                                             'letra maiúscula e um número'),
                                         actions: <Widget>[
                                           TextButton(
@@ -432,7 +443,7 @@ class RegisterHome extends State<Register> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => const Login(),
+                                    builder: (context) => Login(),
                                   ),
                                 );
                               },
@@ -444,17 +455,12 @@ class RegisterHome extends State<Register> {
                       ),
                     ),
                   ),
-
                 ],
               ),
-
-
             ),
           ),
         ),
       ),
     );
-
   }
-
 }

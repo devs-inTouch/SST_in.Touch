@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../constants.dart';
 import '../../myAppBar.dart';
 import 'nucleosBox.dart';
+import 'nucleosCriacaoPage.dart';
 
 class NucleosPage extends StatelessWidget {
   final List<String> nucleosList = [

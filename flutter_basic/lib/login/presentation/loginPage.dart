@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_basic/login/presentation/recoverPasswordPage.dart';
 import 'package:flutter_basic/register/presentation/registerPage.dart';
 import 'package:flutter_basic/login/application/loginAuth.dart';
 import 'package:flutter_basic/mainpage/presentation/responsive_main_page.dart';
 import 'package:flutter_basic/mainpage/presentation/tablet_main_scaffold.dart';
 import 'package:flutter_basic/mainpage/presentation/desktop_main_scaffold.dart';
 import 'package:flutter_basic/mainpage/presentation/mobile_main_scaffold.dart';
-
+import 'package:fluttertoast/fluttertoast.dart';
 import '../../constants.dart';
 
 class MyApp extends StatelessWidget {
@@ -19,12 +20,12 @@ class MyApp extends StatelessWidget {
           primarySwatch: primarySwatch,
           scaffoldBackgroundColor: Colors.white,
         ),
-        home: const Login());
+        home: Login());
   }
 }
 
 class Login extends StatefulWidget {
-  const Login({super.key});
+  Login({super.key});
 
   @override
   State<Login> createState() => LoginHomePage();
@@ -34,18 +35,27 @@ class LoginHomePage extends State<Login> {
   late TextEditingController usernameControl;
   late TextEditingController pwdControl;
 
+  late String role;
+
   @override
   void initState() {
     usernameControl = TextEditingController();
     pwdControl = TextEditingController();
     super.initState();
+    // Check if the account has been activated
+    print("Check PARAM");
+    print(Uri.base.queryParameters.containsKey('activated'));
+    if (Uri.base.queryParameters.containsKey('activated')) {
+      displayActivationMessage();
+    }
   }
 
   bool passwordVisible = true;
 
   void loginButtonPressed(String username, String pwd) {
-    LoginAuth.userLogin(username, pwd).then((isLogged) {
-      if (isLogged) {
+    LoginAuth.userLogin(username, pwd).then((AuthResult authResult) {
+      if (authResult.getSuccess) {
+        role = authResult.getRole;
         //AnomalyAuth.listAnomaly();
         //NotificationAuth.notificationList();
         Navigator.pushReplacement(
@@ -94,19 +104,9 @@ class LoginHomePage extends State<Login> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Align(
-                    alignment: Alignment.topCenter,
-                    child: Image.asset(
-                      'assets/logo-1-RBH.png',
-                      height: 65,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
+                  SizedBox(height: 40),
+                  Image.asset('assets/logo-1-RBH.png', height: 65),
+                  SizedBox(height: 40),
                   Padding(
                     padding: const EdgeInsets.all(
                         20.0), // Add 20 pixels padding to all sides
@@ -196,10 +196,16 @@ class LoginHomePage extends State<Login> {
                               height: 5,
                             ),
                             TextButton(
+                              child: const Text('Esqueceste a tua password?'),
                               onPressed: () {
-                                debugPrint('Received click');
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const RecoverPassword(),
+                                  ),
+                                );
                               },
-                              child: const Text('Esqueceste a senha?'),
                             ),
                             const SizedBox(
                               height: 20,
@@ -230,6 +236,18 @@ class LoginHomePage extends State<Login> {
           ),
         ),
       ),
+    );
+  }
+
+  // Function to display a pop-up message
+  void displayActivationMessage() {
+    Fluttertoast.showToast(
+      msg: 'Your account has been activated!',
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.white,
+      textColor: primarySwatch,
     );
   }
 }

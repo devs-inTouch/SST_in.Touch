@@ -1,8 +1,9 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_basic/backoffice/application/salasRequestAuth.dart';
 
-class BookingBox  extends StatelessWidget {
+class AnomalyToSendBox  extends StatelessWidget {
   final String username;
   final String room;
   final String department;
@@ -10,7 +11,7 @@ class BookingBox  extends StatelessWidget {
   final String date;
   final String hour;
 
-  BookingBox({
+  AnomalyToSendBox({
     required this.username,
     required this.room,
     required this.department,
@@ -19,8 +20,8 @@ class BookingBox  extends StatelessWidget {
     required this.hour,
   });
 
-  factory BookingBox.fromJson(Map<String, dynamic> json) {
-    return BookingBox(
+  factory AnomalyToSendBox.fromJson(Map<String, dynamic> json) {
+    return AnomalyToSendBox(
       username: json['username'],
       room: json['room'],
       department: json['department'],
@@ -43,6 +44,27 @@ class BookingBox  extends StatelessWidget {
             Text('Number of Students: $numberStudents'),
             Text('Date: $date'),
             Text('Hour: $hour'),
+          ],
+        ),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            IconButton(
+              icon: Icon(Icons.check),
+              onPressed: () {
+                SalasRequestAuth.approveReservation();
+                print("aproved");
+
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.close),
+              onPressed: () {
+                SalasRequestAuth.denyReservation();
+                print("denied");
+
+              },
+            ),
           ],
         ),
       ),

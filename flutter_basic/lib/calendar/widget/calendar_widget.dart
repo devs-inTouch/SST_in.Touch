@@ -17,6 +17,32 @@ class CalendarWidget extends StatefulWidget {
 class CalendarWidgetState extends State<CalendarWidget> {
   List<Event> events = [];
 
+  List<Event> get getEvents => events;
+
+  void deleteEvent(Event event) => events.remove(event);
+
+  editEvent(Event newEvent, int index) {
+    events[index] = newEvent;
+  }
+
+  List<Event> getEventsOfDay(DateTime? date) {
+    if (date != null) {
+      final filteredEvents = events
+          .where((event) =>
+              event.from.year == date.year &&
+              event.from.month == date.month &&
+              event.from.day == date.day)
+          .toList();
+
+      return filteredEvents;
+    }
+    return [];
+  }
+
+  void addEvent(Event event) {
+    events.add(event);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -39,6 +65,7 @@ class CalendarWidgetState extends State<CalendarWidget> {
       initialSelectedDate: DateTime.now(),
       //cellBorderColor: Colors.transparent,
       onTap: (details) {
+        print(events.length);
         List<Event> dayEvents = getEventsOfDay(details.date);
         Navigator.of(context).push(
           MaterialPageRoute(
@@ -46,19 +73,5 @@ class CalendarWidgetState extends State<CalendarWidget> {
         );
       },
     );
-  }
-
-  List<Event> getEventsOfDay(DateTime? date) {
-    if (date != null) {
-      final filteredEvents = events
-          .where((event) =>
-              event.from.year == date.year &&
-              event.from.month == date.month &&
-              event.from.day == date.day)
-          .toList();
-
-      return filteredEvents;
-    }
-    return [];
   }
 }

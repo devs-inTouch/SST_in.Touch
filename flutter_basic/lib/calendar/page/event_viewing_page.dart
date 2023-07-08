@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/calendar/provider/events_request.dart';
-import 'package:provider/provider.dart';
 
 import '../model/event.dart';
-import '../provider/event_provider.dart';
 import '../utils.dart';
+import '../widget/calendar_widget.dart';
+import 'calendar_page.dart';
 import 'event_editing_page.dart';
 
 class EventViewingPage extends StatefulWidget {
@@ -18,6 +18,7 @@ class EventViewingPage extends StatefulWidget {
 }
 
 class _EventViewingPageState extends State<EventViewingPage> {
+  final CalendarWidgetState calendarWidgetState = CalendarWidgetState();
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
@@ -75,8 +76,31 @@ class _EventViewingPageState extends State<EventViewingPage> {
         IconButton(
             icon: Icon(Icons.delete),
             onPressed: () {
-              EventRequests.deleteCalendarEvent(event.id);
-              Navigator.of(context).pop();
+              EventRequests.deleteCalendarEvent(event.id).then((deleted) {
+                if (deleted) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => CalendarPage()),
+                  );
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('Ups... Alguma coisa correu mal...'),
+                        actions: <Widget>[
+                          TextButton(
+                            child: const Text('Ok'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
+              });
             }),
       ];
 }

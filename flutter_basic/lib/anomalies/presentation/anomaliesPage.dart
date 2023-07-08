@@ -9,7 +9,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:image/image.dart' as Im;
 
 import '../../constants.dart';
-import '../../feeds/presentation/anomalyBox.dart';
+import 'anomalyBox.dart';
 import '../../myAppBar.dart';
 
 class AnomaliesPage extends StatefulWidget {
@@ -276,27 +276,7 @@ class AnomalyState extends State<AnomaliesPage> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
 
-                                /**Padding(
-                                    padding: const EdgeInsets.only(
-                                    right:
-                                    20.0), // Add right padding of 30 pixels
-                                    child: ElevatedButton(
-                                    onPressed: () {
-                                    selectImage(context);
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                    fixedSize: const Size(150, 40),
-                                    backgroundColor: Colors.white,
-                                    ),
-                                    child: const Text(
-                                    'Adicionar foto',
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                    color: Colors.black, fontSize: 15),
-                                    ),
-                                    ),
-                                    ),
-                                 **/
+
                                 Padding(
                                   padding: const EdgeInsets.only(
                                       left:

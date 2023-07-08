@@ -1,7 +1,3 @@
-
-
-
-
 class Event {
   final String title;
   final DateTime date;

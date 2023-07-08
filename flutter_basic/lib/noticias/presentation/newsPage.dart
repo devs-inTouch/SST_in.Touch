@@ -45,13 +45,10 @@ class _NewsPageState extends State<NewsPage> {
     final fem = size.width / 1440; // 1440 is the reference width
 
     return Scaffold(
-      appBar: const MyAppBar(),
       backgroundColor: myBackground,
       body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
           child: Container(
-            width: 600,
+            width: double.infinity,
             decoration: BoxDecoration(
               color: Colors.white,
             ),
@@ -60,11 +57,8 @@ class _NewsPageState extends State<NewsPage> {
               children: [
                 Container(
                   height: 70,
-                  width: 600, // Increase the height of the container
-                  decoration: BoxDecoration(
-                    color: Colors.blueAccent[200],
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+                  width: double.infinity, // Increase the height of the container
+                  decoration: mainMenuDecoration,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -109,7 +103,7 @@ class _NewsPageState extends State<NewsPage> {
             ),
           ),
         ),
-      ),
+
     );
   }
 
