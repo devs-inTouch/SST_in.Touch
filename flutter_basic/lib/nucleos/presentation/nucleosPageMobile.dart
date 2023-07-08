@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_basic/nucleos/presentation/nucleosCriacaoPage.dart';
 import '../../bottomAppBarMobile.dart';
 import '../../constants.dart';
 import '../../myAppBarMobile.dart';
@@ -40,7 +41,7 @@ class NucleosPageMobile extends StatelessWidget {
                     itemBuilder: (BuildContext context, int index) {
                       return Padding(
                         padding: EdgeInsets.all(10.0),
-                        child: NucleosBox( nucleosList[index]),
+                        child: NucleosBox(nucleosList[index]),
                       );
                     },
                   ),
@@ -51,6 +52,17 @@ class NucleosPageMobile extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: MyBottomAppBar(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const NucleosCriacaoPage(),
+            ),
+          );        },
+        child: Icon(Icons.add),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }

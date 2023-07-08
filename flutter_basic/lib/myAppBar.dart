@@ -23,6 +23,7 @@ import 'mainpage/application/logoutAuth.dart';
 import 'maps/lib/responsiveMap.dart';
 import 'messages/application/chatScreen.dart';
 import 'noticias/presentation/newsPage.dart';
+import 'noticias/presentation/responsiveNewsPage.dart';
 import 'notifications/presentation/notificationList.dart';
 import 'nucleos/presentation/responsive_nucleos_page.dart';
 
@@ -226,7 +227,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                     // Implement your logic here
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => NewsPage()),
+                      MaterialPageRoute(builder: (context) => ResponsiveNewsPage()),
                     );
                   },
                 ),

@@ -93,11 +93,18 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                                     right: 0,
                                     child: Container(
                                       height: 50,
-                                      decoration: topBarDecoration,
+                                      decoration: mainMenuDecoration,
                                       child: Center(
-                                        child: textTopBar('TEMPO NO CAMPUS'),
+                                          child: Text(
+                                          'TEMPO NO CAMPUS',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                       ),
                                     ),
+                                  ),
                                   ),
                                 ],
                               ),

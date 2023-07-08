@@ -83,7 +83,10 @@ final buttonStyle = ElevatedButton.styleFrom(
     borderRadius: BorderRadius.circular(10.0),
   ),
 );
-
+var mainMenuDecoration =BoxDecoration(
+  color: Colors.blueAccent[200],
+  borderRadius: BorderRadius.circular(10),
+);
 var topBarDecoration = BoxDecoration(
   color: Colors.grey[400],
   borderRadius: const BorderRadius.only(

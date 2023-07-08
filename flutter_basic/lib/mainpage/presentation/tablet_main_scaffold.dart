@@ -60,9 +60,16 @@ class _TabletScaffoldState extends State<TabletScaffold> {
                                 children: [
                                   Container(
                                     height: 50,
-                                    decoration: topBarDecoration,
+                                    decoration: mainMenuDecoration,
                                     child: Center(
-                                      child: textTopBar('Tempo no Campus'),
+                                      child: Text(
+                                        'TEMPO NO CAMPUS',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
                                     ),
                                   ),
 

@@ -3,6 +3,7 @@
 import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/constants.dart';
+import 'package:flutter_basic/noticias/presentation/newsPageMobile.dart';
 import '../../bottomAppBarMobile.dart';
 import '../../calendar/widget/calendar_schedule_widget.dart';
 import '../../hojeNaFCT/avisos_info.dart';
@@ -48,9 +49,16 @@ class _MobileScaffoldState extends State<MobileScaffold> {
                     children: [
                       Container(
                         height: 50,
-                        decoration: topBarDecoration,
+                        decoration: mainMenuDecoration,
                         child: Center(
-                          child: textTopBar('Tempo no Campus'),
+                          child: Text(
+                            'TEMPO NO CAMPUS',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                       ),
                       Align(
@@ -71,7 +79,7 @@ class _MobileScaffoldState extends State<MobileScaffold> {
                           height: 500,
                           decoration: boxDecoration,
                           child:
-                          const NewsPage(),
+                          const NewsPageMobile(),
                         ),
 
                 /**

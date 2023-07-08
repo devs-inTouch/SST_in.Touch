@@ -58,10 +58,7 @@ class _NewsPageState extends State<NewsPage> {
                 Container(
                   height: 70,
                   width: double.infinity, // Increase the height of the container
-                  decoration: BoxDecoration(
-                    color: Colors.blueAccent[200],
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+                  decoration: mainMenuDecoration,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

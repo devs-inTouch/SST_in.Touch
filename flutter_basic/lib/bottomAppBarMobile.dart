@@ -24,6 +24,7 @@ import 'mainpage/presentation/tablet_main_scaffold.dart';
 import 'maps/lib/map.dart';
 import 'messages/application/chatScreen.dart';
 import 'noticias/presentation/newsPage.dart';
+import 'noticias/presentation/responsiveNewsPage.dart';
 import 'nucleos/presentation/nucleosPage.dart';
 
 class MyBottomAppBar extends StatelessWidget {
@@ -55,13 +56,14 @@ class MyBottomAppBar extends StatelessWidget {
     });
   }
 
-  @override
   Widget build(BuildContext context) {
-    return BottomAppBar(
-      color: Colors.white,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
+    return Container(
+      height: 40, // Altura desejada da BottomAppBar
+      child: BottomAppBar(
+        color: Colors.white,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
           PopupMenuButton(
             icon: const Icon(Icons.list, color: Colors.black),
             color: Colors.white,
@@ -137,7 +139,7 @@ class MyBottomAppBar extends StatelessWidget {
                       // Implement your logic here
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => NewsPage()),
+                        MaterialPageRoute(builder: (context) => ResponsiveNewsPage()),
                       );
                     },
                   ),
@@ -188,66 +190,96 @@ class MyBottomAppBar extends StatelessWidget {
               ),
             ],
           ),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              IconButton(
-                icon: Icon(Icons.home),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ResponsiveLayout(
-                        mobileScaffold: MobileScaffold(),
-                        tabletScaffold: TabletScaffold(),
-                        desktopScaffold: DesktopScaffold(),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ResponsiveLayout(
+                          mobileScaffold: MobileScaffold(),
+                          tabletScaffold: TabletScaffold(),
+                          desktopScaffold: DesktopScaffold(),
+                        ),
                       ),
-                    ),
-                  );
-                },
-              ),
-              SizedBox(height: 5),
-              IconButton(
-                icon: Icon(Icons.map),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) =>  ResponsiveMap()),
-                  );
-                },
-              ),
-              SizedBox(height: 5),
-              IconButton(
-                icon: Icon(Icons.calendar_today),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ResponsiveCalendarLayout()),
-                  );                },
-              ),
-              SizedBox(height: 5),
-              IconButton(
-                icon: Icon(Icons.group),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ResponsiveNucleosPage()),
-                  );                },
-              ),
-              SizedBox(height: 5),
-              IconButton(
-                icon: Icon(Icons.list_alt_outlined),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ResponsiveFeedPage()),
-                  );
-                },
-              ),
-              SizedBox(height: 5),
-            ],
-          ),
-          PopupMenuButton(
+                    );
+                  },
+                  child: Column(
+                    children: [
+                      Icon(Icons.home),
+                      Text('Página inicial', style: TextStyle(fontSize: 10)),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 5),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) =>  ResponsiveMap()),
+                    );
+                  },
+                  child: Column(
+                    children: [
+                      Icon(Icons.map),
+                      Text('Mapa', style: TextStyle(fontSize: 10)),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 5),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ResponsiveCalendarLayout()),
+                    );
+                  },
+                  child: Column(
+                    children: [
+                      Icon(Icons.calendar_today),
+                      Text('Calendário', style: TextStyle(fontSize: 10)),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 5),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ResponsiveNucleosPage()),
+                    );
+                  },
+                  child: Column(
+                    children: [
+                      Icon(Icons.group),
+                      Text('Grupos', style: TextStyle(fontSize: 10)),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 5),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ResponsiveFeedPage()),
+                    );
+                  },
+                  child: Column(
+                    children: [
+                      Icon(Icons.list_alt_outlined),
+                      Text('Feed', style: TextStyle(fontSize: 10)),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 5),
+              ],
+            ),
+
+
+
+            PopupMenuButton(
             icon: const Icon(Icons.person, color: Colors.black),
             color: Colors.white,
             offset: const Offset(0, kToolbarHeight),
@@ -407,6 +439,7 @@ class MyBottomAppBar extends StatelessWidget {
           ),
         ],
       ),
+    ),
     );
   }
 }
