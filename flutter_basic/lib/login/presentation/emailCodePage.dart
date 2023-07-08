@@ -1,45 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_basic/login/presentation/emailCodePage.dart';
 import 'package:flutter_basic/login/presentation/loginPage.dart';
+import 'package:flutter_basic/login/presentation/recoverPasswordPage.dart';
 
 import '../application/recoverPassWordAuth.dart';
+import 'newPasswordPage.dart';
 
-class RecoverPassword extends StatefulWidget {
-  const RecoverPassword({Key? key});
+class EmailCodePage extends StatefulWidget {
+  const EmailCodePage({Key? key});
 
   @override
-  State<RecoverPassword> createState() => RegisterHome();
+  State<EmailCodePage> createState() => EmailCode();
 }
 
-class RegisterHome extends State<RecoverPassword> {
-  late TextEditingController emailControl;
-  late TextEditingController pwdControl;
-  late TextEditingController pwdConfirmControl;
-  bool passwordVisible = false;
-  bool passwordConfVisible = false;
+class EmailCode extends State<EmailCodePage> {
+  late TextEditingController codeControl;
 
   @override
   void initState() {
-    emailControl = TextEditingController();
-    pwdControl = TextEditingController();
-    pwdConfirmControl = TextEditingController();
+    codeControl = TextEditingController();
     super.initState();
-  }
-
-  void recoverPasswordButtonPressed(
-      String email) {
-    if (email.isNotEmpty) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return const AlertDialog(title: Text('Done'));
-        },
-      );
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const EmailCodePage()),
-      );
-    }
   }
 
   @override
@@ -79,7 +58,7 @@ class RegisterHome extends State<RecoverPassword> {
                           children: [
                             SizedBox(height: 20),
                             Text(
-                              'Recuperação da password',
+                              'Verificação por Email',
                               style: TextStyle(
                                 fontSize: 28,
                                 fontWeight: FontWeight.bold,
@@ -88,12 +67,12 @@ class RegisterHome extends State<RecoverPassword> {
                             SizedBox(height: 20),
                             Padding(
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
+                              const EdgeInsets.symmetric(horizontal: 20),
                               child: TextField(
-                                controller: emailControl,
+                                controller: codeControl,
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(),
-                                  labelText: 'Email',
+                                  labelText: 'Código recebido no email',
                                 ),
                               ),
                             ),
@@ -104,12 +83,18 @@ class RegisterHome extends State<RecoverPassword> {
                                 backgroundColor: Colors.blue,
                               ),
                               onPressed: () {
-                                recoverPasswordButtonPressed(
-                                  emailControl.text
+                               // sendEmailCodeRequest(
+                                 // codeControl.text
+                                //);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => NewPasswordPage(),
+                                  ),
                                 );
                               },
                               child: Text(
-                                'Recuperar password',
+                                'Enviar código de verificação',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 18,
@@ -120,11 +105,10 @@ class RegisterHome extends State<RecoverPassword> {
                             SizedBox(height: 20),
                             TextButton(
                               onPressed: () {
-                                RecoverPassWordAuth.hasEmail(emailControl.text);
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => Login(),
+                                    builder: (context) => RecoverPassword(),
                                   ),
                                 );
                               },
@@ -144,4 +128,17 @@ class RegisterHome extends State<RecoverPassword> {
       ),
     );
   }
+/**
+  void sendEmailCodeRequest(String controlCode) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return const AlertDialog(title: Text('Done'));
+        },
+      );
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const MyApp()),
+      );
+  }**/
 }

@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_basic/login/presentation/emailCodePage.dart';
 import 'package:flutter_basic/login/presentation/loginPage.dart';
 
 import '../application/recoverPassWordAuth.dart';
 
-class RecoverPassword extends StatefulWidget {
-  const RecoverPassword({Key? key});
+class NewPasswordPage extends StatefulWidget {
+  const NewPasswordPage({Key? key});
 
   @override
-  State<RecoverPassword> createState() => RegisterHome();
+  State<NewPasswordPage> createState() => NewPassword();
 }
 
-class RegisterHome extends State<RecoverPassword> {
-  late TextEditingController emailControl;
+class NewPassword extends State<NewPasswordPage> {
   late TextEditingController pwdControl;
   late TextEditingController pwdConfirmControl;
   bool passwordVisible = false;
@@ -20,15 +18,14 @@ class RegisterHome extends State<RecoverPassword> {
 
   @override
   void initState() {
-    emailControl = TextEditingController();
     pwdControl = TextEditingController();
     pwdConfirmControl = TextEditingController();
     super.initState();
   }
 
   void recoverPasswordButtonPressed(
-      String email) {
-    if (email.isNotEmpty) {
+       String pwd, String pwdConfirm) {
+    if (pwd.isNotEmpty && pwd == pwdConfirm) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -37,7 +34,7 @@ class RegisterHome extends State<RecoverPassword> {
       );
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const EmailCodePage()),
+        MaterialPageRoute(builder: (context) => const MyApp()),
       );
     }
   }
@@ -79,21 +76,61 @@ class RegisterHome extends State<RecoverPassword> {
                           children: [
                             SizedBox(height: 20),
                             Text(
-                              'Recuperação da password',
+                              'Nova Password',
                               style: TextStyle(
                                 fontSize: 28,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             SizedBox(height: 20),
+
                             Padding(
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
+                              const EdgeInsets.symmetric(horizontal: 20),
                               child: TextField(
-                                controller: emailControl,
+                                obscureText: !passwordVisible,
+                                controller: pwdControl,
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(),
-                                  labelText: 'Email',
+                                  labelText: 'Password',
+                                  suffixIcon: IconButton(
+                                    icon: Icon(
+                                      passwordVisible
+                                          ? Icons.visibility
+                                          : Icons.visibility_off,
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        passwordVisible = !passwordVisible;
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 16),
+                            Padding(
+                              padding:
+                              const EdgeInsets.symmetric(horizontal: 20),
+                              child: TextField(
+                                obscureText: !passwordConfVisible,
+                                controller: pwdConfirmControl,
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Confirmar password',
+                                  suffixIcon: IconButton(
+                                    icon: Icon(
+                                      passwordConfVisible
+                                          ? Icons.visibility
+                                          : Icons.visibility_off,
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        passwordConfVisible =
+                                        !passwordConfVisible;
+                                      });
+                                    },
+                                  ),
                                 ),
                               ),
                             ),
@@ -105,7 +142,8 @@ class RegisterHome extends State<RecoverPassword> {
                               ),
                               onPressed: () {
                                 recoverPasswordButtonPressed(
-                                  emailControl.text
+                                  pwdControl.text,
+                                  pwdConfirmControl.text,
                                 );
                               },
                               child: Text(
@@ -120,7 +158,7 @@ class RegisterHome extends State<RecoverPassword> {
                             SizedBox(height: 20),
                             TextButton(
                               onPressed: () {
-                                RecoverPassWordAuth.hasEmail(emailControl.text);
+                               // RecoverPassWordAuth.hasEmail(emailControl.text);
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
