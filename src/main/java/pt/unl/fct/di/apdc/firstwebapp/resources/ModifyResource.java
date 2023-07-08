@@ -12,13 +12,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import com.google.cloud.datastore.Datastore;
-import com.google.cloud.datastore.DatastoreOptions;
-import com.google.cloud.datastore.Entity;
-import com.google.cloud.datastore.Key;
+import com.google.cloud.datastore.*;
 
 import pt.unl.fct.di.apdc.firstwebapp.util.TokenUtil;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.AttributeChangeData;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.RecoverPasswordData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.TokenData;
 import pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes;
 
@@ -28,7 +26,24 @@ public class ModifyResource {
     private final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
 	private static final Logger LOG = Logger.getLogger(ModifyResource.class.getName());
 
+    private static final String KIND = "User";
+
     public ModifyResource() {}
+
+
+    @POST
+    @Path("recoverPassword")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response recoverPassword(RecoverPasswordData data){
+        Query<Entity> query = Query.newEntityQueryBuilder()
+                .setKind(KIND)
+                .setFilter(StructuredQuery.PropertyFilter.eq("user_email", data.getEmail()))
+                .build();
+        QueryResults<Entity> result = datastore.run(query);
+        if(result.hasNext())
+            return Response.status(Status.OK).entity("utilizador encontrado").build();
+        return Response.status(Status.NOT_FOUND).entity("utilizador não esta registado na base de dados").build();
+    }
 
     @POST
     @Path("/")
