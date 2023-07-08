@@ -31,6 +31,9 @@ public class AnomalyResource {
     private static final String USER_NOT_ALLOWED_TO_DELETE_ANOMALY = "User not allowed to delete anomaly";
     private static final String ANOMALY_CREATED = "Nova anomalia, aguardar confirmacao";
     private static final String ANOMALY_TYPE = "Anomaly";
+    private static final String CAN_NOT_DELETE_ANOMALY = "Can not delete anomaly";
+    private static final String NOVA_ANOMALIA = "Nova anomalia";
+    private static final String ANOMALIA_REJEITADA = "Anomalia rejeitada";
 
     private final Datastore datastore = DatastoreUtil.getService();
 
@@ -43,7 +46,6 @@ public class AnomalyResource {
         notification = new NotificationsResource();
     }
 
-    //TODO notificacoes manda ao proprio user, corrigir isso
 
     @POST
     @Path("/create")
@@ -86,11 +88,11 @@ public class AnomalyResource {
         }
     }
 
-    /*@POST
+    @POST
     @Path("/delete")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    public Response deleteAnomaly(@HeaderParam(AUTH) String auth, AnomalyDeleteData data) {
+    public Response deleteAnomaly(@HeaderParam(AUTH) String auth, ApproveAnomalyData data) {
 
         TokenData givenTokenData = TokenUtil.validateToken(LOG, auth);
 
@@ -98,35 +100,36 @@ public class AnomalyResource {
             return Response.status(Response.Status.FORBIDDEN).build();
 
         Key userKey = datastore.newKeyFactory().setKind("User").newKey(givenTokenData.getUsername());
-        Key creatorKey = datastore.newKeyFactory().setKind("User").newKey(data.getCreator());
 
         Transaction txn = datastore.newTransaction();
+
         try {
             Entity user = txn.get(userKey);
-            Entity creator = txn.get(creatorKey);
-            if (user == null || creator == null)
+            if (user == null)
                 return Response.status(Response.Status.BAD_REQUEST).entity(USER_NOT_IN_DATABASE).build();
 
-            if(givenTokenData.getUsername().equals(data.getCreator())) {
-                Key k = datastore.newKeyFactory().setKind("Anomaly").newKey(Integer.parseInt(data.getAnomalyId()));
-                Entity anomaly = txn.get(k);
-                if (anomaly == null)
-                    return Response.status(Response.Status.BAD_REQUEST).entity(ANOMALY_NOT_IN_DATABASE).build();
-
-                txn.delete(k);
-                txn.commit();
-                return Response.ok(g.toJson(ANOMALY_DELETED_SUCCESSFULLY)).build();
-            } else {
+            if (!user.getString("user_role").equals("admin"))
                 return Response.status(Response.Status.BAD_REQUEST).entity(USER_NOT_ALLOWED_TO_DELETE_ANOMALY).build();
-            }
 
+            Key k = datastore.newKeyFactory().setKind("Anomaly").newKey(data.getAnomalyId());
+            Entity anomaly = txn.get(k);
+            if (anomaly == null)
+                return Response.status(Response.Status.BAD_REQUEST).entity(ANOMALY_NOT_IN_DATABASE).build();
+
+            if(anomaly.getBoolean("isApproved") == false)
+                return Response.status(Response.Status.BAD_REQUEST).entity(CAN_NOT_DELETE_ANOMALY).build();
+
+            txn.delete(k);
+            txn.commit();
+
+            return Response.ok(g.toJson(ANOMALY_DELETED_SUCCESSFULLY)).build();
         } finally {
-            if(txn.isActive()) {
+            if (txn.isActive()) {
                 txn.rollback();
             }
         }
 
-    }*/
+    }
 
     @POST
     @Path("/listnotapproved")
@@ -205,7 +208,7 @@ public class AnomalyResource {
             txn.update(newAnomaly);
             txn.commit();
 
-            notification.createNotificationToAll("Atencao, nova anomalia", ANOMALY_TYPE);
+            notification.createNotificationToAll(NOVA_ANOMALIA, ANOMALY_TYPE);
             return Response.ok(g.toJson(newAnomaly)).build();
 
         } finally {
@@ -242,7 +245,7 @@ public class AnomalyResource {
             txn.delete(anomalyKey);
             txn.commit();
 
-            notification.createNotification("Anomalia rejeitada", "System", anomaly.getString("username"), ANOMALY_TYPE, System.currentTimeMillis());
+            notification.createNotification(ANOMALIA_REJEITADA, "System", anomaly.getString("username"), ANOMALY_TYPE, System.currentTimeMillis());
             return Response.ok(g.toJson(ANOMALY_DELETED_SUCCESSFULLY)).build();
 
         } finally {
