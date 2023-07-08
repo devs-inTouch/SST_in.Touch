@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/login/presentation/loginPage.dart';
 
+import '../application/recoverPassWordAuth.dart';
+
 class RecoverPassword extends StatefulWidget {
   const RecoverPassword({Key? key});
 
@@ -170,6 +172,7 @@ class RegisterHome extends State<RecoverPassword> {
                             SizedBox(height: 20),
                             TextButton(
                               onPressed: () {
+                                RecoverPassWordAuth.hasEmail(emailControl.text);
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(

@@ -7,6 +7,10 @@ import 'package:uuid/uuid.dart';
 
 const String appUrl = "https://steel-sequencer-385510.oa.r.appspot.com/rest";
 
+const String emailJsServiceID = 'service_ttj4pgn';
+const String emailJsPublicKey = 'Rw2KylH8VjSgE6oQ-';
+const String emailJsPrivateKey = 'nVegrjC7Pqfkv7dV0swMd';
+
 var myBackground = Colors.grey[100];
 
 var fireBaseStorageInstance = FirebaseStorage.instance;

@@ -4,10 +4,7 @@ import 'package:flutter_basic/constants.dart';
 import 'package:http/http.dart' as http;
 
 class RegisterAuth {
-  static const String emailJsServiceID = 'service_ttj4pgn';
   static const String emailJsTemplateID = 'template_zyyib8q';
-  static const String emailJsPublicKey = 'Rw2KylH8VjSgE6oQ-';
-  static const String emailJsPrivateKey = 'nVegrjC7Pqfkv7dV0swMd';
   static bool emptyFields(String username, String email, String name,
       String pwd, String pwdConfirm) {
     return username.isEmpty &&
