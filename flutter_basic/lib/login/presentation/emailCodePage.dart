@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_basic/login/presentation/loginPage.dart';
 import 'package:flutter_basic/login/presentation/recoverPasswordPage.dart';
 
-import '../application/recoverPassWordAuth.dart';
 import 'newPasswordPage.dart';
 
 class EmailCodePage extends StatefulWidget {
@@ -67,7 +65,7 @@ class EmailCode extends State<EmailCodePage> {
                             SizedBox(height: 20),
                             Padding(
                               padding:
-                              const EdgeInsets.symmetric(horizontal: 20),
+                                  const EdgeInsets.symmetric(horizontal: 20),
                               child: TextField(
                                 controller: codeControl,
                                 decoration: InputDecoration(
@@ -83,8 +81,8 @@ class EmailCode extends State<EmailCodePage> {
                                 backgroundColor: Colors.blue,
                               ),
                               onPressed: () {
-                               // sendEmailCodeRequest(
-                                 // codeControl.text
+                                // sendEmailCodeRequest(
+                                // codeControl.text
                                 //);
                                 Navigator.push(
                                   context,

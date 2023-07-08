@@ -196,6 +196,7 @@ class LoginHomePage extends State<Login> {
                               height: 5,
                             ),
                             TextButton(
+                              child: const Text('Esqueceste a tua password?'),
                               onPressed: () {
                                 Navigator.push(
                                   context,
@@ -205,7 +206,6 @@ class LoginHomePage extends State<Login> {
                                   ),
                                 );
                               },
-                              child: const Text('Esqueceste a tua password?'),
                             ),
                             const SizedBox(
                               height: 20,

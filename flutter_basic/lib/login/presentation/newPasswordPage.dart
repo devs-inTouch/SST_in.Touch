@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/login/presentation/loginPage.dart';
 
-import '../application/recoverPassWordAuth.dart';
-
 class NewPasswordPage extends StatefulWidget {
   const NewPasswordPage({Key? key});
 
@@ -23,8 +21,7 @@ class NewPassword extends State<NewPasswordPage> {
     super.initState();
   }
 
-  void recoverPasswordButtonPressed(
-       String pwd, String pwdConfirm) {
+  void recoverPasswordButtonPressed(String pwd, String pwdConfirm) {
     if (pwd.isNotEmpty && pwd == pwdConfirm) {
       showDialog(
         context: context,
@@ -83,10 +80,9 @@ class NewPassword extends State<NewPasswordPage> {
                               ),
                             ),
                             SizedBox(height: 20),
-
                             Padding(
                               padding:
-                              const EdgeInsets.symmetric(horizontal: 20),
+                                  const EdgeInsets.symmetric(horizontal: 20),
                               child: TextField(
                                 obscureText: !passwordVisible,
                                 controller: pwdControl,
@@ -111,7 +107,7 @@ class NewPassword extends State<NewPasswordPage> {
                             SizedBox(height: 16),
                             Padding(
                               padding:
-                              const EdgeInsets.symmetric(horizontal: 20),
+                                  const EdgeInsets.symmetric(horizontal: 20),
                               child: TextField(
                                 obscureText: !passwordConfVisible,
                                 controller: pwdConfirmControl,
@@ -127,7 +123,7 @@ class NewPassword extends State<NewPasswordPage> {
                                     onPressed: () {
                                       setState(() {
                                         passwordConfVisible =
-                                        !passwordConfVisible;
+                                            !passwordConfVisible;
                                       });
                                     },
                                   ),
@@ -158,7 +154,7 @@ class NewPassword extends State<NewPasswordPage> {
                             SizedBox(height: 20),
                             TextButton(
                               onPressed: () {
-                               // RecoverPassWordAuth.hasEmail(emailControl.text);
+                                // RecoverPassWordAuth.hasEmail(emailControl.text);
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(

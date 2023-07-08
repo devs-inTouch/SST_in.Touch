@@ -83,7 +83,7 @@ final buttonStyle = ElevatedButton.styleFrom(
     borderRadius: BorderRadius.circular(10.0),
   ),
 );
-var mainMenuDecoration =BoxDecoration(
+var mainMenuDecoration = BoxDecoration(
   color: Colors.blueAccent[200],
   borderRadius: BorderRadius.circular(10),
 );
@@ -186,6 +186,12 @@ Future<String> getTokenAuth() async {
   String tokenAuth = map['token'];
   print("TOKENN: " + tokenAuth);
   return tokenAuth;
+}
+
+Future<String> getRole() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? jsonValue = prefs.getString('Role');
+  return jsonValue!;
 }
 
 Future<void> saveToSharedPreferences(String key, String jsonValue) async {
