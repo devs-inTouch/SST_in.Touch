@@ -34,7 +34,7 @@ import '../application/statsValueAuth.dart';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:  MyAppBar(),
+      appBar: const MyAppBar(),
       backgroundColor: myBackground,
       body: Container(
         padding: EdgeInsets.fromLTRB(16.0, 40.0, 16.0, 16.0), // Updated padding

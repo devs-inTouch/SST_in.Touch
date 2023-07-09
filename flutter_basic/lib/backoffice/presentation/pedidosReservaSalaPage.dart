@@ -34,7 +34,7 @@ class PedidoReservaSalaPage extends StatefulWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:  MyAppBar(),
+      appBar: const MyAppBar(),
       backgroundColor: myBackground,
       body: Container(
         padding: EdgeInsets.all(16.0),

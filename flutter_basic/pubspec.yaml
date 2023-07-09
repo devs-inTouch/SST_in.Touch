@@ -60,11 +60,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   image_network: ^2.5.2
   file_picker: ^5.3.1
-<<<<<<< Updated upstream
   emailjs: ^1.1.0
-=======
-  cached_network_image: ^3.2.3
->>>>>>> Stashed changes
 
 dev_dependencies:
   flutter_test:

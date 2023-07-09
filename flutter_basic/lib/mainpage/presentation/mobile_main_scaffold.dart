@@ -50,11 +50,7 @@ class _MobileScaffoldState extends State<MobileScaffold> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-<<<<<<< Updated upstream
       appBar: const MyAppBarMobile(),
-=======
-      appBar:  MyAppBar(),
->>>>>>> Stashed changes
       backgroundColor: myBackground,
       body: Padding(
         padding: const EdgeInsets.all(20.0),

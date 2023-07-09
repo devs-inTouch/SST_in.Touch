@@ -15,7 +15,7 @@ class NucleosPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:  MyAppBar(),
+      appBar: const MyAppBar(),
       backgroundColor: myBackground,
       body: Center(
         child: Container(

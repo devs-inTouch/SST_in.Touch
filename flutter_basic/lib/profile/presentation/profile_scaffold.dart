@@ -8,11 +8,17 @@ import '../application/profleRequests.dart';
 
 class ProfileScaffold extends StatefulWidget {
   final String name;
-
+  final String imageAssetPath;
+  final String role;
+  final String year;
+  final String nucleos;
 
   const ProfileScaffold({
     required this.name,
-
+    required this.imageAssetPath,
+    required this.role,
+    required this.year,
+    required this.nucleos,
   });
 
   @override
@@ -24,34 +30,13 @@ class _ProfilePageState extends State<ProfileScaffold> {
 
   List userInfo = [];
 
-  String userWanted = '';
-
-
-
   @override
   void initState() {
     super.initState();
-    fetchUserWanted();
-    print("object " + userWanted);
-
+    fetchData();
+    fetchDataForPosts();
   }
 
-  Future<void> fetchUserWanted() async {
-    final response = await ProfileRequests.getUsername();
-    if(widget.name == '') {
-      setState(() {
-        userWanted = response;
-      });
-    } else {
-      setState(() {
-        userWanted = widget.name;
-      });
-    }
-    if(response.isNotEmpty) {
-      fetchData();
-      fetchDataForPosts();
-    }
-  }
   //mudar
   Future<void> fetchDataForPosts() async {
     final response = await PostRequests.getFeed();
@@ -62,10 +47,7 @@ class _ProfilePageState extends State<ProfileScaffold> {
   }
 
   Future<void> fetchData() async {
-    List response;
-    print("USER " + userWanted);
-    response = await ProfileRequests.getUserInfo(userWanted);
-
+    final response = await ProfileRequests.getUserInfo();
     setState(() {
       userInfo = response;
     });

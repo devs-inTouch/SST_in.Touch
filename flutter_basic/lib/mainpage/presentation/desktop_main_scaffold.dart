@@ -48,7 +48,7 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
     final fem = size.width / 1440; // 1440 is the reference width
 
     return Scaffold(
-      appBar:  MyAppBar(),
+      appBar: const MyAppBar(),
       backgroundColor: myBackground,
       body: Padding(
         padding: const EdgeInsets.all(50.0),
