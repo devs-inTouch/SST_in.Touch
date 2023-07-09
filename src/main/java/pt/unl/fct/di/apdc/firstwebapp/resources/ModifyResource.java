@@ -15,8 +15,10 @@ import javax.ws.rs.core.Response.Status;
 import com.google.cloud.datastore.*;
 
 import com.google.gson.Gson;
+import org.apache.commons.codec.digest.DigestUtils;
 import pt.unl.fct.di.apdc.firstwebapp.util.TokenUtil;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.AttributeChangeData;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.changePassword.ChangePasswordData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.changePassword.PasswordCodeData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.changePassword.RecoverPasswordData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.TokenData;
@@ -38,7 +40,7 @@ public class ModifyResource {
 
 
     @POST
-    @Path("recoverPassword")
+    @Path("generatePassCode")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response recoverPassword(RecoverPasswordData data){
         Query<Entity> query = Query.newEntityQueryBuilder()
@@ -66,7 +68,7 @@ public class ModifyResource {
     }
 
     @POST
-    @Path("changePassword")
+    @Path("checkPassCode")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response changePassWord(PasswordCodeData data) {
 
@@ -84,6 +86,33 @@ public class ModifyResource {
 
         return Response.status(Status.OK).entity(g.toJson(data.getUserId())).build();
 
+    }
+
+    @POST
+    @Path("changePassword")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response changePassWord(ChangePasswordData data) {
+
+        Key userKey = userKeyFactory.newKey(data.getUserId());
+        Entity user = datastore.get(userKey);
+
+        if (user == null)
+            return Response.status(Status.NOT_FOUND).entity("utilizador não esta registado na base de dados").build();
+        Transaction txn = datastore.newTransaction();
+        try{
+            user = Entity.newBuilder(user)
+                    .set("user_password", DigestUtils.sha512Hex(data.getNewPassword()))
+                    .remove("code_password")
+                    .build();
+            txn.update(user);
+            txn.commit();
+            return Response.status(Status.OK).entity("Password alterada com sucesso").build();
+        }catch (Exception e){
+            return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Erro ao alterar a password").build();
+        }finally {
+            if(txn.isActive())
+                txn.rollback();
+        }
     }
 
     @POST
