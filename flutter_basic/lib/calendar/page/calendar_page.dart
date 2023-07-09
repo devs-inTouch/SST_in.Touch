@@ -3,7 +3,6 @@ import 'package:flutter_basic/calendar/page/event_editing_page.dart';
 import 'package:flutter_basic/myAppBar.dart';
 
 import '../widget/calendar_widget.dart';
-//import 'page/event_editing_page.dart';
 
 class CalendarPage extends StatefulWidget {
   const CalendarPage({super.key});

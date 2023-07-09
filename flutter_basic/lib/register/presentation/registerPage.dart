@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_basic/login/presentation/loginPage.dart';
 import 'package:flutter_basic/register/application/registerAuth.dart';
 
-import '../../backoffice/presentation/backOfficePage.dart';
-
 const List<String> list = <String>['ALUNO', 'PROFESSOR', 'STAFF'];
 const List<String> listStaff = <String>[
   'SEGURANÇA',
@@ -30,10 +28,10 @@ class RegisterHome extends State<Register> {
   late TextEditingController pwdConfirmControl;
   late TextEditingController roleControl;
   late TextEditingController staffRoleControl;
-  late TextEditingController departmentControl,
-      descrpControl,
-      numberControl,
-      courseControl;
+  late TextEditingController departmentControl;
+  late TextEditingController  descrpControl;
+  late TextEditingController  numberControl;
+  late TextEditingController   courseControl;
 
   @override
   void initState() {
@@ -105,7 +103,7 @@ class RegisterHome extends State<Register> {
                     padding: const EdgeInsets.all(20.0),
                     child: Container(
                       height: MediaQuery.of(context).size.height / 1.3,
-                      width: 450, // Definindo a largura como 450 pixels
+                      width: 450,
                       decoration: BoxDecoration(
                         color: const Color(0xd8ffffff),
                         borderRadius: BorderRadius.circular(10.0),
@@ -355,7 +353,6 @@ class RegisterHome extends State<Register> {
                                       );
                                     },
                                   );
-                                  //TODO: correct caracteres especiais
                                 } else if (RegisterAuth.hasSpecialChars(
                                     pwdControl.text)) {
                                   showDialog(
@@ -363,7 +360,7 @@ class RegisterHome extends State<Register> {
                                     builder: (BuildContext context) {
                                       return AlertDialog(
                                         title: Text(
-                                            'Password contém caracteres inválidos'),
+                                            'Password contem caracteres inválidos'),
                                         actions: <Widget>[
                                           TextButton(
                                             child: Text('Ok'),

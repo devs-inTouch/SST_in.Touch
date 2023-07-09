@@ -212,7 +212,7 @@ class NucleosState extends State<NucleosCriacaoPage> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(20.0, 40.0, 20.0, 20.0), // Adjust the top padding value as per your requirement
+                    padding: const EdgeInsets.fromLTRB(20.0, 40.0, 20.0, 20.0),
                     child: Container(
                       height: 600,
                       width: 1000,
@@ -237,7 +237,7 @@ class NucleosState extends State<NucleosCriacaoPage> {
                                         Padding(
                                           padding: const EdgeInsets.fromLTRB(
                                               15.0, 15.0, 15.0, 0.0),
-                                          // Add vertical padding of 15 pixels
+
                                           child: TextField(
                                             controller: title,
                                             maxLength: 50,
@@ -251,7 +251,7 @@ class NucleosState extends State<NucleosCriacaoPage> {
                                         Padding(
                                           padding: const EdgeInsets.fromLTRB(
                                               15.0, 15.0, 15.0, 0.0),
-                                          // Add vertical padding of 15 pixels
+
                                           child: TextField(
                                             controller: description,
                                             keyboardType:
@@ -268,7 +268,7 @@ class NucleosState extends State<NucleosCriacaoPage> {
                                         Padding(
                                           padding: const EdgeInsets.fromLTRB(
                                               15.0, 15.0, 15.0, 0.0),
-                                          // Add vertical padding of 15 pixels
+
                                           child: TextField(
                                             controller: socialEmail,
                                             decoration: const InputDecoration(
@@ -281,7 +281,7 @@ class NucleosState extends State<NucleosCriacaoPage> {
                                         Padding(
                                           padding: const EdgeInsets.fromLTRB(
                                               15.0, 15.0, 15.0, 0.0),
-                                          // Add vertical padding of 15 pixels
+
                                           child: TextField(
                                             controller: socialInsta,
                                             decoration: const InputDecoration(
@@ -294,7 +294,7 @@ class NucleosState extends State<NucleosCriacaoPage> {
                                         Padding(
                                           padding: const EdgeInsets.fromLTRB(
                                               15.0, 15.0, 15.0, 0.0),
-                                          // Add vertical padding of 15 pixels
+
                                           child: TextField(
                                             controller: socialFacebook,
                                             decoration: const InputDecoration(

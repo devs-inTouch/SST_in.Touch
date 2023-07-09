@@ -161,7 +161,6 @@ class _ReservaSalasPageState extends State<ReservaSalasPage> {
                                             hour = selectedHour!;
                                           });
                                         },
-                                        // Set dropdown decoration
                                         dropdownColor: Colors.white,
                                         style: TextStyle(color: Colors.black),
                                         iconEnabledColor: Colors.black,
@@ -209,7 +208,7 @@ class _ReservaSalasPageState extends State<ReservaSalasPage> {
                             alignment: Alignment.bottomRight,
                             child: TextButton(
                               onPressed: () {
-                                // Add your desired action when the button is pressed
+
                               },
                               style: ButtonStyle(
                                 backgroundColor:

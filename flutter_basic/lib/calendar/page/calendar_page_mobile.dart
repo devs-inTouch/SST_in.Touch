@@ -5,7 +5,6 @@ import 'package:flutter_basic/myAppBarMobile.dart';
 
 import '../../bottomAppBarMobile.dart';
 import '../widget/calendar_widget.dart';
-//import 'page/event_editing_page.dart';
 
 class CalendarPageMobile extends StatefulWidget {
   const CalendarPageMobile({super.key});

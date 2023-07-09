@@ -37,7 +37,6 @@ class NotificationState extends State<NotificationPage> {
   }
 
   void navigateToAnomalyPage() {
-    // Navigate to the AnomalyPage when a notification is clicked
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => AnomaliesPage()),
@@ -57,12 +56,12 @@ class NotificationState extends State<NotificationPage> {
                 final notification = notificationList[index];
                 return GestureDetector(
                   onTap: () {
-                    navigateToAnomalyPage(); // Call the navigation function
+                    navigateToAnomalyPage();
                   },
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
-                      color: Colors.grey[200], // Light grey for tiles
+                      color: Colors.grey[200],
                     ),
                     margin: EdgeInsets.symmetric(vertical: 5.0),
                     padding: EdgeInsets.all(10.0),
@@ -114,15 +113,15 @@ class NotificationState extends State<NotificationPage> {
                   },
                 );
                 setState(() {
-                  showNotifications = false; // Hide the notifications column
+                  showNotifications = false;
                 });
               }
             },
             style: ElevatedButton.styleFrom(
-              primary: Colors.blueAccent[200], // Set the same dark grey color as the background
+              primary: Colors.blueAccent[200],
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(
-                    10.0), // Set the border radius
+                    10.0),
               ),
             ),
             child: Center(
@@ -130,7 +129,7 @@ class NotificationState extends State<NotificationPage> {
                 'LIMPAR NOTIFICAÇÕES (${notificationList.length})',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: Colors.white, // Set the text color to white
+                  color: Colors.white,
                 ),
               ),
             ),

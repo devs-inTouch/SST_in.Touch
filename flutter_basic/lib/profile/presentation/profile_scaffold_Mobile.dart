@@ -39,7 +39,6 @@ class _ProfilePageState extends State<ProfileScaffoldMobile> {
     fetchDataForPosts();
   }
 
-  //mudar
   Future<void> fetchDataForPosts() async {
     final response = await PostRequests.getFeed();
     setState(() {
@@ -64,7 +63,7 @@ class _ProfilePageState extends State<ProfileScaffoldMobile> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final fem = size.width / 1440; // 1440 is the reference width
+    final fem = size.width / 1440;
 
     return Scaffold(
       appBar: MyAppBarMobile(),

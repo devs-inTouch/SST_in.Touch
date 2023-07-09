@@ -138,7 +138,6 @@ import '../application/reservaRequest.dart';
                                         hour = selectedHour!;
                                       });
                                     },
-                                    // Set dropdown decoration
                                     dropdownColor: Colors.white,
                                     style: TextStyle(color: Colors.black),
                                     iconEnabledColor: Colors.black,
@@ -291,7 +290,7 @@ import '../application/reservaRequest.dart';
                             alignment: Alignment.center,
                             child: TextButton(
                               onPressed: () {
-                                // Add your desired action when the button is pressed
+
                               },
                               style: ButtonStyle(
                                 backgroundColor: MaterialStateProperty.all<Color>(Colors.blueAccent[200]!),

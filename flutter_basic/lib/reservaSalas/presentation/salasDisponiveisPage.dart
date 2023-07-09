@@ -34,52 +34,10 @@ class SalasDisponiveisState extends State<SalasDisponiveisPage> {
     print("SalasLivres fetched");
     print(salasDisponiveis);
   }
-
-  /**
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: EdgeInsets.all(10.0),
-          child: ListView.builder(
-            itemCount: salasDisponiveis.length,
-            itemBuilder: (BuildContext context, int index) {
-              final sala = salasDisponiveis[index];
-              return GestureDetector(
-                onTap: () {},
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    color: Colors.grey[200], // Light grey for tiles
-                  ),
-                  margin: EdgeInsets.symmetric(vertical: 5.0),
-                  padding: EdgeInsets.all(10.0),
-                  child: SalasBox(
-                    name: sala.message,
-                    department: sala.department,
-                    space: sala.space,
-                    date: sala.date,
-                    hour: sala.hour,
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
-      ],
-    );
-  }
-}
-**/
-
-
-
-
 @override
 Widget build(BuildContext context) {
   final size = MediaQuery.of(context).size;
-  final fem = size.width / 1440; // 1440 is the reference width
+  final fem = size.width / 1440;
 
   return Scaffold(
     appBar: MyAppBar(),

@@ -18,7 +18,7 @@ class _NewsPageState extends State<NewsPageMobile> {
   late PageController _pageController;
   DateTime currentDate = DateTime.now();
   List<Map<String, dynamic>> events = [];
-  int _currentPageIndex = 0; // Track the current page index
+  int _currentPageIndex = 0;
 
 
   @override
@@ -65,7 +65,7 @@ class _NewsPageState extends State<NewsPageMobile> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final fem = size.width / 1440; // 1440 is the reference width
+    final fem = size.width / 1440;
 
     return Scaffold(
       backgroundColor: myBackground,
@@ -76,11 +76,11 @@ class _NewsPageState extends State<NewsPageMobile> {
             color: Colors.white,
           ),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start, // Align children to the start
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
                 height: 70,
-                width: double.infinity, // Increase the height of the container
+                width: double.infinity,
                 decoration: mainMenuDecoration,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -94,7 +94,7 @@ class _NewsPageState extends State<NewsPageMobile> {
                       'NOTÍCIAS DA FACULDADE',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 20, // Increase the font size
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -111,7 +111,7 @@ class _NewsPageState extends State<NewsPageMobile> {
                   child: Column(
                     children: [
                       SizedBox(
-                        height: 300, // Defina a altura desejada para cada notícia
+                        height: 300,
                         child: PageView.builder(
                           controller: _pageController,
                           itemCount: news.length,

@@ -170,7 +170,7 @@ class FeedState extends State<FeedsPage> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final fem = size.width / 1440; // 1440 is the reference width
+    final fem = size.width / 1440;
 
     return Scaffold(
       appBar: MyAppBar(),

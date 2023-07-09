@@ -11,7 +11,6 @@ import '../../myAppBar.dart';
 import '../../myAppBarMobile.dart';
 import '../../noticias/presentation/newsPage.dart';
 import '../../weatherBox.dart';
-import 'auxMainpage.dart';
 
 class MobileScaffold extends StatefulWidget {
   const MobileScaffold({Key? key}) : super(key: key);
@@ -21,9 +20,6 @@ class MobileScaffold extends StatefulWidget {
 }
 
 class _MobileScaffoldState extends State<MobileScaffold> {
-
-  AuxMainPage auxMainPage = AuxMainPage();
-
 
 
   @override

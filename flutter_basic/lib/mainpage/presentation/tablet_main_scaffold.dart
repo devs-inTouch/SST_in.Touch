@@ -7,7 +7,6 @@ import '../../calendar/widget/calendar_schedule_widget.dart';
 import '../../myAppBar.dart';
 import '../../noticias/presentation/newsPage.dart';
 import '../../weatherBox.dart';
-import 'auxMainpage.dart';
 
 class TabletScaffold extends StatefulWidget {
   const TabletScaffold({Key? key}) : super(key: key);
@@ -21,8 +20,7 @@ class _TabletScaffoldState extends State<TabletScaffold> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final fem = size.width / 1440; // 1440 is the reference width
-
+    final fem = size.width / 1440;
     return Scaffold(
       appBar: const MyAppBar(),
       backgroundColor: myBackground,

@@ -206,7 +206,7 @@ class AnomalyState extends State<AnomaliesPage> {
                             fontSize: 26,
                           ),
                         ),
-                        SizedBox(width: 8.0), // Espaço entre o ícone e o texto
+                        SizedBox(width: 8.0),
                         Icon(
                           Icons.report,
                           size: 26,
@@ -218,7 +218,7 @@ class AnomalyState extends State<AnomaliesPage> {
 
                   Padding(
                     padding:
-                    const EdgeInsets.all(20.0), // Add a margin of 30 pixels
+                    const EdgeInsets.all(20.0),
                     child: Container(
                       height: 400,
                       width: 1000,
@@ -246,7 +246,7 @@ class AnomalyState extends State<AnomaliesPage> {
                                               15.0,
                                               15.0,
                                               15.0,
-                                              0.0), // Add vertical padding of 15 pixels
+                                              0.0),
                                           child: TextField(
                                             controller: title,
                                             maxLength: 50,
@@ -262,7 +262,7 @@ class AnomalyState extends State<AnomaliesPage> {
                                               15.0,
                                               15.0,
                                               15.0,
-                                              0.0), // Add vertical padding of 15 pixels
+                                              0.0),
                                           child: TextField(
                                             controller: description,
                                             keyboardType:
@@ -293,7 +293,7 @@ class AnomalyState extends State<AnomaliesPage> {
                                 Padding(
                                   padding: const EdgeInsets.only(
                                       left:
-                                      20.0), // Add left padding of 30 pixels
+                                      20.0),
                                   child: ElevatedButton(
                                     onPressed: isUploading
                                         ? null
@@ -320,7 +320,7 @@ class AnomalyState extends State<AnomaliesPage> {
                   const SizedBox(height: 10),
                   Padding(
                     padding:
-                    const EdgeInsets.all(20.0), // Add a margin of 30 pixels
+                    const EdgeInsets.all(20.0),
                     child: Container(
                       width: 800,
                       child: ListView.builder(

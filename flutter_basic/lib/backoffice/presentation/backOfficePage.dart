@@ -24,7 +24,7 @@ class BackOfficePage extends State<BackOffice> {
     return Scaffold(
       appBar: MyAppBar(),
       backgroundColor: myBackground,
-      body: Center( // Adicionado o widget Center
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -33,10 +33,10 @@ class BackOfficePage extends State<BackOffice> {
               padding: EdgeInsets.all(15),
               child: Center(
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center, // Aligns the row at the center horizontally
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.admin_panel_settings), // Icon widget
-                    SizedBox(width: 10), // Adds spacing between the icon and text
+                    Icon(Icons.admin_panel_settings),
+                    SizedBox(width: 10),
                     Text(
                       'BACK-OFFICE DE GESTÃO',
                       style: textStyleBar,
@@ -56,7 +56,7 @@ class BackOfficePage extends State<BackOffice> {
                   padding: EdgeInsets.all(20),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(10), // Define o raio de borda arredondada
+                    borderRadius: BorderRadius.circular(10),
                   ),
                   child: SingleChildScrollView(
                     child: Column(

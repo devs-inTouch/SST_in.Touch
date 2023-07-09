@@ -89,13 +89,13 @@ class _ProfileBoxState extends State<ProfileThirdParty> {
                   ),
                   Spacer(),
                   Container(
-                    padding: EdgeInsets.symmetric(vertical: 10), // Add vertical padding between the buttons
+                    padding: EdgeInsets.symmetric(vertical: 10),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        SizedBox(height: 20), // Add horizontal spacing between the buttons
+                        SizedBox(height: 20),
                         OutlinedButton(
-                          onPressed: isFollowing ? stopFollowing : startFollowing, // Replace the onPressed function with the appropriate action for the button
+                          onPressed: isFollowing ? stopFollowing : startFollowing,
                           style: OutlinedButton.styleFrom(
                             fixedSize: Size(100, 50),
                             backgroundColor: Colors.blue,

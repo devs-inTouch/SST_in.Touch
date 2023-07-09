@@ -25,7 +25,6 @@ import 'constants.dart';
 import 'feeds/presentation/responsiveFeed.dart';
 import 'mainpage/application/logoutAuth.dart';
 import 'maps/lib/responsiveMap.dart';
-import 'messages/application/chatScreen.dart';
 import 'noticias/presentation/newsPage.dart';
 import 'noticias/presentation/responsiveNewsPage.dart';
 import 'notifications/presentation/notificationList.dart';
@@ -43,25 +42,7 @@ class MyAppBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _MyAppBarState extends State<MyAppBar> {
-
-  List<String> profiles = [
-    "John Doe",
-    "Jane Smith",
-    "Alex Johnson",
-    // Add more profiles as needed
-  ];
   String? role;
-  List<String> searchResults = [];
-
-  void searchProfiles(String query) {
-    // Filter the profiles based on the search query
-    List<String> results = profiles.where((profile) =>
-        profile.toLowerCase().contains(query.toLowerCase())).toList();
-
-    setState(() {
-      searchResults = results;
-    });
-  }
 
   @override
   void initState() {
@@ -129,7 +110,7 @@ class _MyAppBarState extends State<MyAppBar> {
               padding: const EdgeInsets.only(left: 10.0),
               child: Image.asset(
                 'assets/Icon.png',
-                height: 35, // Define the desired height for the image
+                height: 35,
               ),
             ),
           ),
@@ -228,14 +209,11 @@ class _MyAppBarState extends State<MyAppBar> {
             PopupMenuItem(
               child: Container(
                 color: Colors.white,
-                // Set the background color of the menu item to white
                 child: ListTile(
                   leading: const Icon(Icons.feed),
                   title: const Text('Feed'),
                   onTap: () {
-                    // Handle logout button click
-                    Navigator.pop(context); // Close the menu
-                    // Implement your logic here
+                    Navigator.pop(context);
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -248,14 +226,11 @@ class _MyAppBarState extends State<MyAppBar> {
             PopupMenuItem(
               child: Container(
                 color: Colors.white,
-                // Set the background color of the menu item to white
                 child: ListTile(
                   leading: const Icon(Icons.map),
                   title: const Text('Maps'),
                   onTap: () {
-                    // Handle logout button click
-                    Navigator.pop(context); // Close the menu
-                    // Implement your logic here
+                    Navigator.pop(context);
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => ResponsiveMap()),
@@ -267,14 +242,11 @@ class _MyAppBarState extends State<MyAppBar> {
             PopupMenuItem(
               child: Container(
                 color: Colors.white,
-                // Set the background color of the menu item to white
                 child: ListTile(
                   leading: const Icon(Icons.terminal),
                   title: const Text('Tests'),
                   onTap: () {
-                    // Handle logout button click
-                    Navigator.pop(context); // Close the menu
-                    // Implement your logic here
+                    Navigator.pop(context);
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -313,7 +285,7 @@ class _MyAppBarState extends State<MyAppBar> {
                   leading: const Icon(Icons.groups),
                   title: const Text('Núcleos'),
                   onTap: () {
-                    Navigator.pop(context); // Close the menu
+                    Navigator.pop(context);
                     if (role == 'superUser') {
                       Navigator.push(
                         context,
@@ -333,30 +305,6 @@ class _MyAppBarState extends State<MyAppBar> {
                 ),
               ),
             ),
-            PopupMenuItem(
-              child: Container(
-                color: Colors.white,
-                // Set the background color of the menu item to white
-                child: ListTile(
-                  leading: const Icon(Icons.chat),
-                  title: const Text('Chat'),
-                  onTap: () {
-                    // Handle logout button click
-                    Navigator.pop(context); // Close the menu
-                    // Implement your logic here
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ChatScreen(
-                          conversation: null,
-                          onConversationSelected: (Conversation) {},
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ),
           ],
         ),
         PopupMenuButton<Notification>(
@@ -369,12 +317,12 @@ class _MyAppBarState extends State<MyAppBar> {
                 child: Theme(
                   data: Theme.of(context).copyWith(
                     backgroundColor:
-                        Colors.blue, // Set the background color to blue
+                        Colors.blue,
                   ),
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
-                      color: Colors.grey[300], // Light grey for tiles
+                      color: Colors.grey[300],
                     ),
                     child: const SizedBox(
                       height: 500,
@@ -395,7 +343,6 @@ class _MyAppBarState extends State<MyAppBar> {
             PopupMenuItem(
               child: Container(
                 color: Colors.white,
-                // Set the background color of the menu item to white
                 child: ListTile(
                   leading: Theme(
                     data: ThemeData(
@@ -452,14 +399,11 @@ class _MyAppBarState extends State<MyAppBar> {
             PopupMenuItem(
               child: Container(
                 color: Colors.white,
-                // Set the background color of the menu item to white
                 child: ListTile(
                   leading: const Icon(Icons.report),
                   title: const Text('Report'),
                   onTap: () {
-                    // Handle logout button click
-                    Navigator.pop(context); // Close the menu
-                    // Implement your logic here
+                    Navigator.pop(context);
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -473,14 +417,11 @@ class _MyAppBarState extends State<MyAppBar> {
               PopupMenuItem(
                 child: Container(
                   color: Colors.white,
-                  // Set the background color of the menu item to white
                   child: ListTile(
                     leading: const Icon(Icons.admin_panel_settings),
                     title: const Text('Back-Office'),
                     onTap: () {
-                      // Handle logout button click
-                      Navigator.pop(context); // Close the menu
-                      // Implement your logic here
+                      Navigator.pop(context);
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -493,14 +434,11 @@ class _MyAppBarState extends State<MyAppBar> {
             PopupMenuItem(
               child: Container(
                 color: Colors.white,
-                // Set the background color of the menu item to white
                 child: ListTile(
                   leading: const Icon(Icons.workspaces),
                   title: const Text('Workspace'),
                   onTap: () {
-                    // Handle logout button click
-                    Navigator.pop(context); // Close the menu
-                    // Implement your logic here
+                    Navigator.pop(context);
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -513,16 +451,13 @@ class _MyAppBarState extends State<MyAppBar> {
             PopupMenuItem(
               child: Container(
                 color: Colors.white,
-                // Set the background color of the menu item to white
                 child: ListTile(
                   leading: const Icon(Icons.logout),
                   title: const Text('Logout'),
                   onTap: () {
-                    // Handle logout button click
-                    Navigator.pop(context); // Close the menu
+                    Navigator.pop(context);
                     logoutButtonPressed(context);
                     print("Logout click");
-                    // Implement your logic here
                   },
                 ),
               ),

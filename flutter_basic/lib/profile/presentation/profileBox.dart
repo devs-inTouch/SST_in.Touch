@@ -102,7 +102,7 @@ class _ProfileBoxState extends State<ProfileBox> {
                   ),
                   Spacer(),
                   Container(
-                    padding: EdgeInsets.symmetric(vertical: 10), // Add vertical padding between the buttons
+                    padding: EdgeInsets.symmetric(vertical: 10),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

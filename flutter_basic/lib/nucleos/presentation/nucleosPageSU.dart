@@ -10,7 +10,6 @@ class NucleosPageSU extends StatelessWidget {
     'Núcleo 1',
     'Núcleo 2',
     'Núcleo 3',
-    // Add more nucleos as needed
   ];
 
   @override

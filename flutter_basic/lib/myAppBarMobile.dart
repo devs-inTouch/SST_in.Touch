@@ -18,7 +18,6 @@ import 'bottomAppBarMobile.dart';
 import 'calendar/page/calendar_page.dart';
 import 'constants.dart';
 import 'mainpage/application/logoutAuth.dart';
-import 'messages/application/chatScreen.dart';
 import 'noticias/presentation/newsPage.dart';
 import 'notifications/presentation/notificationList.dart';
 
@@ -82,8 +81,8 @@ class MyAppBarMobile extends StatefulWidget implements PreferredSizeWidget {
         backgroundColor: Colors.white,
         title: Image.asset(
           'assets/logo-1-RBH.png',
-          height: 35, // Defina a altura desejada para o logo
-          fit: BoxFit.fitHeight, // Ajusta a imagem para preencher a altura
+          height: 35,
+          fit: BoxFit.fitHeight,
         ),
 
 
@@ -107,12 +106,12 @@ class MyAppBarMobile extends StatefulWidget implements PreferredSizeWidget {
                   child: Theme(
                     data: Theme.of(context).copyWith(
                       backgroundColor:
-                          Colors.blue, // Set the background color to blue
+                          Colors.blue,
                     ),
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10.0),
-                        color: Colors.grey[300], // Light grey for tiles
+                        color: Colors.grey[300],
                       ),
                       child: const SizedBox(
                         height: 500,
