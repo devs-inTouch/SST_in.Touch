@@ -196,13 +196,25 @@ class AnomalyState extends State<AnomaliesPageMobile> {
                 children: [
                   const Padding(
                     padding: EdgeInsets.only(top: 20.0),
-                    child: Text(
-                      'ANOMALIAS',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'ANOMALIAS',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                            fontSize: 26,
+                          ),
+                        ),
+                        SizedBox(width: 8.0), // Espaço entre o ícone e o texto
+                        Icon(
+                          Icons.report,
+                          size: 26,
                           color: Colors.black,
-                          fontSize: 26),
+                        ),
+                      ],
                     ),
                   ),
                   Padding(

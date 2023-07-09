@@ -30,9 +30,9 @@ class NucleosPageSU extends StatelessWidget {
                     "LISTA DE NÚCLEOS",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20.0,
-                    ),
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                        fontSize: 35),
                   ),
                   SizedBox(height: 10),
                   ListView.builder(

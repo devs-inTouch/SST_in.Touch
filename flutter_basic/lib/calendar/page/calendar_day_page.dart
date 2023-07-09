@@ -16,25 +16,38 @@ class CalendarDayPage extends StatefulWidget {
 
 class _CalendarDayPageState extends State<CalendarDayPage> {
   List<Event> get events => widget.events;
+
   DateTime get selectedDate => widget.selectedDate;
+
   @override
   Widget build(BuildContext context) {
     print("_____object_____");
     print(events);
     return Scaffold(
-      appBar: MyAppBar(),
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        title: Text('Eventos do dia'),
+      ),
       body: CalendarDayWidget(
         events: events,
         fromDate: selectedDate,
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color.fromARGB(255, 10, 2, 100),
-        onPressed: () => Navigator.of(context).push(
-          MaterialPageRoute(
-              builder: (context) => EventEditingPage(
-                    fromDate: selectedDate,
-                  )),
-        ),
+        onPressed: () =>
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) =>
+                    EventEditingPage(
+                      fromDate: selectedDate,
+                    ),
+              ),
+            ),
         child: const Icon(
           Icons.add,
           color: Colors.white,

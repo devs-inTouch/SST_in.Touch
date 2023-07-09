@@ -155,6 +155,7 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
                     ),
                   ),
                 ),
+                /**
                 PopupMenuItem(
                   child: Container(
                     color: Colors.white,
@@ -175,6 +176,7 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
                     ),
                   ),
                 ),
+                **/
                 PopupMenuItem(
                   child: Container(
                     color: Colors.white,

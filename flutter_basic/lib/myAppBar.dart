@@ -284,6 +284,7 @@ class _MyAppBarState extends State<MyAppBar> {
                 ),
               ),
             ),
+            /**
             PopupMenuItem(
               child: Container(
                 color: Colors.white,
@@ -304,6 +305,7 @@ class _MyAppBarState extends State<MyAppBar> {
                 ),
               ),
             ),
+                **/
             PopupMenuItem(
               child: Container(
                 color: Colors.white,

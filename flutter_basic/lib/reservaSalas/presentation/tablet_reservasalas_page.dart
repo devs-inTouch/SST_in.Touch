@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_basic/myAppBarMobile.dart';
 import 'package:flutter_basic/reservaSalas/presentation/salasBox.dart';
 import 'package:intl/intl.dart';
 
@@ -38,7 +39,7 @@ import '../application/reservaRequest.dart';
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      appBar: MyAppBar(),
+      appBar: MyAppBarMobile(),
       backgroundColor: myBackground,
       body: Center(
         child: Container(

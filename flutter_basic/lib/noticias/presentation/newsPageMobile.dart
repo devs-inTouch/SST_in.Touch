@@ -19,12 +19,7 @@ class _NewsPageState extends State<NewsPageMobile> {
   DateTime currentDate = DateTime.now();
   List<Map<String, dynamic>> events = [];
   int _currentPageIndex = 0; // Track the current page index
-  List<String> pages = [
-    'Restauração',
-    'Avisos',
-    'Exposições',
-    'Notícias',
-  ];
+
 
   @override
   void initState() {
