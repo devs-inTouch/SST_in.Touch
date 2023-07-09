@@ -42,7 +42,6 @@ class LoginHomePage extends State<Login> {
     usernameControl = TextEditingController();
     pwdControl = TextEditingController();
     super.initState();
-    // Check if the account has been activated
     print("Check PARAM");
     print(Uri.base.queryParameters.containsKey('activated'));
     if (Uri.base.queryParameters.containsKey('activated')) {
@@ -56,8 +55,6 @@ class LoginHomePage extends State<Login> {
     LoginAuth.userLogin(username, pwd).then((AuthResult authResult) {
       if (authResult.getSuccess) {
         role = authResult.getRole;
-        //AnomalyAuth.listAnomaly();
-        //NotificationAuth.notificationList();
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -109,7 +106,7 @@ class LoginHomePage extends State<Login> {
                   SizedBox(height: 40),
                   Padding(
                     padding: const EdgeInsets.all(
-                        20.0), // Add 20 pixels padding to all sides
+                        20.0),
                     child: Container(
                       height: 475,
                       width: 450,
@@ -239,7 +236,6 @@ class LoginHomePage extends State<Login> {
     );
   }
 
-  // Function to display a pop-up message
   void displayActivationMessage() {
     Fluttertoast.showToast(
       msg: 'Your account has been activated!',

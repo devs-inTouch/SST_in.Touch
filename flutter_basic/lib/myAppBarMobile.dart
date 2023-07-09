@@ -11,13 +11,13 @@ import 'package:flutter_basic/nucleos/presentation/nucleosPage.dart';
 import 'package:flutter_basic/profile/presentation/profile_scaffold.dart';
 import 'package:flutter_basic/reports/presentation/reportsPage.dart';
 import 'package:flutter_basic/reservaSalas/presentation/responsive_reservasalas.dart';
+import 'package:flutter_basic/searchBarPage/presentation/responsive_searchPage.dart';
 import 'package:flutter_basic/teste/teste.dart';
 import 'package:flutter_basic/maps/lib/map.dart';
 import 'bottomAppBarMobile.dart';
 import 'calendar/page/calendar_page.dart';
 import 'constants.dart';
 import 'mainpage/application/logoutAuth.dart';
-import 'messages/application/chatScreen.dart';
 import 'noticias/presentation/newsPage.dart';
 import 'notifications/presentation/notificationList.dart';
 
@@ -81,12 +81,21 @@ class MyAppBarMobile extends StatefulWidget implements PreferredSizeWidget {
         backgroundColor: Colors.white,
         title: Image.asset(
           'assets/logo-1-RBH.png',
-          height: 35, // Defina a altura desejada para o logo
-          fit: BoxFit.fitHeight, // Ajusta a imagem para preencher a altura
+          height: 35,
+          fit: BoxFit.fitHeight,
         ),
 
 
         actions: [
+          IconButton(
+            icon: Icon(Icons.person_search, color: Colors.black),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ResponsiveSearchPage()),
+              );
+            },
+          ),
           PopupMenuButton<Notification>(
             icon: const Icon(Icons.notifications, color: Colors.black),
             color: Colors.white,
@@ -97,12 +106,12 @@ class MyAppBarMobile extends StatefulWidget implements PreferredSizeWidget {
                   child: Theme(
                     data: Theme.of(context).copyWith(
                       backgroundColor:
-                          Colors.blue, // Set the background color to blue
+                          Colors.blue,
                     ),
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10.0),
-                        color: Colors.grey[300], // Light grey for tiles
+                        color: Colors.grey[300],
                       ),
                       child: const SizedBox(
                         height: 500,

@@ -59,7 +59,7 @@ class AnomaliasVerifyPage extends StatelessWidget {
             SizedBox(height: 10.0),
             Container(
               width: double.infinity,
-              height: 400.0, // Set the desired height here (e.g., 400.0)
+              height: 400.0,
               color: Colors.blueAccent[100],
             ),
           ],

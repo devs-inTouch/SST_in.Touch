@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class ProfileBox extends StatefulWidget {
+class ProfileThirdParty extends StatefulWidget {
   final double fem;
   final List map;
 
-  const ProfileBox({
+  const ProfileThirdParty({
     required this.fem,
     required this.map,
   });
@@ -13,35 +13,22 @@ class ProfileBox extends StatefulWidget {
   _ProfileBoxState createState() => _ProfileBoxState();
 }
 
-class _ProfileBoxState extends State<ProfileBox> {
-  bool isEditing = false;
-  late TextEditingController _textEditingController;
-  late String description;
+class _ProfileBoxState extends State<ProfileThirdParty> {
+  bool isFollowing = false;
+
 
   @override
   void initState() {
     super.initState();
-    description = widget.map[2];
-    _textEditingController = TextEditingController(text: description);
   }
-
-  @override
-  void dispose() {
-    _textEditingController.dispose();
-    super.dispose();
-  }
-
-  void startEditing() {
+  void startFollowing() {
     setState(() {
-      isEditing = true;
-      _textEditingController.text = description;
+      isFollowing = true;
     });
   }
-
-  void confirmEditing() {
+  void stopFollowing() {
     setState(() {
-      isEditing = false;
-      description = _textEditingController.text;
+      isFollowing = false;
     });
   }
 
@@ -106,14 +93,15 @@ class _ProfileBoxState extends State<ProfileBox> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                        SizedBox(height: 20),
                         OutlinedButton(
-                          onPressed: isEditing ? confirmEditing : startEditing,
+                          onPressed: isFollowing ? stopFollowing : startFollowing,
                           style: OutlinedButton.styleFrom(
                             fixedSize: Size(100, 50),
                             backgroundColor: Colors.blue,
                           ),
                           child: Text(
-                            isEditing ? 'Confirmar' : 'Editar',
+                            isFollowing ? 'Seguir' : 'A seguir',
                             textAlign: TextAlign.left,
                             style: TextStyle(
                               color: Colors.white,
@@ -126,24 +114,6 @@ class _ProfileBoxState extends State<ProfileBox> {
                   )
 
                 ],
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.all(8.0),
-              child: isEditing
-                  ? TextField(
-                controller: _textEditingController,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  filled: true,
-                  fillColor: Colors.white,
-                ),
-              )
-
-                  : Text(description),
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.grey.shade200,
               ),
             ),
           ],

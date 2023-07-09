@@ -6,15 +6,11 @@ import 'package:flutter_basic/constants.dart';
 import 'package:flutter_basic/noticias/presentation/newsPageMobile.dart';
 import '../../bottomAppBarMobile.dart';
 import '../../calendar/widget/calendar_schedule_widget.dart';
-import '../../hojeNaFCT/avisos_info.dart';
-import '../../hojeNaFCT/exposicoes_info.dart';
-import '../../hojeNaFCT/noticias_info.dart';
-import '../../hojeNaFCT/restauração_info.dart';
+
 import '../../myAppBar.dart';
 import '../../myAppBarMobile.dart';
 import '../../noticias/presentation/newsPage.dart';
 import '../../weatherBox.dart';
-import 'auxMainpage.dart';
 
 class MobileScaffold extends StatefulWidget {
   const MobileScaffold({Key? key}) : super(key: key);
@@ -24,9 +20,6 @@ class MobileScaffold extends StatefulWidget {
 }
 
 class _MobileScaffoldState extends State<MobileScaffold> {
-
-  AuxMainPage auxMainPage = AuxMainPage();
-
 
 
   @override

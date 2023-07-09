@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/login/presentation/loginPage.dart';
 
+import '../application/recoverPassWordAuth.dart';
+
 class NewPasswordPage extends StatefulWidget {
   const NewPasswordPage({Key? key});
 
@@ -21,17 +23,57 @@ class NewPassword extends State<NewPasswordPage> {
     super.initState();
   }
 
-  void recoverPasswordButtonPressed(String pwd, String pwdConfirm) {
+  Future<void> recoverPasswordButtonPressed(
+      String pwd, String pwdConfirm) async {
     if (pwd.isNotEmpty && pwd == pwdConfirm) {
+      bool res = await RecoverPassWordAuth.recovePassword(pwd);
+      if (res) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return const AlertDialog(title: Text('Done'));
+          },
+        );
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const MyApp()),
+        );
+      } else {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Error'),
+              content: const Text('Error.'),
+              actions: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+      }
+    } else {
       showDialog(
         context: context,
         builder: (BuildContext context) {
-          return const AlertDialog(title: Text('Done'));
+          return AlertDialog(
+            title: const Text('Error'),
+            content: const Text('Passwords do not match.'),
+            actions: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
         },
-      );
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const MyApp()),
       );
     }
   }
@@ -61,7 +103,7 @@ class NewPassword extends State<NewPasswordPage> {
                     padding: const EdgeInsets.all(20.0),
                     child: Container(
                       padding: const EdgeInsets.all(20),
-                      height: 475,
+                      height: 350,
                       width: 450,
                       decoration: BoxDecoration(
                         color: const Color(0xd8ffffff),
@@ -130,7 +172,7 @@ class NewPassword extends State<NewPasswordPage> {
                                 ),
                               ),
                             ),
-                            SizedBox(height: 16),
+                            SizedBox(height: 30),
                             OutlinedButton(
                               style: OutlinedButton.styleFrom(
                                 fixedSize: Size(200, 50),

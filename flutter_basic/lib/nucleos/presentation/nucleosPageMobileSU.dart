@@ -10,7 +10,6 @@ class NucleosPageMobileSU extends StatelessWidget {
     'Núcleo 1',
     'Núcleo 2',
     'Núcleo 3',
-    // Add more nucleos as needed
   ];
 
   @override
@@ -29,10 +28,10 @@ class NucleosPageMobileSU extends StatelessWidget {
                   Text(
                     "LISTA DE NÚCLEOS",
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20.0,
-                    ),
+                    style:TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                        fontSize: 35),
                   ),
                   SizedBox(height: 10),
                   ListView.builder(

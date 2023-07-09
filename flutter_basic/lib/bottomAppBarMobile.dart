@@ -6,6 +6,8 @@ import 'package:flutter_basic/feeds/presentation/responsiveFeed.dart';
 import 'package:flutter_basic/maps/lib/responsiveMap.dart';
 import 'package:flutter_basic/nucleos/presentation/responsive_nucleos_page.dart';
 import 'package:flutter_basic/profile/presentation/profile_scaffold.dart';
+import 'package:flutter_basic/profile/presentation/profile_scaffold_Mobile.dart';
+import 'package:flutter_basic/profile/presentation/responsive_profile.dart';
 import 'package:flutter_basic/reports/presentation/reportsPage.dart';
 import 'package:flutter_basic/reports/presentation/responsive_reportsPage.dart';
 import 'package:flutter_basic/reservaSalas/presentation/responsive_reservasalas.dart';
@@ -23,7 +25,6 @@ import 'mainpage/presentation/mobile_main_scaffold.dart';
 import 'mainpage/presentation/responsive_main_page.dart';
 import 'mainpage/presentation/tablet_main_scaffold.dart';
 import 'maps/lib/map.dart';
-import 'messages/application/chatScreen.dart';
 import 'noticias/presentation/newsPage.dart';
 import 'noticias/presentation/responsiveNewsPage.dart';
 import 'nucleos/presentation/nucleosPage.dart';
@@ -82,7 +83,7 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
 
   Widget build(BuildContext context) {
     return Container(
-      height: 40, // Altura desejada da BottomAppBar
+      height: 40,
       child: BottomAppBar(
         color: Colors.white,
         child: Row(
@@ -96,14 +97,11 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
                 PopupMenuItem(
                   child: Container(
                     color: Colors.white,
-                    // Set the background color of the menu item to white
                     child: ListTile(
                       leading: const Icon(Icons.feed),
                       title: const Text('Feed'),
                       onTap: () {
-                        // Handle logout button click
-                        Navigator.pop(context); // Close the menu
-                        // Implement your logic here
+                        Navigator.pop(context);
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -116,14 +114,11 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
                 PopupMenuItem(
                   child: Container(
                     color: Colors.white,
-                    // Set the background color of the menu item to white
                     child: ListTile(
                       leading: const Icon(Icons.map),
                       title: const Text('Maps'),
                       onTap: () {
-                        // Handle logout button click
-                        Navigator.pop(context); // Close the menu
-                        // Implement your logic here
+                        Navigator.pop(context);
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -136,14 +131,11 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
                 PopupMenuItem(
                   child: Container(
                     color: Colors.white,
-                    // Set the background color of the menu item to white
                     child: ListTile(
                       leading: const Icon(Icons.terminal),
                       title: const Text('Tests'),
                       onTap: () {
-                        // Handle logout button click
-                        Navigator.pop(context); // Close the menu
-                        // Implement your logic here
+                        Navigator.pop(context);
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -153,6 +145,7 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
                     ),
                   ),
                 ),
+                /**
                 PopupMenuItem(
                   child: Container(
                     color: Colors.white,
@@ -173,6 +166,7 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
                     ),
                   ),
                 ),
+                **/
                 PopupMenuItem(
                   child: Container(
                     color: Colors.white,
@@ -180,7 +174,7 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
                       leading: const Icon(Icons.groups),
                       title: const Text('Núcleos'),
                       onTap: () {
-                        Navigator.pop(context); // Close the menu
+                        Navigator.pop(context);
                         if (role == 'superUser') {
                           Navigator.push(
                             context,
@@ -196,31 +190,6 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
                             ),
                           );
                         }
-                      },
-                    ),
-                  ),
-                ),
-
-                PopupMenuItem(
-                  child: Container(
-                    color: Colors.white,
-                    // Set the background color of the menu item to white
-                    child: ListTile(
-                      leading: const Icon(Icons.chat),
-                      title: const Text('Chat'),
-                      onTap: () {
-                        // Handle logout button click
-                        Navigator.pop(context); // Close the menu
-                        // Implement your logic here
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ChatScreen(
-                              conversation: null,
-                              onConversationSelected: (Conversation) {},
-                            ),
-                          ),
-                        );
                       },
                     ),
                   ),
@@ -334,7 +303,6 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
                 PopupMenuItem(
                   child: Container(
                     color: Colors.white,
-                    // Set the background color of the menu item to white
                     child: ListTile(
                       leading: Theme(
                         data: ThemeData(
@@ -347,41 +315,25 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const ProfileScaffold(
-                              name: 'John Doe',
-                              imageAssetPath: 'assets/images/profile.jpg',
-                              role: 'Developer',
-                              year: '2002',
-                              nucleos: 'Engineering',
+                            builder: (context) => ResponsiveProfile(
+                              mobileProfileScaffold: ProfileScaffoldMobile(
+                                name: 'John Doe',
+                                imageAssetPath: 'assets/images/profile.jpg',
+                                role: 'Developer',
+                                year: '2002',
+                                nucleos: 'Engineering',
+                              ),
+                              profileScaffold: ProfileScaffold(
+                                name: 'John Doe',
+                                imageAssetPath: 'assets/images/profile.jpg',
+                                role: 'Developer',
+                                year: '2002',
+                                nucleos: 'Engineering',
+                              ),
                             ),
-
-                            /**
-                                ResponsiveLayout(
-                                mobileScaffold: MobileProfileScaffold(
-                                name: 'John Doe',
-                                imageAssetPath: 'assets/images/profile.jpg',
-                                role: 'Developer',
-                                year: '2002',
-                                nucleos: 'Engineering',
-                                ),
-                                tabletScaffold: TabletProfileScaffold(
-                                name: 'John Doe',
-                                imageAssetPath: 'assets/images/profile.jpg',
-                                role: 'Developer',
-                                year: '2002',
-                                nucleos: 'Engineering',
-                                ),
-                                desktopScaffold: DesktopProfileScaffold(
-                                name: 'John Doe',
-                                imageAssetPath: 'assets/images/profile.jpg',
-                                role: 'Developer',
-                                year: '2002',
-                                nucleos: 'Engineering',
-                                ),
-                                ),
-                             **/
                           ),
                         );
+
                       },
                     ),
                   ),
@@ -408,14 +360,11 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
                 PopupMenuItem(
                   child: Container(
                     color: Colors.white,
-                    // Set the background color of the menu item to white
                     child: ListTile(
                       leading: const Icon(Icons.report),
                       title: const Text('Report'),
                       onTap: () {
-                        // Handle logout button click
-                        Navigator.pop(context); // Close the menu
-                        // Implement your logic here
+                        Navigator.pop(context);
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -429,14 +378,11 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
                   PopupMenuItem(
                   child: Container(
                     color: Colors.white,
-                    // Set the background color of the menu item to white
                     child: ListTile(
                       leading: const Icon(Icons.admin_panel_settings),
                       title: const Text('Back-Office'),
                       onTap: () {
-                        // Handle logout button click
-                        Navigator.pop(context); // Close the menu
-                        // Implement your logic here
+                        Navigator.pop(context);
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -449,14 +395,11 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
                 PopupMenuItem(
                   child: Container(
                     color: Colors.white,
-                    // Set the background color of the menu item to white
                     child: ListTile(
                       leading: const Icon(Icons.workspaces),
                       title: const Text('Workspace'),
                       onTap: () {
-                        // Handle logout button click
-                        Navigator.pop(context); // Close the menu
-                        // Implement your logic here
+                        Navigator.pop(context);
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -469,16 +412,13 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
                 PopupMenuItem(
                   child: Container(
                     color: Colors.white,
-                    // Set the background color of the menu item to white
                     child: ListTile(
                       leading: const Icon(Icons.logout),
                       title: const Text('Logout'),
                       onTap: () {
-                        // Handle logout button click
-                        Navigator.pop(context); // Close the menu
+                        Navigator.pop(context);
                         logoutButtonPressed(context);
                         print("Logout click");
-                        // Implement your logic here
                       },
                     ),
                   ),

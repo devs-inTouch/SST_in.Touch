@@ -18,7 +18,7 @@ class _NewsPageState extends State<NewsPage> {
 
   DateTime currentDate = DateTime.now();
   List<Map<String, dynamic>> events = [];
-  int _currentPageIndex = 0; // Track the current page index
+  int _currentPageIndex = 0;
   List<String> pages = [
     'Restauração',
     'Avisos',
@@ -42,7 +42,7 @@ class _NewsPageState extends State<NewsPage> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final fem = size.width / 1440; // 1440 is the reference width
+    final fem = size.width / 1440;
 
     return Scaffold(
       backgroundColor: myBackground,
@@ -53,11 +53,11 @@ class _NewsPageState extends State<NewsPage> {
               color: Colors.white,
             ),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start, // Align children to the start
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
                   height: 70,
-                  width: double.infinity, // Increase the height of the container
+                  width: double.infinity,
                   decoration: mainMenuDecoration,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -71,7 +71,7 @@ class _NewsPageState extends State<NewsPage> {
                         'NOTÍCIAS DA FACULDADE',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 20, // Increase the font size
+                          fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -81,10 +81,10 @@ class _NewsPageState extends State<NewsPage> {
                 const SizedBox(height: 10),
                 Expanded(
                   child: SingleChildScrollView(
-                    child: Center( // Center the news boxes
+                    child: Center(
                       child: Container(
                         width: 500,
-                        padding: const EdgeInsets.fromLTRB(15.0,20.0,15.0,20.0), // Add padding to the container
+                        padding: const EdgeInsets.fromLTRB(15.0,20.0,15.0,20.0),
                         child: ListView.builder(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),

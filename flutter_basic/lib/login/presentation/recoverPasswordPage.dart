@@ -27,6 +27,7 @@ class RegisterHome extends State<RecoverPassword> {
       bool res = await RecoverPassWordAuth.hasEmail(emailControl.text);
       print(res);
       if (res) {
+        print('Email found');
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const EmailCodePage()),

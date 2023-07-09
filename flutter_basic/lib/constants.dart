@@ -126,7 +126,6 @@ var topBarProfile = ({
         child: Container(
           decoration: topBarDecoration,
           padding: const EdgeInsets.only(left: 16),
-          // Add padding to align text to the left
           child: Align(
             alignment: Alignment.centerLeft,
             child: Text(
@@ -141,44 +140,7 @@ var topBarProfile = ({
         ),
       ),
     );
-/**
-var myAppBar = AppBar(
-  backgroundColor: Colors.blue[800],
-  leading: GestureDetector(
-    onTap: () {
-      // Handle logo click
-    },
-    child: Padding(
-      padding: EdgeInsets.only(left: 20.0), // Adjust the left padding as needed
-      child: Container(
-        height: 150,
-        width: 150,
-        child: Image.asset('assets/logo-1-RBH.png', fit: BoxFit.contain),
-      ),
-    ),
-  ),
-  actions: [
-    IconButton(
-      onPressed: () {
-        // Handle chat icon click
-      },
-      icon: Icon(Icons.chat),
-    ),
-    IconButton(
-      onPressed: () {
-        // Handle notification icon click
-      },
-      icon: Icon(Icons.notifications),
-    ),
-    IconButton(
-      onPressed: () {
-        // Handle profile icon click
-      },
-      icon: Icon(Icons.person),
-    ),
-  ],
-);
-**/
+
 Future<String> getTokenAuth() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? token = prefs.getString('Token');
@@ -197,4 +159,9 @@ Future<String> getRole() async {
 Future<void> saveToSharedPreferences(String key, String jsonValue) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.setString(key, jsonValue);
+}
+
+Future<void> removeFromSharedPreferences(String key) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.remove(key);
 }

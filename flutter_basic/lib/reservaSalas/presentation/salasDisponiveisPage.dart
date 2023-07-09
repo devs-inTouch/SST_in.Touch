@@ -3,8 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_basic/reservaSalas/application/reservaRequest.dart';
 import 'package:flutter_basic/reservaSalas/presentation/salasBox.dart';
 
+import '../../constants.dart';
+import '../../myAppBar.dart';
+
 class SalasDisponiveisPage extends StatefulWidget {
-  const SalasDisponiveisPage({Key? key}) : super(key: key);
+  final String date;
+  final String hour;
+
+  const SalasDisponiveisPage({Key? key, required this.date, required this.hour})
+      : super(key: key);
 
   @override
   SalasDisponiveisState createState() => SalasDisponiveisState();
@@ -16,54 +23,71 @@ class SalasDisponiveisState extends State<SalasDisponiveisPage> {
   @override
   void initState() {
     super.initState();
-    fetchNotifications();
+    fetchSalasLivres();
   }
 
-  void fetchNotifications() async {
-    // Define the date and hour variables or use the correct values
-    final date = 'your_date';
-    final hour = 'your_hour';
-
-    final response = await ReservaAuth.getRoomsList(date, hour);
+  void fetchSalasLivres() async {
+    final response = await ReservaAuth.getRoomsList(widget.date, widget.hour);
     setState(() {
       salasDisponiveis = response;
     });
-    print("Notifications fetched");
+    print("SalasLivres fetched");
     print(salasDisponiveis);
   }
+@override
+Widget build(BuildContext context) {
+  final size = MediaQuery.of(context).size;
+  final fem = size.width / 1440;
 
-  @override
-  Widget build(BuildContext context) {
-    return Column(
+  return Scaffold(
+    appBar: MyAppBar(),
+    backgroundColor: myBackground,
+    body: Stack(
       children: [
-        Padding(
-          padding: EdgeInsets.all(10.0),
-          child: ListView.builder(
-            itemCount: salasDisponiveis.length,
-            itemBuilder: (BuildContext context, int index) {
-              final sala = salasDisponiveis[index];
-              return GestureDetector(
-                onTap: () {},
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    color: Colors.grey[200], // Light grey for tiles
+        Container(
+          width: size.width,
+          height: size.height,
+          child: Scrollbar(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.all(12.0),
+                    child: Text(
+                      'Salas Disponíveis',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.black, fontSize: 60),
+                    ),
                   ),
-                  margin: EdgeInsets.symmetric(vertical: 5.0),
-                  padding: EdgeInsets.all(10.0),
-                  child: SalasBox(
-                    name: sala.message,
-                    department: sala.department,
-                    space: sala.space,
-                    date: sala.date,
-                    hour: sala.hour,
+                  SizedBox(height: 10),
+                  Container(
+                    width: 800,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: salasDisponiveis.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        SalasBox salasBox = salasDisponiveis[index];
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 10.0),
+                          child: SalasBox(
+                            name: salasBox.name,
+                            department: salasBox.department,
+                            space: salasBox.space,
+                            date: salasBox.date,
+                            hour: salasBox.hour,
+                          ),
+                        );
+                      },
+                    ),
                   ),
-                ),
-              );
-            },
+                ],
+              ),
+            ),
           ),
         ),
       ],
-    );
-  }
+    ),
+  );
+}
 }

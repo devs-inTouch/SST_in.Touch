@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_basic/login/presentation/recoverPasswordPage.dart';
 
+import '../application/recoverPassWordAuth.dart';
 import 'newPasswordPage.dart';
 
 class EmailCodePage extends StatefulWidget {
@@ -17,6 +17,55 @@ class EmailCode extends State<EmailCodePage> {
   void initState() {
     codeControl = TextEditingController();
     super.initState();
+  }
+
+  Future<void> checkCodePassWord(String code) async {
+    if (codeControl.text.isNotEmpty) {
+      bool res = await RecoverPassWordAuth.checkCode(codeControl.text);
+      if (res) {
+        print('Code is correct');
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const NewPasswordPage()),
+        );
+      } else {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Error'),
+              content: const Text('Code is wrong.'),
+              actions: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+      }
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Erro'),
+            content: const Text('Tem de preencher com um código válido.'),
+            actions: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 
   @override
@@ -44,7 +93,7 @@ class EmailCode extends State<EmailCodePage> {
                     padding: const EdgeInsets.all(20.0),
                     child: Container(
                       padding: const EdgeInsets.all(20),
-                      height: 475,
+                      height: 300,
                       width: 450,
                       decoration: BoxDecoration(
                         color: const Color(0xd8ffffff),
@@ -74,22 +123,15 @@ class EmailCode extends State<EmailCodePage> {
                                 ),
                               ),
                             ),
-                            SizedBox(height: 16),
+                            SizedBox(height: 30),
                             OutlinedButton(
                               style: OutlinedButton.styleFrom(
                                 fixedSize: Size(200, 50),
                                 backgroundColor: Colors.blue,
                               ),
                               onPressed: () {
-                                // sendEmailCodeRequest(
-                                // codeControl.text
-                                //);
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => NewPasswordPage(),
-                                  ),
-                                );
+                                print("press");
+                                checkCodePassWord(codeControl.text);
                               },
                               child: Text(
                                 'Enviar código de verificação',
@@ -103,12 +145,7 @@ class EmailCode extends State<EmailCodePage> {
                             SizedBox(height: 20),
                             TextButton(
                               onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => RecoverPassword(),
-                                  ),
-                                );
+                                print("Voltar");
                               },
                               child: const Text('Voltar'),
                             ),

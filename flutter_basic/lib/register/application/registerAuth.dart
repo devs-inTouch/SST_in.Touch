@@ -23,7 +23,6 @@ class RegisterAuth {
   }
 
   static bool isPasswordCompliant(String password, [int minLength = 5]) {
-    //Null-safety ensures that password is never null
     if (password.isEmpty) {
       return false;
     }

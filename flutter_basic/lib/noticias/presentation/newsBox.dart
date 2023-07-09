@@ -47,7 +47,7 @@ class NewsBox extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8.0),
       child: Container(
-        width: 800 * fem, // Adjust the width as per your preference
+        width: 800 * fem,
         decoration: BoxDecoration(
           color: Colors.grey[300],
           borderRadius: BorderRadius.circular(10),
@@ -70,15 +70,6 @@ class NewsBox extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  Container(
-                    height: 40,
-                    width: 40,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                  SizedBox(width: 10),
                   Expanded(
                     child: Text(
                       title,
@@ -108,7 +99,7 @@ class NewsBox extends StatelessWidget {
                 padding: EdgeInsets.all(10.0),
                 child: GestureDetector(
                   onTap: () {
-                    // Handle the click event here
+
                     launch(mediaUrl);
                   },
                   child: Text(
@@ -116,8 +107,8 @@ class NewsBox extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 16,
-                      decoration: TextDecoration.underline, // Add underline to indicate it's clickable
-                      color: Colors.blue, // Optionally change the text color to blue
+                      decoration: TextDecoration.underline,
+                      color: Colors.blue,
                     ),
                   ),
                 ),

@@ -1,6 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_basic/nucleos/presentation/nucleosPage.dart';
-import 'package:flutter_basic/nucleos/presentation/nucleosPageMobile.dart';
 import 'package:flutter_basic/reports/presentation/reportsPage.dart';
 import 'package:flutter_basic/reports/presentation/reportsPageMobile.dart';
 

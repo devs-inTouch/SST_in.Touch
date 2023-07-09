@@ -37,7 +37,7 @@ import '../application/statsValueAuth.dart';
     return Scaffold(
       backgroundColor: myBackground,
       body: Container(
-        padding: EdgeInsets.fromLTRB(16.0, 40.0, 16.0, 16.0), // Updated padding
+        padding: EdgeInsets.fromLTRB(16.0, 40.0, 16.0, 16.0),
         child: Column(
           children: [
             Container(
