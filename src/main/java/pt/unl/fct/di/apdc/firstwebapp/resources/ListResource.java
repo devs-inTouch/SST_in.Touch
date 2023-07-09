@@ -13,12 +13,7 @@ import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Operation.LIST_UNNACTIVA
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Operation.LIST_USERS;
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Operation.STATS;
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.TokenAttributes.EXPIRATION_TIME;
-import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.CREATION_TIME;
-import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.EMAIL;
-import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.NAME;
-import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.ROLE;
-import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.STATE;
-import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.USERNAME;
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -43,7 +38,9 @@ import com.google.gson.Gson;
 import pt.unl.fct.di.apdc.firstwebapp.resources.permissions.PermissionsHolder;
 import pt.unl.fct.di.apdc.firstwebapp.util.DatastoreUtil;
 import pt.unl.fct.di.apdc.firstwebapp.util.TokenUtil;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.RegisterInfoData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.TokenData;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.UserData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects.BaseQueryResultData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects.CompleteQueryResultData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects.StatsData;
@@ -91,21 +88,26 @@ public class ListResource {
                             .build();
 
         QueryResults<Entity> users = datastore.run(query);
-        var resultList = new ArrayList<>();
+        List<RegisterInfoData> resultList = new ArrayList<>();
 
         // switch (ph.getClearance(LIST_USERS.value, token.getRole())) {} //TODO add this later
 
         users.forEachRemaining(t -> {
-            if (ph.hasPermission(LIST_USERS.value, token.getRole(), t.getString(ROLE.value)))
-                resultList.add(getCompleteQueryResultData(t));
-        });
+            resultList.add(new RegisterInfoData(t.getKey().getName(),
+                t.getString(NAME.value),
+                t.getString(EMAIL.value),
+                t.getString(STUDENT_NUMBER.value),
+                t.getString(ROLE.value)));
+            });
 
         LOG.info("Listing successful!");
         return Response.ok(g.toJson(resultList)).build();
     }
     
-	@GET
+	@POST
 	@Path("/unactivated")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON + DEFAULT_FORMAT)
 	public Response listUnactivatedUsers(@HeaderParam(AUTH) String auth) {
 
         TokenData token = TokenUtil.validateToken(LOG, auth);
@@ -113,10 +115,17 @@ public class ListResource {
         if (token == null)
             return Response.status(Status.UNAUTHORIZED).build();
 
-        if (!ph.hasAccess(LIST_UNNACTIVATED_USERS.value, token.getRole()))
+        /*if (!ph.hasAccess(LIST_UNNACTIVATED_USERS.value, token.getRole()))
+            return Response.status(Status.FORBIDDEN).build();*/
+
+        Key userKey = datastore.newKeyFactory().setKind(USER.value).newKey(token.getUsername());
+        Entity user = datastore.get(userKey);
+
+        if (user == null)
             return Response.status(Status.FORBIDDEN).build();
 
-		List<BaseQueryResultData> result = new ArrayList<>();
+        if(!user.getString(ROLE.value).equals("admin"))
+            	return Response.status(Status.BAD_REQUEST).build();
 
 		EntityQuery query = EntityQuery.newEntityQueryBuilder()
 							.setKind(USER.value)
@@ -125,13 +134,19 @@ public class ListResource {
 							)
 							.build();
 
-		QueryResults<Entity> unactivatedUsers = datastore.run(query);
-		unactivatedUsers.forEachRemaining(user -> {
-            if (ph.hasPermission(LIST_UNNACTIVATED_USERS.value, token.getRole(), user.getString(ROLE.value)))
-			    result.add(getBaseQueryResultData(user));
+        QueryResults<Entity> unactivatedUsers = datastore.run(query);
+
+        List<RegisterInfoData> resultList = new ArrayList<>();
+
+		unactivatedUsers.forEachRemaining(t -> {
+            resultList.add(new RegisterInfoData(t.getKey().getName(),
+                    t.getString(NAME.value),
+                    t.getString(EMAIL.value),
+                    t.getString(STUDENT_NUMBER.value),
+                    t.getString(ROLE.value)));
 		});
 
-		return Response.ok(g.toJson(result)).build();
+		return Response.ok(g.toJson(resultList)).build();
 	}
 
 
