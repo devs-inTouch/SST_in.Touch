@@ -6,6 +6,8 @@ import 'package:flutter_basic/feeds/presentation/responsiveFeed.dart';
 import 'package:flutter_basic/maps/lib/responsiveMap.dart';
 import 'package:flutter_basic/nucleos/presentation/responsive_nucleos_page.dart';
 import 'package:flutter_basic/profile/presentation/profile_scaffold.dart';
+import 'package:flutter_basic/profile/presentation/profile_scaffold_Mobile.dart';
+import 'package:flutter_basic/profile/presentation/responsive_profile.dart';
 import 'package:flutter_basic/reports/presentation/reportsPage.dart';
 import 'package:flutter_basic/reports/presentation/responsive_reportsPage.dart';
 import 'package:flutter_basic/reservaSalas/presentation/responsive_reservasalas.dart';
@@ -347,41 +349,25 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const ProfileScaffold(
-                              name: 'John Doe',
-                              imageAssetPath: 'assets/images/profile.jpg',
-                              role: 'Developer',
-                              year: '2002',
-                              nucleos: 'Engineering',
+                            builder: (context) => ResponsiveProfile(
+                              mobileProfileScaffold: ProfileScaffoldMobile(
+                                name: 'John Doe',
+                                imageAssetPath: 'assets/images/profile.jpg',
+                                role: 'Developer',
+                                year: '2002',
+                                nucleos: 'Engineering',
+                              ),
+                              profileScaffold: ProfileScaffold(
+                                name: 'John Doe',
+                                imageAssetPath: 'assets/images/profile.jpg',
+                                role: 'Developer',
+                                year: '2002',
+                                nucleos: 'Engineering',
+                              ),
                             ),
-
-                            /**
-                                ResponsiveLayout(
-                                mobileScaffold: MobileProfileScaffold(
-                                name: 'John Doe',
-                                imageAssetPath: 'assets/images/profile.jpg',
-                                role: 'Developer',
-                                year: '2002',
-                                nucleos: 'Engineering',
-                                ),
-                                tabletScaffold: TabletProfileScaffold(
-                                name: 'John Doe',
-                                imageAssetPath: 'assets/images/profile.jpg',
-                                role: 'Developer',
-                                year: '2002',
-                                nucleos: 'Engineering',
-                                ),
-                                desktopScaffold: DesktopProfileScaffold(
-                                name: 'John Doe',
-                                imageAssetPath: 'assets/images/profile.jpg',
-                                role: 'Developer',
-                                year: '2002',
-                                nucleos: 'Engineering',
-                                ),
-                                ),
-                             **/
                           ),
                         );
+
                       },
                     ),
                   ),

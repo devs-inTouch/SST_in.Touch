@@ -192,16 +192,20 @@ class FeedState extends State<FeedsPageMobile> {
                       child: Text(
                         'FEED',
                         textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.black, fontSize: 60),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                            fontSize: 35),
                       ),
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 15.0),
                       child: Container(
-                        height: 400,
+                        height: 300,
                         width: 500,
                         decoration: BoxDecoration(
-                          color: Color.fromRGBO(217, 217, 217, 1),
+                          color: Colors.blueAccent[200],
+                          borderRadius: BorderRadius.circular(10.0),
                         ),
                         child: Stack(
                           children: [

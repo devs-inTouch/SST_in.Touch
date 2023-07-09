@@ -8,25 +8,21 @@ import 'package:flutter_basic/reports/presentation/reportsPageMobile.dart';
 
 class ResponsiveProfile extends StatelessWidget {
 
+  final Widget mobileProfileScaffold;
+  final Widget profileScaffold;
+
+  const ResponsiveProfile({super.key,
+  required this.mobileProfileScaffold,
+  required this.profileScaffold,
+  });
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
       if(constraints.maxWidth < 600){
-        return ProfileScaffoldMobile(
-          name: 'John Doe',
-          imageAssetPath: 'assets/images/profile.jpg',
-          role: 'Developer',
-          year: '2002',
-          nucleos: 'Engineering',
-        );
+        return mobileProfileScaffold;
       }else {
-        return ProfileScaffold(
-          name: 'John Doe',
-          imageAssetPath: 'assets/images/profile.jpg',
-          role: 'Developer',
-          year: '2002',
-          nucleos: 'Engineering',
-        );
+        return profileScaffold;
       }
     },);
   }

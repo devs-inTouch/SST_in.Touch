@@ -70,15 +70,6 @@ class NewsBox extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  Container(
-                    height: 40,
-                    width: 40,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                  SizedBox(width: 10),
                   Expanded(
                     child: Text(
                       title,

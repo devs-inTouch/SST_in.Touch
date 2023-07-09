@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/reservaSalas/presentation/salasBox.dart';
+import 'package:flutter_basic/reservaSalas/presentation/salasDisponiveisPage.dart';
 import 'package:intl/intl.dart';
 
 import '../../constants.dart';
@@ -45,15 +46,6 @@ class _ReservaSalasPageState extends State<ReservaSalasPage> {
     super.initState();
     date = dateFormat.format(DateTime.now());
     hour = horasDisponiveis[0];
-  }
-
-  void fetchSalasDisponiveis() async {
-    final response = await ReservaAuth.getRoomsList(date, hour);
-    setState(() {
-      salasDisponiveisList = response;
-    });
-    print("Salas disponiveis");
-    print(salasDisponiveisList);
   }
 
   @override
@@ -121,7 +113,7 @@ class _ReservaSalasPageState extends State<ReservaSalasPage> {
                                               await showDatePicker(
                                             context: context,
                                             initialDate: DateTime.now(),
-                                            firstDate: DateTime(2021),
+                                            firstDate: DateTime(2022),
                                             lastDate: DateTime(2024),
                                           );
                                           if (pickedDate != null) {
@@ -186,52 +178,14 @@ class _ReservaSalasPageState extends State<ReservaSalasPage> {
                                   alignment: Alignment.center,
                                   child: ElevatedButton(
                                     onPressed: () {
-                                      fetchSalasDisponiveis();
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            title: Text('Lista de Salas'),
-                                            content: Container(
-                                              width: double.maxFinite,
-                                              child: ListView.builder(
-                                                shrinkWrap: true,
-                                                itemCount:
-                                                    salasDisponiveisList.length,
-                                                itemBuilder:
-                                                    (BuildContext context,
-                                                        int index) {
-                                                  SalasBox salasBox =
-                                                      salasDisponiveisList[
-                                                          index];
-                                                  return Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            bottom: 10.0),
-                                                    child: SalasBox(
-                                                      name: salasBox.name,
-                                                      department:
-                                                          salasBox.department,
-                                                      space: salasBox.space,
-                                                      date: salasBox.date,
-                                                      hour: salasBox.hour,
-                                                    ),
-                                                  );
-                                                },
-                                              ),
-                                            ),
-                                            actions: [
-                                              TextButton(
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                },
-                                                child: Text('Fechar'),
-                                              ),
-                                            ],
-                                          );
-                                        },
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => SalasDisponiveisPage(date: date, hour: hour),
+                                        ),
                                       );
                                     },
+
                                     style: ButtonStyle(
                                       backgroundColor:
                                           MaterialStateProperty.all<Color>(
