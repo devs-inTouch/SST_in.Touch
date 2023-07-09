@@ -1,18 +1,13 @@
 import 'dart:convert';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+
+import '../../constants.dart';
 
 class LoginAuth {
   static Future<AuthResult> userLogin(String username, String pwd) async {
     print("aqui");
     AuthResult res = await fetchAuthenticate(username, pwd);
     return res;
-  }
-
-  static Future<void> saveToSharedPreferences(
-      String key, String jsonValue) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString(key, jsonValue);
   }
 
   static Future<AuthResult> fetchAuthenticate(
@@ -35,9 +30,11 @@ class LoginAuth {
       List<String> token = jsonResponse['token'].split(".");
       print("TOKEN: $token");
       String payload = token[1];
+      print("PAYLOAD: $payload");
       List<int> decodedBytes = base64Url.decode(payload);
+      print("DECODED: $decodedBytes");
       String decodedString = utf8.decode(decodedBytes);
-      print("DECODED: $decodedString");
+      print("DECODED String: $decodedString");
       Map<String, dynamic> decodedJson = json.decode(decodedString);
       String role = decodedJson['role'];
       print("ROLE: $role");

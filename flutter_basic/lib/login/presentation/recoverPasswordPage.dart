@@ -27,6 +27,7 @@ class RegisterHome extends State<RecoverPassword> {
       bool res = await RecoverPassWordAuth.hasEmail(emailControl.text);
       print(res);
       if (res) {
+        print('Email found');
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const EmailCodePage()),
@@ -55,8 +56,8 @@ class RegisterHome extends State<RecoverPassword> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text('Erro'),
-            content: const Text('Tem de preencher com um email válido.'),
+            title: const Text('Error'),
+            content: const Text('Email is required.'),
             actions: [
               ElevatedButton(
                 onPressed: () {
@@ -96,7 +97,7 @@ class RegisterHome extends State<RecoverPassword> {
                     padding: const EdgeInsets.all(20.0),
                     child: Container(
                       padding: const EdgeInsets.all(20),
-                      height: 300,
+                      height: 475,
                       width: 450,
                       decoration: BoxDecoration(
                         color: const Color(0xd8ffffff),
@@ -116,20 +117,17 @@ class RegisterHome extends State<RecoverPassword> {
                             ),
                             const SizedBox(height: 20),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 20),
-                              child: Container(
-                                width: 250,
-                                child: TextField(
-                                  controller: emailControl,
-                                  decoration: const InputDecoration(
-                                    border: OutlineInputBorder(),
-                                    labelText: 'Email',
-                                  ),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
+                              child: TextField(
+                                controller: emailControl,
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Email',
                                 ),
                               ),
                             ),
-
-                            const SizedBox(height: 30),
+                            const SizedBox(height: 16),
                             OutlinedButton(
                               style: OutlinedButton.styleFrom(
                                 fixedSize: const Size(200, 50),

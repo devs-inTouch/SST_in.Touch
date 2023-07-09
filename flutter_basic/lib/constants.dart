@@ -198,3 +198,8 @@ Future<void> saveToSharedPreferences(String key, String jsonValue) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.setString(key, jsonValue);
 }
+
+Future<void> removeFromSharedPreferences(String key) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.remove(key);
+}
