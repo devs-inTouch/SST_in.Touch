@@ -35,13 +35,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import com.google.cloud.datastore.AggregationQuery;
-import com.google.cloud.datastore.AggregationResult;
-import com.google.cloud.datastore.Datastore;
-import com.google.cloud.datastore.Entity;
-import com.google.cloud.datastore.EntityQuery;
-import com.google.cloud.datastore.Query;
-import com.google.cloud.datastore.QueryResults;
+import com.google.cloud.datastore.*;
 import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
 import com.google.common.collect.Iterables;
 import com.google.gson.Gson;
@@ -56,7 +50,6 @@ import pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects.StatsData;
 
 
 @Path("/list")
-@Produces(MediaType.APPLICATION_JSON + DEFAULT_FORMAT)
 public class ListResource {
 
     private static final Logger LOG = Logger.getLogger(ListResource.class.getName());
@@ -71,6 +64,7 @@ public class ListResource {
     @POST
     @Path("/users")
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON + DEFAULT_FORMAT)
     public Response listUsers(@HeaderParam(AUTH) String auth) {
 
         TokenData token = TokenUtil.validateToken(LOG, auth);
@@ -78,8 +72,16 @@ public class ListResource {
         if (token == null)
             return Response.status(Status.UNAUTHORIZED).build();
 
-        if (!ph.hasAccess(LIST_USERS.value, token.getRole()))
+        /*if (!ph.hasAccess(LIST_USERS.value, token.getRole()))
+            return Response.status(Status.FORBIDDEN).build();*/
+        Key userKey = datastore.newKeyFactory().setKind(USER.value).newKey(token.getUsername());
+        Entity user = datastore.get(userKey);
+
+        if (user == null)
             return Response.status(Status.FORBIDDEN).build();
+
+        if(!user.getString(ROLE.value).equals("admin"))
+        	return Response.status(Status.BAD_REQUEST).build();
 
         EntityQuery query = Query.newEntityQueryBuilder()
                             .setKind(USER.value)
@@ -93,9 +95,9 @@ public class ListResource {
 
         // switch (ph.getClearance(LIST_USERS.value, token.getRole())) {} //TODO add this later
 
-        users.forEachRemaining(user -> {
-            if (ph.hasPermission(LIST_USERS.value, token.getRole(), user.getString(ROLE.value)))
-                resultList.add(getCompleteQueryResultData(user));
+        users.forEachRemaining(t -> {
+            if (ph.hasPermission(LIST_USERS.value, token.getRole(), t.getString(ROLE.value)))
+                resultList.add(getCompleteQueryResultData(t));
         });
 
         LOG.info("Listing successful!");
