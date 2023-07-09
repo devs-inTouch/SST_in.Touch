@@ -1,9 +1,5 @@
 package pt.unl.fct.di.apdc.firstwebapp.resources;
-
-import static pt.unl.fct.di.apdc.firstwebapp.util.enums.DatastoreEntities.USER;
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Globals.AUTH;
-import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Operation.REMOVE_USER;
-import static pt.unl.fct.di.apdc.firstwebapp.util.enums.TokenAttributes.ROLE;
 
 import java.util.logging.Logger;
 
@@ -19,12 +15,11 @@ import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.Key;
-import com.google.cloud.datastore.Transaction;
 
-import pt.unl.fct.di.apdc.firstwebapp.resources.permissions.PermissionsHolder;
 import pt.unl.fct.di.apdc.firstwebapp.util.TokenUtil;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.TokenData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.UserData;
+import pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes;
 
 @Path("/remove")
 public class RemoveResource {
@@ -33,8 +28,6 @@ public class RemoveResource {
 
     private static final Logger LOG = Logger.getLogger(RemoveResource.class.getName());
 
-    private PermissionsHolder ph = PermissionsHolder.getInstance();
-
     public RemoveResource(){}
 
     @POST
@@ -42,46 +35,59 @@ public class RemoveResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response remove(@HeaderParam(AUTH) String auth, UserData data) {
 
-        TokenData token = TokenUtil.validateToken(LOG, auth);
-
-        if (token == null)
-            return Response.status(Status.UNAUTHORIZED).build();
-
-        if (!ph.hasAccess(REMOVE_USER.value, token.getRole()))
+        TokenData givenToken = TokenUtil.validateToken(LOG, auth);
+        
+        if(givenToken == null)
             return Response.status(Status.FORBIDDEN).build();
 
-        Key targetKey = datastore.newKeyFactory().setKind(USER.value).newKey(data.getTargetUsername());
+        Key managerKey = datastore.newKeyFactory().setKind("User").newKey(givenToken.getUsername());
+        Entity manager = datastore.get(managerKey);
+
+        Key targetKey = datastore.newKeyFactory().setKind("User").newKey(data.getTargetUsername());
         Entity target = datastore.get(targetKey);
+        if(target == null)
+            return Response.status(Status.BAD_REQUEST).entity("User not in database").build();
 
-        if (target == null)
-            return Response.status(Status.NOT_FOUND).build();
+        String managerRole = manager.getString(UserAttributes.ROLE.value);
+        String targetRole = target.getString(UserAttributes.ROLE.value);
 
-        if (!ph.hasPermission(REMOVE_USER.value, token.getRole(), target.getString(ROLE.value)))
-            return Response.status(Status.FORBIDDEN).build();
+        // switch (userRole){
+        //     case SU:
+        //         if(userRemRole.equals(SU))
+        //             return Response.status(Status.FORBIDDEN).entity("Don't have the permission to remove this user").build();
+        //         datastore.delete(targetKey);
+        //         deleteTargetToken(kRemToken);
+        //         return Response.status(Status.OK).entity("User Deleted").build();
+        //     case GS:
+        //         if(userRemRole.equals(SU) || userRemRole.equals(GS))
+        //             return Response.status(Status.FORBIDDEN).entity("Don't have the permission to remove this user").build();
+        //         datastore.delete(targetKey);
+        //         deleteTargetToken(kRemToken);
+        //         return Response.status(Status.OK).entity("User Deleted").build();
+        //     case GBO:
+        //         if(userRemRole.equals(SU) || userRemRole.equals(GS) || userRemRole.equals(GBO))
+        //             return Response.status(Status.FORBIDDEN).entity("Don't have the permission to remove this user").build();
+        //         datastore.delete(targetKey);
+        //         deleteTargetToken(kRemToken);
+        //         return Response.status(Status.OK).entity("User Deleted").build();
+        //     case USER:
+        //         if(!data.username.equals(data.userRem))
+        //             return Response.status(Status.FORBIDDEN).entity("Don't have the permission to remove this user").build();
+        //         datastore.delete(targetKey);
+        //         datastore.delete(tokenKey);
+        //         return Response.status(Status.OK).entity("User Deleted").build();
 
-        Transaction txn = datastore.newTransaction();
+        //   }
 
-        try {
-			
-			txn.delete(targetKey);
-			txn.commit();
-			LOG.info("User'" + data.getTargetUsername() + "' activated successfully.");
-			return Response.ok("{}").build();
-									
-		} catch (Exception e) {
-			txn.rollback();
-			LOG.severe(e.getMessage());
-			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
-			
-		} finally {
-			if (txn.isActive()) {
-				txn.rollback();
-				return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+        return Response.status(Status.OK).entity("{}").build(); //podera rapaz este codigo nao faz nada
 
-			}
+    }
 
-		}
 
+    private void deleteTargetToken(Key targetTokenKey){
+        Entity userRemToken = datastore.get(targetTokenKey);
+        if(userRemToken != null)
+            datastore.delete(targetTokenKey);
     }
 
 

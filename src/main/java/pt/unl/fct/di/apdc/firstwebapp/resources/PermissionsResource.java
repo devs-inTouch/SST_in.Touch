@@ -26,7 +26,6 @@ import com.google.cloud.datastore.KeyFactory;
 import com.google.cloud.datastore.PathElement;
 import com.google.cloud.datastore.Transaction;
 
-import pt.unl.fct.di.apdc.firstwebapp.resources.permissions.PermissionsHolder;
 import pt.unl.fct.di.apdc.firstwebapp.util.DatastoreUtil;
 import pt.unl.fct.di.apdc.firstwebapp.util.TokenUtil;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.AccessData;
@@ -44,8 +43,6 @@ public class PermissionsResource {
 	private static final Logger LOG = Logger.getLogger(PermissionsResource.class.getName());
 
     private final Datastore datastore = DatastoreUtil.getService();
-
-    private PermissionsHolder ph = PermissionsHolder.getInstance();
     
 
     public PermissionsResource() {}
@@ -65,7 +62,7 @@ public class PermissionsResource {
 
         TokenData token = TokenUtil.validateToken(LOG, auth);
 
-        if (token == null /*|| !ph.hasAccess(EDIT_ACCESSES.value, token.getRole())*/)
+        if (token == null /*|| !PermissionsHolder.getInstance().hasPermission(SHOW_TOKEN.value, token.getRole())*/)
             return Response.status(Status.FORBIDDEN).build();
 
         KeyFactory clientAccessKeyFactory = datastore.newKeyFactory()
@@ -123,19 +120,17 @@ public class PermissionsResource {
                 String targetRole = parts[1];
 
                 KeyFactory permissionsKeyFactory = datastore.newKeyFactory()
-                    .addAncestors(
-                        PathElement.of(OPERATION.value, data.getOperationID()),
+                    .addAncestors(PathElement.of(OPERATION.value, data.getOperationID()),
                         PathElement.of(ROLE.value, clientRole))
                     .setKind(ROLE.value);
                     
-                Key permissionKey = permissionsKeyFactory.newKey(targetRole);
+                Key roleAccessKey = permissionsKeyFactory.newKey(targetRole);
 
-                Entity permission = Entity.newBuilder(permissionKey)
+                Entity roleAccess = Entity.newBuilder(roleAccessKey)
                                     .set(ACCESS.value, e.getValue())
                                     .build();
                 
-                txn.put(permission);
-                ph.editPermission(auth, clientRole, targetRole, e.getValue());
+                txn.put(roleAccess);
             }
 
             txn.commit();
@@ -145,7 +140,7 @@ public class PermissionsResource {
         } catch (Exception e) {
 			txn.rollback();
 			LOG.severe(e.getMessage());
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getLocalizedMessage()).build();
+			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
 			
 		} finally {
 			if (txn.isActive()) {
@@ -169,6 +164,7 @@ public class PermissionsResource {
         Transaction txn = datastore.newTransaction();
 
         try {
+
             for (UserRole cr : UserRole.values()) {
 
                     KeyFactory accessesKeyFactory = datastore.newKeyFactory()
@@ -180,6 +176,7 @@ public class PermissionsResource {
                     Entity access = Entity.newBuilder(accessKey)
                                     .set(ACCESS.value, true)
                                     .build();
+
                 for (UserRole tr : UserRole.values()) {
 
                     KeyFactory permissionsKeyFactory = datastore.newKeyFactory()

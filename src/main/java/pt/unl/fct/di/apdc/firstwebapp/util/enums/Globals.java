@@ -13,6 +13,4 @@ public class Globals {
     public static final int N_ENDPOINTS = Operation.values().length;
 
     public static final int N_ROLES = UserRole.values().length;
-
-    public static final String COUNT = "count";
 }

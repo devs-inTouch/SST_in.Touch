@@ -1,23 +1,23 @@
 package pt.unl.fct.di.apdc.firstwebapp.resources;
 
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.logging.Logger;
-
-import javax.swing.*;
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import com.google.cloud.datastore.*;
-import org.apache.commons.codec.digest.DigestUtils;
 
 import pt.unl.fct.di.apdc.firstwebapp.util.DatastoreUtil;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.RegisterData;
-import pt.unl.fct.di.apdc.firstwebapp.util.enums.DatastoreEntities;
+import pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes;
+import pt.unl.fct.di.apdc.firstwebapp.util.enums.UserRole;
 
-import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.*;
+import org.apache.commons.codec.digest.DigestUtils;
+
+import java.util.ArrayList;
+import java.util.logging.Logger;
 
 @Path("/register")
 public class RegisterResource {
@@ -31,16 +31,19 @@ public class RegisterResource {
 
 	private final Datastore datastore = DatastoreUtil.getService();
 
-	private final KeyFactory userKeyFactory = datastore.newKeyFactory().setKind(DatastoreEntities.USER.value);
-
-
 
 	public RegisterResource() {}
 
 	@POST
-	@Path("/create")
+	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response registerUser(RegisterData data){
+		//ATENCION: If added a new field here, remember to added in ProfileResource
+		// if (data.hasMandatoryInputs())
+		// 	return Response.status(Status.BAD_REQUEST).entity(MANDATORY_FIELDS).build();
+
+		// if(!data.validPwd() || !data.validEmail())
+		// 	return Response.status(Status.BAD_REQUEST).entity(INVALID_INPUTS).build();
 
 		Key userKey = datastore.newKeyFactory().setKind("User").newKey(data.getUsername());
 
@@ -50,19 +53,18 @@ public class RegisterResource {
 			if(user != null)
 				return Response.status(Status.BAD_REQUEST).entity(USER_ALREADY_EXISTS).build();
 			user = Entity.newBuilder(userKey)
-					.set(NAME.value, data.getName())
-					.set(PASSWORD.value, DigestUtils.sha512Hex(data.getPassword()))
-					.set(CREATION_TIME.value, System.currentTimeMillis())
-					.set(EMAIL.value, data.getEmail())
-					.set(STUDENT_NUMBER.value, data.getStudentNumber())
-					.set(ROLE.value, data.getRole())
-					.set(DEPARTMENT.value, data.getDepartment())
-					.set(DESCRIPTION.value, data.getDescription())
-					.set(STATE.value, false)
-					.set(VISIBILITY.value, false)
-					.set(FOLLOWERS.value, new ArrayList<>())
-					.set(FOLLOWING.value, new ArrayList<>())
-					.set(ACTIVATE_ACCOUNT.value, data.getActivateAccount())
+					.set(UserAttributes.NAME.value, data.getName())
+					.set(UserAttributes.PASSWORD.value, DigestUtils.sha512Hex(data.getPassword()))
+					.set(UserAttributes.CREATION_TIME.value, System.currentTimeMillis())
+					.set(UserAttributes.EMAIL.value, data.getEmail())
+					.set(UserAttributes.STUDENT_NUMBER.value, data.getStudentNumber())
+					.set(UserAttributes.ROLE.value, UserRole.UNASSIGNED.value)
+					.set(UserAttributes.DEPARTMENT.value, data.getDepartment())
+					.set(UserAttributes.DESCRIPTION.value, data.getDescription())
+					.set(UserAttributes.STATE.value, false)
+					.set(UserAttributes.VISIBILITY.value, false)
+					.set(UserAttributes.FOLLOWERS.value,ListValue.newBuilder().build())
+					.set(UserAttributes.FOLLOWING.value, ListValue.newBuilder().build())
 					.build();
 
 			txn.add(user);
@@ -75,45 +77,6 @@ public class RegisterResource {
 				txn.rollback();
 			}
 		}
-	}
 
-	@GET
-	@Path("/activate")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-	public Response activateUser(@QueryParam("code") String code, @QueryParam("username") String username) {
-		Transaction txn = datastore.newTransaction();
-		try {
-			{
-				Key userKey = userKeyFactory.newKey(username);
-				Entity user = txn.get(userKey);
-				if (user == null) {
-					return Response.status(Status.NOT_FOUND).entity("Utilizador não encontrado").build();
-				}
-
-				String userActivateCode = user.getString(ACTIVATE_ACCOUNT.value);
-
-				if(!userActivateCode.equals(code)) {
-					return Response.status(Status.BAD_REQUEST).entity("Failed activate " + username + " because the code is wrong.").build();
-				}
-
-				Entity updatedUser = Entity.newBuilder(user)
-						.set(STATE.value, true)
-						.remove(ACTIVATE_ACCOUNT.value)
-						.build();
-				txn.update(updatedUser);
-
-				txn.commit();
-				//JOptionPane.showMessageDialog(null, "User " + username + " has been activated!");
-
-				return Response.temporaryRedirect(new java.net.URI("https://steel-sequencer-385510.oa.r.appspot.com/?activated=true")).build();
-			}
-		} catch (URISyntaxException e) {
-			throw new RuntimeException(e);
-		} finally {
-			if (txn.isActive()) {
-				txn.rollback();
-			}
-		}
 	}
 }

@@ -9,16 +9,15 @@ public class RegisterData {
 	private String studentNumber;
 	private String course;
 	private String role;
+	private String staffRole;
 	private String description;
 	private String department;
-
-	private String activateAccount;
 
 	
 	public RegisterData() {}
 
 	public RegisterData(String username, String name, String email, String password, String studentNumber,
-						String course, String role, String description, String department, String activateAccount) {
+						String course, String role, String staffRole, String description, String department) {
 		this.username = username;
 		this.name = name;
 		this.email = email;
@@ -26,12 +25,16 @@ public class RegisterData {
 		this.studentNumber = studentNumber;
 		this.course = course;
 		this.role = role;
+		this.staffRole = staffRole;
 		this.description = description;
 		this.department = department;
 		this.role = role;
-		this.activateAccount = activateAccount;
 
 
+	}
+
+	public boolean isValid() {
+		return !(this.username == null || this.password == null || this.email == null);
 	}
 
 	/**
@@ -78,6 +81,14 @@ public class RegisterData {
 	public String getRole() {
 		return role;
 	}
+
+	/**
+	 * @return the staffRole
+	 */
+	public String getStaffRole() {
+		return staffRole;
+	}
+
 	/**
 	 * @return the description
 	 */
@@ -88,13 +99,6 @@ public class RegisterData {
 	 */
 	public String getDepartment() {
 		return department;
-	}
-
-	/**
-	 * @return the activateAccount
-	 */
-	public String getActivateAccount() {
-		return activateAccount;
 	}
 
 }

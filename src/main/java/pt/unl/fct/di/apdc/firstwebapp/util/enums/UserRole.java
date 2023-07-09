@@ -10,7 +10,7 @@ public enum UserRole {
 
     SECURITY("security"),   //*done
     LIBRARY("library"),     //*done
-    BOARD("board"),         //*done
+    DIRECTION("direction"), //*done
     ANNOUNCER("announcer"), //*done
 
     ADMIN("admin"),         //*done

@@ -44,7 +44,7 @@ public class TokenResource {
         if (token == null || !PermissionsHolder.getInstance().hasAccess(SHOW_TOKEN.value, token.getRole()))
             return Response.status(Status.FORBIDDEN).build();
 
-        return Response.status(Response.Status.OK).entity(g.toJson(token)).build();
+        return Response.status(Status.OK).entity(g.toJson(token)).build();
         
     }
 
