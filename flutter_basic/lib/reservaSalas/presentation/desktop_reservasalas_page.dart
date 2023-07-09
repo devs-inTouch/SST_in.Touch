@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_basic/reservaSalas/presentation/salasBox.dart';
 import 'package:intl/intl.dart';
 
 import '../../constants.dart';
 import '../../myAppBar.dart';
-import '../application/reservaRequest.dart';
 
 class ReservaSalasPage extends StatefulWidget {
   ReservaSalasPage({Key? key}) : super(key: key);
@@ -19,43 +17,15 @@ class _ReservaSalasPageState extends State<ReservaSalasPage> {
   TextEditingController room = TextEditingController();
   TextEditingController numberStudents = TextEditingController();
   TextEditingController data = TextEditingController();
-  late String hour = '';
-  late String date = '';
+  String? horaSelecionada;
+  DateTime? selectedDate;
   late final DateFormat dateFormat = DateFormat('dd/MM/yyyy');
 
   List<String> horasDisponiveis = [
-    '08:00',
-    '09:00',
-    '10:00',
-    '11:00',
-    '12:00',
-    '13:00',
-    '14:00',
-    '15:00',
-    '16:00',
-    '17:00',
-    '18:00',
-    '19:00',
-    '20:00'
+    '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00',
+    '16:00', '17:00', '18:00', '19:00', '20:00'
   ];
 
-  List salasDisponiveisList = [];
-
-  void initState() {
-    super.initState();
-    date = dateFormat.format(DateTime.now());
-    hour = horasDisponiveis[0];
-  }
-
-
-  void fetchSalasDisponiveis() async {
-    final response = await ReservaAuth.getRoomsList(date, hour);
-    setState(() {
-      salasDisponiveisList = response;
-    });
-    print("Salas disponiveis");
-    print(salasDisponiveisList);
-  }
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -104,7 +74,7 @@ class _ReservaSalasPageState extends State<ReservaSalasPage> {
                                       child: Align(
                                         alignment: Alignment.center,
                                         child: Padding(
-                                          padding: EdgeInsets.zero,
+                                          padding: EdgeInsetsDirectional.zero,
                                           child: Text(
                                             'DATA',
                                             style: textStyleReservaSalas,
@@ -117,8 +87,7 @@ class _ReservaSalasPageState extends State<ReservaSalasPage> {
                                       flex: 2,
                                       child: ElevatedButton(
                                         onPressed: () async {
-                                          final DateTime? pickedDate =
-                                          await showDatePicker(
+                                          final DateTime? pickedDate = await showDatePicker(
                                             context: context,
                                             initialDate: DateTime.now(),
                                             firstDate: DateTime(2021),
@@ -126,14 +95,13 @@ class _ReservaSalasPageState extends State<ReservaSalasPage> {
                                           );
                                           if (pickedDate != null) {
                                             setState(() {
-                                              date =
-                                                  dateFormat.format(pickedDate);
+                                              selectedDate = pickedDate;
                                             });
                                           }
                                         },
                                         child: Text(
-                                          date != null
-                                              ? date!
+                                          selectedDate != null
+                                              ? dateFormat.format(selectedDate!)
                                               : 'Selecione uma data',
                                         ),
                                       ),
@@ -144,7 +112,7 @@ class _ReservaSalasPageState extends State<ReservaSalasPage> {
                                       child: Align(
                                         alignment: Alignment.center,
                                         child: Padding(
-                                          padding: EdgeInsets.zero,
+                                          padding: EdgeInsetsDirectional.zero,
                                           child: Text(
                                             'HORA',
                                             style: textStyleReservaSalas,
@@ -156,24 +124,22 @@ class _ReservaSalasPageState extends State<ReservaSalasPage> {
                                     Expanded(
                                       flex: 2,
                                       child: DropdownButton<String>(
-                                        value: hour,
+                                        value: horaSelecionada,
                                         hint: Text('Selecione uma hora'),
-                                        items: horasDisponiveis
-                                            .map((hora) {
+                                        items: horasDisponiveis.map((hora) {
                                           return DropdownMenuItem<String>(
                                             value: hora,
                                             child: Text(hora),
                                           );
-                                        })
-                                            .toList(),
+                                        }).toList(),
                                         onChanged: (String? selectedHour) {
                                           setState(() {
-                                            hour = selectedHour!;
+                                            horaSelecionada = selectedHour;
                                           });
                                         },
                                         // Set dropdown decoration
                                         dropdownColor: Colors.white,
-                                        style: TextStyle(color: Colors.black),
+                                        style: TextStyle(color: Colors.white),
                                         iconEnabledColor: Colors.black,
                                         underline: Container(
                                           height: 2,
@@ -186,45 +152,9 @@ class _ReservaSalasPageState extends State<ReservaSalasPage> {
                                 SizedBox(height: 40),
                                 Align(
                                   alignment: Alignment.center,
-                                  child: ElevatedButton(
+                                  child: TextButton(
                                     onPressed: () {
-                                      fetchSalasDisponiveis();
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            title: Text('Lista de Salas'),
-                                            content: Container(
-                                              width: double.maxFinite,
-                                              child: ListView.builder(
-                                                shrinkWrap: true,
-                                                itemCount: salasDisponiveisList.length,
-                                                itemBuilder: (BuildContext context, int index) {
-                                                  SalasBox salasBox = salasDisponiveisList[index];
-                                                  return Padding(
-                                                    padding: const EdgeInsets.only(bottom: 10.0),
-                                                    child: SalasBox(
-                                                      name: salasBox.name,
-                                                      department: salasBox.department,
-                                                      space: salasBox.space,
-                                                      date: salasBox.date,
-                                                      hour: salasBox.hour,
-                                                    ),
-                                                  );
-                                                },
-                                              ),
-                                            ),
-                                            actions: [
-                                              TextButton(
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                },
-                                                child: Text('Fechar'),
-                                              ),
-                                            ],
-                                          );
-                                        },
-                                      );
+                                      // Add your desired action when the button is pressed
                                     },
                                     style: ButtonStyle(
                                       backgroundColor:

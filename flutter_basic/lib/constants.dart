@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:uuid/uuid.dart';
 
 const String appUrl = "https://steel-sequencer-385510.oa.r.appspot.com/rest";
 
@@ -13,9 +12,6 @@ get firebaseInstance => fireBaseInstance;
 
 var myBackground = Colors.grey[100];
 
-var fireBaseStorageInstance = FirebaseStorage.instance;
-
-get firebaseStorageInstance => fireBaseStorageInstance;
 
 var textStyleBar = const TextStyle(
   fontSize: 22,
@@ -25,24 +21,6 @@ var textStyleEvents = const TextStyle(
   color: Colors.white,
   fontSize: 16.0,
 );
-
-String createId() {
-  var uuid = const Uuid();
-  return uuid.v1().toString();
-}
-
-const MaterialColor primarySwatch = MaterialColor(0xFF020279, {
-  50: Color.fromRGBO(2, 2, 121, 0.1),
-  100: Color.fromRGBO(2, 2, 121, 0.2),
-  200: Color.fromRGBO(2, 2, 121, 0.3),
-  300: Color.fromRGBO(2, 2, 121, 0.4),
-  400: Color.fromRGBO(2, 2, 121, 0.5),
-  500: Color.fromRGBO(2, 2, 121, 0.6),
-  600: Color.fromRGBO(2, 2, 121, 0.7),
-  700: Color.fromRGBO(2, 2, 121, 0.8),
-  800: Color.fromRGBO(2, 2, 121, 0.9),
-  900: Color.fromRGBO(2, 2, 121, 1.0),
-});
 
 var textStyle = const TextStyle(
   color: Colors.black,
@@ -59,7 +37,7 @@ var textStyleReservaSalasButton = const TextStyle(
   fontSize: 18.0,
 );
 
-var styleBackOfficeButtons = ElevatedButton.styleFrom(
+var styleBackOfficeButtons=ElevatedButton.styleFrom(
   padding: EdgeInsets.all(10),
   textStyle: TextStyle(fontSize: 20),
   shape: RoundedRectangleBorder(

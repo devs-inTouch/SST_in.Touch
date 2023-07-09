@@ -121,14 +121,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
-  emailjs:
-    dependency: "direct main"
-    description:
-      name: emailjs
-      sha256: f191abdd50f1b706100a4309c0f7f60b0004c01b8ab1496440ac30f8627ccd95
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.0"
   external_app_launcher:
     dependency: "direct main"
     description:
@@ -254,16 +246,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-<<<<<<< Updated upstream
-  flutter_colorpicker:
-    dependency: "direct main"
-    description:
-      name: flutter_colorpicker
-      sha256: "458a6ed8ea480eb16ff892aedb4b7092b2804affd7e046591fb03127e8d8ef8b"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.3"
-=======
   flutter_blurhash:
     dependency: transitive
     description:
@@ -280,7 +262,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.3.1"
->>>>>>> Stashed changes
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -619,16 +600,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.4"
-<<<<<<< Updated upstream
-  nested:
-    dependency: transitive
-    description:
-      name: nested
-      sha256: "03bac4c528c64c95c722ec99280375a6f2fc708eec17c7b3f07253b626cd2a20"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.0"
-=======
   octo_image:
     dependency: transitive
     description:
@@ -637,7 +608,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.2"
->>>>>>> Stashed changes
   path:
     dependency: transitive
     description:
@@ -782,16 +752,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.2.4"
-<<<<<<< Updated upstream
-  provider:
-    dependency: "direct main"
-    description:
-      name: provider
-      sha256: cdbe7530b12ecd9eb455bdaa2fcb8d4dad22e80b8afb4798b41479d5ce26847f
-      url: "https://pub.dev"
-    source: hosted
-    version: "6.0.5"
-=======
   rxdart:
     dependency: transitive
     description:
@@ -800,7 +760,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.27.7"
->>>>>>> Stashed changes
   sanitize_html:
     dependency: transitive
     description:
@@ -934,32 +893,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
-<<<<<<< Updated upstream
-  syncfusion_flutter_calendar:
-    dependency: "direct main"
-    description:
-      name: syncfusion_flutter_calendar
-      sha256: ac9c39ee72f6940db8dce13156825ae96979339d0b62eb42b83a20d65201df24
-      url: "https://pub.dev"
-    source: hosted
-    version: "22.1.36"
-  syncfusion_flutter_core:
-    dependency: transitive
-    description:
-      name: syncfusion_flutter_core
-      sha256: cd99c16c22658fce7ef036af5e72125428c53b8b58110ef01593b1e17891b68a
-      url: "https://pub.dev"
-    source: hosted
-    version: "22.1.36"
-  syncfusion_flutter_datepicker:
-    dependency: transitive
-    description:
-      name: syncfusion_flutter_datepicker
-      sha256: "18d244086890be36957a3a15fb3e9b2ac83556e7fb31fa9ff90837dd4fca8fd2"
-      url: "https://pub.dev"
-    source: hosted
-    version: "22.1.36"
-=======
   synchronized:
     dependency: transitive
     description:
@@ -968,7 +901,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.0"
->>>>>>> Stashed changes
   table_calendar:
     dependency: "direct main"
     description:
@@ -992,19 +924,7 @@ packages:
       sha256: ad540f65f92caa91bf21dfc8ffb8c589d6e4dc0c2267818b4cc2792857706206
       url: "https://pub.dev"
     source: hosted
-<<<<<<< Updated upstream
-    version: "0.5.1"
-  timezone:
-    dependency: transitive
-    description:
-      name: timezone
-      sha256: "1cfd8ddc2d1cfd836bc93e67b9be88c3adaeca6f40a00ca999104c30693cdca0"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.9.2"
-=======
     version: "0.4.16"
->>>>>>> Stashed changes
   typed_data:
     dependency: transitive
     description:

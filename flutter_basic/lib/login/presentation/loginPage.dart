@@ -6,8 +6,6 @@ import 'package:flutter_basic/mainpage/presentation/tablet_main_scaffold.dart';
 import 'package:flutter_basic/mainpage/presentation/desktop_main_scaffold.dart';
 import 'package:flutter_basic/mainpage/presentation/mobile_main_scaffold.dart';
 
-import '../../constants.dart';
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -15,10 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primarySwatch: primarySwatch,
-          scaffoldBackgroundColor: Colors.white,
-        ),
+        theme: ThemeData(primaryColor: Colors.blue),
         home: const Login());
   }
 }
@@ -51,7 +46,7 @@ class LoginHomePage extends State<Login> {
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-                builder: (context) => const ResponsiveLayout(
+                builder: (context) => ResponsiveLayout(
                     desktopScaffold: DesktopScaffold(),
                     mobileScaffold: MobileScaffold(),
                     tabletScaffold: TabletScaffold())));

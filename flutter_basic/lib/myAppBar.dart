@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/anomalies/presentation/anomaliesPage.dart';
@@ -14,21 +16,18 @@ import 'package:flutter_basic/profile/application/profleRequests.dart';
 import 'package:flutter_basic/profile/presentation/profile_scaffold.dart';
 import 'package:flutter_basic/reports/presentation/reportsPage.dart';
 import 'package:flutter_basic/reservaSalas/presentation/responsive_reservasalas.dart';
+import 'package:flutter_basic/searchBarPage/presentation/responsive_searchPage.dart';
 import 'package:flutter_basic/teste/teste.dart';
 import 'package:flutter_basic/maps/lib/map.dart';
-<<<<<<< Updated upstream
-import 'calendar/page/calendar_page.dart';
-=======
 import 'package:image_network/image_network.dart';
->>>>>>> Stashed changes
 import 'mainpage/application/logoutAuth.dart';
 import 'messages/application/chatScreen.dart';
-import 'noticias/presentation/newsPage.dart';
 import 'notifications/presentation/notificationList.dart';
 import 'package:http/http.dart' as http;
 import 'package:cached_network_image/cached_network_image.dart';
 
 class MyAppBar extends StatefulWidget implements PreferredSizeWidget {
+
   @override
   _MyAppBarState createState() => _MyAppBarState();
 
@@ -37,8 +36,13 @@ class MyAppBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _MyAppBarState extends State<MyAppBar> {
+
+
+
   final TextEditingController searchValue = TextEditingController();
   List received = [];
+
+
 
   void logoutButtonPressed(BuildContext context) {
     LogoutAuth.logout().then((isLoggedout) {
@@ -71,39 +75,21 @@ class _MyAppBarState extends State<MyAppBar> {
 
 
   handleSearch() async{
-    List searchResults = await ProfileRequests.getSearch(searchValue.text);
+    //List searchResults = await ProfileRequests.getSearch(searchValue.text);
+    List searchResults = ['gui'];
     setState(() {
-      received = searchResults;
+      if(mounted) {
+        received = searchResults;
+      }
     });
+
 
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [AppBar(
+    return AppBar(
       backgroundColor: Colors.white,
-<<<<<<< Updated upstream
-      leading: Row(
-        children: [
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ResponsiveLayout(
-                    mobileScaffold: MobileScaffold(),
-                    tabletScaffold: TabletScaffold(),
-                    desktopScaffold: DesktopScaffold(),
-                  ),
-                ),
-              );
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(left: 10.0),
-              child: Image.asset(
-                'assets/Icon.png',
-                height: 35, // Define the desired height for the image
-=======
       leading: GestureDetector(
         onTap: () {
           Navigator.push(
@@ -111,234 +97,81 @@ class _MyAppBarState extends State<MyAppBar> {
             MaterialPageRoute(
               builder: (context) => const ProfileScaffold(
                 name: 'John Doe',
->>>>>>> Stashed changes
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 10.0),
-            child: IconButton(
-              icon: Icon(Icons.search, color: Colors.black),
-              onPressed: () {
-                // Implement your search logic here
-              },
-            ),
-          ),
-        ],
-      ),
-      centerTitle: true,
-      title: Container(
-        width: 400,
-        child: Column(
-          children: [
-            TextFormField(
-              controller: searchValue,
-              decoration: InputDecoration(
-                hintText: "Pesquisa utilizadores",
-                filled: true,
-                prefixIcon: Icon(Icons.account_box),
-                suffixIcon: IconButton(
-                  icon: Icon(Icons.search),
-                  onPressed: handleSearch,
-                ),
+          );
+        },
+        child: Padding(
+          padding: const EdgeInsets.only(left: 10.0),
+          child: Row(
+            children: [
+              Image.asset(
+                'assets/logo-1-RBH.png',
+                height: 35, // Defina a altura desejada para a imagem
               ),
-            ),
-
-          ],
+            ],
+          ),
         ),
       ),
+
       actions: [
-<<<<<<< Updated upstream
-        Expanded(
-          child: Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                  icon: Icon(Icons.home, color: Colors.black),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const ResponsiveLayout(
-                          mobileScaffold: MobileScaffold(),
-                          tabletScaffold: TabletScaffold(),
-                          desktopScaffold: DesktopScaffold(),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-                IconButton(
-                  icon: Icon(Icons.map, color: Colors.black),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const GMap()),
-                    );
-                  },
-                ),
-                IconButton(
-                  icon: Icon(Icons.calendar_today, color: Colors.black),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => CalendarPage()),
-                    );
-                  },
-                ),
-                IconButton(
-                  icon: Icon(Icons.list_alt_outlined, color: Colors.black),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => FeedsPage()),
-                    );
-                  },
-                ),
-                IconButton(
-                  icon: Icon(Icons.group, color: Colors.black),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => NucleosPage()),
-                    );
-                  },
-                ),
-              ],
-            ),
-          ),
-        ),
         PopupMenuButton(
-          icon: Icon(Icons.list, color: Colors.black),
-          color: Colors.white,
-          offset: Offset(0, kToolbarHeight),
-          itemBuilder: (BuildContext context) => [
-            PopupMenuItem(
-              child: Container(
-                color: Colors.white,
-                // Set the background color of the menu item to white
-                child: ListTile(
-                  leading: const Icon(Icons.feed),
-                  title: const Text('Feed'),
-                  onTap: () {
-                    // Handle logout button click
-                    Navigator.pop(context); // Close the menu
-                    // Implement your logic here
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => FeedsPage()),
-                    );
-                  },
-                ),
-              ),
-            ),
-            PopupMenuItem(
-              child: Container(
-                color: Colors.white,
-                // Set the background color of the menu item to white
-                child: ListTile(
-                  leading: const Icon(Icons.map),
-                  title: const Text('Maps'),
-                  onTap: () {
-                    // Handle logout button click
-                    Navigator.pop(context); // Close the menu
-                    // Implement your logic here
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const GMap()),
-                    );
-                  },
-                ),
-              ),
-            ),
-            PopupMenuItem(
-              child: Container(
-                color: Colors.white,
-                // Set the background color of the menu item to white
-                child: ListTile(
-                  leading: const Icon(Icons.terminal),
-                  title: const Text('Tests'),
-                  onTap: () {
-                    // Handle logout button click
-                    Navigator.pop(context); // Close the menu
-                    // Implement your logic here
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => CalendarPage()),
-                    );
-                  },
-                ),
-              ),
-            ),
-            PopupMenuItem(
-              child: Container(
-                color: Colors.white,
-                // Set the background color of the menu item to white
-                child: ListTile(
-                  leading: const Icon(Icons.newspaper),
-                  title: const Text('Notícias'),
-                  onTap: () {
-                    // Handle logout button click
-                    Navigator.pop(context); // Close the menu
-                    // Implement your logic here
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => NewsPage()),
-                    );
-                  },
-                ),
-              ),
-            ),
-            PopupMenuItem(
-              child: Container(
-                color: Colors.white,
-                // Set the background color of the menu item to white
-                child: ListTile(
-                  leading: const Icon(Icons.groups),
-                  title: const Text('Núcleos'),
-                  onTap: () {
-                    // Handle logout button click
-                    Navigator.pop(context); // Close the menu
-                    // Implement your logic here
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => NucleosPage()),
-                    );
-                  },
-                ),
-              ),
-            ),
-            PopupMenuItem(
-              child: Container(
-                color: Colors.white,
-                // Set the background color of the menu item to white
-                child: ListTile(
-                  leading: const Icon(Icons.chat),
-                  title: const Text('Chat'),
-                  onTap: () {
-                    // Handle logout button click
-                    Navigator.pop(context); // Close the menu
-                    // Implement your logic here
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ChatScreen(
-                          conversation: null,
-                          onConversationSelected: (Conversation) {},
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ),
-          ],
+          icon: Icon(Icons.search, color: Colors.black,),
+            itemBuilder: (BuildContext context) {
+              return [
+                PopupMenuItem(
+                    child: Container(
+                      color: Colors.white,
+                      height: 500,
+                      width: 400,
+                      child:Column(
+                        children: [
+                          TextFormField(
+                            controller: searchValue,
+                            decoration: InputDecoration(
+                              hintText: "Pesquisa utilizadores",
+                              filled: true,
+                              prefixIcon: Icon(Icons.account_box),
+                              suffixIcon: IconButton(
+                                icon: Icon(Icons.search),
+                                onPressed: handleSearch,
+                              ),
+                            ),
+                          ),
+
+
+
+                        ],
+                      )
+                    )
+                )
+              ];
+
+        }),
+        Expanded(
+          child:ListView.builder(
+              itemCount: received.length,
+              itemBuilder: (BuildContext context, int index) {
+                final suggestion = received[index];
+                return ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: Colors.orange,
+                    //backgroundImage: CachedNetworkImageProvider(''),
+                  ),
+                  title: Text(suggestion),
+
+                );
+              }
+          ),),
+        IconButton(
+          icon: Icon(Icons.person_search, color: Colors.black),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ResponsiveSearchPage()),
+            );
+          },
         ),
-=======
-
-
->>>>>>> Stashed changes
         PopupMenuButton<Notification>(
           icon: const Icon(Icons.notifications, color: Colors.black),
           color: Colors.white,
@@ -368,14 +201,121 @@ class _MyAppBarState extends State<MyAppBar> {
           },
         ),
         PopupMenuButton(
-          icon: Icon(Icons.person, color: Colors.black),
+          icon: const Icon(Icons.list, color: Colors.black),
           color: Colors.white,
-          offset: Offset(0, kToolbarHeight),
+          offset: const Offset(0, kToolbarHeight),
           itemBuilder: (BuildContext context) => [
             PopupMenuItem(
               child: Container(
-                color: Colors.white,
-                // Set the background color of the menu item to white
+                color: Colors
+                    .white, // Set the background color of the menu item to white
+                child: ListTile(
+                  leading: const Icon(Icons.feed),
+                  title: const Text('Feed'),
+                  onTap: () {
+                    // Handle logout button click
+                    Navigator.pop(context); // Close the menu
+                    // Implement your logic here
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => FeedsPage()),
+                    );
+                  },
+                ),
+              ),
+            ),
+            PopupMenuItem(
+              child: Container(
+                color: Colors
+                    .white, // Set the background color of the menu item to white
+                child: ListTile(
+                  leading: const Icon(Icons.map),
+                  title: const Text('Maps'),
+                  onTap: () {
+                    // Handle logout button click
+                    Navigator.pop(context); // Close the menu
+                    // Implement your logic here
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const GMap()),
+                    );
+                  },
+                ),
+              ),
+            ),
+            PopupMenuItem(
+              child: Container(
+                color: Colors
+                    .white, // Set the background color of the menu item to white
+                child: ListTile(
+                  leading: const Icon(Icons.terminal),
+                  title: const Text('Tests'),
+                  onTap: () {
+                    // Handle logout button click
+                    Navigator.pop(context); // Close the menu
+                    // Implement your logic here
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Test()),
+                    );
+                  },
+                ),
+              ),
+            ),
+            PopupMenuItem(
+              child: Container(
+                color: Colors
+                    .white, // Set the background color of the menu item to white
+                child: ListTile(
+                  leading: const Icon(Icons.groups),
+                  title: const Text('Núcleos'),
+                  onTap: () {
+                    // Handle logout button click
+                    Navigator.pop(context); // Close the menu
+                    // Implement your logic here
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => NucleosPage()),
+                    );
+                  },
+                ),
+              ),
+            ),
+            PopupMenuItem(
+              child: Container(
+                color: Colors
+                    .white, // Set the background color of the menu item to white
+                child: ListTile(
+                  leading: const Icon(Icons.chat),
+                  title: const Text('Chat'),
+                  onTap: () {
+                    // Handle logout button click
+                    Navigator.pop(context); // Close the menu
+                    // Implement your logic here
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ChatScreen(
+                          conversation: null,
+                          onConversationSelected: (Conversation) {},
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
+        ),
+        PopupMenuButton(
+          icon: const Icon(Icons.person, color: Colors.black),
+          color: Colors.white,
+          offset: const Offset(0, kToolbarHeight),
+          itemBuilder: (BuildContext context) => [
+            PopupMenuItem(
+              child: Container(
+                color: Colors
+                    .white, // Set the background color of the menu item to white
                 child: ListTile(
                   leading: Theme(
                     data: ThemeData(
@@ -394,30 +334,30 @@ class _MyAppBarState extends State<MyAppBar> {
                         ),
 
                         /**
-                            ResponsiveLayout(
-                            mobileScaffold: MobileProfileScaffold(
+                        ResponsiveLayout(
+                          mobileScaffold: MobileProfileScaffold(
                             name: 'John Doe',
                             imageAssetPath: 'assets/images/profile.jpg',
                             role: 'Developer',
                             year: '2002',
                             nucleos: 'Engineering',
-                            ),
-                            tabletScaffold: TabletProfileScaffold(
+                          ),
+                          tabletScaffold: TabletProfileScaffold(
                             name: 'John Doe',
                             imageAssetPath: 'assets/images/profile.jpg',
                             role: 'Developer',
                             year: '2002',
                             nucleos: 'Engineering',
-                            ),
-                            desktopScaffold: DesktopProfileScaffold(
+                          ),
+                          desktopScaffold: DesktopProfileScaffold(
                             name: 'John Doe',
                             imageAssetPath: 'assets/images/profile.jpg',
                             role: 'Developer',
                             year: '2002',
                             nucleos: 'Engineering',
-                            ),
-                            ),
-                         **/
+                          ),
+                        ),
+                        **/
                       ),
                     );
                   },
@@ -426,8 +366,8 @@ class _MyAppBarState extends State<MyAppBar> {
             ),
             PopupMenuItem(
               child: Container(
-                color: Colors.white,
-                // Set the background color of the menu item to white
+                color: Colors
+                    .white, // Set the background color of the menu item to white
                 child: ListTile(
                   leading: const Icon(Icons.notification_add_outlined),
                   title: const Text('Notify'),
@@ -445,8 +385,8 @@ class _MyAppBarState extends State<MyAppBar> {
             ),
             PopupMenuItem(
               child: Container(
-                color: Colors.white,
-                // Set the background color of the menu item to white
+                color: Colors
+                    .white, // Set the background color of the menu item to white
                 child: ListTile(
                   leading: const Icon(Icons.report),
                   title: const Text('Report'),
@@ -465,8 +405,8 @@ class _MyAppBarState extends State<MyAppBar> {
             ),
             PopupMenuItem(
               child: Container(
-                color: Colors.white,
-                // Set the background color of the menu item to white
+                color: Colors
+                    .white, // Set the background color of the menu item to white
                 child: ListTile(
                   leading: const Icon(Icons.admin_panel_settings),
                   title: const Text('Back-Office'),
@@ -485,8 +425,8 @@ class _MyAppBarState extends State<MyAppBar> {
             ),
             PopupMenuItem(
               child: Container(
-                color: Colors.white,
-                // Set the background color of the menu item to white
+                color: Colors
+                    .white, // Set the background color of the menu item to white
                 child: ListTile(
                   leading: const Icon(Icons.workspaces),
                   title: const Text('Workspace'),
@@ -505,8 +445,8 @@ class _MyAppBarState extends State<MyAppBar> {
             ),
             PopupMenuItem(
               child: Container(
-                color: Colors.white,
-                // Set the background color of the menu item to white
+                color: Colors
+                    .white, // Set the background color of the menu item to white
                 child: ListTile(
                   leading: const Icon(Icons.logout),
                   title: const Text('Logout'),
@@ -523,39 +463,8 @@ class _MyAppBarState extends State<MyAppBar> {
           ],
         ),
       ],
-    ),
-      if (received.isNotEmpty)
-        Container(
-          width: 300,
-          child:Padding(padding: EdgeInsets.all(20.0),
+    );
 
-          child: ListView.builder(
-            itemCount: received.length,
-            itemBuilder: (BuildContext context, int index) {
-              final suggestion = received[index];
-              return ListTile(
-                leading: CircleAvatar(
-                  backgroundColor: Colors.black,
-                  backgroundImage: CachedNetworkImageProvider('https://firebasestorage.googleapis.com/v0/b/steel-sequencer-385510.appspot.com/o/posts%2Fdb67fe40-fef0-40a3-af4e-5e8e7844ea3e?alt=media&token=4e5817ec-6634-48ec-aad4-6182a85583e5'),
-                ),
-                title: Text(suggestion),
-
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ProfileScaffold(
-                        name: suggestion.toString(),
-                      ),
-                    ),
-                  );
-                },
-              );
-            }
-          ),
-        ),
-        )
-    ]);
   }
 }
 

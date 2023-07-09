@@ -15,7 +15,6 @@ class ProfileBox extends StatefulWidget {
 
 class _ProfileBoxState extends State<ProfileBox> {
   bool isEditing = false;
-  bool isFollowing = false;
   late TextEditingController _textEditingController;
   late String description;
 
@@ -31,17 +30,6 @@ class _ProfileBoxState extends State<ProfileBox> {
     _textEditingController.dispose();
     super.dispose();
   }
-  void startFollowing() {
-    setState(() {
-      isFollowing = true;
-    });
-  }
-  void stopFollowing() {
-    setState(() {
-      isFollowing = false;
-    });
-  }
-
 
   void startEditing() {
     setState(() {
@@ -113,46 +101,21 @@ class _ProfileBoxState extends State<ProfileBox> {
                     ],
                   ),
                   Spacer(),
-                  Container(
-                    padding: EdgeInsets.symmetric(vertical: 10), // Add vertical padding between the buttons
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        OutlinedButton(
-                          onPressed: isEditing ? confirmEditing : startEditing,
-                          style: OutlinedButton.styleFrom(
-                            fixedSize: Size(100, 50),
-                            backgroundColor: Colors.blue,
-                          ),
-                          child: Text(
-                            isEditing ? 'Confirmar' : 'Editar',
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 15,
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 20), // Add horizontal spacing between the buttons
-                        OutlinedButton(
-                          onPressed: isFollowing ? stopFollowing : startFollowing, // Replace the onPressed function with the appropriate action for the button
-                          style: OutlinedButton.styleFrom(
-                            fixedSize: Size(100, 50),
-                            backgroundColor: Colors.blue,
-                          ),
-                          child: Text(
-                            isFollowing ? 'Seguir' : 'A seguir',
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 15,
-                            ),
-                          ),
-                        ),
-                      ],
+                  OutlinedButton(
+                    onPressed: isEditing ? confirmEditing : startEditing,
+                    style: OutlinedButton.styleFrom(
+                      fixedSize: Size(100, 50),
+                      backgroundColor: Colors.blue,
                     ),
-                  )
-
+                    child: Text(
+                      isEditing ? 'Confirmar' : 'Editar',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),

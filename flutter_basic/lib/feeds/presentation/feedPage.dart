@@ -11,9 +11,6 @@ import 'dart:typed_data';
 import '../../myAppBar.dart';
 
 class FeedsPage extends StatefulWidget {
-  const FeedsPage({super.key});
-
-  @override
   State<FeedsPage> createState() => FeedState();
 }
 
@@ -72,11 +69,7 @@ class FeedState extends State<FeedsPage> {
 
     UploadTask uploadTask;
     Reference storageRef =
-<<<<<<< Updated upstream
-        firebaseStorageInstance.ref().child("/posts/" + postId);
-=======
         fireBaseInstance.ref().child("/posts/" + postId);
->>>>>>> Stashed changes
 
     final metadata = SettableMetadata(contentType: 'image/jpeg');
     uploadTask = storageRef.putData(selectedImageInBytes, metadata);
@@ -127,6 +120,8 @@ class FeedState extends State<FeedsPage> {
       }
     });
   }
+
+
 
   handleSubmit() async {
     setState(() {

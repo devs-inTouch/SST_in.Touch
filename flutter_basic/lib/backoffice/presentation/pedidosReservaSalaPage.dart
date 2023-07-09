@@ -1,36 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_basic/backoffice/application/salasRequestAuth.dart';
+
 import '../../constants.dart';
 import '../../myAppBar.dart';
 import 'backOfficePage.dart';
-import 'boxes/bookingBox.dart';
 
-
-class PedidoReservaSalaPage extends StatefulWidget {
-  const PedidoReservaSalaPage({super.key});
-
-  State<PedidoReservaSalaPage> createState() => ReservasState();
-  }
-
-
-  class ReservasState extends State<PedidoReservaSalaPage> {
-    List requestsList = [];
-
-
-  void initState() {
-    super.initState();
-    fetchSalas();
-  }
-
-  void fetchSalas() async {
-    final response = await SalasRequestAuth.getBookingList();
-    setState(() {
-      requestsList = response;
-    });
-    print("requests fetched");
-    print(requestsList);
-  }
-
+class PedidoReservaSalaPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,69 +15,38 @@ class PedidoReservaSalaPage extends StatefulWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
-              padding: EdgeInsets.symmetric(vertical: 10.0),
-              color: Colors.grey[300],
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Text(
-                      "PEDIDOS E RESERVAS DE SALAS",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 24.0,
-                      ),
-                    ),
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.close),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => BackOffice()),
-                      );
-                    },
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 10.0),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 10.0),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "SALA:",
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "PEDIDOS E RESERVAS DE SALAS",
+                  textAlign: TextAlign.center,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 20.0,
+                    fontSize: 24.0,
                   ),
                 ),
-              ),
+                IconButton(
+                  icon: Icon(Icons.close),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => BackOffice()),
+                    );
+                  },
+                ),
+              ],
+            ),
+            SizedBox(height: 10.0),
+            Text(
+              "SALA:",
+              style: TextStyle(fontSize: 18.0),
             ),
             SizedBox(height: 10.0),
             Container(
-              width: 800,
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: requestsList.length,
-                itemBuilder: (BuildContext context, int index) {
-                  BookingBox bookingBox = requestsList[index];
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 10.0),
-                    child: BookingBox(
-                      username: bookingBox.username,
-                      room: bookingBox.room,
-                      department: bookingBox.department,
-                      numberStudents: bookingBox.numberStudents,
-                      date: bookingBox.date,
-                      hour: bookingBox.hour,
-                    ),
-                  );
-                },
-              ),
+              width: double.infinity,
+              height: 200.0,
+              color: Colors.blue,
             ),
           ],
         ),

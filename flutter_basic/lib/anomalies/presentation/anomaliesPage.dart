@@ -9,7 +9,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:image/image.dart' as Im;
 
 import '../../constants.dart';
-import 'anomalyBox.dart';
+import '../../feeds/presentation/anomalyBox.dart';
 import '../../myAppBar.dart';
 
 class AnomaliesPage extends StatefulWidget {

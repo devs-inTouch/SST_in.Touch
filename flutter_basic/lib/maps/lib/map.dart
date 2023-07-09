@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/maps/lib/polygons/restaura%C3%A7%C3%A3o.dart';
-import 'package:flutter_basic/myAppBar.dart';
 
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -184,7 +183,6 @@ class GMapState extends State<GMap> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(),
       key: _scaffoldKey,
       body: Column(
         children: [
