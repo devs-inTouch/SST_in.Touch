@@ -43,7 +43,7 @@ public class ChangePasswordResource {
         Key targetKey = datastore.newKeyFactory().setKind("User").newKey(data.getTargetUsername());
         Entity target = datastore.get(targetKey);
         if (target == null)
-            return Response.status(Status.BAD_REQUEST).entity("User not in database!").build();
+            return Response.status(Response.Status.BAD_REQUEST).entity("User not in database!").build();
 
         String hashedPwd = DigestUtils.sha512Hex(data.getNewPassword());
 

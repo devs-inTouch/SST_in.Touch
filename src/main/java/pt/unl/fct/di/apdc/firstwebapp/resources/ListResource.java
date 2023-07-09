@@ -1,12 +1,32 @@
 package pt.unl.fct.di.apdc.firstwebapp.resources;
 
+import static com.google.cloud.datastore.aggregation.Aggregation.count;
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.DatastoreEntities.ANOMALY;
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.DatastoreEntities.BOOKING;
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.DatastoreEntities.POST;
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.DatastoreEntities.TOKEN;
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.DatastoreEntities.USER;
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Globals.AUTH;
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Globals.COUNT;
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Globals.DEFAULT_FORMAT;
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Operation.LIST_UNNACTIVATED_USERS;
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Operation.LIST_USERS;
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Operation.STATS;
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.TokenAttributes.EXPIRATION_TIME;
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.CREATION_TIME;
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.EMAIL;
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.NAME;
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.ROLE;
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.STATE;
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.USERNAME;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -15,247 +35,218 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import com.google.cloud.datastore.AggregationQuery;
+import com.google.cloud.datastore.AggregationResult;
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.Entity;
-import com.google.cloud.datastore.Key;
+import com.google.cloud.datastore.EntityQuery;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.QueryResults;
+import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
+import com.google.common.collect.Iterables;
 import com.google.gson.Gson;
 
+import pt.unl.fct.di.apdc.firstwebapp.resources.permissions.PermissionsHolder;
 import pt.unl.fct.di.apdc.firstwebapp.util.DatastoreUtil;
 import pt.unl.fct.di.apdc.firstwebapp.util.TokenUtil;
-import pt.unl.fct.di.apdc.firstwebapp.util.entities.RegisterData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.TokenData;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects.BaseQueryResultData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects.CompleteQueryResultData;
-import pt.unl.fct.di.apdc.firstwebapp.util.enums.DatastoreEntities;
-import pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes;
-import pt.unl.fct.di.apdc.firstwebapp.util.enums.UserRole;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects.StatsData;
 
 
 @Path("/list")
-@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+@Produces(MediaType.APPLICATION_JSON + DEFAULT_FORMAT)
 public class ListResource {
+
+    private static final Logger LOG = Logger.getLogger(ListResource.class.getName());
     
     private final Gson g = new Gson();
     private final Datastore datastore = DatastoreUtil.getService();
-    private static final Logger LOG = Logger.getLogger(ListResource.class.getName());
+
+    private PermissionsHolder ph = PermissionsHolder.getInstance();
 
     public ListResource() {}
 
-    // @POST
-    // @Path("/")
-    // @Consumes(MediaType.APPLICATION_JSON)
-    // public Response listUsers(TokenData data){
-    //     Key tokenKey = datastore.newKeyFactory().setKind("Token").newKey(data.getUsername());
-    //     Entity token = datastore.get(tokenKey);
-
-    //     if(!TokenUtil.isTokenValid(LOG, data, token))
-    //         return Response.status(Status.FORBIDDEN).build();
-
-    //     Key userKey = datastore.newKeyFactory().setKind("User").newKey(data.getUsername());
-    //     Entity user = datastore.get(userKey);
-
-    //     String userRole = user.getString(UserAttributes.ROLE.value);
-    //     List<String> list = new ArrayList<>();
-    //     Query<Entity> query;
-    //     QueryResults<Entity> tokens;
-
-    //     // switch (userRole){
-    //     //     case SU:
-    //     //         query = Query.newEntityQueryBuilder().setKind("User").build();
-    //     //         tokens = datastore.run(query);
-
-    //     //         listAllUserInfo(list, tokens);
-    //     //         return Response.ok(g.toJson(list)).build();
-    //     //     case GS:
-    //     //        query = Query.newEntityQueryBuilder().setKind("User")
-    //     //                 .setFilter(PropertyFilter.eq(ROLE, USER)).build();
-    //     //        tokens = datastore.run(query);
-
-    //     //        Query<Entity> query1 = Query.newEntityQueryBuilder().setKind("User")
-    //     //                 .setFilter(PropertyFilter.eq(ROLE, GBO)).build();
-    //     //        QueryResults<Entity> tokens1 = datastore.run(query1);
-
-    //     //         listAllUserInfo(list, tokens);
-
-    //     //         listAllUserInfo(list, tokens1);
-
-    //     //         return Response.ok(g.toJson(list)).build();
-
-    //     //     case GBO:
-    //     //         query = Query.newEntityQueryBuilder().setKind("User")
-    //     //                 .setFilter(PropertyFilter.eq(ROLE, USER)).build();
-    //     //         tokens = datastore.run(query);
-
-    //     //         listAllUserInfo(list, tokens);
-
-    //     //         return Response.ok(g.toJson(list)).build();
-
-    //     //     case USER:
-    //     //         query = Query.newEntityQueryBuilder().setKind("User")
-    //     //                 .setFilter(PropertyFilter.eq(ROLE, USER)).build();
-    //     //         tokens = datastore.run(query);
-    //     //         listUserInfo(list, tokens);
-    //     //         return Response.ok(g.toJson(list)).build();
-    //     // }
-
-
-    //     return Response.status(Status.OK).entity("{}").build();
-    // }
-
-    // private void listUserInfo(List<String> list, QueryResults<Entity> tokens) {
-    //     tokens.forEachRemaining(userData ->{
-    //         if(userData.getString("profile").equals(PROFILE) &&
-    //                 userData.getString("state").equals(STATE)){
-    //             list.add((
-
-    //             userData.getKey().getName() + BLANK +
-    //             userData.getString("email") + BLANK +
-    //             userData.getString("name") + BLANK
-    //             ));
-    //         }});
-    // }
-
-    // private void listAllUserInfo(List<String> list, QueryResults<Entity> tokens1) {
-    //     tokens1.forEachRemaining(userData ->{
-    //         list.add((
-    //                 userData.getKey().getName() + BLANK +
-    //                 userData.getString("state") + BLANK +
-    //                 userData.getString("role") + BLANK +
-    //                 userData.getString("email") + BLANK +
-    //                 userData.getString("name") + BLANK +
-    //                 userData.getString("profile") + BLANK +
-    //                 userData.getString("cellPhone") + BLANK +
-    //                 userData.getString("fixPhone") + BLANK +
-    //                 userData.getString("occupation") + BLANK +
-    //                 userData.getString("workplace") + BLANK +
-    //                 userData.getString("address 1") + BLANK +
-    //                 userData.getString("address 2") + BLANK +
-    //                 userData.getString("city") + BLANK +
-    //                 userData.getString("outCode") + BLANK +
-    //                 userData.getString("inCode") + BLANK +
-    //                 userData.getString("NIF") + BLANK
-    //         ));
-    //     });
-    // }
-
-
-
-
-    // // !=====================================================================
-
     @POST
-    @Path("/")
+    @Path("/users")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response listUsersV2(@HeaderParam(AUTH) String auth) {
+    public Response listUsers(@HeaderParam(AUTH) String auth) {
 
-        TokenData managerToken = TokenUtil.validateToken(LOG, auth);
+        TokenData token = TokenUtil.validateToken(LOG, auth);
 
-        if (managerToken == null) {
+        if (token == null)
+            return Response.status(Status.UNAUTHORIZED).build();
+
+        if (!ph.hasAccess(LIST_USERS.value, token.getRole()))
             return Response.status(Status.FORBIDDEN).build();
-        }
 
-        Key managerKey = datastore.newKeyFactory().setKind(DatastoreEntities.USER.value).newKey(managerToken.getUsername());
-        Entity manager = datastore.get(managerKey);
-        UserRole managerRole = UserRole.toRole(manager.getString(UserAttributes.ROLE.value));
-        Query<Entity> query;
-        QueryResults<Entity> users;
-        List<CompleteQueryResultData> resultList = new ArrayList<>();
-        // switch(managerRole) {
-        //     case SU:
-        //         query = Query.newEntityQueryBuilder()
-        //             .setKind("User")
-        //             .build();
-        //         users = datastore.run(query);
-        //         users.forEachRemaining( user -> {
-        //             resultList.add(getCompleteQueryResultData(user));
-        //         });
+        EntityQuery query = Query.newEntityQueryBuilder()
+                            .setKind(USER.value)
+                            .setFilter(
+                                PropertyFilter.eq(STATE.value, true)
+                            )
+                            .build();
 
-        //         break;
-        //     case GS:
-        //         query = Query.newEntityQueryBuilder()
-        //             .setKind("User")
-        //             .setFilter(
-        //                 PropertyFilter.eq(RegisterData.TYPE, UserType.GBO.type)
-        //             )
-        //             .build();
-        //         users = datastore.run(query);
-        //         users.forEachRemaining( user -> {
-        //             resultList.add(getCompleteQueryResultData(user));
-        //         });
+        QueryResults<Entity> users = datastore.run(query);
+        var resultList = new ArrayList<>();
 
-        //         query = Query.newEntityQueryBuilder()
-        //             .setKind("User")
-        //             .setFilter(
-        //                 PropertyFilter.eq(RegisterData.TYPE, UserType.USER.type)
-        //             )
-        //             .build();
-        //         users = datastore.run(query);
-        //         users.forEachRemaining( user -> {
-        //             resultList.add(getCompleteQueryResultData(user));
-        //         });
+        // switch (ph.getClearance(LIST_USERS.value, token.getRole())) {} //TODO add this later
 
-        //         break;
-        //     case GA:
-        //         LOG.warning("Behaviour for GA not defined.");
-        //         return Response.status(Status.NOT_IMPLEMENTED).build();
-        //     case GBO:
-        //         query = Query.newEntityQueryBuilder()
-        //             .setKind("User")
-        //             .setFilter(
-        //                 PropertyFilter.eq(RegisterData.TYPE, UserType.USER.type)
-        //             )
-        //             .build();
-        //         users = datastore.run(query);
-        //         users.forEachRemaining( user -> {
-        //             resultList.add(getCompleteQueryResultData(user));
-        //         });
-        //     case USER:
-        //         List<BaseQueryResultData> resultListUSER = new ArrayList<>();
-        //         query = Query.newEntityQueryBuilder()
-        //             .setKind("User")
-        //             .setFilter(
-        //                 CompositeFilter.and(
-        //                     PropertyFilter.eq(RegisterData.TYPE, UserType.USER.type),
-        //                     PropertyFilter.eq(RegisterData.STATE, true)
-        //                 )
-        //                 )
-        //             .build();
-        //         users = datastore.run(query);
-        //         users.forEachRemaining( user -> {
-        //             resultListUSER.add(new BaseQueryResultData(user.getString(RegisterData.USERNAME),
-        //                                                         user.getString(RegisterData.NAME),
-        //                                                         user.getString(RegisterData.EMAIL)));
-        //         });
-        //         LOG.info("Listing successful!");
-        //         return Response.ok(g.toJson(resultListUSER)).build();
-
-        //     default:
-        //         LOG.severe("Could not resolve manager type.");
-        //         return Response.status(Status.INTERNAL_SERVER_ERROR).build();
-        // }
+        users.forEachRemaining(user -> {
+            if (ph.hasPermission(LIST_USERS.value, token.getRole(), user.getString(ROLE.value)))
+                resultList.add(getCompleteQueryResultData(user));
+        });
 
         LOG.info("Listing successful!");
         return Response.ok(g.toJson(resultList)).build();
     }
+    
+	@GET
+	@Path("/unactivated")
+	public Response listUnactivatedUsers(@HeaderParam(AUTH) String auth) {
 
-    /*private CompleteQueryResultData getCompleteQueryResultData(Entity user) {
-        return new CompleteQueryResultData(user.getString(RegisterData.USERNAME),
-                                        user.getString(RegisterData.NAME),
-                                        user.getString(RegisterData.EMAIL),
-                                        user.getString(RegisterData.PASSWORD),
-                                        user.getTimestamp(RegisterData.CREATION_TIME),
-                                        user.getString(RegisterData.TYPE),
-                                        user.getBoolean(RegisterData.STATE),
-                                        user.getBoolean(RegisterData.VISIBILITY),
-                                        user.getString(RegisterData.MOBILE),
-                                        user.getString(RegisterData.PHONE),
-                                        user.getString(RegisterData.OCCUPATION),
-                                        user.getString(RegisterData.WORK_ADDRESS),
-                                        user.getString(RegisterData.ADDRESS),
-                                        user.getString(RegisterData.SECOND_ADDRESS),
-                                        user.getString(RegisterData.POST_CODE),
-                                        user.getString(RegisterData.NIF));
-    }*/
+        TokenData token = TokenUtil.validateToken(LOG, auth);
+
+        if (token == null)
+            return Response.status(Status.UNAUTHORIZED).build();
+
+        if (!ph.hasAccess(LIST_UNNACTIVATED_USERS.value, token.getRole()))
+            return Response.status(Status.FORBIDDEN).build();
+
+		List<BaseQueryResultData> result = new ArrayList<>();
+
+		EntityQuery query = EntityQuery.newEntityQueryBuilder()
+							.setKind(USER.value)
+							.setFilter(
+                                PropertyFilter.eq(STATE.value, false)
+							)
+							.build();
+
+		QueryResults<Entity> unactivatedUsers = datastore.run(query);
+		unactivatedUsers.forEachRemaining(user -> {
+            if (ph.hasPermission(LIST_UNNACTIVATED_USERS.value, token.getRole(), user.getString(ROLE.value)))
+			    result.add(getBaseQueryResultData(user));
+		});
+
+		return Response.ok(g.toJson(result)).build();
+	}
+
+
+    @GET
+    @Path("/stats")
+    public Response statistics(@HeaderParam(AUTH) String auth) {
+
+        TokenData token = TokenUtil.validateToken(LOG, auth);
+
+        if (token == null)
+            return Response.status(Status.UNAUTHORIZED).build();
+
+        if (!ph.hasAccess(STATS.value, token.getRole()))
+            return Response.status(Status.FORBIDDEN).build();
+
+        var stats = new StatsData(
+                        getNumOnlineUsers(),
+                        getNumPosts(),
+                        getNumAnomalies(),
+                        getNumUnactivatedUsers(),
+                        0l, //TODO put appropriate value
+                        0l //TODO put appropriate value
+                    );
+
+
+        return Response.ok(g.toJson(stats)).build();
+    }
+
+    
+
+    private BaseQueryResultData getBaseQueryResultData(Entity user) {
+        return new BaseQueryResultData(user.getString(USERNAME.value));
+    }
+
+    private CompleteQueryResultData getCompleteQueryResultData(Entity user) {
+        return new CompleteQueryResultData(user.getString(USERNAME.value),
+                                        user.getString(NAME.value),
+                                        user.getString(EMAIL.value),
+                                        user.getLong(CREATION_TIME.value),
+                                        user.getString(ROLE.value),
+                                        user.getBoolean(STATE.value));
+    }
+
+    private long getNumOnlineUsers() {
+
+        long now = new Date().getTime();
+
+		EntityQuery query = Query.newEntityQueryBuilder()
+							.setKind(TOKEN.value)
+							.setFilter(
+                                PropertyFilter.lt(EXPIRATION_TIME.value, now)
+							)
+							.build();
+
+        return doCount(query);
+
+    }
+
+    private long getNumPosts() {
+
+		EntityQuery query = Query.newEntityQueryBuilder()
+							.setKind(POST.value)
+							.build();
+
+        return doCount(query);
+    }
+
+    private long getNumAnomalies() {
+
+		EntityQuery query = Query.newEntityQueryBuilder()
+							.setKind(ANOMALY.value)
+							.setFilter(
+                                PropertyFilter.eq(STATE.value, false)
+							)
+							.build();
+
+        return doCount(query);
+    }
+
+    private long getNumUnactivatedUsers() {
+
+		EntityQuery query = Query.newEntityQueryBuilder()
+							.setKind(USER.value)
+							.setFilter(
+                                PropertyFilter.eq(STATE.value, false)
+							)
+							.build();
+
+        return doCount(query);
+    }
+
+    //TODO fit properties
+    private long getNumUnhandledReservations() {
+
+		EntityQuery query = Query.newEntityQueryBuilder()
+							.setKind(BOOKING.value)
+							// .setFilter(
+                                //smt
+							// )
+							.build();
+
+        return doCount(query);
+    }
+
+    private long doCount(EntityQuery query) {
+
+        AggregationQuery unactivatedUsers = Query.newAggregationQueryBuilder()
+                                            .over(query)
+                                            .addAggregation(
+                                                count().as(COUNT)
+                                                )
+                                            .build();
+
+        AggregationResult result = Iterables.getOnlyElement(datastore.runAggregation(unactivatedUsers));
+
+        return result.get(COUNT);
+    }
+    
 }
 

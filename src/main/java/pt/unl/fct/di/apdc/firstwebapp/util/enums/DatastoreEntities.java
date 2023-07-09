@@ -5,7 +5,11 @@ public enum DatastoreEntities {
     USER("User"),
     TOKEN("Token"),
     OPERATION("Operation"),
-    ROLE("Role");
+    ROLE("Role"),
+    POST("Post"),
+    ANOMALY("Anomaly"),
+    BOOKING("Booking"),
+    NEWS("News");
 
     public final String value;
 
