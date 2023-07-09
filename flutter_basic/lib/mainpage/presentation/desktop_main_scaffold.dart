@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/constants.dart';
+import '../../calendar/widget/calendar_schedule_widget.dart';
 import '../../hojeNaFCT/avisos_info.dart';
 import '../../hojeNaFCT/exposicoes_info.dart';
 import '../../hojeNaFCT/noticias_info.dart';
@@ -26,6 +27,7 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
     'Exposições',
     'Notícias',
   ];
+
   AuxMainPage auxMainPage = AuxMainPage();
   void goToPreviousPage() {
     setState(() {
@@ -42,6 +44,9 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final fem = size.width / 1440; // 1440 is the reference width
+
     return Scaffold(
       appBar:  MyAppBar(),
       backgroundColor: myBackground,
@@ -82,7 +87,7 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                           style: hojeNaFCTPageTitles,
                         ),
                       ),
-                      if (pages[_currentPageIndex] == 'RESTAURAÇÃO')
+                      if (pages[_currentPageIndex] == 'Restauração')
                         Expanded(
                           child: Container(
                             padding: const EdgeInsets.symmetric(
@@ -204,7 +209,8 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                     ),
                   ),
                   const SizedBox(height: 25.0),
-                  Expanded(
+                  const CalendarScheduleWidget()
+                  /*  Expanded(
                     child: FractionallySizedBox(
                       widthFactor: 1,
                       child: LayoutBuilder(
@@ -212,8 +218,7 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                           return Stack(
                             children: [
                               Container(
-                                height: double
-                                    .infinity, // Expand the container to fill the available height
+                                height: double.infinity,
                                 decoration: boxDecoration,
                                 child: Column(
                                   children: [
@@ -223,9 +228,7 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
-                                        children: [
-                                          textTopBar('AGENDA'),
-                                        ],
+                                        children: [],
                                       ),
                                     ),
                                     Expanded(
@@ -260,7 +263,7 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                         },
                       ),
                     ),
-                  ),
+                  ), */
                 ],
               ),
             ),

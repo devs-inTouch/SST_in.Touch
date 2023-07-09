@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter_basic/feeds/presentation/anomalyBox.dart';
+import 'package:flutter_basic/anomalies/presentation/anomalyBox.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 

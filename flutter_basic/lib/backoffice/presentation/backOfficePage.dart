@@ -8,6 +8,8 @@ import 'package:flutter_basic/backoffice/presentation/statsAcessoPage.dart';
 
 import '../../constants.dart';
 import '../../myAppBar.dart';
+import 'ativacaoContasPage.dart';
+
 
 class BackOffice extends StatefulWidget {
   const BackOffice({super.key});
@@ -102,6 +104,21 @@ class BackOfficePage extends State<BackOffice> {
                             },
                             style: styleBackOfficeButtons,
                             child: Text('Estatística e controlo de acessos'),
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        SizedBox(
+                          width: double.infinity,
+                          height: 70,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => AtivacaoContasPage()),
+                              );
+                            },
+                            style: styleBackOfficeButtons,
+                            child: Text('Ativação de Contas'),
                           ),
                         ),
                         SizedBox(height: 20),

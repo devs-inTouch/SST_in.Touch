@@ -1,12 +1,15 @@
+
+
 import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/constants.dart';
-import 'package:url_launcher/url_launcher.dart';
+import '../../bottomAppBarMobile.dart';
 import '../../hojeNaFCT/avisos_info.dart';
 import '../../hojeNaFCT/exposicoes_info.dart';
 import '../../hojeNaFCT/noticias_info.dart';
 import '../../hojeNaFCT/restauração_info.dart';
 import '../../myAppBar.dart';
+import '../../myAppBarMobile.dart';
 import '../../weatherBox.dart';
 import 'auxMainpage.dart';
 
@@ -18,6 +21,7 @@ class MobileScaffold extends StatefulWidget {
 }
 
 class _MobileScaffoldState extends State<MobileScaffold> {
+
   DateTime currentDate = DateTime.now();
   List<Map<String, dynamic>> events = [];
   int _currentPageIndex = 0; // Track the current page index
@@ -27,7 +31,6 @@ class _MobileScaffoldState extends State<MobileScaffold> {
     'Exposições',
     'Notícias',
   ];
-
   AuxMainPage auxMainPage = AuxMainPage();
 
   void goToPreviousPage() {
@@ -45,8 +48,13 @@ class _MobileScaffoldState extends State<MobileScaffold> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
+<<<<<<< Updated upstream
+      appBar: const MyAppBarMobile(),
+=======
       appBar:  MyAppBar(),
+>>>>>>> Stashed changes
       backgroundColor: myBackground,
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -218,6 +226,11 @@ class _MobileScaffoldState extends State<MobileScaffold> {
           ),
         ),
       ),
+      bottomNavigationBar: MyBottomAppBar(),
+
+
     );
   }
 }
+
+
