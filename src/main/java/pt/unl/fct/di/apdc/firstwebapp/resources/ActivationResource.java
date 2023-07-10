@@ -102,7 +102,7 @@ public class ActivationResource {
 			txn.update(activatedTarget);
 			txn.commit();
 			LOG.info("User'" + data.getTargetUsername() + "' activated successfully.");
-			return Response.ok("{}").build();
+			return Response.ok("{STAFF activated}").build();
 									
 		} catch (Exception e) {
 			txn.rollback();
