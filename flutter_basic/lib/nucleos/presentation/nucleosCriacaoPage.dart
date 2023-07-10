@@ -1,11 +1,8 @@
 import 'dart:typed_data';
-
 import 'package:file_picker/file_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/nucleos/application/nucleosAuth.dart';
-import 'package:flutter_basic/nucleos/presentation/responsive_nucleos_page.dart';
 import 'package:flutter_basic/nucleos/presentation/responsive_nucleos_page_SU.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
@@ -245,7 +242,7 @@ class NucleosState extends State<NucleosCriacaoPage> {
                                             decoration: const InputDecoration(
                                               fillColor: Colors.white,
                                               filled: true,
-                                              labelText: 'Email do núcleo',
+                                              labelText: 'Link para mais informações',
                                             ),
                                           ),
                                         ),

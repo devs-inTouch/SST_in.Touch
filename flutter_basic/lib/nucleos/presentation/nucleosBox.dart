@@ -98,7 +98,7 @@ class NucleosBox extends StatelessWidget {
                       child: GestureDetector(
                         onTap: () {
 
-                          launch(faceUrl);
+                          launch("https://$faceUrl"); // Add the protocol here
                         },
                         child: Text(
                           "Facebook",
@@ -116,7 +116,7 @@ class NucleosBox extends StatelessWidget {
                       child: GestureDetector(
                         onTap: () {
 
-                          launch(instaUrl);
+                          launch("https://$instaUrl"); // Add the protocol here
                         },
                         child: Text(
                           "Instagram",
@@ -134,10 +134,10 @@ class NucleosBox extends StatelessWidget {
                       child: GestureDetector(
                         onTap: () {
 
-                          launch(twitterUrl);
+                          launch("https://$twitterUrl"); // Add the protocol here
                         },
                         child: Text(
-                          "Email",
+                          "Para saber mais",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 16,
