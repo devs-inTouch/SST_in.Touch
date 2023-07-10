@@ -6,12 +6,14 @@ import 'package:http/http.dart' as http;
 class RegisterAuth {
   static const String emailJsTemplateID = 'template_zyyib8q';
   static bool emptyFields(String username, String email, String name,
-      String pwd, String pwdConfirm) {
+      String pwd, String pwdConfirm, int studentNumber) {
+    print(studentNumber);
     return username.isEmpty &&
         email.isEmpty &&
         name.isEmpty &&
         pwd.isEmpty &&
-        pwdConfirm.isEmpty;
+        pwdConfirm.isEmpty &&
+        studentNumber == 0;
   }
 
   static bool hasSpecialChars(String password) {
@@ -35,7 +37,24 @@ class RegisterAuth {
     return hasDigits & hasUppercase & hasLowercase & hasMinLength;
   }
 
-  static bool registerUser(
+  static bool checkEmailFormatStudent(String email) {
+    print(email);
+    final _pattern = r'^[\w.-]+@campus\.fct\.unl\.pt$';
+
+    final regex = RegExp(_pattern);
+    print(regex.hasMatch(email));
+    return regex.hasMatch(email);
+  }
+
+  static bool checkEmailFormatStaff(String email) {
+    print(email);
+    final pattern = r'^[\w-]+@fct\.unl\.pt$';
+
+    final regex = RegExp(pattern);
+    return regex.hasMatch(email);
+  }
+
+  static Future<bool> registerUser(
       String username,
       String email,
       String name,
@@ -44,7 +63,7 @@ class RegisterAuth {
       String course,
       String role,
       String description,
-      String department) {
+      String department) async {
     String activateCode = createId();
     String link =
         '$appUrl/register/activate?code=$activateCode&username=$username';

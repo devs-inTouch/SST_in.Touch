@@ -165,3 +165,18 @@ Future<void> removeFromSharedPreferences(String key) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.remove(key);
 }
+
+Widget buildHeader({
+  required String header,
+  required Widget child,
+}) =>
+    Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          header,
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+        child,
+      ],
+    );

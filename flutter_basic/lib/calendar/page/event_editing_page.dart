@@ -193,8 +193,9 @@ class _EventEditingPageState extends State<EventEditingPage> {
           hintText: 'Adicionar título',
         ),
         onFieldSubmitted: (_) => saveFrom(),
-        validator: (title) =>
-            title != null && title.isEmpty ? 'O paramêtro título não pode estar vazio' : null,
+        validator: (title) => title != null && title.isEmpty
+            ? 'O paramêtro título não pode estar vazio'
+            : null,
         controller: tittleController,
       );
 
@@ -373,21 +374,6 @@ class _EventEditingPageState extends State<EventEditingPage> {
         title: Text(text),
         trailing: const Icon(Icons.arrow_drop_down),
         onTap: onClicked,
-      );
-
-  Widget buildHeader({
-    required String header,
-    required Widget child,
-  }) =>
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            header,
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-          child,
-        ],
       );
 
   Future saveFrom() async {
