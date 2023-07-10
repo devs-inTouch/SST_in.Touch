@@ -2,15 +2,32 @@ import 'package:flutter/material.dart';
 
 import '../../constants.dart';
 import '../../myAppBar.dart';
+import '../application/nucleosAuth.dart';
 import 'nucleosBox.dart';
 import 'nucleosCriacaoPage.dart';
 
-class NucleosPageSU extends StatelessWidget {
-  final List<String> nucleosList = [
-    'Núcleo 1',
-    'Núcleo 2',
-    'Núcleo 3',
-  ];
+class NucleosPageSU extends StatefulWidget {
+  const NucleosPageSU({super.key});
+
+  State<NucleosPageSU> createState() => NucleosState();
+}
+
+class NucleosState extends State<NucleosPageSU> {
+  List nucleosList = [];
+
+  void initState() {
+    super.initState();
+    fetchNucleos();
+  }
+
+  void fetchNucleos() async {
+    final response = await NucleosAuth.getNucleosList();
+    setState(() {
+      nucleosList = response;
+    });
+    print("nucleos fetched");
+    print(nucleosList);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,15 +51,25 @@ class NucleosPageSU extends StatelessWidget {
                         fontSize: 35),
                   ),
                   SizedBox(height: 10),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: nucleosList.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Padding(
-                        padding: EdgeInsets.all(10.0),
-                        child: NucleosBox( nucleosList[index]),
-                      );
-                    },
+                  Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: nucleosList.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        NucleosBox nucleosBox = nucleosList[index];
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 10.0),
+                          child: NucleosBox(
+                            title: nucleosBox.title,
+                            description: nucleosBox.description,
+                            faceUrl: nucleosBox.faceUrl,
+                            instaUrl: nucleosBox.instaUrl,
+                            twitterUrl: nucleosBox.twitterUrl,
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ],
               ),
@@ -57,7 +84,8 @@ class NucleosPageSU extends StatelessWidget {
             MaterialPageRoute(
               builder: (context) => const NucleosCriacaoPage(),
             ),
-          );        },
+          );
+        },
         child: Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
