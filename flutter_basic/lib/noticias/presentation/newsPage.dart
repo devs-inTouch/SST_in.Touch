@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import '../../constants.dart';
-import '../../myAppBar.dart';
 import '../application/noticiasAuth.dart';
 import 'newsBox.dart';
 

@@ -175,7 +175,7 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
                       title: const Text('Núcleos'),
                       onTap: () {
                         Navigator.pop(context);
-                        if (role == 'superUser') {
+                        if (role == 'superUser' ||role == 'admin') {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -253,7 +253,7 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
                 SizedBox(height: 5),
                 TextButton(
                   onPressed: () {
-                    if (role == 'superUser') {
+                    if (role == 'superUser' ||role == 'admin') {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -338,7 +338,7 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
                     ),
                   ),
                 ),
-                if (role == 'superUser')
+                if (role == 'superUser' ||role == 'admin')
                   PopupMenuItem(
                     child: Container(
                       color: Colors.white,
@@ -374,7 +374,7 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
                     ),
                   ),
                 ),
-                if (role == 'superUser')
+                if (role == 'superUser' ||role == 'admin')
                   PopupMenuItem(
                   child: Container(
                     color: Colors.white,

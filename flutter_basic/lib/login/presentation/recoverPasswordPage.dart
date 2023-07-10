@@ -149,7 +149,6 @@ class RegisterHome extends State<RecoverPassword> {
                             TextButton(
                               child: const Text('Voltar'),
                               onPressed: () {
-                                RecoverPassWordAuth.hasEmail(emailControl.text);
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(

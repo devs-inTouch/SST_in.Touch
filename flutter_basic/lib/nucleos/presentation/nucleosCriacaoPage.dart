@@ -1,18 +1,16 @@
 import 'dart:typed_data';
-
 import 'package:file_picker/file_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/nucleos/application/nucleosAuth.dart';
-import 'package:flutter_basic/nucleos/presentation/responsive_nucleos_page.dart';
+import 'package:flutter_basic/nucleos/presentation/responsive_nucleos_page_SU.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../constants.dart';
 
 class NucleosCriacaoPage extends StatefulWidget {
-  const NucleosCriacaoPage({Key? key}) : super(key: key);
+  const NucleosCriacaoPage({super.key});
 
   @override
   State<NucleosCriacaoPage> createState() => NucleosState();
@@ -27,10 +25,9 @@ class NucleosState extends State<NucleosCriacaoPage> {
 
   TextEditingController title = TextEditingController();
   TextEditingController description = TextEditingController();
-  TextEditingController socialEmail = TextEditingController();
-  TextEditingController socialInsta = TextEditingController();
-  TextEditingController socialFacebook = TextEditingController();
-
+  TextEditingController faceUrl = TextEditingController();
+  TextEditingController instaUrl = TextEditingController();
+  TextEditingController twitterUrl = TextEditingController();
 
   bool isUploading = false;
 
@@ -52,122 +49,92 @@ class NucleosState extends State<NucleosCriacaoPage> {
     print(selectFile);
   }
 
-  Future<void> uploadFile() async {
-    setState(() {
-      isUploading = true;
-    });
+  handleSubmit() async {
+    putInDatabase(
+      title: title.text,
+      description: description.text,
+      faceUrl: faceUrl.text,
+      instaUrl: instaUrl.text,
+      twitterUrl: twitterUrl.text,
+    );
+    title.clear();
+    description.clear();
+    instaUrl.clear();
+    twitterUrl.clear();
+    faceUrl.clear();
+  }
 
-    UploadTask uploadTask;
-    Reference storageRef =
-    firebaseStorageInstance.ref().child("/posts/" + postId);
+  void putInDatabase({
+    required String title,
+    required String description,
+    required String faceUrl,
+    required String instaUrl,
+    required String twitterUrl,
+  }) {
+    print("title do nucleo" + title);
 
-    final metadata = SettableMetadata(contentType: 'image/jpeg');
-    uploadTask = storageRef.putData(selectedImageInBytes, metadata);
-
-    await uploadTask.whenComplete(() => null);
-    String imageUrl = await storageRef.getDownloadURL();
-
-    if (imageUrl.isNotEmpty) {
-      setState(() {
-        mediaURL = imageUrl;
-      });
-    }
-
-    print("Image uploaded");
-    print(mediaURL);
-    setState(() {
-      isUploading = false;
+    NucleosAuth.makeNucleoRequest(
+            title, description, faceUrl, instaUrl, twitterUrl)
+        .then((value) {
+      if (value == true) {
+        showDialog(
+            context: context,
+            builder: (context) {
+              return SimpleDialog(
+                title: Center(
+                  child: Text('Sucesso'),
+                ),
+                children: [
+                  Center(
+                    child: Text("Núcleo criado"),
+                  ),
+                ],
+              );
+            });
+      } else {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return SimpleDialog(
+              title: const Center(
+                child: Text('Erro'),
+              ),
+              children: const [
+                Center(
+                  child: Text("Tente Novamente"),
+                ),
+              ],
+            );
+          },
+        );
+      }
     });
   }
 
-  /**  void putInDatabase({
-      required String title,
-      required String mediaUrl,
-      required String description,
-      required String socials,
-      }) {
-      print("Media aqui" + mediaUrl);
-      NucleosAuth.postNucleosRequest(title, mediaURL, description, socialEmail, socialInsta, socialFacebook)
-      .then((value) {
-      if (value == true) {
-      showDialog(
+  Future<void> selectImage() async {
+    await showDialog(
       context: context,
       builder: (context) {
-      return SimpleDialog(
-      title: const Center(
-      child: Text('Sucesso'),
-      ),
-      children: const [
-      Center(
-      child: Text("Núcleo criado"),
-      ),
-      ],
-      );
+        return SimpleDialog(
+          title: const Text('Imagem'),
+          children: [
+            SimpleDialogOption(
+              child: const Text('Escolhe da galeria'),
+              onPressed: () {
+                handleChoosePhoto();
+                Navigator.pop(context);
+              },
+            ),
+            SimpleDialogOption(
+              child: const Text('Cancelar'),
+              onPressed: () => Navigator.pop(context),
+            ),
+          ],
+        );
       },
-      );
-      } else {
-      showDialog(
-      context: context,
-      builder: (context) {
-      return SimpleDialog(
-      title: const Center(
-      child: Text('Erro'),
-      ),
-      children: const [
-      Center(
-      child: Text("Tente Novamente"),
-      ),
-      ],
-      );
-      },
-      );
-      }
-      });
-      }
+    );
+  }
 
-      Future<void> handleSubmit() async {
-      await uploadFile();
-      print("aqui");
-      putInDatabase(
-      title: title.text,
-      mediaUrl: mediaURL,
-      description: description.text,
-      socialEmail: socialEmail.text,
-      socialInsta: socialInsta.text,
-      socialFacebook: socialFacebook.text,
-      );
-      print("Ali");
-      title.clear();
-      description.clear();
-      socialEmail.clear();
-      socialInsta.clear();
-      socialFacebook.clear();
-      }
-
-      Future<void> selectImage() async {
-      await showDialog(
-      context: context,
-      builder: (context) {
-      return SimpleDialog(
-      title: const Text('Imagem'),
-      children: [
-      SimpleDialogOption(
-      child: const Text('Escolhe da galeria'),
-      onPressed: () {
-      handleChoosePhoto();
-      Navigator.pop(context);
-      },
-      ),
-      SimpleDialogOption(
-      child: const Text('Cancelar'),
-      onPressed: () => Navigator.pop(context),
-      ),
-      ],
-      );
-      },
-      );
-      }
-   **/
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -204,7 +171,9 @@ class NucleosState extends State<NucleosCriacaoPage> {
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => ResponsiveNucleosPage()),
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      ResponsiveNucleosPageSU()),
                             );
                           },
                         ),
@@ -226,7 +195,9 @@ class NucleosState extends State<NucleosCriacaoPage> {
                           Expanded(
                             child: Stack(
                               children: [
-                                isUploading ? const LinearProgressIndicator() : const SizedBox(),
+                                isUploading
+                                    ? const LinearProgressIndicator()
+                                    : const SizedBox(),
                                 Align(
                                   alignment: const Alignment(0.0, 0.1),
                                   child: Container(
@@ -237,10 +208,9 @@ class NucleosState extends State<NucleosCriacaoPage> {
                                         Padding(
                                           padding: const EdgeInsets.fromLTRB(
                                               15.0, 15.0, 15.0, 0.0),
-
                                           child: TextField(
                                             controller: title,
-                                            maxLength: 50,
+                                            maxLength: 30,
                                             decoration: const InputDecoration(
                                               fillColor: Colors.white,
                                               filled: true,
@@ -251,13 +221,12 @@ class NucleosState extends State<NucleosCriacaoPage> {
                                         Padding(
                                           padding: const EdgeInsets.fromLTRB(
                                               15.0, 15.0, 15.0, 0.0),
-
                                           child: TextField(
                                             controller: description,
                                             keyboardType:
-                                            TextInputType.multiline,
-                                            maxLines: 7,
-                                            maxLength: 400,
+                                                TextInputType.multiline,
+                                            maxLines: 4,
+                                            maxLength: 130,
                                             decoration: const InputDecoration(
                                               fillColor: Colors.white,
                                               filled: true,
@@ -268,22 +237,20 @@ class NucleosState extends State<NucleosCriacaoPage> {
                                         Padding(
                                           padding: const EdgeInsets.fromLTRB(
                                               15.0, 15.0, 15.0, 0.0),
-
                                           child: TextField(
-                                            controller: socialEmail,
+                                            controller: twitterUrl,
                                             decoration: const InputDecoration(
                                               fillColor: Colors.white,
                                               filled: true,
-                                              labelText: 'Email do núcleo',
+                                              labelText: 'Link para mais informações',
                                             ),
                                           ),
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.fromLTRB(
                                               15.0, 15.0, 15.0, 0.0),
-
                                           child: TextField(
-                                            controller: socialInsta,
+                                            controller: instaUrl,
                                             decoration: const InputDecoration(
                                               fillColor: Colors.white,
                                               filled: true,
@@ -294,9 +261,8 @@ class NucleosState extends State<NucleosCriacaoPage> {
                                         Padding(
                                           padding: const EdgeInsets.fromLTRB(
                                               15.0, 15.0, 15.0, 0.0),
-
                                           child: TextField(
-                                            controller: socialFacebook,
+                                            controller: faceUrl,
                                             decoration: const InputDecoration(
                                               fillColor: Colors.white,
                                               filled: true,
@@ -331,7 +297,8 @@ class NucleosState extends State<NucleosCriacaoPage> {
                                       child: const Text(
                                         'Adicionar foto',
                                         textAlign: TextAlign.left,
-                                        style: TextStyle(color: Colors.white, fontSize: 15),
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 15),
                                       ),
                                     ),
                                   ),
@@ -341,7 +308,9 @@ class NucleosState extends State<NucleosCriacaoPage> {
                                   child: Align(
                                     alignment: Alignment(0.9, 0.9),
                                     child: ElevatedButton(
-                                      onPressed: isUploading ? null : null, // handleSubmit,
+                                      onPressed: isUploading
+                                          ? null
+                                          : () => handleSubmit(),
                                       style: ElevatedButton.styleFrom(
                                         fixedSize: const Size(150, 50),
                                         backgroundColor: Colors.blue[800],
@@ -349,7 +318,8 @@ class NucleosState extends State<NucleosCriacaoPage> {
                                       child: const Text(
                                         'CRIAR',
                                         textAlign: TextAlign.left,
-                                        style: TextStyle(color: Colors.white, fontSize: 12),
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 12),
                                       ),
                                     ),
                                   ),
@@ -357,12 +327,10 @@ class NucleosState extends State<NucleosCriacaoPage> {
                               ],
                             ),
                           ),
-
                         ],
                       ),
                     ),
                   ),
-                  const SizedBox(height: 10),
                 ],
               ),
             ),

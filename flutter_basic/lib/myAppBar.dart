@@ -179,7 +179,7 @@ class _MyAppBarState extends State<MyAppBar> {
                 IconButton(
                   icon: Icon(Icons.group, color: Colors.black),
                   onPressed: () {
-                    if (role == 'superUser') {
+                    if (role == 'superUser' ||role == 'admin') {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -286,7 +286,7 @@ class _MyAppBarState extends State<MyAppBar> {
                   title: const Text('Núcleos'),
                   onTap: () {
                     Navigator.pop(context);
-                    if (role == 'superUser') {
+                    if (role == 'superUser' ||role == 'admin') {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -377,7 +377,7 @@ class _MyAppBarState extends State<MyAppBar> {
                 ),
               ),
             ),
-            if (role == 'superUser')
+            if (role == 'superUser' ||role == 'admin')
               PopupMenuItem(
                 child: Container(
                   color: Colors.white,
@@ -413,7 +413,7 @@ class _MyAppBarState extends State<MyAppBar> {
                 ),
               ),
             ),
-            if (role == 'superUser')
+            if (role == 'superUser' ||role == 'admin')
               PopupMenuItem(
                 child: Container(
                   color: Colors.white,

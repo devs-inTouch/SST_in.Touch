@@ -4,7 +4,7 @@ import 'package:flutter_basic/backoffice/presentation/boxes/usersToActivateBox.d
 import 'package:flutter_basic/backoffice/presentation/responsive_backOffice.dart';
 import '../../constants.dart';
 import '../../myAppBar.dart';
-import '../application/usersRoleChangeAuth.dart';
+import '../application/usersRoleAuth.dart';
 import 'backOfficePage.dart';
 
 class RolesUserPage extends StatefulWidget {
@@ -15,7 +15,7 @@ class RolesUserPage extends StatefulWidget {
   }
 
   class RolesUserState extends State<RolesUserPage> {
-  List users = [];
+  List usersList = [];
 
   @override
   void initState() {
@@ -24,11 +24,13 @@ class RolesUserPage extends StatefulWidget {
   }
 
   Future<void> fetchUsers() async {
-  final response = await UserRoleChangeAuth.getUsersAndRoles();
+  final response = await UserRoleAuth.getUsersList();
   setState(() {
-    users = response;
+    usersList = response;
   });
   print("Users fetched");
+  print(usersList);
+
   }
   @override
   Widget build(BuildContext context) {
@@ -86,14 +88,18 @@ class RolesUserPage extends StatefulWidget {
               width: 800,
               child: ListView.builder(
                 shrinkWrap: true,
-                itemCount: users.length,
+                itemCount: usersList.length,
                 itemBuilder: (BuildContext context, int index) {
-                  UserRoleBox userRoleBox = users[index];
+                  UserRoleBox userRoleBox = usersList[index];
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 10.0),
                     child: UserRoleBox(
                       username: userRoleBox.username,
+                      name: userRoleBox.name,
+                      email: userRoleBox.email,
+                      studentNumber: userRoleBox.studentNumber,
                       role: userRoleBox.role,
+
                     ),
                   );
                 },
