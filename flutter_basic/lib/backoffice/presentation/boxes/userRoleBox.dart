@@ -2,49 +2,95 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/backoffice/application/salasRequestAuth.dart';
-import 'package:flutter_basic/backoffice/application/usersRoleChangeAuth.dart';
+import 'package:flutter_basic/backoffice/application/usersRoleAuth.dart';
+import 'package:flutter_basic/constants.dart';
 
 class UserRoleBox  extends StatelessWidget {
   final String username;
+  final String name;
+  final String email;
+  final String studentNumber;
   final String role;
 
   UserRoleBox({
     required this.username,
+    required this.name,
+    required this.email,
+    required this.studentNumber,
     required this.role,
   });
 
   factory UserRoleBox.fromJson(Map<String, dynamic> json) {
     return UserRoleBox(
       username: json['username'],
-      role: json['role'],
+        name: json['name'],
+        email: json['email'],
+        studentNumber: json['studentNumber'],
+        role: json['role'],
+
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: ListTile(
-        title: Text('Username: $username'),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+      width: 180,
+      height: 60,
+      decoration: BoxDecoration(
+        color: Colors.blueAccent[200],
+      ),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('role: $role'),
-          ],
-        ),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            IconButton(
-              icon: Icon(Icons.save),
-              onPressed: () {
-                UserRoleChangeAuth.changeRole();
-                print("aproved");
-
-              },
+            Text(
+              'Username: $username',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18.0,
+                color: Colors.white,
+              ),
+            ),
+            SizedBox(height: 4.0),
+            Text(
+              'Name: $name',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 16.0,
+                color: Colors.white,
+              ),
+            ),
+            SizedBox(height: 4.0),
+            Text(
+              'Email: $email',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 16.0,
+                color: Colors.white,
+              ),
+            ),
+            SizedBox(height: 4.0),
+            Text(
+              'Student Number: $studentNumber',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 16.0,
+                color: Colors.white,
+              ),
+            ),
+            SizedBox(height: 4.0),
+            Text(
+              'Role: $role',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 16.0,
+                color: Colors.white,
+              ),
             ),
           ],
         ),
       ),
     );
   }
+
 }
