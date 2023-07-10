@@ -4,7 +4,6 @@ public class CreateRoomData {
 
     private String name, department, date, hour;
     private int space;
-    //private boolean isAvailable;
 
     public CreateRoomData() {
     }
@@ -36,10 +35,5 @@ public class CreateRoomData {
     public String getHour() {
         return hour;
     }
-
-    /*public boolean getIsAvailable() {
-        return isAvailable;
-    }*/
-
 
 }
