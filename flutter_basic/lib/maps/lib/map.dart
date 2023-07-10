@@ -34,6 +34,7 @@ class GMapState extends State<GMap> {
     target: LatLng(38.661555, -9.205579),
     zoom: 16,
   );
+  bool isCancelButtonVisible = true;
 
   List<Polygon> buildings = [
     Edificios.edI,
@@ -122,10 +123,12 @@ class GMapState extends State<GMap> {
   late List<bool> ATMsMarkersVisibility;
   late List<bool> parksMarkersVisibility;
   late List<List<bool>> transportMarkersVisibility;
+  late bool isAnyElementDisplayed;
 
   @override
   void initState() {
     super.initState();
+    isAnyElementDisplayed = false;
 
     transportMarkersVisibility = List.generate(
         transportMarkers.length,
@@ -137,14 +140,14 @@ class GMapState extends State<GMap> {
         (index) => List.generate(
             buildingMarkers[index].length, (markerIndex) => false));
     buildingsVisibility = List.generate(buildings.length,
-        (index) => false); // Set initial visibility of polygons
+        (index) => false);
 
     cateringMarkersVisibility = List.generate(
         catering.length,
         (index) => List.generate(
             cateringMarkers[index].length, (markerIndex) => false));
     cateringVisibility = List.generate(catering.length,
-        (index) => false); // Set initial visibility of polygons
+        (index) => false);
 
     ATMsMarkersVisibility = List.generate(ATMsMarkers.length, (index) => false);
 
@@ -183,6 +186,12 @@ class GMapState extends State<GMap> {
 
   @override
   Widget build(BuildContext context) {
+    isAnyElementDisplayed = _lastDisplayedBuildingIndex != -1 ||
+        _lastDisplayedCateringIndex != -1 ||
+        _lastDisplayedATMsIndex != -1 ||
+        _lastDisplayedParksIndex != -1 ||
+        _lastDisplayedTransportIndex != -1;
+
     return Scaffold(
       appBar: MyAppBar(),
       key: _scaffoldKey,
@@ -251,24 +260,30 @@ class GMapState extends State<GMap> {
                     ),
                   ),
                 ),
-                Positioned(
-                  top: 50,
-                  right: 20,
-                  child: FloatingActionButton(
-                    onPressed: () {
-                      hideLastDisplayedElements();
-                      // Change the camera position to initial position
-                      _goToBuilding(_kGooglePlex.target.latitude,
-                          _kGooglePlex.target.longitude, 16);
-                    },
-                    mini: true,
-                    backgroundColor: const Color.fromARGB(255, 33, 2, 154),
-                    child: const Icon(
-                      Icons.cancel,
-                      color: Color.fromARGB(255, 255, 255, 255),
+                if (isAnyElementDisplayed && isCancelButtonVisible)
+                  Positioned(
+                    top: 50,
+                    right: 20,
+                    child: FloatingActionButton(
+                      onPressed: () {
+                        hideLastDisplayedElements();
+                        _goToBuilding(
+                          _kGooglePlex.target.latitude,
+                          _kGooglePlex.target.longitude,
+                          16,
+                        );
+                        setState(() {
+                          isCancelButtonVisible = false;
+                        });
+                      },
+                      mini: true,
+                      backgroundColor: const Color.fromARGB(255, 33, 2, 154),
+                      child: const Icon(
+                        Icons.cancel,
+                        color: Color.fromARGB(255, 255, 255, 255),
+                      ),
                     ),
                   ),
-                ),
               ],
             ),
           ),
@@ -277,23 +292,22 @@ class GMapState extends State<GMap> {
       drawer: Drawer(
         child: ListView(
           children: [
-            // Add your new text field and button here
             ListTile(
               title: const Text("Paragem Metro"),
               trailing: ElevatedButton(
                 onPressed: () {
                   hideLastDisplayedElements();
                   _lastDisplayedTransportIndex = 0;
-                  // Show the markers associated with the selected polygon
                   for (int i = 0; i < transportMarkers[0].length; i++) {
                     setState(() {
                       transportMarkersVisibility[0][i] = true;
                     });
                   }
-                  // Change the camera position to the respective building
                   _goToBuilding(transportMarkers[0][0].position.latitude,
                       transportMarkers[0][0].position.longitude, 18.5);
-
+                  setState(() {
+                    isCancelButtonVisible = true;
+                  });
                   _scaffoldKey.currentState?.closeDrawer();
                 },
                 child: const Text('Mostrar onde'),
@@ -305,16 +319,16 @@ class GMapState extends State<GMap> {
                 onPressed: () {
                   hideLastDisplayedElements();
                   _lastDisplayedTransportIndex = 1;
-                  // Show the markers associated with the selected marker
                   for (int i = 0; i < transportMarkers[1].length; i++) {
                     setState(() {
                       transportMarkersVisibility[1][i] = true;
                     });
                   }
-                  // Change the camera position to initial position
                   _goToBuilding(_kGooglePlex.target.latitude,
                       _kGooglePlex.target.longitude, 16);
-
+                  setState(() {
+                    isCancelButtonVisible = true;
+                  });
                   _scaffoldKey.currentState?.closeDrawer();
                 },
                 child: const Text('Mostrar onde'),
@@ -333,13 +347,11 @@ class GMapState extends State<GMap> {
                         onPressed: () {
                           hideLastDisplayedElements();
 
-                          // Show the selected polygon
                           setState(() {
                             buildingsVisibility[index] = true;
                             _lastDisplayedBuildingIndex = index;
                           });
 
-                          // Show the markers associated with the selected polygon
                           for (int i = 0;
                               i < buildingMarkers[index].length;
                               i++) {
@@ -348,12 +360,13 @@ class GMapState extends State<GMap> {
                             });
                           }
 
-                          // Change the camera position to the respective building
                           _goToBuilding(
                               buildingMarkers[index][0].position.latitude,
                               buildingMarkers[index][0].position.longitude,
                               18.5);
-
+                          setState(() {
+                            isCancelButtonVisible = true;
+                          });
                           _scaffoldKey.currentState?.closeDrawer();
                         },
                         child: const Text('Mostrar onde'),
@@ -376,13 +389,11 @@ class GMapState extends State<GMap> {
                         onPressed: () {
                           hideLastDisplayedElements();
 
-                          // Show the selected polygon
                           setState(() {
                             cateringVisibility[index] = true;
                             _lastDisplayedCateringIndex = index;
                           });
 
-                          // Show the markers associated with the selected polygon
                           for (int i = 0;
                               i < cateringMarkers[index].length;
                               i++) {
@@ -391,12 +402,13 @@ class GMapState extends State<GMap> {
                             });
                           }
 
-                          // Change the camera position to the respective building
                           _goToBuilding(
                               cateringMarkers[index][0].position.latitude,
                               cateringMarkers[index][0].position.longitude,
                               18.5);
-
+                          setState(() {
+                            isCancelButtonVisible = true;
+                          });
                           _scaffoldKey.currentState?.closeDrawer();
                         },
                         child: const Text('Mostrar onde'),
@@ -419,16 +431,16 @@ class GMapState extends State<GMap> {
                         onPressed: () {
                           hideLastDisplayedElements();
 
-                          // Show the selected ATM marker
                           setState(() {
                             ATMsMarkersVisibility[index] = true;
                             _lastDisplayedATMsIndex = index;
                           });
 
-                          // Change the camera position to the respective building
                           _goToBuilding(ATMsMarkers[index].position.latitude,
                               ATMsMarkers[index].position.longitude, 18.5);
-
+                          setState(() {
+                            isCancelButtonVisible = true;
+                          });
                           _scaffoldKey.currentState?.closeDrawer();
                         },
                         child: const Text('Mostrar onde'),
@@ -451,16 +463,16 @@ class GMapState extends State<GMap> {
                         onPressed: () {
                           hideLastDisplayedElements();
 
-                          // Show the selected ATM marker
                           setState(() {
                             parksMarkersVisibility[index] = true;
                             _lastDisplayedParksIndex = index;
                           });
 
-                          // Change the camera position to the respective building
                           _goToBuilding(parksMarkers[index].position.latitude,
                               parksMarkers[index].position.longitude, 18.5);
-
+                          setState(() {
+                            isCancelButtonVisible = true;
+                          });
                           _scaffoldKey.currentState?.closeDrawer();
                         },
                         child: const Text('Mostrar onde'),
@@ -534,23 +546,17 @@ class GMapState extends State<GMap> {
         _lastDisplayedTransportIndex == -1;
   }
 
-  // Define a function to hide the last displayed elements
   void hideLastDisplayedElements() {
-    // Hide the last displayed building (if any)
     if (_lastDisplayedBuildingIndex != -1) {
       setState(() {
         buildingsVisibility[_lastDisplayedBuildingIndex] = false;
       });
     }
-
-    // Hide the last displayed catering (if any)
     if (_lastDisplayedCateringIndex != -1) {
       setState(() {
         cateringVisibility[_lastDisplayedCateringIndex] = false;
       });
     }
-
-    // Hide the last displayed transport markers (if any)
     if (_lastDisplayedTransportIndex != -1) {
       for (int i = 0;
           i < transportMarkers[_lastDisplayedTransportIndex].length;
@@ -560,8 +566,6 @@ class GMapState extends State<GMap> {
         });
       }
     }
-
-    // Hide the last displayed building markers (if any)
     if (_lastDisplayedBuildingIndex != -1) {
       for (int i = 0;
           i < buildingMarkers[_lastDisplayedBuildingIndex].length;
@@ -571,8 +575,6 @@ class GMapState extends State<GMap> {
         });
       }
     }
-
-    // Hide the last displayed catering markers (if any)
     if (_lastDisplayedCateringIndex != -1) {
       for (int i = 0;
           i < cateringMarkers[_lastDisplayedCateringIndex].length;
@@ -582,15 +584,11 @@ class GMapState extends State<GMap> {
         });
       }
     }
-
-    // Hide the last displayed ATMs markers (if any)
     if (_lastDisplayedATMsIndex != -1) {
       setState(() {
         ATMsMarkersVisibility[_lastDisplayedATMsIndex] = false;
       });
     }
-
-    // Hide the last displayed parks markers (if any)
     if (_lastDisplayedParksIndex != -1) {
       setState(() {
         parksMarkersVisibility[_lastDisplayedParksIndex] = false;
@@ -599,51 +597,4 @@ class GMapState extends State<GMap> {
   }
 }
 
-          /* Row(
-            children: [
-              Expanded(
-                child: Column(
-                  children: [
-                    TextFormField(
-                      controller: _originController,
-                      decoration: const InputDecoration(hintText: ' Origin'),
-                      onChanged: (value) {
-                        print(value);
-                      },
-                    ),
-                    TextFormField(
-                      controller: _destinationController,
-                      decoration:
-                          const InputDecoration(hintText: ' Destination'),
-                      onChanged: (value) {
-                        print(value);
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              IconButton(
-                onPressed: () async {
-                  requestLocationPermissions();
-                  var position = await Geolocator.getCurrentPosition(
-                      desiredAccuracy: LocationAccuracy.high);
-                  print("++++++++");
-                  print(position);
-                  print("++++++++");
-                  var directions = await LocationService().getDirections(
-                    _originController.text,
-                    _destinationController.text,
-                  );
-                  _goToPlace(
-                    directions['start_location']['lat'],
-                    directions['start_location']['lng'],
-                    directions['bounds_ne'],
-                    directions['bounds_sw'],
-                  );
 
-                  _setPolyline(directions['polyline_decoded']);
-                },
-                icon: const Icon(Icons.search),
-              ),
-            ],
-          ), */

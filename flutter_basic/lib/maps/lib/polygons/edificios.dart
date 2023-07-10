@@ -35,7 +35,6 @@ class Edificios {
       LatLng(38.6617821, -9.2061715),
       LatLng(38.6617811, -9.2062144),
     ],
-    //onTap creates a pop-up
     fillColor: Color.fromARGB(157, 38, 99, 156),
     strokeColor: Color.fromARGB(255, 29, 0, 122),
     strokeWidth: 2,
@@ -68,7 +67,6 @@ class Edificios {
       LatLng(38.6614289, -9.2038609),
       LatLng(38.6613357, -9.2040044),
     ],
-    //onTap creates a pop-up
     fillColor: Color.fromARGB(157, 38, 99, 156),
     strokeColor: Color.fromARGB(255, 29, 0, 122),
     strokeWidth: 2,
@@ -89,7 +87,6 @@ class Edificios {
       LatLng(38.6601072, -9.2038625),
       LatLng(38.6603156, -9.2040704),
     ],
-    //onTap creates a pop-up
     fillColor: Color.fromARGB(157, 38, 99, 156),
     strokeColor: Color.fromARGB(255, 29, 0, 122),
     strokeWidth: 2,
@@ -104,7 +101,6 @@ class Edificios {
       LatLng(38.6600137, -9.2036681),
       LatLng(38.6598346, -9.2039229),
     ],
-    //onTap creates a pop-up
     fillColor: Color.fromARGB(157, 38, 99, 156),
     strokeColor: Color.fromARGB(255, 29, 0, 122),
     strokeWidth: 2,
@@ -125,7 +121,6 @@ class Edificios {
       LatLng(38.6607765, -9.2052884),
       LatLng(38.6607702, -9.2062755),
     ],
-    //onTap creates a pop-up
     fillColor: Color.fromARGB(157, 38, 99, 156),
     strokeColor: Color.fromARGB(255, 29, 0, 122),
     strokeWidth: 2,
@@ -160,7 +155,6 @@ class Edificios {
       LatLng(38.6607638, -9.2065821),
       LatLng(38.6607659, -9.2067149),
     ],
-    //onTap creates a pop-up
     fillColor: Color.fromARGB(157, 38, 99, 156),
     strokeColor: Color.fromARGB(255, 29, 0, 122),
     strokeWidth: 2,
@@ -187,7 +181,6 @@ class Edificios {
       LatLng(38.6607569, -9.2070014),
       LatLng(38.6607559, -9.2072455),
     ],
-    //onTap creates a pop-up
     fillColor: Color.fromARGB(157, 38, 99, 156),
     strokeColor: Color.fromARGB(255, 29, 0, 122),
     strokeWidth: 2,
@@ -202,7 +195,6 @@ class Edificios {
       LatLng(38.6607842, -9.2047729),
       LatLng(38.6607842, -9.2050156),
     ],
-    //onTap creates a pop-up
     fillColor: Color.fromARGB(157, 38, 99, 156),
     strokeColor: Color.fromARGB(255, 29, 0, 122),
     strokeWidth: 2,
@@ -217,7 +209,6 @@ class Edificios {
       LatLng(38.6596157, -9.2033752),
       LatLng(38.6594312, -9.2036369),
     ],
-    //onTap creates a pop-up
     fillColor: Color.fromARGB(157, 38, 99, 156),
     strokeColor: Color.fromARGB(255, 29, 0, 122),
     strokeWidth: 2,
@@ -283,13 +274,11 @@ class Edificios {
       LatLng(38.6625838, -9.207917),
       LatLng(38.6626163, -9.2080149),
     ],
-    //onTap creates a pop-up
     fillColor: Color.fromARGB(157, 38, 99, 156),
     strokeColor: Color.fromARGB(255, 29, 0, 122),
     strokeWidth: 2,
   );
 
-  //Centro de Excelência do ambiente
   static const Polygon cea = Polygon(
     polygonId: PolygonId('CEA'),
     points: [
@@ -320,7 +309,6 @@ class Edificios {
       LatLng(38.6625694, -9.2063711),
       LatLng(38.6625192, -9.2064516),
     ],
-    //onTap creates a pop-up
     fillColor: Color.fromARGB(157, 38, 99, 156),
     strokeColor: Color.fromARGB(255, 29, 0, 122),
     strokeWidth: 2,
@@ -345,7 +333,6 @@ class Edificios {
       LatLng(38.6619269, -9.2070558),
       LatLng(38.6618442, -9.2071764),
     ],
-    //onTap creates a pop-up
     fillColor: Color.fromARGB(157, 38, 99, 156),
     strokeColor: Color.fromARGB(255, 29, 0, 122),
     strokeWidth: 2,
@@ -366,7 +353,6 @@ class Edificios {
       LatLng(38.6621691, -9.2069356),
       LatLng(38.6620832, -9.2070697),
     ],
-    //onTap creates a pop-up
     fillColor: Color.fromARGB(157, 38, 99, 156),
     strokeColor: Color.fromARGB(255, 29, 0, 122),
     strokeWidth: 2,
@@ -395,7 +381,6 @@ class Edificios {
       LatLng(38.6623235, -9.2067458),
       LatLng(38.6622376, -9.2068705),
     ],
-    //onTap creates a pop-up
     fillColor: Color.fromARGB(157, 38, 99, 156),
     strokeColor: Color.fromARGB(255, 29, 0, 122),
     strokeWidth: 2,
@@ -414,7 +399,6 @@ class Edificios {
       LatLng(38.6628157, -9.2053141),
       LatLng(38.662824, -9.2058331),
     ],
-    //onTap creates a pop-up
     fillColor: Color.fromARGB(157, 38, 99, 156),
     strokeColor: Color.fromARGB(255, 29, 0, 122),
     strokeWidth: 2,
