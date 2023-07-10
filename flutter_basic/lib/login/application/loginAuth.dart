@@ -29,7 +29,7 @@ class LoginAuth {
       print("RESPOSTA: $jsonResponse");
       List<String> token = jsonResponse['token'].split(".");
       print("TOKEN: $token");
-      String payload = token[1] + "=";
+      String payload = "${token[1]}=";
       print("PAYLOAD: $payload");
       List<int> decodedBytes = base64.decode(payload);
       print("DECODED: $decodedBytes");

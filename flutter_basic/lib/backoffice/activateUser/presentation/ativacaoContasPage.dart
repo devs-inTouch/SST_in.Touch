@@ -1,36 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/backoffice/presentation/responsive_backOffice.dart';
-import '../../constants.dart';
-import '../../myAppBar.dart';
+import '../../../constants.dart';
+import '../../../myAppBar.dart';
+import '../../boxes/userRoleBox.dart';
 import '../application/activateUsersAuth.dart';
-import 'backOfficePage.dart';
-import 'boxes/usersToActivateBox.dart';
+import '../../presentation/backOfficePage.dart';
 
-
-
-  class AtivacaoContasPage extends StatefulWidget {
+class AtivacaoContasPage extends StatefulWidget {
   const AtivacaoContasPage({super.key});
   @override
   ContasPageState createState() => ContasPageState();
-  }
-  class ContasPageState extends State<AtivacaoContasPage> {
-  List contasPorAtivarList = [];
-  bool showNotifications = true;
+}
+
+class ContasPageState extends State<AtivacaoContasPage> {
+  List<UserRoleBox> unactiveUsers = [];
 
   @override
   void initState() {
-  super.initState();
-  fetchNotifications();
+    super.initState();
+    fetchData();
   }
 
-  void fetchNotifications() async {
-  final response = await ActivateUsersAuth.getUsersToActivate();
-  setState(() {
-    contasPorAtivarList = response;
-  });
-  print("Contas por ativar fetched");
-  print(contasPorAtivarList);
+  Future<void> fetchData() async {
+    final response = await ActivateUsersAuth.getUsersToActivate();
+    setState(() {
+      unactiveUsers = response;
+    });
+    print("Contas por ativar fetched");
+    print(unactiveUsers);
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,7 +45,7 @@ import 'boxes/usersToActivateBox.dart';
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(
+                  const Expanded(
                     child: Text(
                       "ATIVAÇÃO DE CONTAS",
                       textAlign: TextAlign.center,
@@ -61,7 +60,8 @@ import 'boxes/usersToActivateBox.dart';
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => ResponsiveBackOffice()),
+                        MaterialPageRoute(
+                            builder: (context) => ResponsiveBackOffice()),
                       );
                     },
                   ),
@@ -87,15 +87,10 @@ import 'boxes/usersToActivateBox.dart';
               width: 800,
               child: ListView.builder(
                 shrinkWrap: true,
-                itemCount: contasPorAtivarList.length,
+                itemCount: unactiveUsers.length,
                 itemBuilder: (BuildContext context, int index) {
-                  UsersToAtivateBox usersToAtivateBox = contasPorAtivarList[index];
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 10.0),
-                    child: UsersToAtivateBox(
-                      targetUsername: usersToAtivateBox.targetUsername,
-                    ),
-                  );
+                  final user = unactiveUsers[index];
+                  return user;
                 },
               ),
             ),

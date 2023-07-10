@@ -1,18 +1,17 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import '../../../constants.dart';
+import '../../boxes/bookingBox.dart';
+import '../../boxes/userRoleBox.dart';
 
-import '../../constants.dart';
-import '../boxes/userRoleBox.dart';
-
-class UserRoleAuth {
-  static Future<List<UserRoleBox>> getUsersList() async {
+class ActivateUsersAuth {
+  static Future<List<UserRoleBox>> getUsersToActivate() async {
     List<UserRoleBox> map = [];
     String tokenAuth = await getTokenAuth();
 
     final response = await http.post(
-      Uri.parse(
-          'https://steel-sequencer-385510.oa.r.appspot.com/rest/list/users'),
+      Uri.parse('$appUrl/list/unactivated'),
       headers: <String, String>{HttpHeaders.authorizationHeader: tokenAuth},
     );
 
@@ -25,24 +24,21 @@ class UserRoleAuth {
     return map;
   }
 
-  static Future<List<UserRoleBox>> saveNewRole() async {
-    List<UserRoleBox> map = [];
+  static Future<void> activateUser(String targetName) async {
     String tokenAuth = await getTokenAuth();
 
     final response = await http.post(
-      Uri.parse(
-          'https://steel-sequencer-385510.oa.r.appspot.com/rest/list/active'),
+      Uri.parse('$appUrl/userActivation/activate'),
       headers: <String, String>{HttpHeaders.authorizationHeader: tokenAuth},
+      body: jsonEncode(<String, String>{
+        'targetName': targetName,
+      }),
     );
-
+    print(response.statusCode);
     if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
-      print(jsonDecode(response.body));
-      map =
-          data.map<UserRoleBox>((item) => UserRoleBox.fromJson(item)).toList();
+      print("User activated");
+    } else {
+      print("User not activated");
     }
-    return map;
   }
-
-  static void changeRole() {}
 }

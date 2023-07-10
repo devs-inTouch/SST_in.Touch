@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_basic/backoffice/presentation/boxes/userRoleBox.dart';
-import 'package:flutter_basic/backoffice/presentation/boxes/usersToActivateBox.dart';
+import 'package:flutter_basic/backoffice/boxes/userRoleBox.dart';
 import 'package:flutter_basic/backoffice/presentation/responsive_backOffice.dart';
 import '../../constants.dart';
 import '../../myAppBar.dart';
@@ -12,26 +11,26 @@ class RolesUserPage extends StatefulWidget {
 
   @override
   State<RolesUserPage> createState() => RolesUserState();
-  }
+}
 
-  class RolesUserState extends State<RolesUserPage> {
+class RolesUserState extends State<RolesUserPage> {
   List usersList = [];
 
   @override
   void initState() {
-  super.initState();
-  fetchUsers();
+    super.initState();
+    fetchUsers();
   }
 
   Future<void> fetchUsers() async {
-  final response = await UserRoleAuth.getUsersList();
-  setState(() {
-    usersList = response;
-  });
-  print("Users fetched");
-  print(usersList);
-
+    final response = await UserRoleAuth.getUsersList();
+    setState(() {
+      usersList = response;
+    });
+    print("Users fetched");
+    print(usersList);
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,7 +61,8 @@ class RolesUserPage extends StatefulWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => ResponsiveBackOffice()),
+                        MaterialPageRoute(
+                            builder: (context) => ResponsiveBackOffice()),
                       );
                     },
                   ),
@@ -97,9 +97,7 @@ class RolesUserPage extends StatefulWidget {
                       username: userRoleBox.username,
                       name: userRoleBox.name,
                       email: userRoleBox.email,
-                      studentNumber: userRoleBox.studentNumber,
                       role: userRoleBox.role,
-
                     ),
                   );
                 },
