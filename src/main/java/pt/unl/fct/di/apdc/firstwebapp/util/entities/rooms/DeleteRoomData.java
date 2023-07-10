@@ -2,15 +2,15 @@ package pt.unl.fct.di.apdc.firstwebapp.util.entities.rooms;
 
 public class DeleteRoomData {
 
-    private String roomId, name, departement;
+    private String roomId, name, department;
 
     public DeleteRoomData() {
     }
 
-    public DeleteRoomData(String roomId, String name, String departement) {
+    public DeleteRoomData(String roomId, String name, String department) {
         this.roomId = roomId;
         this.name = name;
-        this.departement = departement;
+        this.department = department;
     }
 
     public String getRoomId() {
@@ -21,7 +21,7 @@ public class DeleteRoomData {
         return name;
     }
 
-    public String getDepartement() {
-        return departement;
+    public String getDepartment() {
+        return department;
     }
 }

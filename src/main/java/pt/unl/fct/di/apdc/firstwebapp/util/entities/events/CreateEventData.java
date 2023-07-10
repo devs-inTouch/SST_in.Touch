@@ -5,7 +5,6 @@ import java.util.List;
 public class CreateEventData {
 
     private String title, description, date, from, to;
-    private List<String> list;
     private boolean isAllDay;
 
     public CreateEventData() {
@@ -38,10 +37,6 @@ public class CreateEventData {
 
     public String getTo() {
         return to;
-    }
-
-    public List<String> getList() {
-        return list;
     }
 
     public boolean getIsAllDay() {

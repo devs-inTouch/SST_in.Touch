@@ -159,8 +159,9 @@ public class CalendarResource {
 
         Key userKey = datastore.newKeyFactory().setKind("User").newKey(givenTokenData.getUsername());
         Transaction txn = datastore.newTransaction();
+        try {
             Entity user = txn.get(userKey);
-            if(user == null) {
+            if (user == null) {
                 txn.rollback();
                 return Response.status(Response.Status.FORBIDDEN).build();
             }
@@ -187,6 +188,12 @@ public class CalendarResource {
 
 
             return Response.ok(g.toJson(calendarList)).build();
+        }
+        finally {
+            if (txn.isActive()) {
+                txn.rollback();
+            }
+        }
 
     }
 

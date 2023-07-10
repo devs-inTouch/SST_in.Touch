@@ -8,6 +8,7 @@ import pt.unl.fct.di.apdc.firstwebapp.util.entities.TokenData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.notification.NotificationData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.notification.NotificationDeleteData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.UserData;
+import pt.unl.fct.di.apdc.firstwebapp.util.enums.DatastoreEntities;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -41,8 +42,8 @@ public class NotificationsResource {
         Transaction txn = datastore.newTransaction();
 
         try {
-            Key notKey = datastore.newKeyFactory().addAncestor(PathElement.of("User", receiver))
-                    .setKind("Notification").newKey(notificationId);
+            Key notKey = datastore.newKeyFactory().addAncestor(PathElement.of(DatastoreEntities.USER.value, receiver))
+                    .setKind(DatastoreEntities.NOTIFICATION.value).newKey(notificationId);
             Entity notification = Entity.newBuilder(notKey)
                     .set("Message", message)
                     .set("Sender", sender)
@@ -62,10 +63,10 @@ public class NotificationsResource {
 
     private int getNextNotification(String user) {
         AtomicInteger max = new AtomicInteger(-1);
-        Key k = datastore.newKeyFactory().setKind("User").newKey(user);
+        Key k = datastore.newKeyFactory().setKind(DatastoreEntities.USER.value).newKey(user);
 
         Query<Entity> query = Query.newEntityQueryBuilder()
-                .setKind("Notification").setFilter(StructuredQuery.PropertyFilter.hasAncestor(k)).build();
+                .setKind(DatastoreEntities.NOTIFICATION.value).setFilter(StructuredQuery.PropertyFilter.hasAncestor(k)).build();
 
         QueryResults<Entity> token = datastore.run(query);
 
@@ -80,7 +81,7 @@ public class NotificationsResource {
 
 
     public void createNotificationToAll(String message, String type) {
-        Query<Entity> query = Query.newEntityQueryBuilder().setKind("User").build();
+        Query<Entity> query = Query.newEntityQueryBuilder().setKind(DatastoreEntities.USER.value).build();
         QueryResults<Entity> listUsers = datastore.run(query);
 
         listUsers.forEachRemaining(user -> {
@@ -101,8 +102,8 @@ public class NotificationsResource {
         Transaction txn = datastore.newTransaction();
 
         try {
-            Key notificationKey = datastore.newKeyFactory().addAncestor(PathElement.of("User", givenTokenData.getUsername()))
-                    .setKind("Notification").newKey(data.getNotificationId());
+            Key notificationKey = datastore.newKeyFactory().addAncestor(PathElement.of(DatastoreEntities.USER.value, givenTokenData.getUsername()))
+                    .setKind(DatastoreEntities.NOTIFICATION.value).newKey(data.getNotificationId());
             Entity notification = txn.get(notificationKey);
 
             if (notification != null) {
@@ -132,9 +133,9 @@ public class NotificationsResource {
         Transaction txn = datastore.newTransaction();
 
         try {
-            Key userKey = datastore.newKeyFactory().setKind("User").newKey(givenTokenData.getUsername());
+            Key userKey = datastore.newKeyFactory().setKind(DatastoreEntities.USER.value).newKey(givenTokenData.getUsername());
             Query<Entity> query = Query.newEntityQueryBuilder()
-                    .setKind("Notification").setFilter(StructuredQuery.PropertyFilter.hasAncestor(userKey)).build();
+                    .setKind(DatastoreEntities.NOTIFICATION.value).setFilter(StructuredQuery.PropertyFilter.hasAncestor(userKey)).build();
 
             QueryResults<Entity> notifications = datastore.run(query);
 
@@ -162,9 +163,9 @@ public class NotificationsResource {
         if(givenTokenData == null)
             return Response.status(Response.Status.FORBIDDEN).build();
 
-        Key userKey = datastore.newKeyFactory().setKind("User").newKey(givenTokenData.getUsername());
+        Key userKey = datastore.newKeyFactory().setKind(DatastoreEntities.USER.value).newKey(givenTokenData.getUsername());
         Query<Entity> query = Query.newEntityQueryBuilder()
-                .setKind("Notification").setFilter(StructuredQuery.PropertyFilter.hasAncestor(userKey)).build();
+                .setKind(DatastoreEntities.NOTIFICATION.value).setFilter(StructuredQuery.PropertyFilter.hasAncestor(userKey)).build();
         QueryResults<Entity> notifications = datastore.run(query);
         List<NotificationData> list = new ArrayList<>();
 

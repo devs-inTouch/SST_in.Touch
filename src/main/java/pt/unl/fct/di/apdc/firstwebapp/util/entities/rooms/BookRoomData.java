@@ -4,7 +4,6 @@ public class BookRoomData {
 
     private String name, department, date, hour, username;
     private int numberStudents;
-    private boolean available;
 
     public BookRoomData() {
     }
@@ -25,10 +24,6 @@ public class BookRoomData {
 
     public String getDepartment() {
         return department;
-    }
-
-    public boolean getAvailable() {
-        return available;
     }
 
     public int getNumberStudents() {

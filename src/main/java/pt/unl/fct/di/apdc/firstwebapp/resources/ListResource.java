@@ -9,8 +9,6 @@ import static pt.unl.fct.di.apdc.firstwebapp.util.enums.DatastoreEntities.USER;
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Globals.AUTH;
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Globals.COUNT;
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Globals.DEFAULT_FORMAT;
-import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Operation.LIST_UNNACTIVATED_USERS;
-import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Operation.LIST_USERS;
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Operation.STATS;
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.TokenAttributes.EXPIRATION_TIME;
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.*;
@@ -38,9 +36,8 @@ import com.google.gson.Gson;
 import pt.unl.fct.di.apdc.firstwebapp.resources.permissions.PermissionsHolder;
 import pt.unl.fct.di.apdc.firstwebapp.util.DatastoreUtil;
 import pt.unl.fct.di.apdc.firstwebapp.util.TokenUtil;
-import pt.unl.fct.di.apdc.firstwebapp.util.entities.RegisterInfoData;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.register.RegisterInfoData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.TokenData;
-import pt.unl.fct.di.apdc.firstwebapp.util.entities.UserData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects.BaseQueryResultData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects.CompleteQueryResultData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects.StatsData;
@@ -150,7 +147,7 @@ public class ListResource {
 	}
 
 
-    @GET
+    @POST
     @Path("/stats")
     public Response statistics(@HeaderParam(AUTH) String auth) {
 
@@ -159,8 +156,17 @@ public class ListResource {
         if (token == null)
             return Response.status(Status.UNAUTHORIZED).build();
 
-        if (!ph.hasAccess(STATS.value, token.getRole()))
+        /*if (!ph.hasAccess(STATS.value, token.getRole()))
+            return Response.status(Status.FORBIDDEN).build();*/
+
+        Key userKey = datastore.newKeyFactory().setKind(USER.value).newKey(token.getUsername());
+        Entity user = datastore.get(userKey);
+
+        if (user == null)
             return Response.status(Status.FORBIDDEN).build();
+
+        if(!user.getString(ROLE.value).equals("admin"))
+            	return Response.status(Status.BAD_REQUEST).build();
 
         var stats = new StatsData(
                         getNumOnlineUsers(),

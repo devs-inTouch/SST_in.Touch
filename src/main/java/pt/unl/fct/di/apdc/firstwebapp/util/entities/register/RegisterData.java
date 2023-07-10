@@ -1,35 +1,30 @@
-package pt.unl.fct.di.apdc.firstwebapp.util.entities;
+package pt.unl.fct.di.apdc.firstwebapp.util.entities.register;
 
-public class RegisterData {
+public abstract class RegisterData {
 	
 	private String username;
 	private String name;
 	private String email;
 	private String password;
-	private String studentNumber;
-	private String course;
 	private String role;
 	private String description;
 	private String department;
 
-	private String activateAccount;
 
 	
 	public RegisterData() {}
 
-	public RegisterData(String username, String name, String email, String password, String studentNumber,
-						String course, String role, String description, String department, String activateAccount) {
+	public RegisterData(String username, String name, String email, String password,
+						String role, String description, String department) {
 		this.username = username;
 		this.name = name;
-		this.email = email;
 		this.password = password;
-		this.studentNumber = studentNumber;
-		this.course = course;
+		this.email = email;
 		this.role = role;
+		//this.studentNumber = studentNumber;
 		this.description = description;
 		this.department = department;
-		this.role = role;
-		this.activateAccount = activateAccount;
+		//this.activateAccount = activateAccount;
 
 
 	}
@@ -62,15 +57,6 @@ public class RegisterData {
 		return email;
 	}
 
-	/**
-	 * @return the student number
-	 */
-	public String getStudentNumber() { return studentNumber; }
-
-	/**
-	 * @return the course
-	 */
-	public String getCourse() { return course; }
 
 	/**
 	 * @return the role
@@ -88,13 +74,6 @@ public class RegisterData {
 	 */
 	public String getDepartment() {
 		return department;
-	}
-
-	/**
-	 * @return the activateAccount
-	 */
-	public String getActivateAccount() {
-		return activateAccount;
 	}
 
 }

@@ -1,11 +1,13 @@
 package pt.unl.fct.di.apdc.firstwebapp.resources;
 
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.DatastoreEntities.USER;
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Globals.AUTH;
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Globals.DEFAULT_FORMAT;
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Operation.ACTIVATE_USER;
 
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.*;
 
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import javax.ws.rs.Consumes;
@@ -23,6 +25,7 @@ import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.KeyFactory;
 import com.google.cloud.datastore.Transaction;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import pt.unl.fct.di.apdc.firstwebapp.resources.permissions.PermissionsHolder;
 import pt.unl.fct.di.apdc.firstwebapp.util.DatastoreUtil;
 import pt.unl.fct.di.apdc.firstwebapp.util.TokenUtil;
@@ -56,29 +59,50 @@ public class ActivationResource {
         if (token == null)
             return Response.status(Status.UNAUTHORIZED).build();
 
-        if (!ph.hasAccess(ACTIVATE_USER.value, token.getRole()))
-            return Response.status(Status.FORBIDDEN).build();
+        /*if (!ph.hasAccess(ACTIVATE_USER.value, token.getRole()))
+            return Response.status(Status.FORBIDDEN).build();*/
 
-		Key targetKey = userKeyFactory.newKey(data.getTargetUsername());
+		Key userKey = datastore.newKeyFactory().setKind(USER.value).newKey(token.getUsername());
+		Entity user = datastore.get(userKey);
+
+		if (user == null)
+			return Response.status(Status.NOT_FOUND).build();
+
+		if(!user.getString(ROLE.value).equals("admin"))
+			return Response.status(Status.BAD_REQUEST).build();
+
+		Key targetKey = datastore.newKeyFactory().setKind(USER.value).newKey(data.getTargetUsername());
 		Entity target = datastore.get(targetKey);
 
 		if (target == null)
 			return Response.status(Status.NOT_FOUND).build();
 
-		if (!ph.hasPermission(ACTIVATE_USER.value, token.getRole(), target.getString(ROLE.value)))
-			return Response.status(Status.FORBIDDEN).build();
+		/*if (!ph.hasPermission(ACTIVATE_USER.value, token.getRole(), target.getString(ROLE.value)))
+			return Response.status(Status.FORBIDDEN).build();*/
+
 
 		Transaction txn = datastore.newTransaction();
 
 		try {
 			Entity activatedTarget = Entity.newBuilder(targetKey)
-									.set(UserAttributes.STATE.value, true)
-									.build();
+					.set(NAME.value, target.getString(NAME.value))
+					.set(PASSWORD.value, target.getString(PASSWORD.value))
+					.set(CREATION_TIME.value, target.getLong(CREATION_TIME.value))
+					.set(EMAIL.value, target.getString(EMAIL.value))
+					.set(STUDENT_NUMBER.value, target.getString(STUDENT_NUMBER.value))
+					.set(ROLE.value, target.getString(ROLE.value))
+					.set(DEPARTMENT.value, target.getString(DEPARTMENT.value))
+					.set(DESCRIPTION.value, target.getString(DESCRIPTION.value))
+					.set(STATE.value, true)
+					.set(VISIBILITY.value, target.getBoolean(VISIBILITY.value))
+					.set(FOLLOWERS.value, new ArrayList<>())
+					.set(FOLLOWING.value, new ArrayList<>())
+					.build();
 			
 			txn.update(activatedTarget);
 			txn.commit();
 			LOG.info("User'" + data.getTargetUsername() + "' activated successfully.");
-			return Response.ok("{}").build();
+			return Response.ok("{STAFF activated}").build();
 									
 		} catch (Exception e) {
 			txn.rollback();
