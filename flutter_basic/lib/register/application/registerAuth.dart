@@ -39,29 +39,52 @@ class RegisterAuth {
 
   static bool checkEmailFormatStudent(String email) {
     print(email);
-    final _pattern = r'^[\w.-]+@campus\.fct\.unl\.pt$';
+    const pattern = r'^[\w.-]+@campus\.fct\.unl\.pt$';
 
-    final regex = RegExp(_pattern);
+    final regex = RegExp(pattern);
     print(regex.hasMatch(email));
     return regex.hasMatch(email);
   }
 
   static bool checkEmailFormatStaff(String email) {
     print(email);
-    final pattern = r'^[\w-]+@fct\.unl\.pt$';
+    const pattern = r'^[\w.-]+@fct\.unl\.pt$';
 
     final regex = RegExp(pattern);
+    print(regex.hasMatch(email));
     return regex.hasMatch(email);
   }
 
-  static Future<bool> registerUser(
+  static Future<bool> registerStaff(String username, String name, String pwd,
+      String email, String role, String description, String department) async {
+    final response = await http.post(Uri.parse('$appUrl/register/createSTAFF'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(<String, String>{
+          "username": username,
+          "name": name,
+          "email": email,
+          "password": pwd,
+          "role": role,
+          "description": description,
+          "department": department,
+        }));
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  static Future<bool> registerStudent(
       String username,
-      String email,
       String name,
       String pwd,
-      String studentNumber,
-      String course,
+      String email,
       String role,
+      int studentNumber,
       String description,
       String department) async {
     String activateCode = createId();
@@ -73,15 +96,31 @@ class RegisterAuth {
       "email": email,
       "activateLink": link
     };
-    fetchAuthenticate(username, email, name, pwd, studentNumber, course, role,
-            description, department, activateCode)
-        .then((response) {
-      if (response) {
-        sendEmail(obj);
-        return true;
-      }
-    });
-    return false;
+    Map<String, String> send = {
+      "username": username,
+      "name": name,
+      "email": email,
+      "password": pwd,
+      "role": role,
+      "description": description,
+      "department": department,
+      "studentNumber": studentNumber.toString(),
+      "activateCode": activateCode
+    };
+    print(send);
+    final response =
+        await http.post(Uri.parse('$appUrl/register/createStudent'),
+            headers: <String, String>{
+              'Content-Type': 'application/json',
+            },
+            body: jsonEncode(send));
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      sendEmail(obj);
+      return true;
+    } else {
+      return false;
+    }
   }
 
   static void sendEmail(Map<String, dynamic> obj) async {

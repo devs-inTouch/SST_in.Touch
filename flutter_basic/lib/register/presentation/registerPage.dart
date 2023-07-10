@@ -30,9 +30,8 @@ class RegisterHome extends State<Register> {
   late TextEditingController roleControl;
   late TextEditingController staffRoleControl;
   late TextEditingController departmentControl;
-  late TextEditingController  descrpControl;
-  late TextEditingController  numberControl;
-  late TextEditingController   courseControl;
+  late TextEditingController descrpControl;
+  late TextEditingController numberControl;
 
   @override
   void initState() {
@@ -46,7 +45,6 @@ class RegisterHome extends State<Register> {
     departmentControl = TextEditingController();
     descrpControl = TextEditingController();
     numberControl = TextEditingController();
-    courseControl = TextEditingController();
 
     super.initState();
   }
@@ -59,39 +57,55 @@ class RegisterHome extends State<Register> {
     String email,
     String name,
     String pwd,
-    String studentNumber,
-    String course,
     String role,
-    String description,
+    int studentNumber,
     String department,
-    int number,
+    String description,
     BuildContext context,
   ) {
-    RegisterAuth.registerUser(username, email, name, pwd, studentNumber, course,
-            role, description, department)
-        .then((value) {
-      if (value) {
-        // Display success message
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: const Text('Registration Successful'),
-              content: const Text('Your registration was successful.'),
-              actions: [
-                TextButton(
-                  child: const Text('OK'),
-                  onPressed: () {
-                    Navigator.of(context).pushReplacementNamed(
-                        '/login'); // Navigate to the login screen
-                  },
-                ),
-              ],
-            );
-          },
+    print(role);
+    if (role == "ALUNO") {
+      RegisterAuth.registerStudent(username, name, pwd, email, role,
+              studentNumber, description, department)
+          .then((value) {
+        if (value) {
+          // Display success message
+          RegisterDone(context);
+        }
+      });
+    } else {
+      RegisterAuth.registerStaff(
+              username, name, pwd, email, role, description, department)
+          .then((value) {
+        if (value) {
+          // Display success message
+          RegisterDone(context);
+        }
+      });
+    }
+  }
+
+  void RegisterDone(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Registration Successful'),
+          content: const Text('Your registration was successful.'),
+          actions: [
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MyApp()),
+                ); // Navigate to the login screen
+              },
+            ),
+          ],
         );
-      }
-    });
+      },
+    );
   }
 
   @override
@@ -329,18 +343,6 @@ class RegisterHome extends State<Register> {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 20),
                               child: TextField(
-                                controller: courseControl,
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: 'Curso',
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 13),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: TextField(
                                 controller: descrpControl,
                                 keyboardType: TextInputType.multiline,
                                 maxLines: 10,
@@ -370,136 +372,39 @@ class RegisterHome extends State<Register> {
                                           : int.parse(numberControl.text)
                                       : -1,
                                 )) {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: const Text(
-                                            'Campos obrigatórios por preencher: Username, nome, password e email e numero de aluno'),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            child: const Text('Ok'),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
+                                  mandatoryFieldsBox(context);
                                 } else if (RegisterAuth.hasSpecialChars(
                                     pwdControl.text)) {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: const Text(
-                                            'Password contém caracteres inválidos'),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            child: const Text('Ok'),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
+                                  invalidCaracteresBox(context);
                                 } else if (pwdConfirmControl.text !=
                                     pwdControl.text) {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: const Text(
-                                            'Passwords são diferentes!'),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            child: const Text('Ok'),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
+                                  differentPasswordsBox(context);
                                 } else if (!RegisterAuth.isPasswordCompliant(
                                     pwdControl.text)) {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: const Text(
-                                            'Password tem de ter no mínimo 5 caracteres,'
-                                            'letra maiúscula e um número'),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            child: const Text('Ok'),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
+                                  validPasswordBox(context);
                                 } else if (roleValue == 'ALUNO' &&
                                     !RegisterAuth.checkEmailFormatStudent(
                                         emailControl.text)) {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: const Text(
-                                            'Email não tem o formato correto!'),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            child: const Text('Ok'),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
+                                  emailFormatErrorBox(context);
                                 } else if ((roleValue == 'PROFESSOR' ||
                                         roleValue == 'STAFF') &&
                                     !RegisterAuth.checkEmailFormatStaff(
                                         emailControl.text)) {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: const Text(
-                                            'Email não tem o formato correto!'),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            child: const Text('Ok'),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
+                                  emailFormatErrorBox(context);
                                 } else {
                                   RegisterButtonPressed(
                                     usernameControl.text,
                                     emailControl.text,
                                     nameControl.text,
                                     pwdControl.text,
-                                    numberControl.text,
-                                    courseControl.text,
-                                    roleControl.text,
-                                    descrpControl.text,
-                                    departmentControl.text,
+                                    roleValue == 'STAFF'
+                                        ? staffRoleValue
+                                        : roleValue,
                                     roleValue == 'ALUNO'
                                         ? int.parse(numberControl.text)
                                         : -1,
+                                    departmentControl.text,
+                                    descrpControl.text,
                                     context,
                                   );
                                   debugPrint('Received click');
@@ -537,6 +442,103 @@ class RegisterHome extends State<Register> {
           ),
         ),
       ),
+    );
+  }
+
+  void validPasswordBox(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Password tem de ter no mínimo 5 caracteres,'
+              'letra maiúscula e um número'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Ok'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void differentPasswordsBox(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Passwords são diferentes!'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Ok'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void invalidCaracteresBox(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Password contém caracteres inválidos'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Ok'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void mandatoryFieldsBox(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text(
+              'Campos obrigatórios por preencher: Username, nome, password e email e numero de aluno'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Ok'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void emailFormatErrorBox(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Email não tem o formato correto!'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Ok'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
