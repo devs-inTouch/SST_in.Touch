@@ -9,6 +9,7 @@ import pt.unl.fct.di.apdc.firstwebapp.util.entities.anomaly.AnomalyData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.anomaly.AnomalyDeleteData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.anomaly.AnomalyInfoData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.anomaly.ApproveAnomalyData;
+import pt.unl.fct.di.apdc.firstwebapp.util.enums.DatastoreEntities;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -57,7 +58,7 @@ public class AnomalyResource {
         if(givenTokenData == null)
             return Response.status(Response.Status.FORBIDDEN).build();
 
-        Key userKey = datastore.newKeyFactory().setKind("User").newKey(givenTokenData.getUsername());
+        Key userKey = datastore.newKeyFactory().setKind(DatastoreEntities.USER.value).newKey(givenTokenData.getUsername());
 
         Transaction txn = datastore.newTransaction();
         try {
@@ -66,7 +67,7 @@ public class AnomalyResource {
                 return Response.status(Response.Status.BAD_REQUEST).entity(USER_NOT_IN_DATABASE).build();
 
             int anomalyId = getNextAnomaly();
-            Key k = datastore.newKeyFactory().setKind("Anomaly").newKey(anomalyId);
+            Key k = datastore.newKeyFactory().setKind(DatastoreEntities.ANOMALY.value).newKey(anomalyId);
             Entity anomaly = Entity.newBuilder(k)
                     .set("username", givenTokenData.getUsername())
                     .set("title", data.getTitle())
@@ -99,7 +100,7 @@ public class AnomalyResource {
         if(givenTokenData == null)
             return Response.status(Response.Status.FORBIDDEN).build();
 
-        Key userKey = datastore.newKeyFactory().setKind("User").newKey(givenTokenData.getUsername());
+        Key userKey = datastore.newKeyFactory().setKind(DatastoreEntities.USER.value).newKey(givenTokenData.getUsername());
 
         Transaction txn = datastore.newTransaction();
 
@@ -111,7 +112,7 @@ public class AnomalyResource {
             if (!user.getString("user_role").equals("admin"))
                 return Response.status(Response.Status.BAD_REQUEST).entity(USER_NOT_ALLOWED_TO_DELETE_ANOMALY).build();
 
-            Key k = datastore.newKeyFactory().setKind("Anomaly").newKey(Integer.parseInt(data.getAnomalyId()));
+            Key k = datastore.newKeyFactory().setKind(DatastoreEntities.ANOMALY.value).newKey(Integer.parseInt(data.getAnomalyId()));
             Entity anomaly = txn.get(k);
             if (anomaly == null)
                 return Response.status(Response.Status.BAD_REQUEST).entity(ANOMALY_NOT_IN_DATABASE).build();
@@ -138,7 +139,7 @@ public class AnomalyResource {
     public Response listNotApprovedAnomalies() {
         LOG.fine("Attempt to list anomalies");
 
-        Query<Entity> query = Query.newEntityQueryBuilder().setKind("Anomaly")
+        Query<Entity> query = Query.newEntityQueryBuilder().setKind(DatastoreEntities.ANOMALY.value)
                 .setFilter(StructuredQuery.PropertyFilter.eq("isApproved", false)).build();
         QueryResults<Entity> results = datastore.run(query);
 
@@ -158,7 +159,7 @@ public class AnomalyResource {
     public Response listApprovedAnomalies() {
         LOG.fine("Attempt to list anomalies");
 
-        Query<Entity> query = Query.newEntityQueryBuilder().setKind("Anomaly")
+        Query<Entity> query = Query.newEntityQueryBuilder().setKind(DatastoreEntities.ANOMALY.value)
                 .setFilter(StructuredQuery.PropertyFilter.eq("isApproved", true)).build();
         QueryResults<Entity> results = datastore.run(query);
 
@@ -182,8 +183,8 @@ public class AnomalyResource {
         if(givenTokenData == null)
             return Response.status(Response.Status.FORBIDDEN).build();
 
-        Key userKey = datastore.newKeyFactory().setKind("User").newKey(givenTokenData.getUsername());
-        Key anomalyKey = datastore.newKeyFactory().setKind("Anomaly").newKey(Integer.parseInt(data.getAnomalyId()));
+        Key userKey = datastore.newKeyFactory().setKind(DatastoreEntities.USER.value).newKey(givenTokenData.getUsername());
+        Key anomalyKey = datastore.newKeyFactory().setKind(DatastoreEntities.ANOMALY.value).newKey(Integer.parseInt(data.getAnomalyId()));
 
         Transaction txn = datastore.newTransaction();
         try {
@@ -228,8 +229,8 @@ public class AnomalyResource {
         if(givenTokenData == null)
             return Response.status(Response.Status.FORBIDDEN).build();
 
-        Key userKey = datastore.newKeyFactory().setKind("User").newKey(givenTokenData.getUsername());
-        Key anomalyKey = datastore.newKeyFactory().setKind("Anomaly").newKey(Integer.parseInt(data.getAnomalyId()));
+        Key userKey = datastore.newKeyFactory().setKind(DatastoreEntities.USER.value).newKey(givenTokenData.getUsername());
+        Key anomalyKey = datastore.newKeyFactory().setKind(DatastoreEntities.ANOMALY.value).newKey(Integer.parseInt(data.getAnomalyId()));
 
         Transaction txn = datastore.newTransaction();
 
@@ -260,7 +261,7 @@ public class AnomalyResource {
         AtomicInteger max = new AtomicInteger(0);
 
         Query<Entity> query = Query.newEntityQueryBuilder()
-                .setKind("Anomaly").build();
+                .setKind(DatastoreEntities.ANOMALY.value).build();
 
         QueryResults<Entity> anomalyQuery = datastore.run(query);
 

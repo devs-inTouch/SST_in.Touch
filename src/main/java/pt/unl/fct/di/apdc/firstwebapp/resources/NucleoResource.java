@@ -47,7 +47,7 @@ public class NucleoResource {
         if(givenTokenData == null)
             return Response.status(Response.Status.FORBIDDEN).build();
 
-        Key userKey = datastore.newKeyFactory().setKind("User").newKey(givenTokenData.getUsername());
+        Key userKey = datastore.newKeyFactory().setKind(DatastoreEntities.USER.value).newKey(givenTokenData.getUsername());
 
         Transaction txn = datastore.newTransaction();
 
@@ -62,7 +62,7 @@ public class NucleoResource {
             }
 
             int nucleoId = getNextNucleo();
-            Key nucleoKey = datastore.newKeyFactory().setKind("Nucleo").newKey(nucleoId);
+            Key nucleoKey = datastore.newKeyFactory().setKind(DatastoreEntities.NUCLEO.value).newKey(nucleoId);
             Entity nucleo = Entity.newBuilder(nucleoKey)
                     .set("title", data.getTitle())
                     .set("description", data.getDescription())
@@ -93,7 +93,7 @@ public class NucleoResource {
         if(givenTokenData == null)
             return Response.status(Response.Status.FORBIDDEN).build();
 
-        Key userKey = datastore.newKeyFactory().setKind("User").newKey(givenTokenData.getUsername());
+        Key userKey = datastore.newKeyFactory().setKind(DatastoreEntities.USER.value).newKey(givenTokenData.getUsername());
         Transaction txn = datastore.newTransaction();
 
         try {
@@ -106,7 +106,7 @@ public class NucleoResource {
                 return Response.status(Response.Status.BAD_REQUEST).entity(USER_NOT_ALLOWED_TO_DELETE_NUCLEO).build();
             }
 
-            Key nucleoKey = datastore.newKeyFactory().setKind("Nucleo").newKey(Integer.parseInt(data.getNucleoId()));
+            Key nucleoKey = datastore.newKeyFactory().setKind(DatastoreEntities.NUCLEO.value).newKey(Integer.parseInt(data.getNucleoId()));
             Entity nucleo = txn.get(nucleoKey);
 
             if(nucleo == null) {
@@ -131,7 +131,7 @@ public class NucleoResource {
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     public Response listNucleos() {
         Query<Entity> query = Query.newEntityQueryBuilder()
-                .setKind("Nucleo").build();
+                .setKind(DatastoreEntities.NUCLEO.value).build();
 
         QueryResults<Entity> nucleoQuery = datastore.run(query);
 
@@ -149,7 +149,7 @@ public class NucleoResource {
         AtomicInteger max = new AtomicInteger(0);
 
         Query<Entity> query = Query.newEntityQueryBuilder()
-                .setKind("Nucleo").build();
+                .setKind(DatastoreEntities.NUCLEO.value).build();
 
         QueryResults<Entity> nucleoQuery = datastore.run(query);
 

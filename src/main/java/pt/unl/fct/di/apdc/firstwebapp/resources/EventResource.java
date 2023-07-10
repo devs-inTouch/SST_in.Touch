@@ -9,6 +9,7 @@ import pt.unl.fct.di.apdc.firstwebapp.util.entities.events.CreateEventData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.events.DeleteEventData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.events.EventInfoData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.events.SubscribeEventData;
+import pt.unl.fct.di.apdc.firstwebapp.util.enums.DatastoreEntities;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -24,7 +25,13 @@ import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Globals.AUTH;
 @Path("/event")
 public class EventResource {
 
-    private static final Logger LOG = Logger.getLogger(RoomReservationResource.class.getName());
+    private static final Logger LOG = Logger.getLogger(EventResource.class.getName());
+    private static final String USER_NOT_ALLOWED_TO_CREATE_EVENTS = "User not allowed to create events";
+    private static final String EVENT_CREATED = "Event created";
+    private static final String USER_NOT_ALLOWED_TO_DELETE_EVENTS = "User not allowed to delete events";
+    private static final String EVENT_DOES_NOT_EXIST = "Event does not exist";
+    private static final String EVENT_ALREADY_IN_CALENDAR = "Event already in calendar";
+    private static final String EVENT_SUBSCRIBED = "Event subscribed";
 
     private final Datastore datastore = DatastoreUtil.getService();
 
@@ -46,7 +53,7 @@ public class EventResource {
         if(givenTokenData == null)
             return Response.status(Response.Status.FORBIDDEN).build();
 
-        Key userKey = datastore.newKeyFactory().setKind("User").newKey(givenTokenData.getUsername());
+        Key userKey = datastore.newKeyFactory().setKind(DatastoreEntities.USER.value).newKey(givenTokenData.getUsername());
         Transaction txn = datastore.newTransaction();
 
         try {
@@ -56,10 +63,10 @@ public class EventResource {
                 return Response.status(Response.Status.FORBIDDEN).build();
 
             if(!user.getString("user_role").equals("admin"))
-                return Response.status(Response.Status.BAD_REQUEST).entity("User not allowed to create events").build();
+                return Response.status(Response.Status.BAD_REQUEST).entity(USER_NOT_ALLOWED_TO_CREATE_EVENTS).build();
 
             int nextEvent = getNextEvent();
-            Key eventKey = datastore.newKeyFactory().setKind("Event").newKey(nextEvent);
+            Key eventKey = datastore.newKeyFactory().setKind(DatastoreEntities.EVENT.value).newKey(nextEvent);
 
             Entity event = Entity.newBuilder(eventKey)
                     .set("title", data.getTitle())
@@ -76,7 +83,7 @@ public class EventResource {
             txn.add(event);
             txn.commit();
 
-            return Response.ok().build();
+            return Response.ok().entity(g.toJson(EVENT_CREATED)).build();
 
         }  finally {
             if(txn.isActive())
@@ -96,7 +103,7 @@ public class EventResource {
         if(givenTokenData == null)
             return Response.status(Response.Status.FORBIDDEN).build();
 
-        Key userKey = datastore.newKeyFactory().setKind("User").newKey(givenTokenData.getUsername());
+        Key userKey = datastore.newKeyFactory().setKind(DatastoreEntities.USER.value).newKey(givenTokenData.getUsername());
         Transaction txn = datastore.newTransaction();
 
         try {
@@ -106,13 +113,13 @@ public class EventResource {
                 return Response.status(Response.Status.FORBIDDEN).build();
 
             if(user.getString("user_role").equals("admin"))
-                return Response.status(Response.Status.BAD_REQUEST).entity("User not allowed to delete events").build();
+                return Response.status(Response.Status.BAD_REQUEST).entity(USER_NOT_ALLOWED_TO_DELETE_EVENTS).build();
 
-            Key eventKey = datastore.newKeyFactory().setKind("Event").newKey(data.getEventId());
+            Key eventKey = datastore.newKeyFactory().setKind(DatastoreEntities.EVENT.value).newKey(data.getEventId());
             Entity event = txn.get(eventKey);
 
             if(event == null)
-                return Response.status(Response.Status.BAD_REQUEST).entity("Event does not exist").build();
+                return Response.status(Response.Status.BAD_REQUEST).entity(EVENT_DOES_NOT_EXIST).build();
 
             txn.delete(eventKey);
             txn.commit();
@@ -131,7 +138,7 @@ public class EventResource {
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     public Response ListEvents() {
         Query<Entity> query = Query.newEntityQueryBuilder()
-                .setKind("Event").build();
+                .setKind(DatastoreEntities.EVENT.value).build();
 
         QueryResults<Entity> eventQuery = datastore.run(query);
 
@@ -154,7 +161,7 @@ public class EventResource {
         if(givenTokenData == null)
             return Response.status(Response.Status.FORBIDDEN).build();
 
-        Key userKey = datastore.newKeyFactory().setKind("User").newKey(givenTokenData.getUsername());
+        Key userKey = datastore.newKeyFactory().setKind(DatastoreEntities.USER.value).newKey(givenTokenData.getUsername());
         Transaction txn = datastore.newTransaction();
 
         try {
@@ -164,11 +171,11 @@ public class EventResource {
                 return Response.status(Response.Status.FORBIDDEN).build();
 
 
-            Key eventKey = datastore.newKeyFactory().setKind("Event").newKey(Integer.parseInt(data.getEventId()));
+            Key eventKey = datastore.newKeyFactory().setKind(DatastoreEntities.EVENT.value).newKey(Integer.parseInt(data.getEventId()));
             Entity event = txn.get(eventKey);
 
             if(event == null)
-                return Response.status(Response.Status.BAD_REQUEST).entity("Event does not exist").build();
+                return Response.status(Response.Status.BAD_REQUEST).entity(EVENT_DOES_NOT_EXIST).build();
 
             List<Value<String>> list = event.getList("subscribers");
             List<Value<String>> newList = new ArrayList<>(list);
@@ -187,7 +194,7 @@ public class EventResource {
             Key calendarKey = datastore.newKeyFactory().setKind("Calendar").newKey(data.getCalendarId());
             Entity calendar = txn.get(calendarKey);
             if (calendar != null)
-                return Response.status(Response.Status.BAD_REQUEST).entity("Event already in calendar").build();
+                return Response.status(Response.Status.BAD_REQUEST).entity(EVENT_ALREADY_IN_CALENDAR).build();
 
 
             Entity updatedCalendar = Entity.newBuilder(calendarKey)
@@ -207,7 +214,7 @@ public class EventResource {
             txn.add(updatedCalendar);
             txn.commit();
 
-            return Response.ok().build();
+            return Response.ok().entity(g.toJson(EVENT_SUBSCRIBED)).build();
 
         } finally {
             if(txn.isActive())
@@ -221,7 +228,7 @@ public class EventResource {
         AtomicInteger max = new AtomicInteger(0);
 
         Query<Entity> query = Query.newEntityQueryBuilder()
-                .setKind("Event").build();
+                .setKind(DatastoreEntities.EVENT.value).build();
 
         QueryResults<Entity> eventQuery = datastore.run(query);
 

@@ -8,6 +8,7 @@ import pt.unl.fct.di.apdc.firstwebapp.util.entities.TokenData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.rooms.BookRoomData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.rooms.CreateRoomData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.rooms.RoomsPerHourData;
+import pt.unl.fct.di.apdc.firstwebapp.util.enums.DatastoreEntities;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -23,6 +24,23 @@ import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Globals.AUTH;
 public class RoomReservationResource {
 
     private static final Logger LOG = Logger.getLogger(RoomReservationResource.class.getName());
+    private static final String USER_NOT_IN_DATABASE = "User not in database";
+    private static final String ROOM_ALREADY_IN_DATABASE = "Room already in database";
+    private static final String ROOM_ADDED_SUCCESSFULLY = "Room added successfully";
+    private static final String ROOM_NOT_IN_DATABASE = "Room not in database";
+    private static final String ROOM_NOT_IN_DEPARTMENT = "Room not in department";
+    private static final String ROOM_DELETED_SUCCESSFULLY = "Room deleted successfully";
+    private static final String ROOM_NOT_AVAILABLE = "Room not available";
+    private static final String SPACE_OF_THE_ROOM = "Number of students bigger than the space of the room";
+    private static final String ROOM_BOOKED_SUCCESSFULLY = "Room booked successfully";
+    private static final String RESERVA_EFETUADA = "Reserva efetuada";
+    private static final String USER_NOT_ALLOWED_TO_CANCEL_BOOKING = "User not allowed to cancel booking";
+    private static final String BOOKING_NOT_IN_DATABASE = "Booking not in database";
+    private static final String BOOKING_CANCELED_SUCCESSFULLY = "Booking canceled successfully";
+    private static final String A_SUA_RESERVA_FOI_CONFIRMADA = "A sua reserva foi confirmada";
+    private static final String BOOKING_APPROVED_SUCCESSFULLY = "Booking approved successfully";
+    private static final String A_SUA_RESERVA_FOI_REJEITADA = "A sua reserva foi rejeitada";
+    private static final String BOOKING_NOT_APPROVED_SUCCESSFULLY = "Booking not approved successfully";
 
     private final Datastore datastore = DatastoreUtil.getService();
 
@@ -44,18 +62,18 @@ public class RoomReservationResource {
         if(givenTokenData == null)
             return Response.status(Response.Status.FORBIDDEN).build();
 
-        Key userKey = datastore.newKeyFactory().setKind("User").newKey(givenTokenData.getUsername());
+        Key userKey = datastore.newKeyFactory().setKind(DatastoreEntities.USER.value).newKey(givenTokenData.getUsername());
         Transaction txn = datastore.newTransaction();
         try{
             Entity user = txn.get(userKey);
             if(user == null)
-                return Response.status(Response.Status.BAD_REQUEST).entity("User not in database").build();
+                return Response.status(Response.Status.BAD_REQUEST).entity(USER_NOT_IN_DATABASE).build();
 
-            Key k = datastore.newKeyFactory().setKind("Room").newKey(data.getName() + data.getDepartment() + data.getDate() + data.getHour());
+            Key k = datastore.newKeyFactory().setKind(DatastoreEntities.ROOM.value).newKey(data.getName() + data.getDepartment() + data.getDate() + data.getHour());
 
             Entity hasRoom = txn.get(k);
             if(hasRoom != null)
-                return Response.status(Response.Status.BAD_REQUEST).entity("Room already in database").build();
+                return Response.status(Response.Status.BAD_REQUEST).entity(ROOM_ALREADY_IN_DATABASE).build();
 
             Entity room = Entity.newBuilder(k)
                     .set("name", data.getName())
@@ -69,7 +87,7 @@ public class RoomReservationResource {
             txn.add(room);
             txn.commit();
 
-            return Response.ok(g.toJson("Room added successfully")).build();
+            return Response.ok(g.toJson(ROOM_ADDED_SUCCESSFULLY)).build();
 
         } finally {
             if(txn.isActive())
@@ -87,26 +105,26 @@ public class RoomReservationResource {
         if(givenTokenData == null)
             return Response.status(Response.Status.FORBIDDEN).build();
 
-        Key userKey = datastore.newKeyFactory().setKind("User").newKey(givenTokenData.getUsername());
+        Key userKey = datastore.newKeyFactory().setKind(DatastoreEntities.USER.value).newKey(givenTokenData.getUsername());
 
         Transaction txn = datastore.newTransaction();
         try {
             Entity user = txn.get(userKey);
             if(user == null)
-                return Response.status(Response.Status.BAD_REQUEST).entity("User not in database").build();
+                return Response.status(Response.Status.BAD_REQUEST).entity(USER_NOT_IN_DATABASE).build();
 
-            Key k = datastore.newKeyFactory().setKind("Room").newKey(data.getName() + data.getDepartment() + data.getDate() + data.getHour());
+            Key k = datastore.newKeyFactory().setKind(DatastoreEntities.ROOM.value).newKey(data.getName() + data.getDepartment() + data.getDate() + data.getHour());
             Entity room = txn.get(k);
             if(room == null)
-                return Response.status(Response.Status.BAD_REQUEST).entity("Room not in database").build();
+                return Response.status(Response.Status.BAD_REQUEST).entity(ROOM_NOT_IN_DATABASE).build();
 
             if(!room.getString("department").equals(data.getDepartment()))
-                return Response.status(Response.Status.BAD_REQUEST).entity("Room not in department").build();
+                return Response.status(Response.Status.BAD_REQUEST).entity(ROOM_NOT_IN_DEPARTMENT).build();
 
             txn.delete(k);
             txn.commit();
 
-            return Response.ok(g.toJson("Room deleted successfully")).build();
+            return Response.ok(g.toJson(ROOM_DELETED_SUCCESSFULLY)).build();
 
         } finally {
             if(txn.isActive())
@@ -118,7 +136,7 @@ public class RoomReservationResource {
     @Path("/getrooms")
     public Response getAvailableRooms() {
         Query<Entity> query = Query.newEntityQueryBuilder()
-                .setKind("Room")
+                .setKind(DatastoreEntities.ROOM.value)
                 .setFilter(StructuredQuery.PropertyFilter.eq("available", true))
                 .build();
         QueryResults<Entity> results = datastore.run(query);
@@ -139,7 +157,7 @@ public class RoomReservationResource {
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     public Response getAvailableRoomsPerHour(RoomsPerHourData data) {
         Query<Entity> query = Query.newEntityQueryBuilder()
-                .setKind("Room")
+                .setKind(DatastoreEntities.ROOM.value)
                 .setFilter(StructuredQuery.CompositeFilter.and(
                         StructuredQuery.PropertyFilter.eq("date", data.getDate()),
                         StructuredQuery.PropertyFilter.eq("hour", data.getHour()),
@@ -167,27 +185,27 @@ public class RoomReservationResource {
         if(givenTokenData == null)
             return Response.status(Response.Status.FORBIDDEN).build();
 
-        Key userKey = datastore.newKeyFactory().setKind("User").newKey(givenTokenData.getUsername());
-        Key roomKey = datastore.newKeyFactory().setKind("Room").newKey(data.getName() + data.getDepartment() + data.getDate() + data.getHour());
+        Key userKey = datastore.newKeyFactory().setKind(DatastoreEntities.USER.value).newKey(givenTokenData.getUsername());
+        Key roomKey = datastore.newKeyFactory().setKind(DatastoreEntities.ROOM.value).newKey(data.getName() + data.getDepartment() + data.getDate() + data.getHour());
 
         Transaction txn = datastore.newTransaction();
         try {
             Entity user = txn.get(userKey);
             if(user == null)
-                return Response.status(Response.Status.BAD_REQUEST).entity("User not in database").build();
+                return Response.status(Response.Status.BAD_REQUEST).entity(USER_NOT_IN_DATABASE).build();
 
             Entity room = txn.get(roomKey);
             if(room == null)
-                return Response.status(Response.Status.BAD_REQUEST).entity("Room not in database").build();
+                return Response.status(Response.Status.BAD_REQUEST).entity(ROOM_NOT_IN_DATABASE).build();
 
             if(data.getAvailable())
-                return Response.status(Response.Status.BAD_REQUEST).entity("Room not available").build();
+                return Response.status(Response.Status.BAD_REQUEST).entity(ROOM_NOT_AVAILABLE).build();
 
             if(data.getNumberStudents() > Integer.parseInt(String.valueOf(room.getLong("space"))))
-                return Response.status(Response.Status.BAD_REQUEST).entity("Number of students bigger than the space of the room").build();
+                return Response.status(Response.Status.BAD_REQUEST).entity(SPACE_OF_THE_ROOM).build();
 
-            Key bookingKey = datastore.newKeyFactory().setKind("Booking")
-                    .addAncestor(PathElement.of("User", givenTokenData.getUsername()))
+            Key bookingKey = datastore.newKeyFactory().setKind(DatastoreEntities.BOOKING.value)
+                    .addAncestor(PathElement.of(DatastoreEntities.USER.value, givenTokenData.getUsername()))
                     .newKey(givenTokenData.getUsername() + "-" + room.getString("name") + "-" + room.getString("department") + "-" + room.getString("date") + "-" + room.getString("hour"));
 
             data.setUsername(givenTokenData.getUsername());
@@ -202,11 +220,11 @@ public class RoomReservationResource {
                     .set("available", false)
                     .build();
 
-            notification.createNotification("Reserva efetuada","System", givenTokenData.getUsername(), "Aviso", System.currentTimeMillis());
+            notification.createNotification(RESERVA_EFETUADA,"System", givenTokenData.getUsername(), "Aviso", System.currentTimeMillis());
             txn.add(booking);
             txn.commit();
 
-            return Response.ok(g.toJson("Room booked successfully")).build();
+            return Response.ok(g.toJson(ROOM_BOOKED_SUCCESSFULLY)).build();
 
         } finally {
             if(txn.isActive())
@@ -220,7 +238,7 @@ public class RoomReservationResource {
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     public Response listAllUnavailableBookings() {
 
-        Query<Entity> query = Query.newEntityQueryBuilder().setKind("Booking")
+        Query<Entity> query = Query.newEntityQueryBuilder().setKind(DatastoreEntities.BOOKING.value)
                 .setFilter(StructuredQuery.PropertyFilter.eq("available", false))
                 .build();
         QueryResults<Entity> results = datastore.run(query);
@@ -244,28 +262,28 @@ public class RoomReservationResource {
         if(givenTokenData == null)
             return Response.status(Response.Status.FORBIDDEN).build();
 
-        Key userKey = datastore.newKeyFactory().setKind("User").newKey(givenTokenData.getUsername());
+        Key userKey = datastore.newKeyFactory().setKind(DatastoreEntities.USER.value).newKey(givenTokenData.getUsername());
         Transaction txn = datastore.newTransaction();
         try {
             Entity user = txn.get(userKey);
             if(user == null)
-                return Response.status(Response.Status.BAD_REQUEST).entity("User not in database").build();
+                return Response.status(Response.Status.BAD_REQUEST).entity(USER_NOT_IN_DATABASE).build();
 
             if(givenTokenData.getUsername().equals(data.getUsername()))
-                return Response.status(Response.Status.BAD_REQUEST).entity("User not allowed to cancel booking").build();
+                return Response.status(Response.Status.BAD_REQUEST).entity(USER_NOT_ALLOWED_TO_CANCEL_BOOKING).build();
 
-            Key bookingKey = datastore.newKeyFactory().setKind("Booking")
-                    .addAncestor(PathElement.of("User", givenTokenData.getUsername()))
+            Key bookingKey = datastore.newKeyFactory().setKind(DatastoreEntities.BOOKING.value)
+                    .addAncestor(PathElement.of(DatastoreEntities.USER.value, givenTokenData.getUsername()))
                     .newKey(givenTokenData.getUsername() + "-" + data.getName() + "-" + data.getDepartment() + "-" + data.getDate() + "-" + data.getHour());
 
             Entity booking = txn.get(bookingKey);
             if(booking == null)
-                return Response.status(Response.Status.BAD_REQUEST).entity("Booking not in database").build();
+                return Response.status(Response.Status.BAD_REQUEST).entity(BOOKING_NOT_IN_DATABASE).build();
 
             txn.delete(bookingKey);
             txn.commit();
 
-            return Response.ok(g.toJson("Booking canceled successfully")).build();
+            return Response.ok(g.toJson(BOOKING_CANCELED_SUCCESSFULLY)).build();
 
         } finally {
             if(txn.isActive())
@@ -283,7 +301,7 @@ public class RoomReservationResource {
         if(givenTokenData == null)
             return Response.status(Response.Status.FORBIDDEN).build();
 
-        Query<Entity> query = Query.newEntityQueryBuilder().setKind("Booking")
+        Query<Entity> query = Query.newEntityQueryBuilder().setKind(DatastoreEntities.BOOKING.value)
                 .setFilter(StructuredQuery.CompositeFilter.and(
                         StructuredQuery.PropertyFilter.eq("username", givenTokenData.getUsername()),
                         StructuredQuery.PropertyFilter.eq("available", true))).build();
@@ -308,30 +326,28 @@ public class RoomReservationResource {
         if(givenTokenData == null)
             return Response.status(Response.Status.FORBIDDEN).build();
 
-        Key userKey = datastore.newKeyFactory().setKind("User").newKey(givenTokenData.getUsername());
+        Key userKey = datastore.newKeyFactory().setKind(DatastoreEntities.USER.value).newKey(givenTokenData.getUsername());
         Transaction txn = datastore.newTransaction();
         try {
             Entity user = txn.get(userKey);
             if (user == null)
-                return Response.status(Response.Status.BAD_REQUEST).entity("User not in database").build();
+                return Response.status(Response.Status.BAD_REQUEST).entity(USER_NOT_IN_DATABASE).build();
 
-            /*if (givenTokenData.getUsername().equals(data.getUsername()))
-                return Response.status(Response.Status.BAD_REQUEST).entity("User not allowed to approve booking").build();*/
 
-            Key bookingKey = datastore.newKeyFactory().setKind("Booking")
-                    .addAncestor(PathElement.of("User", data.getUsername()))
+            Key bookingKey = datastore.newKeyFactory().setKind(DatastoreEntities.BOOKING.value)
+                    .addAncestor(PathElement.of(DatastoreEntities.USER.value, data.getUsername()))
                     .newKey(data.getUsername()+ "-" + data.getName() + "-" + data.getDepartment() + "-" + data.getDate() + "-" + data.getHour());
 
             Entity booking = txn.get(bookingKey);
             if (booking == null)
-                return Response.status(Response.Status.BAD_REQUEST).entity("Booking not in database").build();
+                return Response.status(Response.Status.BAD_REQUEST).entity(BOOKING_NOT_IN_DATABASE).build();
 
-            Key roomKey = datastore.newKeyFactory().setKind("Room")
+            Key roomKey = datastore.newKeyFactory().setKind(DatastoreEntities.ROOM.value)
                     .newKey(data.getName() + data.getDepartment() + data.getDate() + data.getHour());
 
             Entity room = txn.get(roomKey);
             if (room == null)
-                return Response.status(Response.Status.BAD_REQUEST).entity("Room not in database").build();
+                return Response.status(Response.Status.BAD_REQUEST).entity(ROOM_NOT_IN_DATABASE).build();
 
 
             Entity booking2 = Entity.newBuilder(bookingKey)
@@ -356,11 +372,11 @@ public class RoomReservationResource {
             txn.update(booking2);
             txn.update(room2);
 
-            notification.createNotification("A sua reserva foi confirmada", "System", booking.getString("username"), "Aviso", System.currentTimeMillis());
+            notification.createNotification(A_SUA_RESERVA_FOI_CONFIRMADA, "System", booking.getString("username"), "Aviso", System.currentTimeMillis());
 
             txn.commit();
 
-            return Response.ok(g.toJson("Booking approved successfully")).build();
+            return Response.ok(g.toJson(BOOKING_APPROVED_SUCCESSFULLY)).build();
 
         } finally {
             if (txn.isActive())
@@ -379,28 +395,28 @@ public class RoomReservationResource {
         if(givenTokenData == null)
             return Response.status(Response.Status.FORBIDDEN).build();
 
-        Key userKey = datastore.newKeyFactory().setKind("User").newKey(givenTokenData.getUsername());
+        Key userKey = datastore.newKeyFactory().setKind(DatastoreEntities.USER.value).newKey(givenTokenData.getUsername());
         Transaction txn = datastore.newTransaction();
 
         try {
             Entity user = txn.get(userKey);
             if (user == null)
-                return Response.status(Response.Status.BAD_REQUEST).entity("User not in database").build();
+                return Response.status(Response.Status.BAD_REQUEST).entity(USER_NOT_IN_DATABASE).build();
 
-            Key bookingKey = datastore.newKeyFactory().setKind("Booking")
-                    .addAncestor(PathElement.of("User", data.getUsername()))
+            Key bookingKey = datastore.newKeyFactory().setKind(DatastoreEntities.BOOKING.value)
+                    .addAncestor(PathElement.of(DatastoreEntities.USER.value, data.getUsername()))
                     .newKey(data.getUsername()+ "-" + data.getName() + "-" + data.getDepartment() + "-" + data.getDate() + "-" + data.getHour());
 
             Entity booking = txn.get(bookingKey);
             if (booking == null)
-                return Response.status(Response.Status.BAD_REQUEST).entity("Booking not in database").build();
+                return Response.status(Response.Status.BAD_REQUEST).entity(BOOKING_NOT_IN_DATABASE).build();
 
             txn.delete(bookingKey);
             txn.commit();
 
-            notification.createNotification("A sua reserva foi rejeitada", "System", booking.getString("username"), "Aviso", System.currentTimeMillis());
+            notification.createNotification(A_SUA_RESERVA_FOI_REJEITADA, "System", booking.getString("username"), "Aviso", System.currentTimeMillis());
 
-            return Response.ok(g.toJson("Booking not approved successfully")).build();
+            return Response.ok(g.toJson(BOOKING_NOT_APPROVED_SUCCESSFULLY)).build();
 
         } finally {
             if(txn.isActive())
@@ -413,7 +429,7 @@ public class RoomReservationResource {
         AtomicInteger max = new AtomicInteger(0);
 
         Query<Entity> query = Query.newEntityQueryBuilder()
-                .setKind("Room").setFilter(StructuredQuery.PropertyFilter.eq("name", name)).build();
+                .setKind(DatastoreEntities.ROOM.value).setFilter(StructuredQuery.PropertyFilter.eq("name", name)).build();
 
         QueryResults<Entity> roomQuery = datastore.run(query);
 

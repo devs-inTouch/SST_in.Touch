@@ -28,7 +28,6 @@ public class NewsResource {
 
     private static final String USER_NOT_IN_DATABASE = "User not in database";
     private static final Logger LOG = Logger.getLogger(NewsResource.class.getName());
-    private static final String LIST_NEWS = "listNews";
     private static final String USER_NOT_ALLOWED_TO_CREATE_NEWS = "User not allowed to create news";
     private static final String NEWS_CREATED = "News created";
     private static final String USER_NOT_ALLOWED_TO_DELETE_NEWS = "User not allowed to delete news";

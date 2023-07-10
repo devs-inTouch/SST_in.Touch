@@ -9,7 +9,11 @@ public enum DatastoreEntities {
     POST("Post"),
     ANOMALY("Anomaly"),
     BOOKING("Booking"),
-    NEWS("News");
+    NEWS("News"),
+    EVENT("Event"),
+    NOTIFICATION("Notification"),
+    NUCLEO("Nucleo"),
+    ROOM("Room");
 
     public final String value;
 
