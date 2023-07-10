@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_basic/login/presentation/loginPage.dart';
 import 'package:flutter_basic/register/application/registerAuth.dart';
-
-import '../../backoffice/presentation/backOfficePage.dart';
 
 const List<String> list = <String>['ALUNO', 'PROFESSOR', 'STAFF'];
 const List<String> listStaff = <String>[
@@ -56,28 +55,43 @@ class RegisterHome extends State<Register> {
   String staffRoleValue = listStaff.first;
 
   void RegisterButtonPressed(
-      String username,
-      String email,
-      String name,
-      String pwd,
-      String studentNumber,
-      String course,
-      String role,
-      String description,
-      String department) {
-    if (RegisterAuth.registerUser(username, email, name, pwd, studentNumber,
-            course, role, description, department) ==
-        true) {
-      showDialog(
+    String username,
+    String email,
+    String name,
+    String pwd,
+    String studentNumber,
+    String course,
+    String role,
+    String description,
+    String department,
+    int number,
+    BuildContext context,
+  ) {
+    RegisterAuth.registerUser(username, email, name, pwd, studentNumber, course,
+            role, description, department)
+        .then((value) {
+      if (value) {
+        // Display success message
+        showDialog(
           context: context,
           builder: (BuildContext context) {
-            return const AlertDialog(title: Text('Registado'));
-          });
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const MyApp()),
-      );
-    }
+            return AlertDialog(
+              title: const Text('Registration Successful'),
+              content: const Text('Your registration was successful.'),
+              actions: [
+                TextButton(
+                  child: const Text('OK'),
+                  onPressed: () {
+                    Navigator.of(context).pushReplacementNamed(
+                        '/login'); // Navigate to the login screen
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+    });
   }
 
   @override
@@ -98,9 +112,9 @@ class RegisterHome extends State<Register> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Image.asset('assets/logo-1-RBH.png', height: 65),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Container(
@@ -114,44 +128,47 @@ class RegisterHome extends State<Register> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            SizedBox(height: 20),
-                            Text(
+                            const SizedBox(height: 20),
+                            const Text(
                               'Registo',
                               style: TextStyle(
                                 fontSize: 35,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
                             Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 20),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
                               child: TextField(
                                 controller: usernameControl,
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   border: OutlineInputBorder(),
                                   labelText: 'Username',
                                 ),
                               ),
                             ),
-                            SizedBox(height: 13),
+                            const SizedBox(height: 13),
                             Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 20),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
                               child: TextField(
                                 controller: nameControl,
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   border: OutlineInputBorder(),
                                   labelText: 'Nome',
                                 ),
                               ),
                             ),
-                            SizedBox(height: 13),
+                            const SizedBox(height: 13),
                             Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 20),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
                               child: TextField(
                                 obscureText: passwordVisible,
                                 controller: pwdControl,
                                 decoration: InputDecoration(
-                                  border: OutlineInputBorder(),
+                                  border: const OutlineInputBorder(),
                                   labelText: 'Password',
                                   suffixIcon: IconButton(
                                     icon: Icon(
@@ -168,14 +185,15 @@ class RegisterHome extends State<Register> {
                                 ),
                               ),
                             ),
-                            SizedBox(height: 13),
+                            const SizedBox(height: 13),
                             Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 20),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
                               child: TextField(
                                 obscureText: passwordConfVisible,
                                 controller: pwdConfirmControl,
                                 decoration: InputDecoration(
-                                  border: OutlineInputBorder(),
+                                  border: const OutlineInputBorder(),
                                   labelText: 'Confirma Password',
                                   suffixIcon: IconButton(
                                     icon: Icon(
@@ -193,23 +211,25 @@ class RegisterHome extends State<Register> {
                                 ),
                               ),
                             ),
-                            SizedBox(height: 13),
+                            const SizedBox(height: 13),
                             Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 20),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
                               child: TextField(
                                 controller: emailControl,
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   border: OutlineInputBorder(),
                                   labelText: 'Email',
                                 ),
                               ),
                             ),
-                            SizedBox(height: 13),
+                            const SizedBox(height: 13),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 10),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10),
                                   child: Container(
                                     width: 113,
                                     child: DropdownButton(
@@ -231,12 +251,12 @@ class RegisterHome extends State<Register> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(width: 10),
+                                const SizedBox(width: 10),
                                 Visibility(
                                   visible: roleValue == 'STAFF',
                                   child: Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 10),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10),
                                     child: Container(
                                       width: 121,
                                       child: DropdownButton(
@@ -266,19 +286,23 @@ class RegisterHome extends State<Register> {
                                 ),
                                 Visibility(
                                   visible: roleValue == 'ALUNO',
-                                  child: SizedBox(width: 10),
+                                  child: const SizedBox(width: 10),
                                 ),
-                                SizedBox(width: 10),
+                                const SizedBox(width: 10),
                                 Visibility(
                                   visible: roleValue == 'ALUNO',
                                   child: Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 15),
-                                    child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 15),
+                                    child: SizedBox(
                                       width: 110,
                                       child: TextField(
                                         controller: numberControl,
-                                        decoration: InputDecoration(
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.digitsOnly
+                                        ],
+                                        keyboardType: TextInputType.number,
+                                        decoration: const InputDecoration(
                                           border: OutlineInputBorder(),
                                           labelText: 'Número de Aluno',
                                         ),
@@ -288,65 +312,73 @@ class RegisterHome extends State<Register> {
                                 ),
                               ],
                             ),
-                            SizedBox(height: 13),
+                            const SizedBox(height: 13),
                             Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 15),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 15),
                               child: TextField(
                                 controller: departmentControl,
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   border: OutlineInputBorder(),
                                   labelText: 'Departamento',
                                 ),
                               ),
                             ),
-                            SizedBox(height: 13),
+                            const SizedBox(height: 13),
                             Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 20),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
                               child: TextField(
                                 controller: courseControl,
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   border: OutlineInputBorder(),
                                   labelText: 'Curso',
                                 ),
                               ),
                             ),
-                            SizedBox(height: 13),
+                            const SizedBox(height: 13),
                             Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 20),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
                               child: TextField(
                                 controller: descrpControl,
                                 keyboardType: TextInputType.multiline,
                                 maxLines: 10,
                                 maxLength: 400,
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   border: OutlineInputBorder(),
                                   labelText: 'Descrição',
                                 ),
                               ),
                             ),
-                            SizedBox(height: 13),
+                            const SizedBox(height: 13),
                             OutlinedButton(
                               style: OutlinedButton.styleFrom(
-                                fixedSize: Size(200, 50),
+                                fixedSize: const Size(200, 50),
                                 backgroundColor: Colors.blue,
                               ),
                               onPressed: () {
                                 if (RegisterAuth.emptyFields(
-                                    usernameControl.text,
-                                    emailControl.text,
-                                    nameControl.text,
-                                    pwdControl.text,
-                                    pwdConfirmControl.text)) {
+                                  usernameControl.text,
+                                  emailControl.text,
+                                  nameControl.text,
+                                  pwdControl.text,
+                                  pwdConfirmControl.text,
+                                  roleValue == 'ALUNO'
+                                      ? numberControl.text.isEmpty
+                                          ? 0
+                                          : int.parse(numberControl.text)
+                                      : -1,
+                                )) {
                                   showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
                                       return AlertDialog(
-                                        title: Text(
-                                            'Preenchas pelo menos os campos: '
-                                            'Username, nome, password e email'),
+                                        title: const Text(
+                                            'Campos obrigatórios por preencher: Username, nome, password e email e numero de aluno'),
                                         actions: <Widget>[
                                           TextButton(
-                                            child: Text('Ok'),
+                                            child: const Text('Ok'),
                                             onPressed: () {
                                               Navigator.of(context).pop();
                                             },
@@ -362,11 +394,11 @@ class RegisterHome extends State<Register> {
                                     context: context,
                                     builder: (BuildContext context) {
                                       return AlertDialog(
-                                        title: Text(
+                                        title: const Text(
                                             'Password contém caracteres inválidos'),
                                         actions: <Widget>[
                                           TextButton(
-                                            child: Text('Ok'),
+                                            child: const Text('Ok'),
                                             onPressed: () {
                                               Navigator.of(context).pop();
                                             },
@@ -381,11 +413,11 @@ class RegisterHome extends State<Register> {
                                     context: context,
                                     builder: (BuildContext context) {
                                       return AlertDialog(
-                                        title:
-                                            Text('Passwords são diferentes!'),
+                                        title: const Text(
+                                            'Passwords são diferentes!'),
                                         actions: <Widget>[
                                           TextButton(
-                                            child: Text('Ok'),
+                                            child: const Text('Ok'),
                                             onPressed: () {
                                               Navigator.of(context).pop();
                                             },
@@ -400,12 +432,53 @@ class RegisterHome extends State<Register> {
                                     context: context,
                                     builder: (BuildContext context) {
                                       return AlertDialog(
-                                        title: Text(
+                                        title: const Text(
                                             'Password tem de ter no mínimo 5 caracteres,'
                                             'letra maiúscula e um número'),
                                         actions: <Widget>[
                                           TextButton(
-                                            child: Text('Ok'),
+                                            child: const Text('Ok'),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                } else if (roleValue == 'ALUNO' &&
+                                    !RegisterAuth.checkEmailFormatStudent(
+                                        emailControl.text)) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: const Text(
+                                            'Email não tem o formato correto!'),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            child: const Text('Ok'),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                } else if ((roleValue == 'PROFESSOR' ||
+                                        roleValue == 'STAFF') &&
+                                    !RegisterAuth.checkEmailFormatStaff(
+                                        emailControl.text)) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: const Text(
+                                            'Email não tem o formato correto!'),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            child: const Text('Ok'),
                                             onPressed: () {
                                               Navigator.of(context).pop();
                                             },
@@ -425,11 +498,15 @@ class RegisterHome extends State<Register> {
                                     roleControl.text,
                                     descrpControl.text,
                                     departmentControl.text,
+                                    roleValue == 'ALUNO'
+                                        ? int.parse(numberControl.text)
+                                        : -1,
+                                    context,
                                   );
                                   debugPrint('Received click');
                                 }
                               },
-                              child: Text(
+                              child: const Text(
                                 'Registar',
                                 style: TextStyle(
                                   color: Colors.white,
@@ -439,6 +516,7 @@ class RegisterHome extends State<Register> {
                               ),
                             ),
                             TextButton(
+                              child: const Text('Voltar'),
                               onPressed: () {
                                 Navigator.push(
                                   context,
@@ -447,9 +525,8 @@ class RegisterHome extends State<Register> {
                                   ),
                                 );
                               },
-                              child: const Text('Voltar'),
                             ),
-                            SizedBox(height: 13),
+                            const SizedBox(height: 13),
                           ],
                         ),
                       ),
