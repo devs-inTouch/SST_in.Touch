@@ -55,51 +55,7 @@ public class ListResource {
 
     public ListResource() {}
 
-    @POST
-    @Path("/users")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON + DEFAULT_FORMAT)
-    public Response listUsers(@HeaderParam(AUTH) String auth) {
 
-        TokenData token = TokenUtil.validateToken(LOG, auth);
-
-        if (token == null)
-            return Response.status(Status.UNAUTHORIZED).build();
-
-        /*if (!ph.hasAccess(LIST_USERS.value, token.getRole()))
-            return Response.status(Status.FORBIDDEN).build();*/
-        Key userKey = datastore.newKeyFactory().setKind(USER.value).newKey(token.getUsername());
-        Entity user = datastore.get(userKey);
-
-        if (user == null)
-            return Response.status(Status.FORBIDDEN).build();
-
-        if(!user.getString(ROLE.value).equals("admin"))
-        	return Response.status(Status.BAD_REQUEST).build();
-
-        EntityQuery query = Query.newEntityQueryBuilder()
-                            .setKind(USER.value)
-                            .setFilter(
-                                PropertyFilter.eq(STATE.value, true)
-                            )
-                            .build();
-
-        QueryResults<Entity> users = datastore.run(query);
-        List<RegisterInfoData> resultList = new ArrayList<>();
-
-        // switch (ph.getClearance(LIST_USERS.value, token.getRole())) {} //TODO add this later
-
-        users.forEachRemaining(t -> {
-            resultList.add(new RegisterInfoData(t.getKey().getName(),
-                t.getString(NAME.value),
-                t.getString(EMAIL.value),
-                t.getString(STUDENT_NUMBER.value),
-                t.getString(ROLE.value)));
-            });
-
-        LOG.info("Listing successful!");
-        return Response.ok(g.toJson(resultList)).build();
-    }
     
 	@POST
 	@Path("/unactivated")
@@ -121,14 +77,14 @@ public class ListResource {
         if (user == null)
             return Response.status(Status.FORBIDDEN).build();
 
+
         if(!user.getString(ROLE.value).equals("admin"))
-            	return Response.status(Status.BAD_REQUEST).build();
+            	return Response.status(Status.BAD_REQUEST).entity("nao tem permissoes").build();
 
 		EntityQuery query = EntityQuery.newEntityQueryBuilder()
 							.setKind(USER.value)
 							.setFilter(
-                                PropertyFilter.eq(STATE.value, false)
-							)
+                                PropertyFilter.eq(STATE.value, false))
 							.build();
 
         QueryResults<Entity> unactivatedUsers = datastore.run(query);
@@ -139,7 +95,6 @@ public class ListResource {
             resultList.add(new RegisterInfoData(t.getKey().getName(),
                     t.getString(NAME.value),
                     t.getString(EMAIL.value),
-                    t.getString(STUDENT_NUMBER.value),
                     t.getString(ROLE.value)));
 		});
 
