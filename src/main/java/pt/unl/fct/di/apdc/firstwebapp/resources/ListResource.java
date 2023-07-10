@@ -150,7 +150,7 @@ public class ListResource {
 	}
 
 
-    @GET
+    @POST
     @Path("/stats")
     public Response statistics(@HeaderParam(AUTH) String auth) {
 
@@ -159,8 +159,17 @@ public class ListResource {
         if (token == null)
             return Response.status(Status.UNAUTHORIZED).build();
 
-        if (!ph.hasAccess(STATS.value, token.getRole()))
+        /*if (!ph.hasAccess(STATS.value, token.getRole()))
+            return Response.status(Status.FORBIDDEN).build();*/
+
+        Key userKey = datastore.newKeyFactory().setKind(USER.value).newKey(token.getUsername());
+        Entity user = datastore.get(userKey);
+
+        if (user == null)
             return Response.status(Status.FORBIDDEN).build();
+
+        if(!user.getString(ROLE.value).equals("admin"))
+            	return Response.status(Status.BAD_REQUEST).build();
 
         var stats = new StatsData(
                         getNumOnlineUsers(),
