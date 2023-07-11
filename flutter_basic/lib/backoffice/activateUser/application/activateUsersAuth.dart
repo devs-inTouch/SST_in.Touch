@@ -41,4 +41,22 @@ class ActivateUsersAuth {
       print("User not activated");
     }
   }
+
+  static Future<void> negateActivationUser(String targetName) async {
+    String tokenAuth = await getTokenAuth();
+
+    final response = await http.post(
+      Uri.parse('$appUrl/userActivation/deactivate'),
+      headers: <String, String>{HttpHeaders.authorizationHeader: tokenAuth},
+      body: jsonEncode(<String, String>{
+        'targetName': targetName,
+      }),
+    );
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      print("User activated");
+    } else {
+      print("User not activated");
+    }
+  }
 }

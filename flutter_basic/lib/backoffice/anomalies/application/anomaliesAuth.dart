@@ -28,7 +28,7 @@ class AnomaliesAuth {
     String tokenAuth = await getTokenAuth();
 
     final response = await http.post(
-      Uri.parse('$appUrl/anomaly/aprove'),
+      Uri.parse('$appUrl/anomaly/approve'),
       headers: <String, String>{HttpHeaders.authorizationHeader: tokenAuth},
       body: jsonEncode(<String, String>{
         'anomalyId': id,

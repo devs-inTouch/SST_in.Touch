@@ -28,6 +28,30 @@ class ContasPageState extends State<AtivacaoContasPage> {
     });
     print("Contas por ativar fetched");
     print(unactiveUsers);
+
+    if (unactiveUsers.isEmpty) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Sem contas por ativar"),
+            content: Text("Não há contas por ativar."),
+            actions: [
+              TextButton(
+                child: Text("OK"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ResponsiveBackOffice()),
+                  );
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 
   @override
@@ -74,7 +98,7 @@ class ContasPageState extends State<AtivacaoContasPage> {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "CONTA:",
+                  "CONTAS POR ATIVAR:",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 20.0,

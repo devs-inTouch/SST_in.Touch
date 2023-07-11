@@ -26,8 +26,32 @@ class AnomaliasVerifyPageState extends State<AnomaliasVerifyPage> {
     setState(() {
       anomalias = response;
     });
-    print("Contas por ativar fetched");
+    print("Anomalias por enviar fetched");
     print(anomalias);
+    if (anomalias.isEmpty) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Sem anomalias por verificar"),
+            content: Text("Não há anomalias para enviar."),
+            actions: [
+              TextButton(
+                child: Text("OK"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ResponsiveBackOffice()),
+                  );
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+
   }
 
   @override

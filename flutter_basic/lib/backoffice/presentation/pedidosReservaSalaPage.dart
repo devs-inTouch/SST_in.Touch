@@ -27,6 +27,29 @@ class ReservasState extends State<PedidoReservaSalaPage> {
     });
     print("requests fetched");
     print(requestsList);
+    if (requestsList.isEmpty) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Sem requests"),
+            content: Text("No requests available."),
+            actions: [
+              TextButton(
+                child: Text("OK"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ResponsiveBackOffice()),
+                  );
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 
   @override
