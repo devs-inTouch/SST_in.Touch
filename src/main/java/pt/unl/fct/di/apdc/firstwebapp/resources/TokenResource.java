@@ -2,7 +2,6 @@ package pt.unl.fct.di.apdc.firstwebapp.resources;
 
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Globals.AUTH;
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Globals.DEFAULT_FORMAT;
-import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Operation.SHOW_TOKEN;
 
 import java.util.logging.Logger;
 
@@ -17,9 +16,8 @@ import javax.ws.rs.core.Response.Status;
 
 import com.google.gson.Gson;
 
-import pt.unl.fct.di.apdc.firstwebapp.resources.permissions.PermissionsHolder;
 import pt.unl.fct.di.apdc.firstwebapp.util.TokenUtil;
-import pt.unl.fct.di.apdc.firstwebapp.util.entities.TokenData;;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects.TokenData;;
 
 @Path("/token")
 public class TokenResource {

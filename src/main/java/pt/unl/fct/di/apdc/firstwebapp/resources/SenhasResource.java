@@ -9,8 +9,7 @@ import com.google.gson.JsonObject;
 import pt.unl.fct.di.apdc.firstwebapp.util.DatastoreUtil;
 import pt.unl.fct.di.apdc.firstwebapp.util.TokenUtil;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.SenhasData;
-import pt.unl.fct.di.apdc.firstwebapp.util.entities.TokenData;
-import pt.unl.fct.di.apdc.firstwebapp.util.entities.post.PostData;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects.TokenData;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

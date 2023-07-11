@@ -1,4 +1,4 @@
-package pt.unl.fct.di.apdc.firstwebapp.util.entities;
+package pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects;
 
 /**
  * This class used for operations that only require the target's username

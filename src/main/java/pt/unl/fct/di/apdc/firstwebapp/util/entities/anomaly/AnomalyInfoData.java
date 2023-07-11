@@ -1,7 +1,5 @@
 package pt.unl.fct.di.apdc.firstwebapp.util.entities.anomaly;
 
-import pt.unl.fct.di.apdc.firstwebapp.util.entities.TokenData;
-
 public class AnomalyInfoData {
 
     private String id, username, type, description;

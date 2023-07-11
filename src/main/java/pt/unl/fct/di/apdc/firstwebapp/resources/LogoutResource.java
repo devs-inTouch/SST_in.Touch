@@ -20,7 +20,7 @@ import com.google.cloud.datastore.Transaction;
 
 import pt.unl.fct.di.apdc.firstwebapp.util.DatastoreUtil;
 import pt.unl.fct.di.apdc.firstwebapp.util.TokenUtil;
-import pt.unl.fct.di.apdc.firstwebapp.util.entities.TokenData;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects.TokenData;
 import pt.unl.fct.di.apdc.firstwebapp.util.enums.DatastoreEntities;
 
 @Path("/logout")

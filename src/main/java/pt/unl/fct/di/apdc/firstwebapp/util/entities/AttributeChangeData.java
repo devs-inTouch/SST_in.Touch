@@ -1,5 +1,7 @@
 package pt.unl.fct.di.apdc.firstwebapp.util.entities;
 
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects.UserData;
+
 public class AttributeChangeData extends UserData {
 
     private String name;

@@ -3,11 +3,9 @@ package pt.unl.fct.di.apdc.firstwebapp.resources;
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.DatastoreEntities.USER;
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Globals.AUTH;
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Globals.DEFAULT_FORMAT;
-import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Operation.ACTIVATE_USER;
 
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.*;
 
-import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import javax.ws.rs.Consumes;
@@ -25,14 +23,12 @@ import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.KeyFactory;
 import com.google.cloud.datastore.Transaction;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import pt.unl.fct.di.apdc.firstwebapp.resources.permissions.PermissionsHolder;
 import pt.unl.fct.di.apdc.firstwebapp.util.DatastoreUtil;
 import pt.unl.fct.di.apdc.firstwebapp.util.TokenUtil;
-import pt.unl.fct.di.apdc.firstwebapp.util.entities.TokenData;
-import pt.unl.fct.di.apdc.firstwebapp.util.entities.UserData;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects.TokenData;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects.UserData;
 import pt.unl.fct.di.apdc.firstwebapp.util.enums.DatastoreEntities;
-import pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes;
 
 @Path("/userActivation")
 @Consumes(MediaType.APPLICATION_JSON + DEFAULT_FORMAT)

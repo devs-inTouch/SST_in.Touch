@@ -1,9 +1,5 @@
 package pt.unl.fct.di.apdc.firstwebapp.util.entities.events;
 
-import pt.unl.fct.di.apdc.firstwebapp.util.entities.UserData;
-
-import java.util.List;
-
 public class SubscribeEventData {
 
     private String eventId, calendarId;
