@@ -6,11 +6,13 @@ import 'package:flutter_basic/backoffice/application/salasRequestAuth.dart';
 import '../anomalies/application/anomaliesAuth.dart';
 
 class AnomalyBoxBO extends StatelessWidget {
+  final String id;
   final String username;
   final String type;
   final String description;
 
   AnomalyBoxBO({
+    required this.id,
     required this.username,
     required this.type,
     required this.description,
@@ -18,6 +20,7 @@ class AnomalyBoxBO extends StatelessWidget {
 
   factory AnomalyBoxBO.fromJson(Map<String, dynamic> json) {
     return AnomalyBoxBO(
+      id: json['id'],
       username: json['username'],
       type: json['type'],
       description: json['description'],
@@ -25,13 +28,13 @@ class AnomalyBoxBO extends StatelessWidget {
   }
   @override
   Widget build(BuildContext context) {
-    final borderColor = Colors.blueAccent[200]; // Fallback color if blueAccent[200] is null
-
+    final borderColor =
+        Colors.blueAccent[200]; // Fallback color if blueAccent[200] is null
 
     return Container(
       decoration: BoxDecoration(
         color: borderColor, // Setting background color to borderColor
-        border: Border.all(color: Colors.blueGrey),// Adding border
+        border: Border.all(color: Colors.blueGrey), // Adding border
         borderRadius: BorderRadius.circular(8.0), // Adding border radius
       ),
       padding: EdgeInsets.all(8.0),
@@ -63,17 +66,13 @@ class AnomalyBoxBO extends StatelessWidget {
             IconButton(
               icon: Icon(Icons.check),
               onPressed: () {
-                AnomaliesAuth.approveAnomaly(username);
-                print("anomaly aproved");
-
+                AnomaliesAuth.approveAnomaly(id);
               },
             ),
             IconButton(
               icon: Icon(Icons.close),
               onPressed: () {
-                AnomaliesAuth.deleteAnomaly(username);
-                print("anomaly denied");
-
+                AnomaliesAuth.deleteAnomaly(id);
               },
             ),
           ],

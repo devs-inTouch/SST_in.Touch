@@ -18,20 +18,25 @@ class ActivateUsersAuth {
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       print(jsonDecode(response.body));
-      map =
-          data.map<UserActivateBox>((item) => UserActivateBox.fromJson(item)).toList();
+      map = data
+          .map<UserActivateBox>((item) => UserActivateBox.fromJson(item))
+          .toList();
     }
     return map;
   }
 
   static Future<void> activateUser(String targetName) async {
+    print(targetName);
     String tokenAuth = await getTokenAuth();
 
     final response = await http.post(
       Uri.parse('$appUrl/userActivation/activate'),
-      headers: <String, String>{HttpHeaders.authorizationHeader: tokenAuth},
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        HttpHeaders.authorizationHeader: tokenAuth
+      },
       body: jsonEncode(<String, String>{
-        'targetName': targetName,
+        'targetUsername': targetName,
       }),
     );
     print(response.statusCode);
