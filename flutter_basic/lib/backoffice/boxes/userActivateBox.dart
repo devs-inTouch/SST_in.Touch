@@ -71,7 +71,7 @@ class UserRoleBox extends StatelessWidget {
                   print("Ativado");
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.white, // Setting button color to white
+                  primary: Colors.black, // Setting button color to white
                 ),
                 child: Text('Ativar'), // Setting the button label
               ),
