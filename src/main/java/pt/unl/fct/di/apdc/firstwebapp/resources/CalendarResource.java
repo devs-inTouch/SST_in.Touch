@@ -4,7 +4,7 @@ import com.google.cloud.datastore.*;
 import pt.unl.fct.di.apdc.firstwebapp.util.DatastoreUtil;
 import com.google.gson.Gson;
 import pt.unl.fct.di.apdc.firstwebapp.util.TokenUtil;
-import pt.unl.fct.di.apdc.firstwebapp.util.entities.TokenData;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects.TokenData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.calendar.CalendarData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.calendar.CalendarDeleteData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.calendar.CalendarInfoData;
@@ -14,7 +14,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Globals.AUTH;

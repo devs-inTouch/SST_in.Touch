@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.management.openmbean.CompositeType;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
@@ -15,20 +14,17 @@ import javax.ws.rs.core.Response.Status;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.QueryResults;
 import com.google.cloud.datastore.StructuredQuery.CompositeFilter;
-import com.google.cloud.datastore.StructuredQuery.Filter;
 import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
 
 
-import com.google.appengine.api.memcache.Expiration;
 import com.google.cloud.datastore.*;
 import com.google.gson.Gson;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import pt.unl.fct.di.apdc.firstwebapp.util.TokenUtil;
-import pt.unl.fct.di.apdc.firstwebapp.util.entities.TokenData;
-import pt.unl.fct.di.apdc.firstwebapp.util.entities.UserData;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects.TokenData;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects.UserData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.EditData;
-import pt.unl.fct.di.apdc.firstwebapp.util.entities.post.PostInformationData;
 import pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes;
 
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Globals.AUTH;

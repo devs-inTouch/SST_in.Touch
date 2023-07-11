@@ -13,7 +13,7 @@ import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.Transaction;
 
 import pt.unl.fct.di.apdc.firstwebapp.resources.authentication.SecretManager;
-import pt.unl.fct.di.apdc.firstwebapp.util.entities.TokenData;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects.TokenData;
 
 
 public class TokenUtil {

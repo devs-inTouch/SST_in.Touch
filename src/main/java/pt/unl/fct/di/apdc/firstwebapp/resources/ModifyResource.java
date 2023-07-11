@@ -21,7 +21,7 @@ import pt.unl.fct.di.apdc.firstwebapp.util.entities.AttributeChangeData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.changePassword.ChangePasswordData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.changePassword.PasswordCodeData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.changePassword.RecoverPasswordData;
-import pt.unl.fct.di.apdc.firstwebapp.util.entities.TokenData;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects.TokenData;
 import pt.unl.fct.di.apdc.firstwebapp.util.enums.DatastoreEntities;
 import pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes;
 

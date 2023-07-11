@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -35,11 +34,7 @@ import com.google.gson.Gson;
 import pt.unl.fct.di.apdc.firstwebapp.resources.permissions.PermissionsHolder;
 import pt.unl.fct.di.apdc.firstwebapp.util.DatastoreUtil;
 import pt.unl.fct.di.apdc.firstwebapp.util.TokenUtil;
-import pt.unl.fct.di.apdc.firstwebapp.util.entities.register.RegisterInfoData;
-import pt.unl.fct.di.apdc.firstwebapp.util.entities.TokenData;
-import pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects.BaseQueryResultData;
-import pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects.CompleteQueryResultData;
-import pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects.StatsData;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects.*;
 
 
 @Path("/list")
@@ -83,7 +78,28 @@ public class ListResource {
                 )
                 .build();
 
-        List<RegisterInfoData> resultList = fillUserArray(query);
+        QueryResults<Entity> users = datastore.run(query);
+
+        List<UserInfoData> resultList = new ArrayList<>();
+
+        users.forEachRemaining(t -> {
+            String role = t.getString(ROLE.value);
+            if (role.equals("ALUNO")){
+                resultList.add(new StudentInfoData(t.getKey().getName(),
+                        t.getString(NAME.value),
+                        t.getString(EMAIL.value),
+                        t.getString(ROLE.value),
+                        t.getString(DESCRIPTION.value),
+                        t.getString(DEPARTMENT.value),
+                        t.getString(STUDENT_NUMBER.value)));
+            }
+            resultList.add(new StaffInfoData(t.getKey().getName(),
+                    t.getString(NAME.value),
+                    t.getString(EMAIL.value),
+                    t.getString(ROLE.value),
+                    t.getString(DESCRIPTION.value),
+                    t.getString(DEPARTMENT.value)));
+        });
 
         LOG.info("Listing successful!");
         return Response.ok(g.toJson(resultList)).build();
@@ -118,7 +134,7 @@ public class ListResource {
                         PropertyFilter.eq(STATE.value, false)
                 )
                 .build();
-        List<RegisterInfoData> resultList = fillUserArray(query);
+        List<StaffInfoData> resultList = fillUserArray(query);
 
         return Response.ok(g.toJson(resultList)).build();
     }
@@ -126,13 +142,15 @@ public class ListResource {
     private List fillUserArray(EntityQuery query) {
         QueryResults<Entity> unactivatedUsers = datastore.run(query);
 
-        List<RegisterInfoData> resultList = new ArrayList<>();
+        List<StaffInfoData> resultList = new ArrayList<>();
 
         unactivatedUsers.forEachRemaining(t -> {
-            resultList.add(new RegisterInfoData(t.getKey().getName(),
+            resultList.add(new StaffInfoData(t.getKey().getName(),
                     t.getString(NAME.value),
                     t.getString(EMAIL.value),
-                    t.getString(ROLE.value)));
+                    t.getString(ROLE.value),
+                    t.getString(DESCRIPTION.value),
+                    t.getString(DEPARTMENT.value)));
         });
         return resultList;
     }

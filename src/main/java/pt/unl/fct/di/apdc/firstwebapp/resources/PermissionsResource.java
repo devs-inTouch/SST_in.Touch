@@ -33,7 +33,7 @@ import pt.unl.fct.di.apdc.firstwebapp.util.entities.AccessData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.OperationRegisterData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.PermissionsData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.RoleRegisterData;
-import pt.unl.fct.di.apdc.firstwebapp.util.entities.TokenData;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects.TokenData;
 import pt.unl.fct.di.apdc.firstwebapp.util.enums.Operation;
 import pt.unl.fct.di.apdc.firstwebapp.util.enums.UserRole;
 
