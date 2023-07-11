@@ -198,7 +198,9 @@ public class AnomalyResource {
             return Response.status(Response.Status.FORBIDDEN).build();
 
         Key userKey = datastore.newKeyFactory().setKind(DatastoreEntities.USER.value).newKey(givenTokenData.getUsername());
-        Key anomalyKey = datastore.newKeyFactory().setKind(DatastoreEntities.ANOMALY.value).newKey(Integer.parseInt(data.getAnomalyId()));
+        Key anomalyKey =
+                datastore.newKeyFactory().setKind(DatastoreEntities.ANOMALY.value).newKey(data.getAnomalyId());
+
 
         Transaction txn = datastore.newTransaction();
         try {
@@ -210,17 +212,11 @@ public class AnomalyResource {
             if (anomaly == null)
                 return Response.status(Response.Status.BAD_REQUEST).entity(ANOMALY_NOT_IN_DATABASE).build();
 
-
-
-            Entity newAnomaly = Entity.newBuilder(anomalyKey)
-                    .set("username", anomaly.getString("username"))
-                    .set("title", anomaly.getString("title"))
-                    .set("description", anomaly.getString("description"))
-                    .set("creation_date", anomaly.getLong("creation_date"))
+            anomaly = Entity.newBuilder(anomaly)
                     .set("isApproved", true)
                     .build();
 
-            txn.update(newAnomaly);
+            txn.update(anomaly);
             txn.commit();
 
             notification.createNotificationToAll(NOVA_ANOMALIA, ANOMALY_TYPE);
@@ -231,6 +227,7 @@ public class AnomalyResource {
                 txn.rollback();
             }
         }
+
     }
 
     @POST
@@ -244,7 +241,7 @@ public class AnomalyResource {
             return Response.status(Response.Status.FORBIDDEN).build();
 
         Key userKey = datastore.newKeyFactory().setKind(DatastoreEntities.USER.value).newKey(givenTokenData.getUsername());
-        Key anomalyKey = datastore.newKeyFactory().setKind(DatastoreEntities.ANOMALY.value).newKey(Integer.parseInt(data.getAnomalyId()));
+        Key anomalyKey = datastore.newKeyFactory().setKind(DatastoreEntities.ANOMALY.value).newKey(data.getAnomalyId());
 
         Transaction txn = datastore.newTransaction();
 

@@ -212,7 +212,7 @@ public class ListResource {
         EntityQuery query = Query.newEntityQueryBuilder()
                 .setKind(TOKEN.value)
                 .setFilter(
-                        PropertyFilter.lt(EXPIRATION_TIME.value, now)
+                        PropertyFilter.gt(EXPIRATION_TIME.value, now)
                 )
                 .build();
 

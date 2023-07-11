@@ -1,6 +1,6 @@
 package pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects;
 
-public abstract  class  UserInfoData {
+public abstract class  UserInfoData {
 
     private String username, name, email, role, description, department;
 
