@@ -245,7 +245,7 @@ class RegisterHome extends State<Register> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 10),
                                   child: Container(
-                                    width: 113,
+                                    width: 130,
                                     child: DropdownButton(
                                       value: roleValue,
                                       onChanged: (String? selected) {
@@ -272,7 +272,7 @@ class RegisterHome extends State<Register> {
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 10),
                                     child: Container(
-                                      width: 121,
+                                      width: 135,
                                       child: DropdownButton(
                                         value: staffRoleValue,
                                         onChanged: (String? selected) {
