@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import '../../../constants.dart';
 import '../../boxes/bookingBox.dart';
-import '../../boxes/userRoleBox.dart';
+import '../../boxes/userActivateBox.dart';
 
 class ActivateUsersAuth {
   static Future<List<UserRoleBox>> getUsersToActivate() async {

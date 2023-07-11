@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_basic/backoffice/presentation/responsive_backOffice.dart';
 import '../../../constants.dart';
 import '../../../myAppBar.dart';
-import '../../boxes/userRoleBox.dart';
+import '../../boxes/userActivateBox.dart';
 import '../application/activateUsersAuth.dart';
 import '../../presentation/backOfficePage.dart';
 

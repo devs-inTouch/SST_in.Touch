@@ -1,10 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/backoffice/presentation/responsive_backOffice.dart';
-import '../../constants.dart';
-import '../../myAppBar.dart';
-import 'backOfficePage.dart';
+import '../../../anomalies/presentation/anomalyBox.dart';
+import '../../../constants.dart';
+import '../../../myAppBar.dart';
+import '../../presentation/backOfficePage.dart';
+import '../application/anomaliesAuth.dart';
 
-class AnomaliasVerifyPage extends StatelessWidget {
+class AnomaliasVerifyPage extends StatefulWidget {
+  const AnomaliasVerifyPage({super.key});
+  @override
+  AnomaliasVerifyPageState createState() => AnomaliasVerifyPageState();
+}
+
+class AnomaliasVerifyPageState extends State<AnomaliasVerifyPage> {
+  List<AnomalyBox> anomalias = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
+  Future<void> fetchData() async {
+    final response = await AnomaliesAuth.getAnomaliesToAprove();
+    setState(() {
+      anomalias = response;
+    });
+    print("Contas por ativar fetched");
+    print(anomalias);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +60,8 @@ class AnomaliasVerifyPage extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => ResponsiveBackOffice()),
+                        MaterialPageRoute(
+                            builder: (context) => ResponsiveBackOffice()),
                       );
                     },
                   ),

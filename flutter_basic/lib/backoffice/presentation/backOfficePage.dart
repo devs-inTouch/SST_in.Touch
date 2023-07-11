@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_basic/backoffice/presentation/anomaliasVerifyPage.dart';
+import 'package:flutter_basic/backoffice/anomalies/presentation/anomaliasVerifyPage.dart';
 import 'package:flutter_basic/backoffice/presentation/moderacaoFeedsPage.dart';
 import 'package:flutter_basic/backoffice/presentation/pedidosReservaSalaPage.dart';
 import 'package:flutter_basic/backoffice/presentation/rolesUserPage.dart';
