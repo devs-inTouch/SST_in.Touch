@@ -2,21 +2,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/backoffice/activateUser/application/activateUsersAuth.dart';
 
-class UserRoleBox extends StatelessWidget {
+class UserActivateBox extends StatelessWidget {
   final String username;
   final String name;
   final String email;
   final String role;
 
-  UserRoleBox({
+  UserActivateBox({
     required this.username,
     required this.name,
     required this.email,
     required this.role,
   });
 
-  factory UserRoleBox.fromJson(Map<String, dynamic> json) {
-    return UserRoleBox(
+  factory UserActivateBox.fromJson(Map<String, dynamic> json) {
+    return UserActivateBox(
       username: json['username'],
       name: json['name'],
       email: json['email'],

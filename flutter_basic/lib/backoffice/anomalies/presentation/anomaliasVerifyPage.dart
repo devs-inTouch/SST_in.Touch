@@ -108,17 +108,21 @@ class AnomaliasVerifyPageState extends State<AnomaliasVerifyPage> {
               ),
             ),
             SizedBox(height: 10.0),
-      Container(
-        width: 800,
-        child: ListView.builder(
-          shrinkWrap: true,
-          itemCount: anomalias.length,
-          itemBuilder: (BuildContext context, int index) {
-            final user = anomalias[index];
-            return user;
-          },
-        ),
-      ),
+            Container(
+              width: 800,
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: anomalias.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final user = anomalias[index];
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 10.0),
+                    child: user,
+                  );
+                },
+              ),
+            ),
+
           ],
         ),
       ),

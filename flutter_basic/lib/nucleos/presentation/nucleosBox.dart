@@ -10,6 +10,7 @@ class NucleosBox extends StatelessWidget {
   final String faceUrl;
   final String instaUrl;
   final String twitterUrl;
+  double fem = 0.0;
 
   NucleosBox({
     required this.title,
@@ -29,10 +30,13 @@ class NucleosBox extends StatelessWidget {
     );
   }
 
+  void setFem(double value) {
+    fem = value;
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 250,
+      width: 250*fem,
       height: 400,
       color: Colors.grey[300],
       child: Column(

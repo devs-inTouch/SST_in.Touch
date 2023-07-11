@@ -6,8 +6,8 @@ import '../../boxes/bookingBox.dart';
 import '../../boxes/userActivateBox.dart';
 
 class ActivateUsersAuth {
-  static Future<List<UserRoleBox>> getUsersToActivate() async {
-    List<UserRoleBox> map = [];
+  static Future<List<UserActivateBox>> getUsersToActivate() async {
+    List<UserActivateBox> map = [];
     String tokenAuth = await getTokenAuth();
 
     final response = await http.post(
@@ -19,7 +19,7 @@ class ActivateUsersAuth {
       final data = jsonDecode(response.body);
       print(jsonDecode(response.body));
       map =
-          data.map<UserRoleBox>((item) => UserRoleBox.fromJson(item)).toList();
+          data.map<UserActivateBox>((item) => UserActivateBox.fromJson(item)).toList();
     }
     return map;
   }

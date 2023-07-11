@@ -13,7 +13,7 @@ class AtivacaoContasPage extends StatefulWidget {
 }
 
 class ContasPageState extends State<AtivacaoContasPage> {
-  List<UserRoleBox> unactiveUsers = [];
+  List<UserActivateBox> unactiveUsers = [];
 
   @override
   void initState() {
