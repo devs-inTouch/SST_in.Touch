@@ -3,14 +3,47 @@ import 'package:flutter/material.dart';
 
 import '../../constants.dart';
 import '../../myAppBar.dart';
+import '../../profile/application/profleRequests.dart';
+import '../../profile/presentation/profile_scaffold.dart';
 
-class SearchBarPage extends StatelessWidget {
+class SearchBarPage extends StatefulWidget {
 
-  String targetUsername = '';
+  @override
+  _SearchBarState createState() => _SearchBarState();
 
-  void checkUsername() {
-    // Lógica para verificar se o nome de usuário existe no banco de dados
-    // ...
+}
+
+class _SearchBarState extends State<SearchBarPage> {
+
+  final TextEditingController searchValue = TextEditingController();
+  List received = [];
+
+  handleSearch() async{
+    List searchResults = await ProfileRequests.getSearch(searchValue.text);
+
+    setState(() {
+      if(mounted) {
+        received = searchResults;
+      }
+    });
+    print("ola");
+
+    return ListView.builder(
+        itemCount: received.length,
+        itemBuilder: (BuildContext context, int index) {
+          final suggestion = received[index];
+          return ListTile(
+            leading: CircleAvatar(
+              backgroundColor: Colors.orange,
+              //backgroundImage: CachedNetworkImageProvider(''),
+            ),
+            title: Text(suggestion),
+
+          );
+        }
+    );
+
+
   }
   // Se o nome de usuário existir, abrir o perfil correspondente
   // ...
@@ -75,15 +108,17 @@ class SearchBarPage extends StatelessWidget {
                           SizedBox(width: 20),
                           Expanded(
                             flex: 16,
-                            child: TextField(
+                            child:  TextFormField(
+                              controller: searchValue,
                               decoration: InputDecoration(
+                                hintText: "Pesquisa utilizadores",
                                 filled: true,
-                                fillColor: Colors.white,
-                                border: OutlineInputBorder(),
+                                prefixIcon: Icon(Icons.account_box),
+                                suffixIcon: IconButton(
+                                  icon: Icon(Icons.search),
+                                  onPressed: handleSearch,
+                                ),
                               ),
-                              onChanged: (value) {
-                                targetUsername = value;
-                              },
                             ),
                           ),
                         ],
@@ -91,10 +126,15 @@ class SearchBarPage extends StatelessWidget {
                       SizedBox(height: 20),
                       ElevatedButton(
                         onPressed: () {
-                          checkUsername();
+                          handleSearch();
                         },
                         child: Text('Verificar perfil'),
                       ),
+                      Padding(
+                        padding: EdgeInsets.only(top:10),
+
+                      ), if(received.isNotEmpty)
+                        SearchResultsWidget(searchResults: received)
                     ],
                   ),
                 ),
@@ -105,7 +145,41 @@ class SearchBarPage extends StatelessWidget {
       ),
     );
   }
+}
 
+
+class SearchResultsWidget extends StatelessWidget {
+  final List searchResults;
+
+  const SearchResultsWidget({Key? key, required this.searchResults})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: searchResults.length,
+      itemBuilder: (BuildContext context, int index) {
+        final suggestion = searchResults[index];
+        return ListTile(
+          leading: CircleAvatar(
+            backgroundColor: Colors.orange,
+            //backgroundImage: CachedNetworkImageProvider(''),
+          ),
+          title: Text(suggestion),
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ProfileScaffold(
+                    name: suggestion.toString(),
+                  ),
+                ));
+          },
+        );
+      },
+    );
+  }
 }
 
 

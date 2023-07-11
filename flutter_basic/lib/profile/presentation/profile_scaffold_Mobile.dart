@@ -10,17 +10,11 @@ import '../application/profleRequests.dart';
 
 class ProfileScaffoldMobile extends StatefulWidget {
   final String name;
-  final String imageAssetPath;
-  final String role;
-  final String year;
-  final String nucleos;
+
 
   const ProfileScaffoldMobile({
     required this.name,
-    required this.imageAssetPath,
-    required this.role,
-    required this.year,
-    required this.nucleos,
+
   });
 
   @override
@@ -32,13 +26,38 @@ class _ProfilePageState extends State<ProfileScaffoldMobile> {
 
   List userInfo = [];
 
+  String userWanted = '';
+
+  bool myProfile = true;
+
+
+
   @override
   void initState() {
     super.initState();
-    fetchData();
-    fetchDataForPosts();
+    fetchUserWanted();
+    print("object " + userWanted);
+
   }
 
+  Future<void> fetchUserWanted() async {
+    final response = await ProfileRequests.getUsername();
+    if(widget.name == '') {
+      setState(() {
+        userWanted = response;
+      });
+    } else {
+      setState(() {
+        userWanted = widget.name;
+        myProfile = false;
+      });
+    }
+    if(response.isNotEmpty) {
+      fetchData();
+      fetchDataForPosts();
+    }
+  }
+  //mudar
   Future<void> fetchDataForPosts() async {
     final response = await PostRequests.getFeed();
     setState(() {
@@ -48,7 +67,10 @@ class _ProfilePageState extends State<ProfileScaffoldMobile> {
   }
 
   Future<void> fetchData() async {
-    final response = await ProfileRequests.getUserInfo();
+    List response;
+    print("USER " + userWanted);
+    response = await ProfileRequests.getUserInfo(userWanted);
+
     setState(() {
       userInfo = response;
     });
@@ -59,7 +81,6 @@ class _ProfilePageState extends State<ProfileScaffoldMobile> {
   List<Event> events = [];
   DateTime today = DateTime.now();
   Map<DateTime, List<Event>> eventsByDay = {};
-
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -83,7 +104,7 @@ class _ProfilePageState extends State<ProfileScaffoldMobile> {
                         SizedBox(
                           height: 10,
                         ),
-                        ProfileBox(fem: fem, map: userInfo),
+                        ProfileBox(fem: fem, map: userInfo, myProfile: myProfile),
                         SizedBox(height: 10),
                         Container(
                             width: 650,

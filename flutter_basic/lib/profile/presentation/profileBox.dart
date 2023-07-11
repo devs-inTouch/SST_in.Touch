@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_basic/profile/application/profleRequests.dart';
 
 class ProfileBox extends StatefulWidget {
   final double fem;
   final List map;
+  final bool myProfile;
 
   const ProfileBox({
     required this.fem,
     required this.map,
+    required this.myProfile
   });
 
   @override
@@ -16,11 +19,15 @@ class ProfileBox extends StatefulWidget {
 class _ProfileBoxState extends State<ProfileBox> {
   bool isEditing = false;
   late TextEditingController _textEditingController;
-  late String description;
+  late String description = '';
+  late String follow;
 
   @override
-  void initState() {
+  initState() {
     super.initState();
+    if(!widget.myProfile) {
+      isFollowing();
+    }
     description = widget.map[2];
     _textEditingController = TextEditingController(text: description);
   }
@@ -31,19 +38,46 @@ class _ProfileBoxState extends State<ProfileBox> {
     super.dispose();
   }
 
-  void startEditing() {
-    setState(() {
-      isEditing = true;
-      _textEditingController.text = description;
-    });
+  Future<void> isFollowing() async {
+    List following = await ProfileRequests.getFollowingList();
+    print("comeu");
+    print(following);
+    print(widget.map[0]);
+    print(following.contains(widget.map[0]));
+    if(following.contains(widget.map[0])) {
+      setState(() {
+        follow = 'Seguindo';
+      });
+
+    } else {
+      setState(() {
+        follow = 'Seguir';
+      });
+
+    }
+
   }
 
-  void confirmEditing() {
-    setState(() {
-      isEditing = false;
-      description = _textEditingController.text;
-    });
+  editProfile() {
+
   }
+
+  changeFollow() {
+    if(follow == 'Seguindo') {
+      ProfileRequests.unfollowUser(widget.map[0]);
+      setState(() {
+        follow = 'Seguir';
+      });
+    } else {
+      ProfileRequests.followUser(widget.map[0]);
+      setState(() {
+        follow = 'Seguindo';
+      });
+    }
+
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -101,30 +135,21 @@ class _ProfileBoxState extends State<ProfileBox> {
                     ],
                   ),
                   Spacer(),
-                  Container(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        OutlinedButton(
-                          onPressed: isEditing ? confirmEditing : startEditing,
-                          style: OutlinedButton.styleFrom(
-                            fixedSize: Size(100, 50),
-                            backgroundColor: Colors.blue,
-                          ),
-                          child: Text(
-                            isEditing ? 'Confirmar' : 'Editar',
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 15,
-                            ),
-                          ),
-                        ),
-                      ],
+                  OutlinedButton(
+                    onPressed: widget.myProfile ? editProfile : changeFollow,
+                    style: OutlinedButton.styleFrom(
+                      fixedSize: Size(100, 50),
+                      backgroundColor: Colors.blue,
                     ),
-                  )
-
+                    child: Text(
+                      widget.myProfile ? 'Editar' : follow,
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),

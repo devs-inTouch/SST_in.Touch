@@ -6,19 +6,14 @@ import '../../feeds/application/postRequests.dart';
 import '../../myAppBar.dart';
 import '../application/profleRequests.dart';
 
+
 class ProfileScaffold extends StatefulWidget {
   final String name;
-  final String imageAssetPath;
-  final String role;
-  final String year;
-  final String nucleos;
+
 
   const ProfileScaffold({
     required this.name,
-    required this.imageAssetPath,
-    required this.role,
-    required this.year,
-    required this.nucleos,
+
   });
 
   @override
@@ -30,23 +25,54 @@ class _ProfilePageState extends State<ProfileScaffold> {
 
   List userInfo = [];
 
+
+  String userWanted = '';
+
+  bool myProfile = true;
+
+
+
   @override
   void initState() {
     super.initState();
-    fetchData();
-    fetchDataForPosts();
+    fetchUserWanted();
+    print("object " + userWanted);
+
   }
 
+  Future<void> fetchUserWanted() async {
+    final response = await ProfileRequests.getUsername();
+    if(widget.name == '') {
+      setState(() {
+        userWanted = response;
+      });
+    } else {
+      setState(() {
+        userWanted = widget.name;
+        myProfile = false;
+      });
+    }
+    if(response.isNotEmpty) {
+      fetchData();
+      fetchDataForPosts();
+    }
+  }
+  //mudar
   Future<void> fetchDataForPosts() async {
-    final response = await PostRequests.getFeed();
-    setState(() {
-      _posts = response;
-    });
-    print("done this step");
+
+      final response = await PostRequests.getFeed();
+      setState(() {
+        _posts = response;
+      });
+      print("done this step");
+
   }
 
   Future<void> fetchData() async {
-    final response = await ProfileRequests.getUserInfo();
+    List response;
+    print("USER " + userWanted);
+    response = await ProfileRequests.getUserInfo(userWanted);
+
     setState(() {
       userInfo = response;
     });
@@ -61,42 +87,43 @@ class _ProfilePageState extends State<ProfileScaffold> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final fem = size.width / 1440;
+    final fem = size.width / 1440; // 1440 is the reference width
+
     return Scaffold(
       appBar: MyAppBar(),
       backgroundColor: myBackground,
       body: userInfo.isNotEmpty
           ? Stack(
-          children: [
-      Container(
-      decoration: BoxDecoration(color: Colors.white),
-        width: size.width,
-        height: size.height,
-        child: Scrollbar(
-          child: SingleChildScrollView(
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: 10,
-                    ),
-                    ProfileBox(fem: fem, map: userInfo),
-                    SizedBox(height: 10),
-                    Container(
-                        width: 650,
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: _posts.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            final post = _posts[index];
-                            post.setFem(fem);
-                            return post;
-                          },
-                        ))
-                  ])),
-        ),
-      ),
-          ],
+        children: [
+          Container(
+            decoration: BoxDecoration(color: Colors.white),
+            width: size.width,
+            height: size.height,
+            child: Scrollbar(
+              child: SingleChildScrollView(
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: 10,
+                        ),
+                        ProfileBox(fem: fem, map: userInfo, myProfile: myProfile),
+                        SizedBox(height: 10),
+                        Container(
+                            width: 650,
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: _posts.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                final post = _posts[index];
+                                post.setFem(fem);
+                                return post;
+                              },
+                            ))
+                      ])),
+            ),
+          ),
+        ],
       )
           : LinearProgressIndicator(),
     );
