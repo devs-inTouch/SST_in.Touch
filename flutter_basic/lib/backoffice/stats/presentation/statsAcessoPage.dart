@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/backoffice/presentation/backOfficePage.dart';
 import 'package:flutter_basic/backoffice/presentation/responsive_backOffice.dart';
-import '../../constants.dart';
-import '../../myAppBar.dart';
+import '../../../constants.dart';
+import '../../../myAppBar.dart';
 import '../application/statsValueAuth.dart';
 
-
-
-  class StatsAcessoPage extends StatefulWidget {
+class StatsAcessoPage extends StatefulWidget {
   const StatsAcessoPage({super.key});
 
   @override
@@ -31,7 +29,6 @@ class StatsPageState extends State<StatsAcessoPage> {
     print("stats fetched");
     print(statsList);
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +59,8 @@ class StatsPageState extends State<StatsAcessoPage> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => ResponsiveBackOffice()),
+                        MaterialPageRoute(
+                            builder: (context) => ResponsiveBackOffice()),
                       );
                     },
                   ),
@@ -102,7 +100,9 @@ class StatsPageState extends State<StatsAcessoPage> {
                             color: Colors.white,
                             child: Center(
                               child: Text(
-                                statsList.isNotEmpty ? statsList[0].onlineUsers.toString() : 'N/A',
+                                statsList.isNotEmpty
+                                    ? statsList[0].onlineUsers.toString()
+                                    : 'N/A',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black,
@@ -139,7 +139,9 @@ class StatsPageState extends State<StatsAcessoPage> {
                             color: Colors.white,
                             child: Center(
                               child: Text(
-                                statsList.isNotEmpty ? statsList[0].postsDone.toString() : 'N/A',
+                                statsList.isNotEmpty
+                                    ? statsList[0].postsDone.toString()
+                                    : 'N/A',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black,
@@ -173,7 +175,8 @@ class StatsPageState extends State<StatsAcessoPage> {
                           child: Container(
                             width: 100.0,
                             height: 40.0,
-                            color: statsList.isNotEmpty && statsList[0].unhandledReports > 0
+                            color: statsList.isNotEmpty &&
+                                    statsList[0].unhandledReports > 0
                                 ? Colors.red
                                 : Colors.green,
                             child: Center(
@@ -214,13 +217,16 @@ class StatsPageState extends State<StatsAcessoPage> {
                           child: Container(
                             width: 100.0,
                             height: 40.0,
-                            color: statsList.isNotEmpty && statsList[0].unactivatedAccounts > 0
+                            color: statsList.isNotEmpty &&
+                                    statsList[0].unactivatedAccounts > 0
                                 ? Colors.red
                                 : Colors.green,
                             child: Center(
                               child: Text(
                                 statsList.isNotEmpty
-                                    ? statsList[0].unactivatedAccounts.toString()
+                                    ? statsList[0]
+                                        .unactivatedAccounts
+                                        .toString()
                                     : 'N/A',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
@@ -255,13 +261,16 @@ class StatsPageState extends State<StatsAcessoPage> {
                           child: Container(
                             width: 100.0,
                             height: 40.0,
-                            color: statsList.isNotEmpty && statsList[0].unhandledReservations > 0
+                            color: statsList.isNotEmpty &&
+                                    statsList[0].unhandledReservations > 0
                                 ? Colors.red
                                 : Colors.green,
                             child: Center(
                               child: Text(
                                 statsList.isNotEmpty
-                                    ? statsList[0].unhandledReservations.toString()
+                                    ? statsList[0]
+                                        .unhandledReservations
+                                        .toString()
                                     : 'N/A',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,

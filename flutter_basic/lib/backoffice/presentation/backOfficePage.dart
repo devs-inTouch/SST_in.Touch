@@ -4,7 +4,7 @@ import 'package:flutter_basic/backoffice/anomalies/presentation/anomaliasVerifyP
 import 'package:flutter_basic/backoffice/presentation/moderacaoFeedsPage.dart';
 import 'package:flutter_basic/backoffice/presentation/pedidosReservaSalaPage.dart';
 import 'package:flutter_basic/backoffice/presentation/rolesUserPage.dart';
-import 'package:flutter_basic/backoffice/presentation/statsAcessoPage.dart';
+import 'package:flutter_basic/backoffice/stats/presentation/statsAcessoPage.dart';
 
 import '../../constants.dart';
 import '../../myAppBar.dart';
