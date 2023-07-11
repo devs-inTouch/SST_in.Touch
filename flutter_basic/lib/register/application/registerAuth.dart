@@ -56,7 +56,7 @@ class RegisterAuth {
   }
 
   static Future<bool> registerStaff(String username, String name, String pwd,
-      String email, String role, String description, String department) async {
+      String email, String role, String description, String department,String url) async {
     final response = await http.post(Uri.parse('$appUrl/register/createSTAFF'),
         headers: <String, String>{
           'Content-Type': 'application/json',
@@ -69,6 +69,7 @@ class RegisterAuth {
           "role": role,
           "description": description,
           "department": department,
+          "image":url,
         }));
     print(response.statusCode);
     if (response.statusCode == 200) {
@@ -86,7 +87,7 @@ class RegisterAuth {
       String role,
       int studentNumber,
       String description,
-      String department) async {
+      String department, String url) async {
     String activateCode = createId();
     String link =
         '$appUrl/register/activate?code=$activateCode&username=$username';
@@ -104,6 +105,7 @@ class RegisterAuth {
       "role": role,
       "description": description,
       "department": department,
+      "image":url,
       "studentNumber": studentNumber.toString(),
       "activateCode": activateCode
     };
@@ -154,6 +156,7 @@ Future<bool> fetchAuthenticate(
     String role,
     String description,
     String department,
+    String url,
     String activateCode) async {
   final response = await http.post(
     Uri.parse('$appUrl/register/create'),
@@ -169,6 +172,7 @@ Future<bool> fetchAuthenticate(
       "course": course,
       "role": role,
       "description": description,
+      "imageURL":url,
       "department": department,
       "activateAccount": activateCode
     }),

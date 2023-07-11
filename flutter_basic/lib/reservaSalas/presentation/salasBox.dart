@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_basic/profile/application/profleRequests.dart';
+
+import '../application/reservaRequest.dart';
 
 class SalasBox extends StatelessWidget {
   final String name;
@@ -39,8 +42,22 @@ class SalasBox extends StatelessWidget {
             Text('Hour: $hour'),
           ],
         ),
+        trailing: ElevatedButton(
+          onPressed: () {
+            String username = ProfileRequests.getUsername() as String;
+            ReservaAuth.bookRoom(
+              username,
+              name,
+              department,
+              space,
+              date,
+              hour,
+            );
+            print("salaaa");
+          },
+          child: Text('Reservar Sala'),
+        ),
       ),
     );
   }
 }
-

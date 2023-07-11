@@ -1,7 +1,12 @@
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_basic/login/presentation/loginPage.dart';
 import 'package:flutter_basic/register/application/registerAuth.dart';
+import 'package:uuid/uuid.dart';
+
+import '../../constants.dart';
 
 const List<String> list = <String>['ALUNO', 'PROFESSOR', 'STAFF'];
 const List<String> listStaff = <String>[
@@ -21,6 +26,9 @@ class Register extends StatefulWidget {
 class RegisterHome extends State<Register> {
   bool passwordVisible = true;
   bool passwordConfVisible = true;
+  late Uint8List selectedImageInBytes;
+  String selectFile = "";
+  String postId = Uuid().v4();
 
   late TextEditingController usernameControl;
   late TextEditingController nameControl;
@@ -52,7 +60,62 @@ class RegisterHome extends State<Register> {
   String roleValue = list.first;
   String staffRoleValue = listStaff.first;
 
-  void RegisterButtonPressed(
+
+  handleChoosePhoto(context) async {
+    print("1");
+    FilePickerResult? fileResult = await FilePicker.platform.pickFiles();
+
+    if (fileResult != null) {
+      setState(() {
+        selectFile = fileResult.files.first.name;
+        selectedImageInBytes = fileResult.files.first.bytes!;
+      });
+    }
+    Navigator.pop(context);
+
+  }
+
+  Future<String> uploadFile() async {
+    UploadTask uploadTask;
+    Reference storageRef =
+    fireBaseStorageInstance.ref().child("/profile/" + postId);
+
+    final metadata = SettableMetadata(contentType: 'image/jpeg');
+    uploadTask = storageRef.putData(selectedImageInBytes, metadata);
+
+    await uploadTask.whenComplete(() => null);
+    String imageUrl = "";
+    imageUrl = await storageRef.getDownloadURL();
+    return imageUrl;
+
+  }
+
+
+
+
+  selectImage(parentContext) {
+    return showDialog(
+        context: parentContext,
+        builder: (context) {
+          return SimpleDialog(
+            title: Text('Imagem'),
+            children: [
+              SimpleDialogOption(
+                child: Text('Escolhe da galeria'),
+                onPressed: () {
+                  handleChoosePhoto(context);
+                  Navigator.pop(context);
+                },
+              ),
+              SimpleDialogOption(
+                  child: Text('Cancelar'),
+                  onPressed: () => Navigator.pop(context))
+            ],
+          );
+        });
+  }
+
+  Future<void> RegisterButtonPressed(
     String username,
     String email,
     String name,
@@ -62,11 +125,12 @@ class RegisterHome extends State<Register> {
     String department,
     String description,
     BuildContext context,
-  ) {
+  ) async {
     print(role);
+    String url = await uploadFile();
     if (role == "ALUNO") {
       RegisterAuth.registerStudent(username, name, pwd, email, role,
-              studentNumber, description, department)
+              studentNumber, description, department, url)
           .then((value) {
         if (value) {
           // Display success message
@@ -75,7 +139,7 @@ class RegisterHome extends State<Register> {
       });
     } else {
       RegisterAuth.registerStaff(
-              username, name, pwd, email, role, description, department)
+              username, name, pwd, email, role, description, department, url)
           .then((value) {
         if (value) {
           // Display success message
@@ -351,6 +415,22 @@ class RegisterHome extends State<Register> {
                                   border: OutlineInputBorder(),
                                   labelText: 'Descrição',
                                 ),
+                              ),
+                            ),
+                            const SizedBox(height: 13),
+                            ElevatedButton(
+                              onPressed: () {
+                                selectImage(context);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                fixedSize: Size(150, 50),
+                                backgroundColor: Colors.blue[800],
+                              ),
+                              child: Text(
+                                'Adicionar foto',
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 15),
                               ),
                             ),
                             const SizedBox(height: 13),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/profile/application/profleRequests.dart';
+import 'package:image_network/image_network.dart';
 
 class ProfileBox extends StatefulWidget {
   final double fem;
@@ -21,6 +22,7 @@ class _ProfileBoxState extends State<ProfileBox> {
   late TextEditingController _textEditingController;
   late String description = '';
   late String follow;
+  String imageUrl = '';
 
   @override
   initState() {
@@ -28,9 +30,12 @@ class _ProfileBoxState extends State<ProfileBox> {
     if(!widget.myProfile) {
       isFollowing();
     }
+
     description = widget.map[2];
     _textEditingController = TextEditingController(text: description);
   }
+
+  
 
   @override
   void dispose() {
@@ -95,23 +100,11 @@ class _ProfileBoxState extends State<ProfileBox> {
               padding: EdgeInsets.all(15.0),
               child: Row(
                 children: [
-                  Container(
+                  ImageNetwork(
+                    image:
+                    imageUrl,
                     height: 120,
                     width: 120,
-                    color: Colors.blue[50],
-                    child: Stack(
-                      children: [
-                        Positioned(
-                          bottom: 0,
-                          right: 0,
-                          child: Icon(
-                            Icons.add_a_photo,
-                            size: 24,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ],
-                    ),
                   ),
 
                   SizedBox(width: 8.0),

@@ -46,62 +46,6 @@ class AnomalyState extends State<AnomaliesPageMobile> {
 
   bool isUploading = false;
 
-  /* void createButtonPressed(String username, String title, String description) {
-    AnomalyAuth.listAnomaly().then((isCreated) {
-      if (isCreated) {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => const ResponsiveLayout(
-                    desktopScaffold: DesktopScaffold(),
-                    mobileScaffold: MobileScaffold(),
-                    tabletScaffold: TabletScaffold())));
-      } else {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: const Text('Parametros incorretos'),
-              actions: <Widget>[
-                TextButton(
-                  child: const Text('Ok'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            );
-          },
-        );
-      }
-    });
-  } */
-
-  handleTakePhoto(context) async {
-    Navigator.pop(context);
-    File file = (await ImagePicker().pickImage(
-        source: ImageSource.camera, maxHeight: 675, maxWidth: 960)) as File;
-    setState(() {
-      this.file = file;
-    });
-  }
-
-  handleChoosePhoto(context) async {
-    Navigator.pop(context);
-    File file = (await ImagePicker().pickImage(
-        source: ImageSource.gallery, maxHeight: 675, maxWidth: 960)) as File;
-    setState(() {
-      this.file = file;
-    });
-  }
-
-  Future<String> uploadImage(image) async {
-    UploadTask task = storageRef.child("post_$postId.jpg").putFile(image);
-    TaskSnapshot storage = await task;
-    String downloadUrl = await storage.ref.getDownloadURL();
-    return downloadUrl;
-  }
-
   putInDatabase({required String title, required String description}) {
     print("title aqui" + title);
 
@@ -140,44 +84,13 @@ class AnomalyState extends State<AnomaliesPageMobile> {
     });
   }
 
-  compressImage() async {
-    final tempDir = await getTemporaryDirectory();
-    final path = tempDir.path;
-    Im.Image? image = Im.decodeImage(file.readAsBytesSync());
-    final compressedImage = File('$path/img_$postId.jpg')
-      ..writeAsBytesSync(Im.encodeJpg(image!, quality: 85));
-    setState(() {
-      file = compressedImage;
-    });
-  }
 
   handleSubmit() async {
     putInDatabase(title: title.text, description: description.text);
     title.clear();
     description.clear();
   }
-  /**
-      selectImage(parentContext) {
-      return showDialog(
-      context: parentContext,
-      builder: (context) {
-      return SimpleDialog(
-      title: const Text('Anexar Imagem'),
-      children: [
-      SimpleDialogOption(
-      child: const Text('Escolhe da galeria'),
-      onPressed: () {
-      handleChoosePhoto(context);
-      },
-      ),
-      SimpleDialogOption(
-      child: const Text('Cancelar'),
-      onPressed: () => Navigator.pop(context))
-      ],
-      );
-      });
-      }
-   **/
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;

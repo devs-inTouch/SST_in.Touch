@@ -249,7 +249,7 @@ class StatsPageState extends State<StatsAcessoPage> {
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 16.0),
                           child: Text(
-                            "Pedidos de reserva por Rever:",
+                            "Reservas por Rever:",
                             style: TextStyle(
                               fontSize: 18.0,
                               fontWeight: FontWeight.bold,

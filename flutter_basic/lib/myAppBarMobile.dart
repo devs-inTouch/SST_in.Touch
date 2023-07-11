@@ -12,6 +12,8 @@ import 'package:flutter_basic/profile/presentation/profile_scaffold.dart';
 import 'package:flutter_basic/reports/presentation/reportsPage.dart';
 import 'package:flutter_basic/reservaSalas/presentation/responsive_reservasalas.dart';
 import 'package:flutter_basic/searchBarPage/presentation/responsive_searchPage.dart';
+import 'package:flutter_basic/senhas/presentation/scan.dart';
+import 'package:flutter_basic/senhas/presentation/senhas_page.dart';
 import 'package:flutter_basic/teste/teste.dart';
 import 'package:flutter_basic/maps/lib/map.dart';
 import 'bottomAppBarMobile.dart';
@@ -87,15 +89,11 @@ class MyAppBarMobile extends StatefulWidget implements PreferredSizeWidget {
 
 
         actions: [
+
           IconButton(
-            icon: Icon(Icons.person_search, color: Colors.black),
+            icon: Icon(Icons.fastfood_rounded, color: Colors.black),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ResponsiveSearchPage()),
-              );
-            },
-          ),
+              if(role == 'admin') {
           PopupMenuButton<Notification>(
             icon: const Icon(Icons.notifications, color: Colors.black),
             color: Colors.white,
