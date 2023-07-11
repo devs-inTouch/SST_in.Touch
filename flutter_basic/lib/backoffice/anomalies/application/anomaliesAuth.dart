@@ -7,7 +7,6 @@ import '../../../constants.dart';
 import '../../boxes/anomalyBox.dart';
 
 class AnomaliesAuth {
-
   static Future<List<AnomalyBoxBO>> getAnomaliesToAprove() async {
     List<AnomalyBoxBO> map = [];
     String tokenAuth = await getTokenAuth();
@@ -20,17 +19,23 @@ class AnomaliesAuth {
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       print(jsonDecode(response.body));
-      map = data.map<AnomalyBoxBO>((item) => AnomalyBoxBO.fromJson(item)).toList();
+      map = data
+          .map<AnomalyBoxBO>((item) => AnomalyBoxBO.fromJson(item))
+          .toList();
     }
     return map;
   }
 
   static Future<void> approveAnomaly(String id) async {
+    print(id);
     String tokenAuth = await getTokenAuth();
 
     final response = await http.post(
       Uri.parse('$appUrl/anomaly/approve'),
-      headers: <String, String>{HttpHeaders.authorizationHeader: tokenAuth},
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        HttpHeaders.authorizationHeader: tokenAuth
+      },
       body: jsonEncode(<String, String>{
         'anomalyId': id,
       }),
@@ -44,11 +49,15 @@ class AnomaliesAuth {
   }
 
   static Future<void> deleteAnomaly(String id) async {
+    print(id);
     String tokenAuth = await getTokenAuth();
 
     final response = await http.post(
       Uri.parse('$appUrl/anomaly/delete'),
-      headers: <String, String>{HttpHeaders.authorizationHeader: tokenAuth},
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        HttpHeaders.authorizationHeader: tokenAuth
+      },
       body: jsonEncode(<String, String>{
         'anomalyId': id,
       }),

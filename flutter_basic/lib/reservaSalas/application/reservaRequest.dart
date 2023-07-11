@@ -10,16 +10,16 @@ class ReservaAuth {
     String tokenAuth = await getTokenAuth();
 
     final response = await http.post(
-      Uri.parse(
-          'https://steel-sequencer-385510.oa.r.appspot.com/rest/reservation/getroomdate'),
-      headers: <String, String>{
-        HttpHeaders.authorizationHeader: tokenAuth,
-      },
-      body: {
-        'date': date,
-        'hour': hour,
-      },
-    );
+        Uri.parse(
+            'https://steel-sequencer-385510.oa.r.appspot.com/rest/reservation/getroomdate'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          HttpHeaders.authorizationHeader: tokenAuth,
+        },
+        body: jsonEncode(<String, String>{
+          'date': date,
+          'hour': hour,
+        }));
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
