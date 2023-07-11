@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/backoffice/presentation/backOfficePage.dart';
 import 'package:flutter_basic/backoffice/presentation/responsive_backOffice.dart';
-import '../../constants.dart';
-import '../../myAppBar.dart';
+import '../../../constants.dart';
+import '../../../myAppBar.dart';
 import '../application/statsValueAuth.dart';
 
-
-
-  class StatsAcessoPage extends StatefulWidget {
+class StatsAcessoPage extends StatefulWidget {
   const StatsAcessoPage({super.key});
-  @override
-  NotificationState createState() => NotificationState();
-  }
 
-  class NotificationState extends State<StatsAcessoPage> {
+  @override
+  StatsPageState createState() => StatsPageState();
+}
+
+class StatsPageState extends State<StatsAcessoPage> {
   List statsList = [];
 
   @override
@@ -25,12 +24,11 @@ import '../application/statsValueAuth.dart';
   void fetchStats() async {
     final response = await StatsValueAuth.getStats();
     setState(() {
-      statsList = response;
+      statsList.add(response);
     });
     print("stats fetched");
     print(statsList);
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +59,8 @@ import '../application/statsValueAuth.dart';
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => ResponsiveBackOffice()),
+                        MaterialPageRoute(
+                            builder: (context) => ResponsiveBackOffice()),
                       );
                     },
                   ),
@@ -101,7 +100,9 @@ import '../application/statsValueAuth.dart';
                             color: Colors.white,
                             child: Center(
                               child: Text(
-                                statsList.isNotEmpty ? statsList[0].toString() : 'N/A',
+                                statsList.isNotEmpty
+                                    ? statsList[0].onlineUsers.toString()
+                                    : 'N/A',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black,
@@ -138,7 +139,9 @@ import '../application/statsValueAuth.dart';
                             color: Colors.white,
                             child: Center(
                               child: Text(
-                                statsList.isNotEmpty ? statsList[1].toString() : 'N/A',
+                                statsList.isNotEmpty
+                                    ? statsList[0].postsDone.toString()
+                                    : 'N/A',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black,
@@ -172,10 +175,15 @@ import '../application/statsValueAuth.dart';
                           child: Container(
                             width: 100.0,
                             height: 40.0,
-                            color: Colors.white,
+                            color: statsList.isNotEmpty &&
+                                    statsList[0].unhandledReports > 0
+                                ? Colors.red
+                                : Colors.green,
                             child: Center(
                               child: Text(
-                                statsList.isNotEmpty ? statsList[2].toString() : 'N/A',
+                                statsList.isNotEmpty
+                                    ? statsList[0].unhandledReports.toString()
+                                    : 'N/A',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black,
@@ -209,10 +217,17 @@ import '../application/statsValueAuth.dart';
                           child: Container(
                             width: 100.0,
                             height: 40.0,
-                            color: Colors.white,
+                            color: statsList.isNotEmpty &&
+                                    statsList[0].unactivatedAccounts > 0
+                                ? Colors.red
+                                : Colors.green,
                             child: Center(
                               child: Text(
-                                statsList.isNotEmpty ? statsList[0].onlineUsers.toString() : 'N/A',
+                                statsList.isNotEmpty
+                                    ? statsList[0]
+                                        .unactivatedAccounts
+                                        .toString()
+                                    : 'N/A',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black,
@@ -246,10 +261,17 @@ import '../application/statsValueAuth.dart';
                           child: Container(
                             width: 100.0,
                             height: 40.0,
-                            color: Colors.white,
+                            color: statsList.isNotEmpty &&
+                                    statsList[0].unhandledReservations > 0
+                                ? Colors.red
+                                : Colors.green,
                             child: Center(
                               child: Text(
-                                statsList.isNotEmpty ? statsList[0].onlineUsers.toString() : 'N/A',
+                                statsList.isNotEmpty
+                                    ? statsList[0]
+                                        .unhandledReservations
+                                        .toString()
+                                    : 'N/A',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black,

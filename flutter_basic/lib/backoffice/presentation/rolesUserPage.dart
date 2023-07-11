@@ -29,6 +29,31 @@ class RolesUserState extends State<RolesUserPage> {
     });
     print("Users fetched");
     print(usersList);
+
+
+    if (usersList.isEmpty) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Sem utilizadores"),
+            content: Text("Não é possível listar users."),
+            actions: [
+              TextButton(
+                child: Text("OK"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ResponsiveBackOffice()),
+                  );
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 
   @override

@@ -1,34 +1,35 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:http/http.dart' as http;
 
 import '../../../anomalies/presentation/anomalyBox.dart';
 import '../../../constants.dart';
+import '../../boxes/anomalyBox.dart';
 
 class AnomaliesAuth {
-  static get http => null;
 
-  static Future<List<AnomalyBox>> getAnomaliesToAprove() async {
-    List<AnomalyBox> map = [];
+  static Future<List<AnomalyBoxBO>> getAnomaliesToAprove() async {
+    List<AnomalyBoxBO> map = [];
     String tokenAuth = await getTokenAuth();
 
     final response = await http.post(
-      Uri.parse('$appUrl/list/anomalies'),
+      Uri.parse('$appUrl/anomaly/listnotapproved'),
       headers: <String, String>{HttpHeaders.authorizationHeader: tokenAuth},
     );
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       print(jsonDecode(response.body));
-      map = data.map<AnomalyBox>((item) => AnomalyBox.fromJson(item)).toList();
+      map = data.map<AnomalyBoxBO>((item) => AnomalyBoxBO.fromJson(item)).toList();
     }
     return map;
   }
 
-  static Future<void> aproveAnomaly(String id) async {
+  static Future<void> approveAnomaly(String id) async {
     String tokenAuth = await getTokenAuth();
 
     final response = await http.post(
-      Uri.parse('$appUrl/anomaly/aprove'),
+      Uri.parse('$appUrl/anomaly/approve'),
       headers: <String, String>{HttpHeaders.authorizationHeader: tokenAuth},
       body: jsonEncode(<String, String>{
         'anomalyId': id,

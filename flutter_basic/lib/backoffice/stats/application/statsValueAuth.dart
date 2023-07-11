@@ -2,14 +2,14 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter_basic/reservaSalas/presentation/salasBox.dart';
 import 'package:http/http.dart' as http;
-import '../../constants.dart';
-import '../boxes/bookingBox.dart';
-import '../boxes/statsData.dart';
-import '../boxes/userActivateBox.dart';
+import '../../../constants.dart';
+import '../../boxes/bookingBox.dart';
+import '../../boxes/statsData.dart';
+import '../../boxes/userActivateBox.dart';
 
 class StatsValueAuth {
-  static Future<List<StatsData>> getStats() async {
-    List<StatsData> map = [];
+  static Future<StatsData?> getStats() async {
+    StatsData data;
     String tokenAuth = await getTokenAuth();
 
     final response = await http.post(
@@ -19,10 +19,10 @@ class StatsValueAuth {
     );
 
     if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
+      data = StatsData.fromJson(jsonDecode(response.body));
       print(jsonDecode(response.body));
-      map = data.map<StatsData>((item) => StatsData.fromJson(item)).toList();
+      return data;
     }
-    return map;
+    return null;
   }
 }

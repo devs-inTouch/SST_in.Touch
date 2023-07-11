@@ -3,6 +3,7 @@ import 'package:flutter_basic/backoffice/presentation/responsive_backOffice.dart
 import '../../../anomalies/presentation/anomalyBox.dart';
 import '../../../constants.dart';
 import '../../../myAppBar.dart';
+import '../../boxes/anomalyBox.dart';
 import '../../presentation/backOfficePage.dart';
 import '../application/anomaliesAuth.dart';
 
@@ -13,7 +14,7 @@ class AnomaliasVerifyPage extends StatefulWidget {
 }
 
 class AnomaliasVerifyPageState extends State<AnomaliasVerifyPage> {
-  List<AnomalyBox> anomalias = [];
+  List<AnomalyBoxBO> anomalias = [];
 
   @override
   void initState() {
@@ -26,8 +27,32 @@ class AnomaliasVerifyPageState extends State<AnomaliasVerifyPage> {
     setState(() {
       anomalias = response;
     });
-    print("Contas por ativar fetched");
+    print("Anomalias por enviar fetched");
     print(anomalias);
+    if (anomalias.isEmpty) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Sem anomalias por verificar"),
+            content: Text("Não há anomalias para enviar."),
+            actions: [
+              TextButton(
+                child: Text("OK"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ResponsiveBackOffice()),
+                  );
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+
   }
 
   @override
@@ -83,11 +108,17 @@ class AnomaliasVerifyPageState extends State<AnomaliasVerifyPage> {
               ),
             ),
             SizedBox(height: 10.0),
-            Container(
-              width: double.infinity,
-              height: 400.0,
-              color: Colors.blueAccent[100],
-            ),
+      Container(
+        width: 800,
+        child: ListView.builder(
+          shrinkWrap: true,
+          itemCount: anomalias.length,
+          itemBuilder: (BuildContext context, int index) {
+            final user = anomalias[index];
+            return user;
+          },
+        ),
+      ),
           ],
         ),
       ),

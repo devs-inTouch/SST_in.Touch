@@ -11,9 +11,6 @@ import 'dart:typed_data';
 import '../../myAppBar.dart';
 
 class FeedsPage extends StatefulWidget {
-  const FeedsPage({super.key});
-
-  @override
   State<FeedsPage> createState() => FeedState();
 }
 
@@ -63,43 +60,29 @@ class FeedState extends State<FeedsPage> {
         selectedImageInBytes = fileResult.files.first.bytes!;
       });
     }
-    print("Chegou aqui");
-    print(selectFile);
+    Navigator.pop(context);
+
   }
 
-  uploadFile() async {
-    setState(() {
-      isUploading = true;
-    });
-    print("1");
+  Future<String> uploadFile() async {
+
+
     UploadTask uploadTask;
     Reference storageRef =
-        firebaseStorageInstance.ref().child("/posts/" + postId);
+    fireBaseStorageInstance.ref().child("/posts/" + postId);
 
     final metadata = SettableMetadata(contentType: 'image/jpeg');
     uploadTask = storageRef.putData(selectedImageInBytes, metadata);
-    print("1");
+
+
     await uploadTask.whenComplete(() => null);
-    String imageUrl = await storageRef.getDownloadURL();
-    if (imageUrl != "") {
-      setState(() {
-        mediaURL = imageUrl;
-      });
-    }
-    print("Image uploaded");
-    print(mediaURL);
-    setState(() {
-      isUploading = false;
-    });
+    String imageUrl = "";
+    imageUrl = await storageRef.getDownloadURL();
+    return imageUrl;
+
   }
 
-  /*
-  Future<String> uploadImage(filename, blob) async {
-      UploadTask task = storageRef.child("post_$postId.jpg").putFile(filename);
-      TaskSnapshot storage = await task;
-      String downloadUrl = await storage.ref.getDownloadURL();
-      return downloadUrl;
-  }*/
+
 
   putInDatabase({required String mediaUrl, required String desc}) {
     print("Media aqui" + mediaUrl);
@@ -138,12 +121,22 @@ class FeedState extends State<FeedsPage> {
     });
   }
 
+
+
   handleSubmit() async {
-    uploadFile();
+    setState(() {
+      isUploading = true;
+    });
+    String image = await uploadFile();
+    print(image);
     print("aqui");
-    putInDatabase(mediaUrl: mediaURL, desc: description.text);
+    putInDatabase(mediaUrl: image, desc: description.text);
     print("Ali");
     description.clear();
+    print("Image uploaded");
+    setState(() {
+      isUploading = false;
+    });
   }
 
   selectImage(parentContext) {
@@ -170,7 +163,7 @@ class FeedState extends State<FeedsPage> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final fem = size.width / 1440;
+    final fem = size.width / 1440; // 1440 is the reference width
 
     return Scaffold(
       appBar: MyAppBar(),
@@ -190,20 +183,16 @@ class FeedState extends State<FeedsPage> {
                       child: Text(
                         'FEED',
                         textAlign: TextAlign.center,
-                        style:  TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                            fontSize: 35),
+                        style: TextStyle(color: Colors.black, fontSize: 60),
                       ),
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 15.0),
                       child: Container(
-                        height: 300,
+                        height: 400,
                         width: 500,
                         decoration: BoxDecoration(
-                          color: Colors.blueAccent[200],
-                          borderRadius: BorderRadius.circular(10.0),
+                          color: Color.fromRGBO(217, 217, 217, 1),
                         ),
                         child: Stack(
                           children: [
@@ -233,7 +222,7 @@ class FeedState extends State<FeedsPage> {
                               alignment: Alignment(0.9, 0.9),
                               child: ElevatedButton(
                                 onPressed:
-                                    isUploading ? null : () => handleSubmit(),
+                                isUploading ? null : () => handleSubmit(),
                                 style: ElevatedButton.styleFrom(
                                   fixedSize: Size(120, 40),
                                   backgroundColor: Colors.blue[800],

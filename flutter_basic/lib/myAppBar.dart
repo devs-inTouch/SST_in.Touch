@@ -357,18 +357,12 @@ class _MyAppBarState extends State<MyAppBar> {
                       MaterialPageRoute(
                         builder: (context) => ResponsiveProfile(
                           mobileProfileScaffold: ProfileScaffoldMobile(
-                            name: 'John Doe',
-                            imageAssetPath: 'assets/images/profile.jpg',
-                            role: 'Developer',
-                            year: '2002',
-                            nucleos: 'Engineering',
+                            name: '',
+
                           ),
                           profileScaffold: ProfileScaffold(
-                            name: 'John Doe',
-                            imageAssetPath: 'assets/images/profile.jpg',
-                            role: 'Developer',
-                            year: '2002',
-                            nucleos: 'Engineering',
+                            name: '',
+
                           ),
                         ),
                       ),

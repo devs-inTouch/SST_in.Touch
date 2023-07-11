@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_basic/backoffice/activateUser/application/activateUsersAuth.dart';
 
 class UserRoleBox extends StatelessWidget {
   final String username;
@@ -22,7 +23,67 @@ class UserRoleBox extends StatelessWidget {
       role: json['role'],
     );
   }
+  @override
+  Widget build(BuildContext context) {
+    final borderColor = Colors.blueAccent[200]; // Fallback color if blueAccent[200] is null
 
+    return Container(
+      decoration: BoxDecoration(
+        color: borderColor, // Setting background color to borderColor
+        border: Border.all(color: Colors.blueGrey),// Adding border
+        borderRadius: BorderRadius.circular(8.0), // Adding border radius
+      ),
+      padding: EdgeInsets.all(8.0), // Adding padding
+      child: ListTile(
+        title: Text(
+          'Username: $username',
+          style: TextStyle(
+            color: Colors.white, // Setting text color to white
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: 4.0), // Adding padding between texts
+            Text(
+              'Name: $name',
+              style: TextStyle(color: Colors.white),
+            ),
+            Text(
+              'Email: $email',
+              style: TextStyle(color: Colors.white),
+            ),
+            Text(
+              'Role: $role',
+              style: TextStyle(color: Colors.white),
+            ),
+          ],
+        ),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(right: 8.0), // Adding right padding to the button
+              child: ElevatedButton(
+                onPressed: () async {
+                  await ActivateUsersAuth.activateUser(username);
+                  print("Ativado");
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.black, // Setting button color to white
+                ),
+                child: Text('Ativar'), // Setting the button label
+              ),
+            ),
+          ],
+        ),
+
+      ),
+    );
+  }
+
+/**
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -76,4 +137,5 @@ class UserRoleBox extends StatelessWidget {
       ),
     );
   }
+    **/
 }
