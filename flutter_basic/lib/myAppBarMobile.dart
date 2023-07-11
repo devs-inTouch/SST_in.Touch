@@ -33,18 +33,17 @@ class MyAppBarMobile extends StatefulWidget implements PreferredSizeWidget {
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
 
-
-  class _MyAppBarMobileState extends State<MyAppBarMobile> {
+class _MyAppBarMobileState extends State<MyAppBarMobile> {
   String? role;
 
   @override
   void initState() {
-  super.initState();
-  getRole().then((value) {
-  setState(() {
-  role = value;
-  });
-  });
+    super.initState();
+    getRole().then((value) {
+      setState(() {
+        role = value;
+      });
+    });
   }
 
   void logoutButtonPressed(BuildContext context) {
@@ -86,14 +85,32 @@ class MyAppBarMobile extends StatefulWidget implements PreferredSizeWidget {
           height: 35,
           fit: BoxFit.fitHeight,
         ),
-
-
         actions: [
-
           IconButton(
             icon: Icon(Icons.fastfood_rounded, color: Colors.black),
             onPressed: () {
-              if(role == 'admin') {
+              if (role == 'admin') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ManagingSenhas()),
+                );
+              } else {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MyQRCodePage()),
+                );
+              }
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.person_search, color: Colors.black),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ResponsiveSearchPage()),
+              );
+            },
+          ),
           PopupMenuButton<Notification>(
             icon: const Icon(Icons.notifications, color: Colors.black),
             color: Colors.white,
@@ -103,8 +120,7 @@ class MyAppBarMobile extends StatefulWidget implements PreferredSizeWidget {
                 PopupMenuItem<Notification>(
                   child: Theme(
                     data: Theme.of(context).copyWith(
-                      backgroundColor:
-                          Colors.blue,
+                      backgroundColor: Colors.blue,
                     ),
                     child: Container(
                       decoration: BoxDecoration(
