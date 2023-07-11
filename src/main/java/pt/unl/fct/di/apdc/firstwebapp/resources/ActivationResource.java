@@ -84,25 +84,14 @@ public class ActivationResource {
 		Transaction txn = datastore.newTransaction();
 
 		try {
-			Entity activatedTarget = Entity.newBuilder(targetKey)
-					.set(NAME.value, target.getString(NAME.value))
-					.set(PASSWORD.value, target.getString(PASSWORD.value))
-					.set(CREATION_TIME.value, target.getLong(CREATION_TIME.value))
-					.set(EMAIL.value, target.getString(EMAIL.value))
-					.set(STUDENT_NUMBER.value, target.getString(STUDENT_NUMBER.value))
-					.set(ROLE.value, target.getString(ROLE.value))
-					.set(DEPARTMENT.value, target.getString(DEPARTMENT.value))
-					.set(DESCRIPTION.value, target.getString(DESCRIPTION.value))
+			target = Entity.newBuilder(target)
 					.set(STATE.value, true)
-					.set(VISIBILITY.value, target.getBoolean(VISIBILITY.value))
-					.set(FOLLOWERS.value, new ArrayList<>())
-					.set(FOLLOWING.value, new ArrayList<>())
 					.build();
 			
-			txn.update(activatedTarget);
+			txn.update(target);
 			txn.commit();
 			LOG.info("User'" + data.getTargetUsername() + "' activated successfully.");
-			return Response.ok("{STAFF activated}").build();
+			return Response.ok("STAFF activated").build();
 									
 		} catch (Exception e) {
 			txn.rollback();

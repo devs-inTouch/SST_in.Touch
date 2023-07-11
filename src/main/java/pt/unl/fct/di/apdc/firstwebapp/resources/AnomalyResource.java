@@ -6,7 +6,6 @@ import pt.unl.fct.di.apdc.firstwebapp.util.DatastoreUtil;
 import pt.unl.fct.di.apdc.firstwebapp.util.TokenUtil;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.TokenData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.anomaly.AnomalyData;
-import pt.unl.fct.di.apdc.firstwebapp.util.entities.anomaly.AnomalyDeleteData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.anomaly.AnomalyInfoData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.anomaly.ApproveAnomalyData;
 import pt.unl.fct.di.apdc.firstwebapp.util.enums.DatastoreEntities;
@@ -16,10 +15,12 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.UUID;
 import java.util.logging.Logger;
 
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.DatastoreEntities.USER;
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Globals.AUTH;
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.ROLE;
 
 @Path("/anomaly")
 public class AnomalyResource {
@@ -66,7 +67,7 @@ public class AnomalyResource {
             if (user == null)
                 return Response.status(Response.Status.BAD_REQUEST).entity(USER_NOT_IN_DATABASE).build();
 
-            int anomalyId = getNextAnomaly();
+            String anomalyId = getNextAnomaly();
             Key k = datastore.newKeyFactory().setKind(DatastoreEntities.ANOMALY.value).newKey(anomalyId);
             Entity anomaly = Entity.newBuilder(k)
                     .set("username", givenTokenData.getUsername())
@@ -136,11 +137,32 @@ public class AnomalyResource {
     @Path("/listnotapproved")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    public Response listNotApprovedAnomalies() {
+    public Response listNotApprovedAnomalies(@HeaderParam(AUTH) String auth) {
         LOG.fine("Attempt to list anomalies");
+
+        TokenData token = TokenUtil.validateToken(LOG, auth);
+
+        if (token == null)
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+
+        /*if (!ph.hasAccess(LIST_UNNACTIVATED_USERS.value, token.getRole()))
+            return Response.status(Status.FORBIDDEN).build();*/
+
+        Key userKey = datastore.newKeyFactory().setKind(USER.value).newKey(token.getUsername());
+        Entity user = datastore.get(userKey);
+
+        if (user == null)
+            return Response.status(Response.Status.FORBIDDEN).build();
+
+        if(!user.getString(ROLE.value).equals("admin"))
+            return Response.status(Response.Status.BAD_REQUEST).build();
 
         Query<Entity> query = Query.newEntityQueryBuilder().setKind(DatastoreEntities.ANOMALY.value)
                 .setFilter(StructuredQuery.PropertyFilter.eq("isApproved", false)).build();
+        return getResponse(query);
+    }
+
+    private Response getResponse(Query<Entity> query) {
         QueryResults<Entity> results = datastore.run(query);
 
         List<AnomalyInfoData> list = new ArrayList<>();
@@ -161,15 +183,7 @@ public class AnomalyResource {
 
         Query<Entity> query = Query.newEntityQueryBuilder().setKind(DatastoreEntities.ANOMALY.value)
                 .setFilter(StructuredQuery.PropertyFilter.eq("isApproved", true)).build();
-        QueryResults<Entity> results = datastore.run(query);
-
-        List<AnomalyInfoData> list = new ArrayList<>();
-
-        results.forEachRemaining(t -> {
-            list.add(new AnomalyInfoData(t.getKey().getName(), t.getString("username"), t.getString("title"), t.getString("description")));
-        });
-
-        return Response.ok(g.toJson(list)).build();
+        return getResponse(query);
 
     }
 
@@ -198,7 +212,7 @@ public class AnomalyResource {
 
 
 
-           Entity newAnomaly = Entity.newBuilder(anomalyKey)
+            Entity newAnomaly = Entity.newBuilder(anomalyKey)
                     .set("username", anomaly.getString("username"))
                     .set("title", anomaly.getString("title"))
                     .set("description", anomaly.getString("description"))
@@ -257,20 +271,8 @@ public class AnomalyResource {
 
     }
 
-    private int getNextAnomaly() {
-        AtomicInteger max = new AtomicInteger(0);
-
-        Query<Entity> query = Query.newEntityQueryBuilder()
-                .setKind(DatastoreEntities.ANOMALY.value).build();
-
-        QueryResults<Entity> anomalyQuery = datastore.run(query);
-
-        anomalyQuery.forEachRemaining(t -> {
-            int val = Integer.parseInt(t.getKey().getId().toString());
-            if (max.get() < val)
-                max.set(val);
-        });
-
-        return max.incrementAndGet();
+    private String getNextAnomaly() {
+        UUID uuid = UUID.randomUUID();
+        return uuid.toString();
     }
 }

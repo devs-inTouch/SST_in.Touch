@@ -13,12 +13,11 @@ public class RegisterInfoData {
 
     public RegisterInfoData() {}
 
-    public RegisterInfoData(String username, String name, String email, String studentNumber,
+    public RegisterInfoData(String username, String name, String email,
     						 String role) {
     	this.username = username;
     	this.name = name;
     	this.email = email;
-    	this.studentNumber = studentNumber;
     	this.role = role;
     }
 
