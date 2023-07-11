@@ -9,7 +9,6 @@ import static pt.unl.fct.di.apdc.firstwebapp.util.enums.DatastoreEntities.USER;
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Globals.AUTH;
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Globals.COUNT;
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Globals.DEFAULT_FORMAT;
-import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Operation.STATS;
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.TokenAttributes.EXPIRATION_TIME;
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.*;
 
@@ -47,7 +46,7 @@ import pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects.StatsData;
 public class ListResource {
 
     private static final Logger LOG = Logger.getLogger(ListResource.class.getName());
-    
+
     private final Gson g = new Gson();
     private final Datastore datastore = DatastoreUtil.getService();
 
@@ -55,13 +54,46 @@ public class ListResource {
 
     public ListResource() {}
 
-
-    
-	@POST
-	@Path("/unactivated")
+    @POST
+    @Path("/users")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON + DEFAULT_FORMAT)
-	public Response listUnactivatedUsers(@HeaderParam(AUTH) String auth) {
+    public Response listUsers(@HeaderParam(AUTH) String auth) {
+
+        TokenData token = TokenUtil.validateToken(LOG, auth);
+
+        if (token == null)
+            return Response.status(Status.UNAUTHORIZED).build();
+
+        /*if (!ph.hasAccess(LIST_USERS.value, token.getRole()))
+            return Response.status(Status.FORBIDDEN).build();*/
+        Key userKey = datastore.newKeyFactory().setKind(USER.value).newKey(token.getUsername());
+        Entity user = datastore.get(userKey);
+
+        if (user == null)
+            return Response.status(Status.FORBIDDEN).build();
+
+        if(!user.getString(ROLE.value).equals("admin"))
+            return Response.status(Status.BAD_REQUEST).build();
+
+        EntityQuery query = Query.newEntityQueryBuilder()
+                .setKind(USER.value)
+                .setFilter(
+                        PropertyFilter.eq(STATE.value, true)
+                )
+                .build();
+
+        List<RegisterInfoData> resultList = fillUserArray(query);
+
+        LOG.info("Listing successful!");
+        return Response.ok(g.toJson(resultList)).build();
+    }
+
+    @POST
+    @Path("/unactivated")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON + DEFAULT_FORMAT)
+    public Response listUnactivatedUsers(@HeaderParam(AUTH) String auth) {
 
         TokenData token = TokenUtil.validateToken(LOG, auth);
 
@@ -77,29 +109,33 @@ public class ListResource {
         if (user == null)
             return Response.status(Status.FORBIDDEN).build();
 
-
         if(!user.getString(ROLE.value).equals("admin"))
-            	return Response.status(Status.BAD_REQUEST).entity("nao tem permissoes").build();
+            return Response.status(Status.BAD_REQUEST).build();
 
-		EntityQuery query = EntityQuery.newEntityQueryBuilder()
-							.setKind(USER.value)
-							.setFilter(
-                                PropertyFilter.eq(STATE.value, false))
-							.build();
+        EntityQuery query = EntityQuery.newEntityQueryBuilder()
+                .setKind(USER.value)
+                .setFilter(
+                        PropertyFilter.eq(STATE.value, false)
+                )
+                .build();
+        List<RegisterInfoData> resultList = fillUserArray(query);
 
+        return Response.ok(g.toJson(resultList)).build();
+    }
+
+    private List fillUserArray(EntityQuery query) {
         QueryResults<Entity> unactivatedUsers = datastore.run(query);
 
         List<RegisterInfoData> resultList = new ArrayList<>();
 
-		unactivatedUsers.forEachRemaining(t -> {
+        unactivatedUsers.forEachRemaining(t -> {
             resultList.add(new RegisterInfoData(t.getKey().getName(),
                     t.getString(NAME.value),
                     t.getString(EMAIL.value),
                     t.getString(ROLE.value)));
-		});
-
-		return Response.ok(g.toJson(resultList)).build();
-	}
+        });
+        return resultList;
+    }
 
 
     @POST
@@ -121,22 +157,22 @@ public class ListResource {
             return Response.status(Status.FORBIDDEN).build();
 
         if(!user.getString(ROLE.value).equals("admin"))
-            	return Response.status(Status.BAD_REQUEST).build();
+            return Response.status(Status.BAD_REQUEST).build();
 
         var stats = new StatsData(
-                        getNumOnlineUsers(),
-                        getNumPosts(),
-                        getNumAnomalies(),
-                        getNumUnactivatedUsers(),
-                        0l, //TODO put appropriate value
-                        0l //TODO put appropriate value
-                    );
+                getNumOnlineUsers(),
+                getNumPosts(),
+                getNumAnomalies(),
+                getNumUnactivatedUsers(),
+                0l, //TODO put appropriate value
+                0l //TODO put appropriate value
+        );
 
 
         return Response.ok(g.toJson(stats)).build();
     }
 
-    
+
 
     private BaseQueryResultData getBaseQueryResultData(Entity user) {
         return new BaseQueryResultData(user.getString(USERNAME.value));
@@ -144,23 +180,23 @@ public class ListResource {
 
     private CompleteQueryResultData getCompleteQueryResultData(Entity user) {
         return new CompleteQueryResultData(user.getString(USERNAME.value),
-                                        user.getString(NAME.value),
-                                        user.getString(EMAIL.value),
-                                        user.getLong(CREATION_TIME.value),
-                                        user.getString(ROLE.value),
-                                        user.getBoolean(STATE.value));
+                user.getString(NAME.value),
+                user.getString(EMAIL.value),
+                user.getLong(CREATION_TIME.value),
+                user.getString(ROLE.value),
+                user.getBoolean(STATE.value));
     }
 
     private long getNumOnlineUsers() {
 
         long now = new Date().getTime();
 
-		EntityQuery query = Query.newEntityQueryBuilder()
-							.setKind(TOKEN.value)
-							.setFilter(
-                                PropertyFilter.lt(EXPIRATION_TIME.value, now)
-							)
-							.build();
+        EntityQuery query = Query.newEntityQueryBuilder()
+                .setKind(TOKEN.value)
+                .setFilter(
+                        PropertyFilter.lt(EXPIRATION_TIME.value, now)
+                )
+                .build();
 
         return doCount(query);
 
@@ -168,33 +204,33 @@ public class ListResource {
 
     private long getNumPosts() {
 
-		EntityQuery query = Query.newEntityQueryBuilder()
-							.setKind(POST.value)
-							.build();
+        EntityQuery query = Query.newEntityQueryBuilder()
+                .setKind(POST.value)
+                .build();
 
         return doCount(query);
     }
 
     private long getNumAnomalies() {
 
-		EntityQuery query = Query.newEntityQueryBuilder()
-							.setKind(ANOMALY.value)
-							.setFilter(
-                                PropertyFilter.eq(STATE.value, false)
-							)
-							.build();
+        EntityQuery query = Query.newEntityQueryBuilder()
+                .setKind(ANOMALY.value)
+                .setFilter(
+                        PropertyFilter.eq(STATE.value, false)
+                )
+                .build();
 
         return doCount(query);
     }
 
     private long getNumUnactivatedUsers() {
 
-		EntityQuery query = Query.newEntityQueryBuilder()
-							.setKind(USER.value)
-							.setFilter(
-                                PropertyFilter.eq(STATE.value, false)
-							)
-							.build();
+        EntityQuery query = Query.newEntityQueryBuilder()
+                .setKind(USER.value)
+                .setFilter(
+                        PropertyFilter.eq(STATE.value, false)
+                )
+                .build();
 
         return doCount(query);
     }
@@ -202,12 +238,12 @@ public class ListResource {
     //TODO fit properties
     private long getNumUnhandledReservations() {
 
-		EntityQuery query = Query.newEntityQueryBuilder()
-							.setKind(BOOKING.value)
-							// .setFilter(
-                                //smt
-							// )
-							.build();
+        EntityQuery query = Query.newEntityQueryBuilder()
+                .setKind(BOOKING.value)
+                // .setFilter(
+                //smt
+                // )
+                .build();
 
         return doCount(query);
     }
@@ -215,16 +251,15 @@ public class ListResource {
     private long doCount(EntityQuery query) {
 
         AggregationQuery unactivatedUsers = Query.newAggregationQueryBuilder()
-                                            .over(query)
-                                            .addAggregation(
-                                                count().as(COUNT)
-                                                )
-                                            .build();
+                .over(query)
+                .addAggregation(
+                        count().as(COUNT)
+                )
+                .build();
 
         AggregationResult result = Iterables.getOnlyElement(datastore.runAggregation(unactivatedUsers));
 
         return result.get(COUNT);
     }
-    
-}
 
+}
