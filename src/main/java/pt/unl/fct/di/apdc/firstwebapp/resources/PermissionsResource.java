@@ -215,6 +215,66 @@ public class PermissionsResource {
     }
 
     @POST
+    @Path("/register")
+    @Consumes(MediaType.APPLICATION_JSON + DEFAULT_FORMAT)
+    @Produces(MediaType.APPLICATION_JSON + DEFAULT_FORMAT)
+    public Response registerAllOperations(@HeaderParam(AUTH) String auth) {
+
+        TokenData token = TokenUtil.validateToken(LOG, auth);
+
+        if (token == null /*|| !PermissionsHolder.getInstance().hasPermission(SHOW_TOKEN.value, token.getRole())*/)
+            return Response.status(Status.FORBIDDEN).build();
+
+        Transaction txn = datastore.newTransaction();
+
+        try {
+            for (Operation o : Operation.values())
+                for (UserRole cr : UserRole.values()) {
+
+                        KeyFactory accessesKeyFactory = datastore.newKeyFactory()
+                                    .addAncestor(PathElement.of(OPERATION.value, o.value))
+                                    .setKind(ROLE.value);
+
+                        Key accessKey = accessesKeyFactory.newKey(cr.value);
+
+                        Entity access = Entity.newBuilder(accessKey)
+                                        .set(ACCESS.value, true)
+                                        .build();
+                    for (UserRole tr : UserRole.values()) {
+
+                        KeyFactory permissionsKeyFactory = datastore.newKeyFactory()
+                                    .addAncestors(PathElement.of(OPERATION.value, o.value),
+                                        PathElement.of(ROLE.value, cr.value))
+                                    .setKind(ROLE.value);
+
+                        Key permissionKey = permissionsKeyFactory.newKey(tr.value);
+
+                        Entity permission = Entity.newBuilder(permissionKey)
+                                        .set(ACCESS.value, o.hasPermissions)
+                                        .build();
+
+                        txn.put(access, permission);
+
+                    }
+                }
+            
+            txn.commit();
+            return Response.ok("{}").build();
+
+        } catch (Exception e) {
+			txn.rollback();
+			LOG.severe(e.getMessage());
+			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+			
+		} finally {
+			if (txn.isActive()) {
+				txn.rollback();
+				return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+			}
+		}
+    }
+
+    @POST
     @Path("/register/role")
     @Consumes(MediaType.APPLICATION_JSON + DEFAULT_FORMAT)
     @Produces(MediaType.APPLICATION_JSON + DEFAULT_FORMAT)
