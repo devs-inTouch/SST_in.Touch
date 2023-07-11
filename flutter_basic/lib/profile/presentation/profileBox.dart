@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/profile/application/profleRequests.dart';
+import 'package:image_network/image_network.dart';
 
 class ProfileBox extends StatefulWidget {
   final double fem;
@@ -21,6 +22,7 @@ class _ProfileBoxState extends State<ProfileBox> {
   late TextEditingController _textEditingController;
   late String description = '';
   late String follow;
+  String imageUrl = '';
 
   @override
   initState() {
@@ -28,9 +30,12 @@ class _ProfileBoxState extends State<ProfileBox> {
     if(!widget.myProfile) {
       isFollowing();
     }
+
     description = widget.map[2];
     _textEditingController = TextEditingController(text: description);
   }
+
+  
 
   @override
   void dispose() {
@@ -77,6 +82,8 @@ class _ProfileBoxState extends State<ProfileBox> {
 
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -87,99 +94,74 @@ class _ProfileBoxState extends State<ProfileBox> {
         decoration: BoxDecoration(
           color: Colors.grey.shade200,
         ),
-        child: Stack(
+        child: Column(
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(15.0),
-                  child: Row(
+            Padding(
+              padding: EdgeInsets.all(15.0),
+              child: Row(
+                children: [
+                  ImageNetwork(
+                    image:
+                    imageUrl,
+                    height: 120,
+                    width: 120,
+                  ),
+
+                  SizedBox(width: 8.0),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        height: 120,
-                        width: 120,
-                        color: Colors.blue[50],
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              bottom: 0,
-                              right: 0,
-                              child: Icon(
-                                Icons.add_a_photo,
-                                size: 24,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ],
+                      Text(
+                        widget.map[4],
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(width: 8.0),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            widget.map[4],
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          OutlinedButton(
-                            onPressed: widget.myProfile ? editProfile : changeFollow,
-                            style: OutlinedButton.styleFrom(
-                              fixedSize: Size(100, 50),
-                              backgroundColor: Colors.blue,
-                            ),
-                            child: Text(
-                              widget.myProfile ? 'Editar' : follow,
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 15,
-                              ),
-                            ),
-                          ),
-                        ],
+                      Text(
+                        'Nº: ${widget.map[5]} \nEmail: ${widget.map[3]} \nDepartamento: ${widget.map[1]}',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey,
+                        ),
                       ),
-
                     ],
                   ),
-                ),
-                SizedBox(height: 8.0),
-                Container(
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.all(8.0),
-                  child: isEditing
-                      ? TextField(
-                    controller: _textEditingController,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      filled: true,
-                      fillColor: Colors.white,
+                  Spacer(),
+                  OutlinedButton(
+                    onPressed: widget.myProfile ? editProfile : changeFollow,
+                    style: OutlinedButton.styleFrom(
+                      fixedSize: Size(100, 50),
+                      backgroundColor: Colors.blue,
                     ),
-                  )
-                      : Text(description),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade200,
+                    child: Text(
+                      widget.myProfile ? 'Editar' : follow,
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                      ),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-            Positioned(
-              bottom: 5,
-              left: 10,
-              child: Container(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Nº: ${widget.map[5]} \nEmail: ${widget.map[3]} \nDepartamento: ${widget.map[1]}',
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.grey,
-                  ),
+            Container(
+              padding: EdgeInsets.all(8.0),
+              child: isEditing
+                  ? TextField(
+                controller: _textEditingController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  filled: true,
+                  fillColor: Colors.white,
                 ),
+              )
 
+                  : Text(description),
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Colors.grey.shade200,
               ),
             ),
           ],
@@ -187,5 +169,4 @@ class _ProfileBoxState extends State<ProfileBox> {
       ),
     );
   }
-
 }

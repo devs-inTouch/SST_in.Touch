@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/constants.dart';
@@ -39,16 +41,21 @@ class FeedState extends State<FeedsPage> {
 
   TextEditingController description = TextEditingController();
   bool isUploading = false;
+  bool imageUploaded = false;
 
-/*
-  handleTakePhoto(context) async {
-    Navigator.pop(context);
-    File file = (await ImagePicker().pickImage(source: ImageSource.camera,
-        maxHeight: 675, maxWidth: 960)) as File;
+  bool isButtonDisabled = false;
+
+  void disableButton() {
     setState(() {
-      this.file = file;
+      isButtonDisabled = true;
     });
-  }*/
+
+    Timer(Duration(seconds: 10), () {
+      setState(() {
+        isButtonDisabled = false;
+      });
+    });
+  }
 
   handleChoosePhoto(context) async {
     print("1");
@@ -128,12 +135,18 @@ class FeedState extends State<FeedsPage> {
       isUploading = true;
     });
     String image = await uploadFile();
+    if(image != '') {
+      setState(() {
+        imageUploaded = true;
+      });
+    }
     print(image);
     print("aqui");
     putInDatabase(mediaUrl: image, desc: description.text);
     print("Ali");
     description.clear();
     print("Image uploaded");
+    disableButton();
     setState(() {
       isUploading = false;
     });
@@ -222,7 +235,7 @@ class FeedState extends State<FeedsPage> {
                               alignment: Alignment(0.9, 0.9),
                               child: ElevatedButton(
                                 onPressed:
-                                isUploading ? null : () => handleSubmit(),
+                                isUploading && isButtonDisabled ? null : () => handleSubmit(),
                                 style: ElevatedButton.styleFrom(
                                   fixedSize: Size(120, 40),
                                   backgroundColor: Colors.blue[800],
@@ -253,6 +266,13 @@ class FeedState extends State<FeedsPage> {
                                 ),
                               ),
                             ),
+                            imageUploaded ? Align(
+                                alignment:Alignment(-0.8,0.9),
+                                child: Icon(
+                                  Icons.check_circle,
+                                  color: Colors.green,
+                                )
+                            ) : Container(),
                           ],
                         ),
                       ),
