@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_basic/anomalies/presentation/responsive_anomaliesPage.dart';
 import 'package:flutter_basic/notifications/presentation/notificationBox.dart';
 
 import '../../anomalies/presentation/anomaliesPage.dart';
@@ -39,7 +40,7 @@ class NotificationState extends State<NotificationPage> {
   void navigateToAnomalyPage() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => AnomaliesPage()),
+      MaterialPageRoute(builder: (context) => ResponsiveAnomalyPage()),
     );
   }
 

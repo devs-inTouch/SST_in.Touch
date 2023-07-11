@@ -87,15 +87,7 @@ class MyAppBarMobile extends StatefulWidget implements PreferredSizeWidget {
 
 
         actions: [
-          IconButton(
-            icon: Icon(Icons.person_search, color: Colors.black),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ResponsiveSearchPage()),
-              );
-            },
-          ),
+
           PopupMenuButton<Notification>(
             icon: const Icon(Icons.notifications, color: Colors.black),
             color: Colors.white,

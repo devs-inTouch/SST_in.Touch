@@ -11,6 +11,7 @@ import 'package:flutter_basic/profile/presentation/responsive_profile.dart';
 import 'package:flutter_basic/reports/presentation/reportsPage.dart';
 import 'package:flutter_basic/reports/presentation/responsive_reportsPage.dart';
 import 'package:flutter_basic/reservaSalas/presentation/responsive_reservasalas.dart';
+import 'package:flutter_basic/searchBarPage/presentation/responsive_searchPage.dart';
 
 import 'anomalies/presentation/anomaliesPage.dart';
 import 'backoffice/presentation/backOfficePage.dart';
@@ -128,6 +129,7 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
                     ),
                   ),
                 ),
+                /**
                 PopupMenuItem(
                   child: Container(
                     color: Colors.white,
@@ -145,7 +147,7 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
                     ),
                   ),
                 ),
-                /**
+
                 PopupMenuItem(
                   child: Container(
                     color: Colors.white,
@@ -190,6 +192,21 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
                             ),
                           );
                         }
+                      },
+                    ),
+                  ),
+                ),
+                PopupMenuItem(
+                  child: Container(
+                    color: Colors.white,
+                    child: ListTile(
+                      leading: const Icon(Icons.person_search),
+                      title: const Text('Procura de Users'),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => ResponsiveSearchPage()),
+                        );
                       },
                     ),
                   ),
@@ -306,6 +323,7 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
                     ),
                   ),
                 ),
+                /**
                 if (role == 'superUser' ||role == 'admin')
                   PopupMenuItem(
                     child: Container(
@@ -325,6 +343,7 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
                       ),
                     ),
                   ),
+                **/
                 PopupMenuItem(
                   child: Container(
                     color: Colors.white,

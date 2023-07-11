@@ -32,8 +32,8 @@ class ReservasState extends State<PedidoReservaSalaPage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text("Sem requests"),
-            content: Text("No requests available."),
+            title: Text("Sem pedidos"),
+            content: Text("Sem pedidos de reserva."),
             actions: [
               TextButton(
                 child: Text("OK"),
