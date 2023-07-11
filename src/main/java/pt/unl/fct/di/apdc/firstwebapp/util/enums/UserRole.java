@@ -4,14 +4,14 @@ public enum UserRole {
     
     UNASSIGNED("NA"),       //*done
 
-    STUDENT("student"),     //*done
+    STUDENT("ALUNO"),     //*done
 
-    PROFESSOR("professor"), //*done
+    PROFESSOR("PROFESSOR"), //*done
 
-    SECURITY("security"),   //*done
-    LIBRARY("library"),     //*done
-    BOARD("board"),         //*done
-    ANNOUNCER("announcer"), //*done
+    SECURITY("SEGURANÇA"),   //*done
+    LIBRARY("BIBLIOTECA"),     //*done
+    BOARD("DIREÇÃO"),         //*done
+    ANNOUNCER("DIVULGAÇÃO"), //*done
 
     ADMIN("admin"),         //*done
 

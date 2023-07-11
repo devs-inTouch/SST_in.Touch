@@ -129,16 +129,23 @@ public class SenhasResource {
 
             QueryResults<Entity> senhaQuery = datastore.run(query);
 
-            List<String> list = new ArrayList<>();
+            List<Entity> list = new ArrayList<>();
 
             senhaQuery.forEachRemaining(
-                t -> {list.add(String.valueOf(t));}
+                t -> {
+                    list.add(t);
+                    Entity edited = Entity.newBuilder(t).set("scanned",true).build();
+                    txn.update(edited);
+                    txn.commit();
+
+                }
             );
 
             if(list.isEmpty())
-                return Response.ok(g.toJson("false")).build();
-            else
                 return Response.status(Response.Status.BAD_REQUEST).build();
+            else {
+                return Response.ok(g.toJson(list)).build();
+            }
 
         } finally {
             if (txn.isActive())

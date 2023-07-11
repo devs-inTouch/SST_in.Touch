@@ -135,6 +135,26 @@ public class ProfileResource {
         return Response.ok(g.toJson(givenToken.getUsername())).build();
     }
 
+    @POST
+    @Path("/getProfilePic")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response getPhoto(@HeaderParam(AUTH) String auth, UserData data) {
+        LOG.fine("Attempt to show profile: " );
+        TokenData givenToken = TokenUtil.validateToken(LOG, auth);
+
+        if(givenToken == null) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+        Transaction txn = datastore.newTransaction();
+
+        Key userKey =  datastore.newKeyFactory().setKind("User").newKey(data.getTargetUsername());
+        Entity user = txn.get(userKey);
+
+        String url = user.getString("profile_imageURL");
+        //send data to the client
+        return Response.ok(g.toJson(givenToken.getUsername())).build();
+    }
+
     private Entity modifyAddFollow(String list,Entity user, String username) {
         List<Value<String>> firstArray = user.getList(list);
         List<Value<String>> updatedFirstArray = new ArrayList<>(firstArray);
@@ -189,9 +209,6 @@ public class ProfileResource {
 
     }
 
-
-
-
     @POST
     @Path("/unfollow")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -203,24 +220,18 @@ public class ProfileResource {
         }
 
         String username = givenToken.getUsername();
-        Key userToFollowKey =  datastore.newKeyFactory().setKind("User").newKey(user.getTargetUsername());
         Key userThatFollowsKey =  datastore.newKeyFactory().setKind("User").newKey(username);
 
         Transaction txn = datastore.newTransaction();
 
         try {
-            Entity userToFollow = txn.get(userToFollowKey);
+
             Entity userThatFollows = txn.get(userThatFollowsKey);
 
-            if (userToFollow == null || userThatFollows == null)
+            if (userThatFollows == null)
                 return Response.status(Response.Status.BAD_REQUEST).entity("USER_NOT_IN_DATABASE").build();
 
-            //Adicionar a lista de seguidores
-
-            txn.update(modifyRemoveFollow(UserAttributes.FOLLOWERS.value,userToFollow, username));
-
             //Adicionar a lista de quem vai seguir
-
             txn.update(modifyRemoveFollow(UserAttributes.FOLLOWING.value,userThatFollows, user.getTargetUsername()));
             txn.commit();
             return Response.ok(g.toJson("following")).build();

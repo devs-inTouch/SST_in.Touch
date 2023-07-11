@@ -72,6 +72,7 @@ public class RegisterResource {
 					.set(FOLLOWERS.value, new ArrayList<>())
 					.set(FOLLOWING.value, new ArrayList<>())
 					.set(ACTIVATE_ACCOUNT.value, data.getActivateCode())
+					.set("profile_imageURL", data.getImage())
 					.build();
 
 			txn.add(user);
@@ -117,6 +118,7 @@ public class RegisterResource {
 					.set(VISIBILITY.value, false)
 					.set(FOLLOWERS.value, new ArrayList<>())
 					.set(FOLLOWING.value, new ArrayList<>())
+					.set("profile_imageURL", data.getImage())
 					.build();
 
 			txn.add(user);
