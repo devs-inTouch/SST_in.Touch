@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_basic/backoffice/presentation/anomaliasVerifyPage.dart';
+import 'package:flutter_basic/backoffice/anomalies/presentation/anomaliasVerifyPage.dart';
 import 'package:flutter_basic/backoffice/presentation/moderacaoFeedsPage.dart';
 import 'package:flutter_basic/backoffice/presentation/pedidosReservaSalaPage.dart';
 import 'package:flutter_basic/backoffice/presentation/rolesUserPage.dart';
@@ -10,8 +10,7 @@ import 'package:flutter_basic/myAppBarMobile.dart';
 import '../../bottomAppBarMobile.dart';
 import '../../constants.dart';
 import '../../myAppBar.dart';
-import 'ativacaoContasPage.dart';
-
+import '../activateUser/presentation/ativacaoContasPage.dart';
 
 class BackOfficeMobile extends StatefulWidget {
   const BackOfficeMobile({super.key});
@@ -47,8 +46,6 @@ class BackOfficePage extends State<BackOfficeMobile> {
                 ),
               ),
             ),
-
-
             Expanded(
               child: Padding(
                 padding: EdgeInsets.all(20),
@@ -71,7 +68,8 @@ class BackOfficePage extends State<BackOfficeMobile> {
                             onPressed: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => ModeracaoFeedsPage()),
+                                MaterialPageRoute(
+                                    builder: (context) => ModeracaoFeedsPage()),
                               );
                             },
                             style: styleBackOfficeButtons,
@@ -86,7 +84,8 @@ class BackOfficePage extends State<BackOfficeMobile> {
                             onPressed: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => RolesUserPage()),
+                                MaterialPageRoute(
+                                    builder: (context) => RolesUserPage()),
                               );
                             },
                             style: styleBackOfficeButtons,
@@ -101,7 +100,8 @@ class BackOfficePage extends State<BackOfficeMobile> {
                             onPressed: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => StatsAcessoPage()),
+                                MaterialPageRoute(
+                                    builder: (context) => StatsAcessoPage()),
                               );
                             },
                             style: styleBackOfficeButtons,
@@ -116,7 +116,8 @@ class BackOfficePage extends State<BackOfficeMobile> {
                             onPressed: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => AtivacaoContasPage()),
+                                MaterialPageRoute(
+                                    builder: (context) => AtivacaoContasPage()),
                               );
                             },
                             style: styleBackOfficeButtons,
@@ -131,7 +132,9 @@ class BackOfficePage extends State<BackOfficeMobile> {
                             onPressed: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => AnomaliasVerifyPage()),
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        AnomaliasVerifyPage()),
                               );
                             },
                             style: styleBackOfficeButtons,
@@ -146,10 +149,12 @@ class BackOfficePage extends State<BackOfficeMobile> {
                             onPressed: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => PedidoReservaSalaPage()),
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        PedidoReservaSalaPage()),
                               );
                             },
-                            style:styleBackOfficeButtons,
+                            style: styleBackOfficeButtons,
                             child: Text('Pedidos e reservas de sala'),
                           ),
                         ),
@@ -165,5 +170,4 @@ class BackOfficePage extends State<BackOfficeMobile> {
       bottomNavigationBar: MyBottomAppBar(),
     );
   }
-
 }

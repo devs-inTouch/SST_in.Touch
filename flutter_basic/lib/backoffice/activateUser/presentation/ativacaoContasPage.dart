@@ -1,10 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/backoffice/presentation/responsive_backOffice.dart';
-import '../../constants.dart';
-import '../../myAppBar.dart';
-import 'backOfficePage.dart';
+import '../../../constants.dart';
+import '../../../myAppBar.dart';
+import '../../boxes/userActivateBox.dart';
+import '../application/activateUsersAuth.dart';
+import '../../presentation/backOfficePage.dart';
 
-class AnomaliasVerifyPage extends StatelessWidget {
+class AtivacaoContasPage extends StatefulWidget {
+  const AtivacaoContasPage({super.key});
+  @override
+  ContasPageState createState() => ContasPageState();
+}
+
+class ContasPageState extends State<AtivacaoContasPage> {
+  List<UserRoleBox> unactiveUsers = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
+  Future<void> fetchData() async {
+    final response = await ActivateUsersAuth.getUsersToActivate();
+    setState(() {
+      unactiveUsers = response;
+    });
+    print("Contas por ativar fetched");
+    print(unactiveUsers);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,9 +45,9 @@ class AnomaliasVerifyPage extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(
+                  const Expanded(
                     child: Text(
-                      "VERIFICAÇÃO DE ANOMALIAS PENDENTES",
+                      "ATIVAÇÃO DE CONTAS",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -35,7 +60,8 @@ class AnomaliasVerifyPage extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => ResponsiveBackOffice()),
+                        MaterialPageRoute(
+                            builder: (context) => ResponsiveBackOffice()),
                       );
                     },
                   ),
@@ -48,7 +74,7 @@ class AnomaliasVerifyPage extends StatelessWidget {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "ANOMALIA:",
+                  "CONTA:",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 20.0,
@@ -58,9 +84,15 @@ class AnomaliasVerifyPage extends StatelessWidget {
             ),
             SizedBox(height: 10.0),
             Container(
-              width: double.infinity,
-              height: 400.0,
-              color: Colors.blueAccent[100],
+              width: 800,
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: unactiveUsers.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final user = unactiveUsers[index];
+                  return user;
+                },
+              ),
             ),
           ],
         ),

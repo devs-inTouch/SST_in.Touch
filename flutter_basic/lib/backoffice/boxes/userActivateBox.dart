@@ -1,35 +1,28 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_basic/backoffice/application/salasRequestAuth.dart';
-import 'package:flutter_basic/backoffice/application/usersRoleAuth.dart';
-import 'package:flutter_basic/constants.dart';
 
-class UserRoleBox  extends StatelessWidget {
+class UserRoleBox extends StatelessWidget {
   final String username;
   final String name;
   final String email;
-  final String studentNumber;
   final String role;
 
   UserRoleBox({
     required this.username,
     required this.name,
     required this.email,
-    required this.studentNumber,
     required this.role,
   });
 
   factory UserRoleBox.fromJson(Map<String, dynamic> json) {
     return UserRoleBox(
       username: json['username'],
-        name: json['name'],
-        email: json['email'],
-        studentNumber: json['studentNumber'],
-        role: json['role'],
-
+      name: json['name'],
+      email: json['email'],
+      role: json['role'],
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -71,15 +64,6 @@ class UserRoleBox  extends StatelessWidget {
             ),
             SizedBox(height: 4.0),
             Text(
-              'Student Number: $studentNumber',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 16.0,
-                color: Colors.white,
-              ),
-            ),
-            SizedBox(height: 4.0),
-            Text(
               'Role: $role',
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -92,5 +76,4 @@ class UserRoleBox  extends StatelessWidget {
       ),
     );
   }
-
 }

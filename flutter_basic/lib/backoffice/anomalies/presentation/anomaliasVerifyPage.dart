@@ -1,36 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/backoffice/presentation/responsive_backOffice.dart';
-import '../../constants.dart';
-import '../../myAppBar.dart';
-import '../application/activateUsersAuth.dart';
-import 'backOfficePage.dart';
-import 'boxes/usersToActivateBox.dart';
+import '../../../anomalies/presentation/anomalyBox.dart';
+import '../../../constants.dart';
+import '../../../myAppBar.dart';
+import '../../presentation/backOfficePage.dart';
+import '../application/anomaliesAuth.dart';
 
-
-
-  class AtivacaoContasPage extends StatefulWidget {
-  const AtivacaoContasPage({super.key});
+class AnomaliasVerifyPage extends StatefulWidget {
+  const AnomaliasVerifyPage({super.key});
   @override
-  ContasPageState createState() => ContasPageState();
-  }
-  class ContasPageState extends State<AtivacaoContasPage> {
-  List contasPorAtivarList = [];
-  bool showNotifications = true;
+  AnomaliasVerifyPageState createState() => AnomaliasVerifyPageState();
+}
+
+class AnomaliasVerifyPageState extends State<AnomaliasVerifyPage> {
+  List<AnomalyBox> anomalias = [];
 
   @override
   void initState() {
-  super.initState();
-  fetchNotifications();
+    super.initState();
+    fetchData();
   }
 
-  void fetchNotifications() async {
-  final response = await ActivateUsersAuth.getUsersToActivate();
-  setState(() {
-    contasPorAtivarList = response;
-  });
-  print("Contas por ativar fetched");
-  print(contasPorAtivarList);
+  Future<void> fetchData() async {
+    final response = await AnomaliesAuth.getAnomaliesToAprove();
+    setState(() {
+      anomalias = response;
+    });
+    print("Contas por ativar fetched");
+    print(anomalias);
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +47,7 @@ import 'boxes/usersToActivateBox.dart';
                 children: [
                   Expanded(
                     child: Text(
-                      "ATIVAÇÃO DE CONTAS",
+                      "VERIFICAÇÃO DE ANOMALIAS PENDENTES",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -61,7 +60,8 @@ import 'boxes/usersToActivateBox.dart';
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => ResponsiveBackOffice()),
+                        MaterialPageRoute(
+                            builder: (context) => ResponsiveBackOffice()),
                       );
                     },
                   ),
@@ -74,7 +74,7 @@ import 'boxes/usersToActivateBox.dart';
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "CONTA:",
+                  "ANOMALIA:",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 20.0,
@@ -84,20 +84,9 @@ import 'boxes/usersToActivateBox.dart';
             ),
             SizedBox(height: 10.0),
             Container(
-              width: 800,
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: contasPorAtivarList.length,
-                itemBuilder: (BuildContext context, int index) {
-                  UsersToAtivateBox usersToAtivateBox = contasPorAtivarList[index];
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 10.0),
-                    child: UsersToAtivateBox(
-                      targetUsername: usersToAtivateBox.targetUsername,
-                    ),
-                  );
-                },
-              ),
+              width: double.infinity,
+              height: 400.0,
+              color: Colors.blueAccent[100],
             ),
           ],
         ),

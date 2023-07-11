@@ -4,19 +4,16 @@ import 'package:flutter_basic/backoffice/presentation/responsive_backOffice.dart
 import '../../constants.dart';
 import '../../myAppBar.dart';
 import 'backOfficePage.dart';
-import 'boxes/bookingBox.dart';
-
+import '../boxes/bookingBox.dart';
 
 class PedidoReservaSalaPage extends StatefulWidget {
   const PedidoReservaSalaPage({super.key});
 
   State<PedidoReservaSalaPage> createState() => ReservasState();
-  }
+}
 
-
-  class ReservasState extends State<PedidoReservaSalaPage> {
-    List requestsList = [];
-
+class ReservasState extends State<PedidoReservaSalaPage> {
+  List requestsList = [];
 
   void initState() {
     super.initState();
@@ -62,7 +59,8 @@ class PedidoReservaSalaPage extends StatefulWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => ResponsiveBackOffice()),
+                        MaterialPageRoute(
+                            builder: (context) => ResponsiveBackOffice()),
                       );
                     },
                   ),
