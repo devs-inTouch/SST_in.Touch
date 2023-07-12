@@ -33,4 +33,12 @@ public enum UserRole {
         return null;
     }
 
+    public boolean isStaff(String role) {
+        return role.equals(SECURITY.value) ||
+            role.equals(LIBRARY.value) ||
+            role.equals(BOARD.value) ||
+            role.equals(ANNOUNCER.value) ||
+            role.equals(ADMIN.value);
+    }
+
 }
