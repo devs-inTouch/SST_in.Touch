@@ -9,6 +9,7 @@ import pt.unl.fct.di.apdc.firstwebapp.util.entities.news.NewsData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.news.NewsDeleteData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.news.NewsInfoData;
 import pt.unl.fct.di.apdc.firstwebapp.util.enums.DatastoreEntities;
+import pt.unl.fct.di.apdc.firstwebapp.util.enums.UserRole;
 
 
 import javax.ws.rs.*;
@@ -31,6 +32,8 @@ public class NewsResource {
     private static final String USER_NOT_ALLOWED_TO_CREATE_NEWS = "User not allowed to create news";
     private static final String NEWS_CREATED = "News created";
     private static final String USER_NOT_ALLOWED_TO_DELETE_NEWS = "User not allowed to delete news";
+
+    private static final String USER_NOT_ALLOWED_TO_CREATE_NUCLEO = "User not allowed to create nucleo";
     private static final String NEWS_NOT_IN_DATABASE = "News not in database";
     private static final String NEWS_DELETED = "News deleted";
 
@@ -62,8 +65,9 @@ public class NewsResource {
             if(user == null)
                 return Response.status(Response.Status.BAD_REQUEST).entity(USER_NOT_IN_DATABASE).build();
 
-            if(!user.getString("user_role").equals("admin"))
-                return Response.status(Response.Status.BAD_REQUEST).entity(USER_NOT_ALLOWED_TO_CREATE_NEWS).build();
+            if(!UserRole.isStaff(user.getString("user_role"))){
+                return Response.status(Response.Status.FORBIDDEN).entity(USER_NOT_ALLOWED_TO_CREATE_NUCLEO).build();
+            }
 
             int newsId = getNextNews();
             Key newsKey = datastore.newKeyFactory().setKind(DatastoreEntities.NEWS.value).newKey(newsId);
@@ -104,8 +108,9 @@ public class NewsResource {
             if(user == null)
                 return Response.status(Response.Status.BAD_REQUEST).entity(USER_NOT_IN_DATABASE).build();
 
-            if(!user.getString("user_role").equals("admin"))
-                return Response.status(Response.Status.BAD_REQUEST).entity(USER_NOT_ALLOWED_TO_DELETE_NEWS).build();
+            if(!UserRole.isStaff(user.getString("user_role"))){
+                return Response.status(Response.Status.FORBIDDEN).entity(USER_NOT_ALLOWED_TO_CREATE_NUCLEO).build();
+            }
 
             Key newsKey = datastore.newKeyFactory().setKind(DatastoreEntities.NEWS.value).newKey(data.getNewsId());
             Entity news = txn.get(newsKey);

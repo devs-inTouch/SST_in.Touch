@@ -29,6 +29,7 @@ import pt.unl.fct.di.apdc.firstwebapp.util.TokenUtil;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects.TokenData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects.UserData;
 import pt.unl.fct.di.apdc.firstwebapp.util.enums.DatastoreEntities;
+import pt.unl.fct.di.apdc.firstwebapp.util.enums.UserRole;
 
 @Path("/userActivation")
 @Consumes(MediaType.APPLICATION_JSON + DEFAULT_FORMAT)
@@ -41,6 +42,8 @@ public class ActivationResource {
 	private static final Logger LOG = Logger.getLogger(ActivationResource.class.getName());
 
 	private final Datastore datastore = DatastoreUtil.getService();
+
+	private static final String USER_NOT_ALLOWED_TO_CREATE_NUCLEO = "User not allowed to create nucleo";
 
 	private final KeyFactory userKeyFactory = datastore.newKeyFactory().setKind(DatastoreEntities.USER.value);
 
@@ -64,8 +67,9 @@ public class ActivationResource {
 		if (user == null)
 			return Response.status(Status.NOT_FOUND).build();
 
-		if(!user.getString(ROLE.value).equals("admin"))
-			return Response.status(Status.BAD_REQUEST).build();
+		if(!UserRole.isStaff(user.getString("user_role"))){
+			return Response.status(Response.Status.FORBIDDEN).entity(USER_NOT_ALLOWED_TO_CREATE_NUCLEO).build();
+		}
 
 		Key targetKey = datastore.newKeyFactory().setKind(USER.value).newKey(data.getTargetUsername());
 		Entity target = datastore.get(targetKey);

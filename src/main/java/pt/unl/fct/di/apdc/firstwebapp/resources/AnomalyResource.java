@@ -9,6 +9,7 @@ import pt.unl.fct.di.apdc.firstwebapp.util.entities.anomaly.AnomalyData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.anomaly.AnomalyInfoData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.anomaly.ApproveAnomalyData;
 import pt.unl.fct.di.apdc.firstwebapp.util.enums.DatastoreEntities;
+import pt.unl.fct.di.apdc.firstwebapp.util.enums.UserRole;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -36,6 +37,8 @@ public class AnomalyResource {
     private static final String CAN_NOT_DELETE_ANOMALY = "Can not delete anomaly";
     private static final String NOVA_ANOMALIA = "Nova anomalia";
     private static final String ANOMALIA_REJEITADA = "Anomalia rejeitada";
+
+    private static final String USER_NOT_ALLOWED_TO_CREATE_NUCLEO = "User not allowed to create nucleo";
 
     private final Datastore datastore = DatastoreUtil.getService();
 
@@ -110,8 +113,9 @@ public class AnomalyResource {
             if (user == null)
                 return Response.status(Response.Status.BAD_REQUEST).entity(USER_NOT_IN_DATABASE).build();
 
-            if (!user.getString("user_role").equals("admin"))
-                return Response.status(Response.Status.BAD_REQUEST).entity(USER_NOT_ALLOWED_TO_DELETE_ANOMALY).build();
+            if(!UserRole.isStaff(user.getString("user_role"))){
+                return Response.status(Response.Status.FORBIDDEN).entity(USER_NOT_ALLOWED_TO_CREATE_NUCLEO).build();
+            }
 
             Key k = datastore.newKeyFactory().setKind(DatastoreEntities.ANOMALY.value).newKey(Integer.parseInt(data.getAnomalyId()));
             Entity anomaly = txn.get(k);
@@ -154,8 +158,9 @@ public class AnomalyResource {
         if (user == null)
             return Response.status(Response.Status.FORBIDDEN).build();
 
-        if(!user.getString(ROLE.value).equals("admin"))
-            return Response.status(Response.Status.BAD_REQUEST).build();
+        if(!UserRole.isStaff(user.getString("user_role"))){
+            return Response.status(Response.Status.FORBIDDEN).entity(USER_NOT_ALLOWED_TO_CREATE_NUCLEO).build();
+        }
 
         Query<Entity> query = Query.newEntityQueryBuilder().setKind(DatastoreEntities.ANOMALY.value)
                 .setFilter(StructuredQuery.PropertyFilter.eq("isApproved", false)).build();

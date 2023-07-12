@@ -104395,7 +104395,7 @@ $1(a){var s=null,r=t.z,q=A.a([A.fK(A.Y(s,A.cK(s,new A.p4(A.aGF(s,B.tR,s,s,s),B.u
 if(o==="superUser"||o==="admin")q.push(A.fK(A.Y(s,A.cK(s,B.WT,new A.aQI(a),s,B.auj,s),B.f,B.h,s,s,s,s,s,s,s,s,s),r))
 q.push(A.fK(A.Y(s,A.cK(s,B.tX,new A.aQJ(a),s,B.MW,s),B.f,B.h,s,s,s,s,s,s,s,s,s),r))
 o=p.d
-if(o==="superUser"||o==="admin")q.push(A.fK(A.Y(s,A.cK(s,B.u_,new A.aQS(a),s,B.MR,s),B.f,B.h,s,s,s,s,s,s,s,s,s),r))
+if(o==="SEGURAN\xc7A"||o==="admin"||o==="BIBLIOTECA"||o==="DIRE\xc7\xc3O"||o==="DIVULGA\xc7\xc3O")q.push(A.fK(A.Y(s,A.cK(s,B.u_,new A.aQS(a),s,B.MR,s),B.f,B.h,s,s,s,s,s,s,s,s,s),r))
 q.push(A.fK(A.Y(s,A.cK(s,B.tT,new A.aQT(a),s,B.MY,s),B.f,B.h,s,s,s,s,s,s,s,s,s),r))
 q.push(A.fK(A.Y(s,A.cK(s,B.tV,new A.aQU(p,a),s,B.MU,s),B.f,B.h,s,s,s,s,s,s,s,s,s),r))
 return q},

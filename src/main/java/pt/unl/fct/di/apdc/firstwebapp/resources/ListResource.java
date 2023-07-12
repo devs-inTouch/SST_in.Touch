@@ -35,6 +35,7 @@ import pt.unl.fct.di.apdc.firstwebapp.resources.permissions.PermissionsHolder;
 import pt.unl.fct.di.apdc.firstwebapp.util.DatastoreUtil;
 import pt.unl.fct.di.apdc.firstwebapp.util.TokenUtil;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects.*;
+import pt.unl.fct.di.apdc.firstwebapp.util.enums.UserRole;
 
 
 @Path("/list")
@@ -45,6 +46,8 @@ public class ListResource {
     private final Gson g = new Gson();
     private final Datastore datastore = DatastoreUtil.getService();
 
+
+    private static final String USER_NOT_ALLOWED_TO_CREATE_NUCLEO = "User not allowed to create nucleo";
     private PermissionsHolder ph = PermissionsHolder.getInstance();
 
     public ListResource() {}
@@ -68,8 +71,9 @@ public class ListResource {
         if (user == null)
             return Response.status(Status.FORBIDDEN).build();
 
-        if(!user.getString(ROLE.value).equals("admin"))
-            return Response.status(Status.BAD_REQUEST).build();
+        if(!UserRole.isStaff(user.getString("user_role"))){
+            return Response.status(Response.Status.FORBIDDEN).entity(USER_NOT_ALLOWED_TO_CREATE_NUCLEO).build();
+        }
 
         EntityQuery query = Query.newEntityQueryBuilder()
                 .setKind(USER.value)
@@ -125,8 +129,9 @@ public class ListResource {
         if (user == null)
             return Response.status(Status.FORBIDDEN).build();
 
-        if(!user.getString(ROLE.value).equals("admin"))
-            return Response.status(Status.BAD_REQUEST).build();
+        if(!UserRole.isStaff(user.getString("user_role"))){
+            return Response.status(Response.Status.FORBIDDEN).entity(USER_NOT_ALLOWED_TO_CREATE_NUCLEO).build();
+        }
 
         EntityQuery query = EntityQuery.newEntityQueryBuilder()
                 .setKind(USER.value)
@@ -174,8 +179,9 @@ public class ListResource {
         if (user == null)
             return Response.status(Status.FORBIDDEN).build();
 
-        if(!user.getString(ROLE.value).equals("admin"))
-            return Response.status(Status.BAD_REQUEST).build();
+        if(!UserRole.isStaff(user.getString("user_role"))){
+            return Response.status(Response.Status.FORBIDDEN).entity(USER_NOT_ALLOWED_TO_CREATE_NUCLEO).build();
+        }
 
         var stats = new StatsData(
                 getNumOnlineUsers(),

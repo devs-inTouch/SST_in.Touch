@@ -142,7 +142,8 @@ class _MyAppBarState extends State<MyAppBar> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ResponsiveSearchPage()),
+                      MaterialPageRoute(
+                          builder: (context) => ResponsiveSearchPage()),
                     );
                   },
                 ),
@@ -179,7 +180,7 @@ class _MyAppBarState extends State<MyAppBar> {
                 IconButton(
                   icon: Icon(Icons.group, color: Colors.black),
                   onPressed: () {
-                    if (role == 'superUser' ||role == 'admin') {
+                    if (role == 'superUser' || role == 'admin') {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -196,7 +197,6 @@ class _MyAppBarState extends State<MyAppBar> {
                     }
                   },
                 ),
-
               ],
             ),
           ),
@@ -286,7 +286,7 @@ class _MyAppBarState extends State<MyAppBar> {
                   title: const Text('Núcleos'),
                   onTap: () {
                     Navigator.pop(context);
-                    if (role == 'superUser' ||role == 'admin') {
+                    if (role == 'superUser' || role == 'admin') {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -316,8 +316,7 @@ class _MyAppBarState extends State<MyAppBar> {
               PopupMenuItem<Notification>(
                 child: Theme(
                   data: Theme.of(context).copyWith(
-                    backgroundColor:
-                        Colors.blue,
+                    backgroundColor: Colors.blue,
                   ),
                   child: Container(
                     decoration: BoxDecoration(
@@ -358,11 +357,9 @@ class _MyAppBarState extends State<MyAppBar> {
                         builder: (context) => ResponsiveProfile(
                           mobileProfileScaffold: ProfileScaffoldMobile(
                             name: '',
-
                           ),
                           profileScaffold: ProfileScaffold(
                             name: '',
-
                           ),
                         ),
                       ),
@@ -371,7 +368,7 @@ class _MyAppBarState extends State<MyAppBar> {
                 ),
               ),
             ),
-            if (role == 'superUser' ||role == 'admin')
+            if (role == 'superUser' || role == 'admin')
               PopupMenuItem(
                 child: Container(
                   color: Colors.white,
@@ -407,7 +404,11 @@ class _MyAppBarState extends State<MyAppBar> {
                 ),
               ),
             ),
-            if (role == 'superUser' ||role == 'admin')
+            if (role == 'SEGURANÇA' ||
+                role == 'admin' ||
+                role == 'BIBLIOTECA' ||
+                role == 'DIREÇÃO' ||
+                role == 'DIVULGAÇÃO')
               PopupMenuItem(
                 child: Container(
                   color: Colors.white,

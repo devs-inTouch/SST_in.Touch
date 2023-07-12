@@ -33,7 +33,7 @@ public enum UserRole {
         return null;
     }
 
-    public boolean isStaff(String role) {
+    public static boolean isStaff(String role) {
         return role.equals(SECURITY.value) ||
             role.equals(LIBRARY.value) ||
             role.equals(BOARD.value) ||

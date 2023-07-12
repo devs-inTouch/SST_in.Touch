@@ -10,6 +10,7 @@ import pt.unl.fct.di.apdc.firstwebapp.util.entities.events.DeleteEventData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.events.EventInfoData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.events.SubscribeEventData;
 import pt.unl.fct.di.apdc.firstwebapp.util.enums.DatastoreEntities;
+import pt.unl.fct.di.apdc.firstwebapp.util.enums.UserRole;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -32,6 +33,8 @@ public class EventResource {
     private static final String EVENT_DOES_NOT_EXIST = "Event does not exist";
     private static final String EVENT_ALREADY_IN_CALENDAR = "Event already in calendar";
     private static final String EVENT_SUBSCRIBED = "Event subscribed";
+
+    private static final String USER_NOT_ALLOWED_TO_CREATE_NUCLEO = "User not allowed to create nucleo";
 
     private final Datastore datastore = DatastoreUtil.getService();
 
@@ -62,8 +65,9 @@ public class EventResource {
             if(user == null)
                 return Response.status(Response.Status.FORBIDDEN).build();
 
-            if(!user.getString("user_role").equals("admin"))
-                return Response.status(Response.Status.BAD_REQUEST).entity(USER_NOT_ALLOWED_TO_CREATE_EVENTS).build();
+            if(!UserRole.isStaff(user.getString("user_role"))){
+                return Response.status(Response.Status.FORBIDDEN).entity(USER_NOT_ALLOWED_TO_CREATE_NUCLEO).build();
+            }
 
             int nextEvent = getNextEvent();
             Key eventKey = datastore.newKeyFactory().setKind(DatastoreEntities.EVENT.value).newKey(nextEvent);
@@ -112,8 +116,9 @@ public class EventResource {
             if(user == null)
                 return Response.status(Response.Status.FORBIDDEN).build();
 
-            if(user.getString("user_role").equals("admin"))
-                return Response.status(Response.Status.BAD_REQUEST).entity(USER_NOT_ALLOWED_TO_DELETE_EVENTS).build();
+            if(!UserRole.isStaff(user.getString("user_role"))){
+                return Response.status(Response.Status.FORBIDDEN).entity(USER_NOT_ALLOWED_TO_CREATE_NUCLEO).build();
+            }
 
             Key eventKey = datastore.newKeyFactory().setKind(DatastoreEntities.EVENT.value).newKey(data.getEventId());
             Entity event = txn.get(eventKey);

@@ -9,6 +9,7 @@ import pt.unl.fct.di.apdc.firstwebapp.util.entities.nucleos.CreateNucleoData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.nucleos.DeleteNucleoData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.nucleos.NucleoInfoData;
 import pt.unl.fct.di.apdc.firstwebapp.util.enums.DatastoreEntities;
+import pt.unl.fct.di.apdc.firstwebapp.util.enums.UserRole;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -57,10 +58,10 @@ public class NucleoResource {
                 return Response.status(Response.Status.FORBIDDEN).entity(USER_NOT_IN_DATABASE).build();
             }
 
-            if(!user.getString("user_role").equals("admin")) {
+            if(!UserRole.isStaff(user.getString("user_role"))){
                 return Response.status(Response.Status.FORBIDDEN).entity(USER_NOT_ALLOWED_TO_CREATE_NUCLEO).build();
             }
-
+    
             int nucleoId = getNextNucleo();
             Key nucleoKey = datastore.newKeyFactory().setKind(DatastoreEntities.NUCLEO.value).newKey(nucleoId);
             Entity nucleo = Entity.newBuilder(nucleoKey)
@@ -102,8 +103,8 @@ public class NucleoResource {
                 return Response.status(Response.Status.BAD_REQUEST).entity(USER_NOT_IN_DATABASE).build();
             }
 
-            if(!user.getString("user_role").equals("admin")) {
-                return Response.status(Response.Status.BAD_REQUEST).entity(USER_NOT_ALLOWED_TO_DELETE_NUCLEO).build();
+            if(!UserRole.isStaff(user.getString("user_role"))){
+                return Response.status(Response.Status.FORBIDDEN).entity(USER_NOT_ALLOWED_TO_CREATE_NUCLEO).build();
             }
 
             Key nucleoKey = datastore.newKeyFactory().setKind(DatastoreEntities.NUCLEO.value).newKey(Integer.parseInt(data.getNucleoId()));
