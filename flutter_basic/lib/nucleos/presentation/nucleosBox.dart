@@ -37,7 +37,7 @@ class NucleosBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 250*fem,
-      height: 400,
+      height: 450,
       color: Colors.grey[300],
       child: Column(
         children: [
@@ -47,7 +47,7 @@ class NucleosBox extends StatelessWidget {
             children: [
               Container(
                 width: 180,
-                height: 60,
+                height: 80,
                 decoration: BoxDecoration(
                   color: Colors.blueAccent[200],
                 ),
@@ -89,7 +89,7 @@ class NucleosBox extends StatelessWidget {
               SizedBox(height: 10),
               Container(
                 width: 200,
-                height: 130,
+                height: 150,
                 padding: EdgeInsets.all(10.0),
                 decoration: BoxDecoration(
                   color: Colors.white,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/myAppBarMobile.dart';
 import 'package:flutter_basic/profile/presentation/profileBox.dart';
+import 'package:flutter_basic/profile/presentation/profileBoxMobile.dart';
 import '../../bottomAppBarMobile.dart';
 import '../../constants.dart';
 import '../../eventCalendar.dart';
@@ -104,7 +105,7 @@ class _ProfilePageState extends State<ProfileScaffoldMobile> {
                         SizedBox(
                           height: 10,
                         ),
-                        ProfileBox(fem: fem, map: userInfo, myProfile: myProfile),
+                        ProfileBoxMobile(fem: fem, map: userInfo, myProfile: myProfile),
                         SizedBox(height: 10),
                         Container(
                             width: 650,

@@ -65,7 +65,7 @@ class AnomaliasVerifyPageState extends State<AnomaliasVerifyPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              padding: EdgeInsets.symmetric(vertical: 10.0),
+              padding: EdgeInsets.fromLTRB(0.0,20.0,0.0,10.0),
               color: Colors.grey[300],
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -95,11 +95,11 @@ class AnomaliasVerifyPageState extends State<AnomaliasVerifyPage> {
             ),
             SizedBox(height: 10.0),
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 10.0),
+              padding: EdgeInsets.fromLTRB(0.0,10.0,0.0,10.0),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "ANOMALIA:",
+                  "ANOMALIAS:",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 20.0,
@@ -110,18 +110,23 @@ class AnomaliasVerifyPageState extends State<AnomaliasVerifyPage> {
             SizedBox(height: 10.0),
             Container(
               width: 800,
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: anomalias.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final user = anomalias[index];
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 10.0),
-                    child: user,
-                  );
-                },
+              height: 600, // Adjust the height according to your needs
+              child: Scrollbar(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: anomalias.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final user = anomalias[index];
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 10.0),
+                      child: user,
+                    );
+                  },
+                ),
               ),
             ),
+
+
 
           ],
         ),

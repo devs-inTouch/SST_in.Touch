@@ -76,6 +76,7 @@ class StatsPageState extends State<StatsAcessoPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  SizedBox(height: 20.0),
                   Container(
                     color: Colors.white70,
                     padding: EdgeInsets.symmetric(vertical: 12.0),

@@ -12,6 +12,8 @@ import 'package:flutter_basic/reports/presentation/reportsPage.dart';
 import 'package:flutter_basic/reports/presentation/responsive_reportsPage.dart';
 import 'package:flutter_basic/reservaSalas/presentation/responsive_reservasalas.dart';
 import 'package:flutter_basic/searchBarPage/presentation/responsive_searchPage.dart';
+import 'package:flutter_basic/senhas/presentation/scan.dart';
+import 'package:flutter_basic/senhas/presentation/senhas_page.dart';
 
 import 'anomalies/presentation/anomaliesPage.dart';
 import 'backoffice/presentation/backOfficePage.dart';
@@ -116,8 +118,50 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
                   child: Container(
                     color: Colors.white,
                     child: ListTile(
+                      leading: const Icon(Icons.fastfood_rounded),
+                      title: const Text('Senhas para a cantina'),
+                      onTap: () {
+                        Navigator.pop(context);
+                        if (role == 'admin') {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ManagingSenhas()),
+                          );
+                        } else {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MyQRCodePage()),
+                          );
+                        }
+                      },
+                    ),
+                  ),
+                ),
+                PopupMenuItem(
+                  child: Container(
+                    color: Colors.white,
+                    child: ListTile(
+                      leading: const Icon(Icons.person_search),
+                      title: const Text('Pesquisa de perfis'),
+                      onTap: () {
+                        Navigator.pop(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ResponsiveSearchPage()),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                PopupMenuItem(
+                  child: Container(
+                    color: Colors.white,
+                    child: ListTile(
                       leading: const Icon(Icons.map),
-                      title: const Text('Maps'),
+                      title: const Text('Mapa'),
                       onTap: () {
                         Navigator.pop(context);
                         Navigator.push(
@@ -129,46 +173,7 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
                     ),
                   ),
                 ),
-                /**
-                PopupMenuItem(
-                  child: Container(
-                    color: Colors.white,
-                    child: ListTile(
-                      leading: const Icon(Icons.terminal),
-                      title: const Text('Tests'),
-                      onTap: () {
-                        Navigator.pop(context);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ResponsiveCalendarLayout()),
-                        );
-                      },
-                    ),
-                  ),
-                ),
 
-                PopupMenuItem(
-                  child: Container(
-                    color: Colors.white,
-                    // Set the background color of the menu item to white
-                    child: ListTile(
-                      leading: const Icon(Icons.newspaper),
-                      title: const Text('Notícias'),
-                      onTap: () {
-                        // Handle logout button click
-                        Navigator.pop(context); // Close the menu
-                        // Implement your logic here
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ResponsiveNewsPage()),
-                        );
-                      },
-                    ),
-                  ),
-                ),
-                **/
                 PopupMenuItem(
                   child: Container(
                     color: Colors.white,
@@ -177,7 +182,7 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
                       title: const Text('Núcleos'),
                       onTap: () {
                         Navigator.pop(context);
-                        if (role == 'superUser' ||role == 'admin') {
+                        if (role == 'superUser' || role == 'admin') {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -205,7 +210,8 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => ResponsiveSearchPage()),
+                          MaterialPageRoute(
+                              builder: (context) => ResponsiveSearchPage()),
                         );
                       },
                     ),
@@ -213,79 +219,79 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
                 ),
               ],
             ),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const ResponsiveLayout(
-                            mobileScaffold: MobileScaffold(),
-                            tabletScaffold: TabletScaffold(),
-                            desktopScaffold: DesktopScaffold(),
-                          ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ResponsiveLayout(
+                          mobileScaffold: MobileScaffold(),
+                          tabletScaffold: TabletScaffold(),
+                          desktopScaffold: DesktopScaffold(),
                         ),
-                      );
-                    },
-                    child: Column(
-                      children: [
-                        Icon(Icons.home),
-                        Text('Página inicial', style: TextStyle(fontSize: 10)),
-                      ],
-                    ),
+                      ),
+                    );
+                  },
+                  child: Column(
+                    children: [
+                      Icon(Icons.home),
+                      Text('Página inicial', style: TextStyle(fontSize: 10)),
+                    ],
                   ),
-                  SizedBox(height: 5),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => ResponsiveMap()),
-                      );
-                    },
-                    child: Column(
-                      children: [
-                        Icon(Icons.map),
-                        Text('Mapa', style: TextStyle(fontSize: 10)),
-                      ],
-                    ),
+                ),
+                SizedBox(height: 5),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ResponsiveMap()),
+                    );
+                  },
+                  child: Column(
+                    children: [
+                      Icon(Icons.map),
+                      Text('Mapa', style: TextStyle(fontSize: 10)),
+                    ],
                   ),
-                  SizedBox(height: 5),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ResponsiveCalendarLayout()),
-                      );
-                    },
-                    child: Column(
-                      children: [
-                        Icon(Icons.calendar_today),
-                        Text('Calendário', style: TextStyle(fontSize: 10)),
-                      ],
-                    ),
+                ),
+                SizedBox(height: 5),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ResponsiveCalendarLayout()),
+                    );
+                  },
+                  child: Column(
+                    children: [
+                      Icon(Icons.calendar_today),
+                      Text('Calendário', style: TextStyle(fontSize: 10)),
+                    ],
                   ),
-                  SizedBox(height: 5),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ResponsiveFeedPage()),
-                      );
-                    },
-                    child: Column(
-                      children: [
-                        Icon(Icons.list_alt_outlined),
-                        Text('Feed', style: TextStyle(fontSize: 10)),
-                      ],
-                    ),
+                ),
+                SizedBox(height: 5),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ResponsiveFeedPage()),
+                    );
+                  },
+                  child: Column(
+                    children: [
+                      Icon(Icons.list_alt_outlined),
+                      Text('Feed', style: TextStyle(fontSize: 10)),
+                    ],
                   ),
-                  SizedBox(height: 5),
-                ],
-              ),
+                ),
+                SizedBox(height: 5),
+              ],
+            ),
             PopupMenuButton(
               icon: const Icon(Icons.person, color: Colors.black),
               color: Colors.white,
@@ -309,47 +315,24 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
                             builder: (context) => ResponsiveProfile(
                               mobileProfileScaffold: ProfileScaffoldMobile(
                                 name: '',
-
                               ),
                               profileScaffold: ProfileScaffold(
                                 name: '',
-
                               ),
                             ),
                           ),
                         );
-
                       },
                     ),
                   ),
                 ),
-                /**
-                if (role == 'superUser' ||role == 'admin')
-                  PopupMenuItem(
-                    child: Container(
-                      color: Colors.white,
-                      child: ListTile(
-                        leading: const Icon(Icons.notification_add_outlined),
-                        title: const Text('Notify'),
-                        onTap: () {
-                          Navigator.pop(context);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ResponsiveReportsPage(),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                **/
+
                 PopupMenuItem(
                   child: Container(
                     color: Colors.white,
                     child: ListTile(
                       leading: const Icon(Icons.report),
-                      title: const Text('Report'),
+                      title: const Text('Report de Anomalias'),
                       onTap: () {
                         Navigator.pop(context);
                         Navigator.push(
@@ -361,30 +344,30 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
                     ),
                   ),
                 ),
-                if (role == 'superUser' ||role == 'admin')
+                if (role == 'superUser' || role == 'admin')
                   PopupMenuItem(
-                  child: Container(
-                    color: Colors.white,
-                    child: ListTile(
-                      leading: const Icon(Icons.admin_panel_settings),
-                      title: const Text('Back-Office'),
-                      onTap: () {
-                        Navigator.pop(context);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ResponsiveBackOffice()),
-                        );
-                      },
+                    child: Container(
+                      color: Colors.white,
+                      child: ListTile(
+                        leading: const Icon(Icons.admin_panel_settings),
+                        title: const Text('Back-Office'),
+                        onTap: () {
+                          Navigator.pop(context);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ResponsiveBackOffice()),
+                          );
+                        },
+                      ),
                     ),
                   ),
-                ),
                 PopupMenuItem(
                   child: Container(
                     color: Colors.white,
                     child: ListTile(
                       leading: const Icon(Icons.workspaces),
-                      title: const Text('Workspace'),
+                      title: const Text('Reserva de Salas'),
                       onTap: () {
                         Navigator.pop(context);
                         Navigator.push(

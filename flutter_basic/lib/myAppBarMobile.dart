@@ -86,31 +86,6 @@ class _MyAppBarMobileState extends State<MyAppBarMobile> {
           fit: BoxFit.fitHeight,
         ),
         actions: [
-          IconButton(
-            icon: Icon(Icons.fastfood_rounded, color: Colors.black),
-            onPressed: () {
-              if (role == 'admin') {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ManagingSenhas()),
-                );
-              } else {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => MyQRCodePage()),
-                );
-              }
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.person_search, color: Colors.black),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ResponsiveSearchPage()),
-              );
-            },
-          ),
           PopupMenuButton<Notification>(
             icon: const Icon(Icons.notifications, color: Colors.black),
             color: Colors.white,
