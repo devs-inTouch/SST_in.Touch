@@ -7,11 +7,8 @@ class ProfileBox extends StatefulWidget {
   final List map;
   final bool myProfile;
 
-  const ProfileBox({
-    required this.fem,
-    required this.map,
-    required this.myProfile
-  });
+  const ProfileBox(
+      {required this.fem, required this.map, required this.myProfile});
 
   @override
   _ProfileBoxState createState() => _ProfileBoxState();
@@ -27,15 +24,13 @@ class _ProfileBoxState extends State<ProfileBox> {
   @override
   initState() {
     super.initState();
-    if(!widget.myProfile) {
+    if (!widget.myProfile) {
       isFollowing();
     }
 
     description = widget.map[2];
     _textEditingController = TextEditingController(text: description);
   }
-
-  
 
   @override
   void dispose() {
@@ -49,26 +44,21 @@ class _ProfileBoxState extends State<ProfileBox> {
     print(following);
     print(widget.map[0]);
     print(following.contains(widget.map[0]));
-    if(following.contains(widget.map[0])) {
+    if (following.contains(widget.map[0])) {
       setState(() {
         follow = 'Seguindo';
       });
-
     } else {
       setState(() {
         follow = 'Seguir';
       });
-
     }
-
   }
 
-  editProfile() {
-
-  }
+  editProfile() {}
 
   changeFollow() {
-    if(follow == 'Seguindo') {
+    if (follow == 'Seguindo') {
       ProfileRequests.unfollowUser(widget.map[0]);
       setState(() {
         follow = 'Seguir';
@@ -79,10 +69,7 @@ class _ProfileBoxState extends State<ProfileBox> {
         follow = 'Seguindo';
       });
     }
-
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -101,12 +88,10 @@ class _ProfileBoxState extends State<ProfileBox> {
               child: Row(
                 children: [
                   ImageNetwork(
-                    image:
-                    imageUrl,
+                    image: imageUrl,
                     height: 120,
                     width: 120,
                   ),
-
                   SizedBox(width: 8.0),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -119,7 +104,7 @@ class _ProfileBoxState extends State<ProfileBox> {
                         ),
                       ),
                       Text(
-                        'Nº: ${widget.map[5]} \nEmail: ${widget.map[3]} \nDepartamento: ${widget.map[1]}',
+                        'Email: ${widget.map[3]} \nDepartamento: ${widget.map[1]}',
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.grey,
@@ -150,14 +135,13 @@ class _ProfileBoxState extends State<ProfileBox> {
               padding: EdgeInsets.all(8.0),
               child: isEditing
                   ? TextField(
-                controller: _textEditingController,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  filled: true,
-                  fillColor: Colors.white,
-                ),
-              )
-
+                      controller: _textEditingController,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        filled: true,
+                        fillColor: Colors.white,
+                      ),
+                    )
                   : Text(description),
               width: double.infinity,
               decoration: BoxDecoration(

@@ -68,7 +68,6 @@ public class ProfileResource {
             info.add(user.getString(UserAttributes.DESCRIPTION.value));
             info.add(user.getString(UserAttributes.EMAIL.value));
             info.add(user.getString(UserAttributes.NAME.value));
-            info.add(user.getString(UserAttributes.STUDENT_NUMBER.value));
                 /*info.add(user.getString(UserAttributes.ROLE.value));
                 info.add(user.getString(UserAttributes.DEPARTMENT.value));
                 info.add(user.getString(UserAttributes.WORK_ADDRESS.value));

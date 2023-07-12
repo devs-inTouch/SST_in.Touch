@@ -25,9 +25,12 @@ class AnomalyAuth {
     return map;
   }
 
+  static bool emptyFields(String title, String description) {
+    return title.isEmpty && description.isEmpty;
+  }
+
   static makeAnomalyRequest(String title, String description) async {
     String tokenAuth = await getTokenAuth();
-
 
     final response = await http.post(
         Uri.parse(
@@ -36,10 +39,8 @@ class AnomalyAuth {
           'Content-Type': 'application/json',
           HttpHeaders.authorizationHeader: tokenAuth
         },
-        body: jsonEncode(<String, String>{
-          "title": title,
-          "description": description
-        }));
+        body: jsonEncode(
+            <String, String>{"title": title, "description": description}));
     if (response.statusCode == 200) {
       return true;
     } else
@@ -126,6 +127,3 @@ class AnomalyAuth {
     }
   } */
 }
-
-
-

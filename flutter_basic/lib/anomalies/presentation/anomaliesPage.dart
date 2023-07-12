@@ -154,6 +154,7 @@ class AnomalyState extends State<AnomaliesPage> {
     title.clear();
     description.clear();
   }
+
   /**
       selectImage(parentContext) {
       return showDialog(
@@ -215,10 +216,8 @@ class AnomalyState extends State<AnomaliesPage> {
                       ],
                     ),
                   ),
-
                   Padding(
-                    padding:
-                    const EdgeInsets.all(20.0),
+                    padding: const EdgeInsets.all(20.0),
                     child: Container(
                       height: 400,
                       width: 1000,
@@ -243,10 +242,7 @@ class AnomalyState extends State<AnomaliesPage> {
                                       children: [
                                         Padding(
                                           padding: const EdgeInsets.fromLTRB(
-                                              15.0,
-                                              15.0,
-                                              15.0,
-                                              0.0),
+                                              15.0, 15.0, 15.0, 0.0),
                                           child: TextField(
                                             controller: title,
                                             maxLength: 50,
@@ -259,14 +255,11 @@ class AnomalyState extends State<AnomaliesPage> {
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.fromLTRB(
-                                              15.0,
-                                              15.0,
-                                              15.0,
-                                              0.0),
+                                              15.0, 15.0, 15.0, 0.0),
                                           child: TextField(
                                             controller: description,
                                             keyboardType:
-                                            TextInputType.multiline,
+                                                TextInputType.multiline,
                                             maxLines: 7,
                                             maxLength: 400,
                                             decoration: const InputDecoration(
@@ -288,16 +281,17 @@ class AnomalyState extends State<AnomaliesPage> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-
-
                                 Padding(
-                                  padding: const EdgeInsets.only(
-                                      left:
-                                      20.0),
+                                  padding: const EdgeInsets.only(left: 20.0),
                                   child: ElevatedButton(
-                                    onPressed: isUploading
-                                        ? null
-                                        : () => handleSubmit(),
+                                    onPressed: () {
+                                      if (AnomalyAuth.emptyFields(
+                                          title.text, description.text)) {
+                                        mandatoryFieldsBox(context);
+                                      } else {
+                                        handleSubmit();
+                                      }
+                                    },
                                     style: ElevatedButton.styleFrom(
                                       fixedSize: const Size(100, 40),
                                       backgroundColor: Colors.white,
@@ -319,8 +313,7 @@ class AnomalyState extends State<AnomaliesPage> {
                   ),
                   const SizedBox(height: 10),
                   Padding(
-                    padding:
-                    const EdgeInsets.all(20.0),
+                    padding: const EdgeInsets.all(20.0),
                     child: Container(
                       width: 800,
                       child: ListView.builder(
@@ -348,5 +341,24 @@ class AnomalyState extends State<AnomaliesPage> {
       ),
     );
   }
+
+  void mandatoryFieldsBox(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text(
+              'Campos obrigatórios por preencher: Titulo, Descrição'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Ok'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 }
-	

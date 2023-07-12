@@ -1,114 +1,179 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_basic/constants.dart';
+import 'package:flutter_basic/bottomAppBarMobile.dart';
 import 'package:flutter_basic/myAppBarMobile.dart';
-import '../../bottomAppBarMobile.dart';
+import 'package:flutter_basic/profile/presentation/profile_scaffold_Mobile.dart';
+
+import '../../constants.dart';
 import '../../myAppBar.dart';
+import '../../profile/application/profleRequests.dart';
+import '../../profile/presentation/profile_scaffold.dart';
 
-class SearchBarMobile extends StatelessWidget {
+class SearchBarMobile extends StatefulWidget {
+  @override
+  _SearchBarStateMobile createState() => _SearchBarStateMobile();
+}
 
-  String targetUsername = '';
+class _SearchBarStateMobile extends State<SearchBarMobile> {
+  final TextEditingController searchValue = TextEditingController();
+  List received = [];
 
-  void checkUsername() {
-    // Lógica para verificar se o nome de usuário existe no banco de dados
-    // ...
+  handleSearch() async {
+    List searchResults = await ProfileRequests.getSearch(searchValue.text);
+
+    setState(() {
+      if (mounted) {
+        received = searchResults;
+      }
+    });
+    print("ola");
+
+    return ListView.builder(
+        itemCount: received.length,
+        itemBuilder: (BuildContext context, int index) {
+          final suggestion = received[index];
+          return ListTile(
+            leading: CircleAvatar(
+              backgroundColor: Colors.orange,
+              //backgroundImage: CachedNetworkImageProvider(''),
+            ),
+            title: Text(suggestion),
+          );
+        });
   }
-    // Se o nome de usuário existir, abrir o perfil correspondente
-    // ...
+  // Se o nome de usuário existir, abrir o perfil correspondente
+  // ...
 
-    @override
-    Widget build(BuildContext context) {
-      return Scaffold(
-        appBar: MyAppBarMobile(),
-        backgroundColor: myBackground,
-        body: Container(
-          padding: EdgeInsets.all(20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'PESQUISAR POR PERFIL',
-                    style: TextStyle(
-                      fontSize: 26,
-                      fontWeight: FontWeight.bold,
-                    ),
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: MyAppBarMobile(),
+      backgroundColor: myBackground,
+      body: Container(
+        padding: EdgeInsets.all(20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'PESQUISAR POR PERFIL',
+                  style: TextStyle(
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold,
                   ),
-                  SizedBox(width: 5),
-                  Icon(
-                    Icons.search,
-                    size: 26,
-                    color: Colors.black,
+                ),
+                SizedBox(width: 5),
+                Icon(
+                  Icons.search,
+                  size: 26,
+                  color: Colors.black,
+                ),
+              ],
+            ),
+            SizedBox(height: 20),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.blueAccent[200],
+                    borderRadius: BorderRadius.circular(20),
                   ),
-                ],
-              ),
-              SizedBox(height: 20),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.blueAccent[200],
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    padding: EdgeInsets.all(20),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Expanded(
-                              flex: 7,
-                              child: Align(
-                                alignment: Alignment.center,
-                                child: Padding(
-                                  padding: EdgeInsetsDirectional.zero,
-                                  child: Text(
-                                    'NOME DE UTILIZADOR',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14,
-                                    ),
+                  padding: EdgeInsets.all(20),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            flex: 7,
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Padding(
+                                padding: EdgeInsetsDirectional.zero,
+                                child: Text(
+                                  'NOME DE UTILIZADOR',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
                                   ),
                                 ),
                               ),
                             ),
-                            SizedBox(width: 20),
-                            Expanded(
-                              flex: 16,
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                  border: OutlineInputBorder(),
+                          ),
+                          SizedBox(width: 20),
+                          Expanded(
+                            flex: 16,
+                            child: TextFormField(
+                              controller: searchValue,
+                              decoration: InputDecoration(
+                                hintText: "Pesquisa utilizadores",
+                                filled: true,
+                                prefixIcon: Icon(Icons.account_box),
+                                suffixIcon: IconButton(
+                                  icon: Icon(Icons.search),
+                                  onPressed: handleSearch,
                                 ),
-                                onChanged: (value) {
-                                  targetUsername = value;
-                                },
                               ),
                             ),
-                          ],
-                        ),
-                        SizedBox(height: 20),
-                        ElevatedButton(
-                          onPressed: () {
-                            checkUsername();
-                          },
-                          child: Text('Verificar perfil'),
-                        ),
-                      ],
-                    ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed: () {
+                          handleSearch();
+                        },
+                        child: Text('Verificar perfil'),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 10),
+                      ),
+                      if (received.isNotEmpty)
+                        SearchResultsWidget(searchResults: received)
+                    ],
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-        bottomNavigationBar: MyBottomAppBar(),
-      );
-    }
-
+      ),
+      bottomNavigationBar: MyBottomAppBar(),
+    );
   }
+}
 
+class SearchResultsWidget extends StatelessWidget {
+  final List searchResults;
 
+  const SearchResultsWidget({Key? key, required this.searchResults})
+      : super(key: key);
 
-
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: searchResults.length,
+      itemBuilder: (BuildContext context, int index) {
+        final suggestion = searchResults[index];
+        return ListTile(
+          leading: CircleAvatar(
+            backgroundColor: Colors.orange,
+            //backgroundImage: CachedNetworkImageProvider(''),
+          ),
+          title: Text(suggestion),
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ProfileScaffoldMobile(
+                    name: suggestion.toString(),
+                  ),
+                ));
+          },
+        );
+      },
+    );
+  }
+}
