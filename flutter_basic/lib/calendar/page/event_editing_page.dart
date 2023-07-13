@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/calendar/widget/calendar_widget.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
@@ -32,6 +34,8 @@ class _EventEditingPageState extends State<EventEditingPage> {
   late Color color;
   late bool isAllDay;
   late bool isPublic;
+  Timer? snackBarTimer;
+  bool isShowingSnackBar = false;
 
   @override
   void initState() {
@@ -379,7 +383,28 @@ class _EventEditingPageState extends State<EventEditingPage> {
   Future saveFrom() async {
     final isValid = _formKey.currentState!.validate();
     final isEditing = widget.event != null;
-    if (isEditing) {
+    if (toDate.isBefore(fromDate)) {
+      if (isShowingSnackBar) {
+        snackBarTimer?.cancel(); // Cancel the existing timer
+      } else {
+        setState(() {
+          isShowingSnackBar = true; // Set the flag to true
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('A data final não pode ser anterior a data inicial'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+      // Start a new timer to reset the flag after a duration (e.g., 3 seconds)
+      snackBarTimer = Timer(const Duration(seconds: 3), () {
+        setState(() {
+          isShowingSnackBar = false; // Reset the flag
+        });
+      });
+      return;
+    } else if (isEditing) {
       int index = calendarWidgetState.events.indexOf(widget.event!);
       if (isValid) {
         final event = Event(
