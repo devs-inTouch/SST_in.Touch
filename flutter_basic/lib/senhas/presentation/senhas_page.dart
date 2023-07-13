@@ -8,6 +8,12 @@ import 'package:image_network/image_network.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../bottomAppBarMobile.dart';
+import '../../mainpage/presentation/desktop_main_scaffold.dart';
+import '../../mainpage/presentation/mobile_main_scaffold.dart';
+import '../../mainpage/presentation/responsive_main_page.dart';
+import '../../mainpage/presentation/tablet_main_scaffold.dart';
+
 class MyQRCodePage extends StatefulWidget {
 
   @override
@@ -45,6 +51,25 @@ class _MyQRCodePageState extends State<MyQRCodePage> {
       appBar: MyAppBarMobile(),
       body: ListView(
         children: [
+          Align(
+            alignment: Alignment.topRight,
+            child: IconButton(
+              icon: Icon(Icons.close),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ResponsiveLayout(
+                      mobileScaffold: MobileScaffold(),
+                      tabletScaffold: TabletScaffold(),
+                      desktopScaffold: DesktopScaffold(),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+
           Center(
             child: Column(
               children: [
@@ -119,6 +144,8 @@ class _MyQRCodePageState extends State<MyQRCodePage> {
           )
         ],
       ),
+      bottomNavigationBar: MyBottomAppBar(),
+
     );
   }
 

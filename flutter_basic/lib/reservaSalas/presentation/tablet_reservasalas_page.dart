@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/myAppBarMobile.dart';
 import 'package:flutter_basic/reservaSalas/presentation/salasBox.dart';
+import 'package:flutter_basic/reservaSalas/presentation/salasDisponiveisPage.dart';
 import 'package:intl/intl.dart';
 
 import '../../bottomAppBarMobile.dart';
@@ -22,6 +23,8 @@ import '../application/reservaRequest.dart';
   TextEditingController numberStudents = TextEditingController();
   TextEditingController data = TextEditingController();
   TextEditingController hora = TextEditingController();
+  bool isChecking = false;
+
   late String hour= '';
   late String date = '';
   late final DateFormat dateFormat = DateFormat('dd/MM/yyyy');
@@ -34,6 +37,19 @@ import '../application/reservaRequest.dart';
     date = dateFormat.format(DateTime.now());
     hour = horasDisponiveis[0];
   }
+  void checkRooms({
+    required String date,
+    required String hour,
+  }){
+    print("hora e data"+date+hour);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>SalasDisponiveisPage(date: date,hour: hour)        ,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -204,101 +220,23 @@ import '../application/reservaRequest.dart';
                                 Align(
                                   alignment: Alignment.center,
                                   child: ElevatedButton(
-                                    onPressed: () async {
-                                      List<SalasBox> roomsList = await ReservaAuth.getRoomsList(date, hour);
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            title: Text('Lista de Salas'),
-                                            content: Container(
-                                              width: double.maxFinite,
-                                              child: ListView.builder(
-                                                itemCount: roomsList.length,
-                                                itemBuilder: (BuildContext context, int index) {
-                                                  return SalasBox(
-                                                    name: roomsList[index].name,
-                                                    department: roomsList[index].department,
-                                                    space: roomsList[index].space,
-                                                    date: roomsList[index].date,
-                                                    hour: roomsList[index].hour,
-                                                  );
-                                                },
-                                              ),
-
-                                            ),
-                                            actions: [
-                                              TextButton(
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                },
-                                                child: Text('Fechar'),
-                                              ),
-                                            ],
-                                          );
-                                        },
-                                      );
-                                    },
-                                    style: ButtonStyle(
-                                      backgroundColor: MaterialStateProperty.all<Color>(Colors.grey[300]!),
+                                    onPressed: isChecking
+                                        ? null
+                                        : () => checkRooms(date:date, hour: hour),
+                                    style: ElevatedButton.styleFrom(
+                                      fixedSize: const Size(150, 50),
+                                      backgroundColor: Colors.blue[800],
                                     ),
-                                    child: Text(
-                                      'VERIFICAR DISPONIBILIDADE',
+                                    child: const Text(
+                                      'Verificar Salas',
+                                      textAlign: TextAlign.left,
                                       style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18.0,
-                                      ),
+                                          color: Colors.white, fontSize: 12),
                                     ),
                                   ),
                                 ),
 
                               ],
-                            ),
-                          ),
-                          /**
-                          SizedBox(height: 20),
-                          Align(
-                            alignment: Alignment.center,
-                            child: Padding(
-                              padding: EdgeInsetsDirectional.zero,
-                              child: Text(
-                                'NÚMERO DE ALUNOS',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 20),
-                            child: TextField(
-                              controller: numberStudents,
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor: Colors.white,
-                                border: OutlineInputBorder(),
-                              ),
-                            ),
-                          ),
-                          **/
-
-                          SizedBox(height: 20),
-                          Align(
-                            alignment: Alignment.center,
-                            child: TextButton(
-                              onPressed: () {
-
-                              },
-                              style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all<Color>(Colors.blueAccent[200]!),
-                              ),
-                              child: Text(
-                                'CONFIRMAR RESERVA',
-                                style: textStyleReservaSalasButton,
-                              ),
                             ),
                           ),
                         ],

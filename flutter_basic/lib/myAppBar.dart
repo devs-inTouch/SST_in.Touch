@@ -178,7 +178,7 @@ class _MyAppBarState extends State<MyAppBar> {
                   },
                 ),
                 IconButton(
-                  icon: Icon(Icons.group, color: Colors.black),
+                  icon: Icon(Icons.groups, color: Colors.black),
                   onPressed: () {
                     if (role == 'superUser' || role == 'admin') {
                       Navigator.push(
@@ -239,6 +239,7 @@ class _MyAppBarState extends State<MyAppBar> {
                 ),
               ),
             ),
+            /**
             PopupMenuItem(
               child: Container(
                 color: Colors.white,
@@ -256,7 +257,7 @@ class _MyAppBarState extends State<MyAppBar> {
                 ),
               ),
             ),
-            /**
+
             PopupMenuItem(
               child: Container(
                 color: Colors.white,
@@ -349,7 +350,7 @@ class _MyAppBarState extends State<MyAppBar> {
                     ),
                     child: const Icon(Icons.person),
                   ),
-                  title: const Text('Profile'),
+                  title: const Text('Perfil'),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -368,31 +369,12 @@ class _MyAppBarState extends State<MyAppBar> {
                 ),
               ),
             ),
-            if (role == 'superUser' || role == 'admin')
-              PopupMenuItem(
-                child: Container(
-                  color: Colors.white,
-                  child: ListTile(
-                    leading: const Icon(Icons.notification_add_outlined),
-                    title: const Text('Notify'),
-                    onTap: () {
-                      Navigator.pop(context);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ResponsiveReportsPage(),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ),
             PopupMenuItem(
               child: Container(
                 color: Colors.white,
                 child: ListTile(
                   leading: const Icon(Icons.report),
-                  title: const Text('Report'),
+                  title: const Text('Report de Anomalias'),
                   onTap: () {
                     Navigator.pop(context);
                     Navigator.push(
@@ -431,7 +413,7 @@ class _MyAppBarState extends State<MyAppBar> {
                 color: Colors.white,
                 child: ListTile(
                   leading: const Icon(Icons.workspaces),
-                  title: const Text('Workspace'),
+                  title: const Text('Reserva de salas'),
                   onTap: () {
                     Navigator.pop(context);
                     Navigator.push(

@@ -60,7 +60,7 @@ class AnomaliasVerifyPageState extends State<AnomaliasVerifyPage> {
     return Scaffold(
       backgroundColor: myBackground,
       body: Container(
-        padding: EdgeInsets.all(16.0),
+        padding: EdgeInsets.fromLTRB(16.0, 40.0, 16.0, 16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -110,7 +110,7 @@ class AnomaliasVerifyPageState extends State<AnomaliasVerifyPage> {
             SizedBox(height: 10.0),
             Container(
               width: 800,
-              height: 600, // Adjust the height according to your needs
+              height: 600,
               child: Scrollbar(
                 child: ListView.builder(
                   shrinkWrap: true,

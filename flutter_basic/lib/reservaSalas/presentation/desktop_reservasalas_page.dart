@@ -19,20 +19,21 @@ class _ReservaSalasPageState extends State<ReservaSalasPage> {
   TextEditingController department = TextEditingController();
   TextEditingController room = TextEditingController();
   TextEditingController numberStudents = TextEditingController();
-  TextEditingController date = TextEditingController();
-  TextEditingController hour = TextEditingController();
-
-  //late final  dateFormat = DateFormat('dd/MM/yyyy');
-
-
-
-  List salasDisponiveisList = [];
+  TextEditingController data = TextEditingController();
+  TextEditingController hora = TextEditingController();
   bool isChecking = false;
 
+  late String hour= '';
+  late String date = '';
+  late final DateFormat dateFormat = DateFormat('dd/MM/yyyy');
+  List<String> horasDisponiveis = [
+    '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00',
+    '16:00', '17:00', '18:00', '19:00', '20:00'
+  ];
   void initState() {
     super.initState();
-//    date = dateFormat.format(DateTime.now());
-    //hour = horasDisponiveis[0];
+    date = dateFormat.format(DateTime.now());
+    hour = horasDisponiveis[0];
   }
 
   void checkRooms({
@@ -88,59 +89,156 @@ class _ReservaSalasPageState extends State<ReservaSalasPage> {
                             ),
                             padding: EdgeInsets.all(20),
                             child: Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      flex: 2,
-                                        child: TextField(
-                                          controller: date,
-                                          decoration: const InputDecoration(
-                                            fillColor: Colors.white,
-                                            filled: true,
-                                            labelText: 'DATA',
-                                          ),
-                                        ),
-
-                                    ),
-                                    SizedBox(width: 20),
-                                    Expanded(
-                                      flex: 2,
-                                      child: TextField(
-                                        controller: hour,
-                                        decoration: const InputDecoration(
-                                          fillColor: Colors.white,
-                                          filled: true,
-                                          labelText: 'HORA',
+                              children:
+                                  [
+                                    Align(
+                                      alignment: Alignment.center,
+                                      child: Padding(
+                                        padding: EdgeInsetsDirectional.zero,
+                                        child: Text(
+                                          'DATA',
+                                          style: textStyleReservaSalas,
                                         ),
                                       ),
-
+                                    ),
+                                    SizedBox(height: 10),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(horizontal: 20),
+                                      child: ElevatedButton(
+                                        onPressed: () async {
+                                          final DateTime? pickedDate = await showDatePicker(
+                                            context: context,
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime(2021),
+                                            lastDate: DateTime(2024),
+                                          );
+                                          if (pickedDate != null) {
+                                            setState(() {
+                                              date =
+                                                  dateFormat.format(pickedDate);
+                                            });
+                                          }
+                                        },
+                                        child: Text(
+                                          date != null
+                                              ? date!
+                                              : 'Selecione uma data',
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(height: 20),
+                                    Align(
+                                      alignment: Alignment.center,
+                                      child: Padding(
+                                        padding: EdgeInsetsDirectional.zero,
+                                        child: Text(
+                                          'HORA',
+                                          style: textStyleReservaSalas,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(height: 10),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(horizontal: 20),
+                                      child: DropdownButton<String>(
+                                        value: hour,
+                                        hint: Text('Selecione uma hora'),
+                                        items: horasDisponiveis.map((hora) {
+                                          return DropdownMenuItem<String>(
+                                            value: hora,
+                                            child: Text(hora),
+                                          );
+                                        }).toList(),
+                                        onChanged: (String? selectedHour) {
+                                          setState(() {
+                                            hour = selectedHour!;
+                                          });
+                                        },
+                                        dropdownColor: Colors.white,
+                                        style: TextStyle(color: Colors.black),
+                                        iconEnabledColor: Colors.black,
+                                        underline: Container(
+                                          height: 2,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                    /**
+                                        Padding(
+                                        padding: EdgeInsets.symmetric(horizontal: 20),
+                                        child: Align(
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                        'DEPARTAMENTO',
+                                        style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
+                                        ),
+                                        ),
+                                        ),
+                                        ),
+                                        SizedBox(height: 10),
+                                        Padding(
+                                        padding: EdgeInsets.symmetric(horizontal: 20),
+                                        child: TextField(
+                                        controller: department,
+                                        decoration: InputDecoration(
+                                        filled: true,
+                                        fillColor: Colors.white,
+                                        border: OutlineInputBorder(),
+                                        ),
+                                        ),
+                                        ),
+                                        SizedBox(height: 20),
+                                        Padding(
+                                        padding: EdgeInsets.symmetric(horizontal: 20),
+                                        child: Align(
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                        'SALA',
+                                        style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
+                                        ),
+                                        ),
+                                        ),
+                                        ),
+                                        SizedBox(height: 10),
+                                        Padding(
+                                        padding: EdgeInsets.symmetric(horizontal: 20),
+                                        child: TextField(
+                                        controller: room,
+                                        decoration: InputDecoration(
+                                        filled: true,
+                                        fillColor: Colors.white,
+                                        border: OutlineInputBorder(),
+                                        ),
+                                        ),
+                                        ),
+                                     **/
+                                    SizedBox(height: 20),
+                                    Align(
+                                      alignment: Alignment.center,
+                                      child: ElevatedButton(
+                                        onPressed: isChecking
+                                            ? null
+                                            : () => checkRooms(date:date, hour: hour),
+                                        style: ElevatedButton.styleFrom(
+                                          fixedSize: const Size(150, 50),
+                                          backgroundColor: Colors.blue[800],
+                                        ),
+                                        child: const Text(
+                                          'Verificar Salas',
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                              color: Colors.white, fontSize: 12),
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),
-                                SizedBox(height: 40),
-                                Align(
-                                  alignment: Alignment.center,
-                                  child: ElevatedButton(
-                                    onPressed: isChecking
-                                        ? null
-                                        : () => checkRooms(date: date.text, hour: hour.text),
-                                    style: ElevatedButton.styleFrom(
-                                      fixedSize: const Size(150, 50),
-                                      backgroundColor: Colors.blue[800],
-                                    ),
-                                    child: const Text(
-                                      'CRIAR',
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 12),
-                                    ),
-                                  ),
-                                ),
-                              ],
+
                             ),
-                          ),
-                          SizedBox(height: 20),
 
                         ],
                       ),

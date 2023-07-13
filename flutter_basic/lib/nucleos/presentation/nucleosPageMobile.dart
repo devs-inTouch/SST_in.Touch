@@ -82,27 +82,30 @@ class NucleosState extends State<NucleosPageMobile> {
                     padding: EdgeInsets.all(10.0),
                     child: Column(
                       children: [
-                        PageView.builder(
-                          controller: _pageController,
-                          itemCount: nucleosList.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            NucleosBox nucleosBox = nucleosList[index];
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 10.0),
-                              child: NucleosBox(
-                                title: nucleosBox.title,
-                                description: nucleosBox.description,
-                                faceUrl: nucleosBox.faceUrl,
-                                instaUrl: nucleosBox.instaUrl,
-                                twitterUrl: nucleosBox.twitterUrl,
-                              ),
-                            );
-                          },
-                          onPageChanged: (int index) {
-                            setState(() {
-                              _currentPageIndex = index;
-                            });
-                          },
+                        Container(
+                          height: 500,
+                          child: PageView.builder(
+                            controller: _pageController,
+                            itemCount: nucleosList.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              NucleosBox nucleosBox = nucleosList[index];
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: 10.0),
+                                child: NucleosBox(
+                                  title: nucleosBox.title,
+                                  description: nucleosBox.description,
+                                  faceUrl: nucleosBox.faceUrl,
+                                  instaUrl: nucleosBox.instaUrl,
+                                  twitterUrl: nucleosBox.twitterUrl,
+                                ),
+                              );
+                            },
+                            onPageChanged: (int index) {
+                              setState(() {
+                                _currentPageIndex = index;
+                              });
+                            },
+                          ),
                         ),
                         SizedBox(height: 10),
                         Row(
@@ -123,6 +126,7 @@ class NucleosState extends State<NucleosPageMobile> {
                   ),
                 ],
               ),
+
             ),
           ),
         ),

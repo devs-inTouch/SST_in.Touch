@@ -45,8 +45,6 @@ class _SearchBarState extends State<SearchBarPage> {
 
 
   }
-  // Se o nome de usuário existir, abrir o perfil correspondente
-  // ...
 
   @override
   Widget build(BuildContext context) {
@@ -153,33 +151,40 @@ class SearchResultsWidget extends StatelessWidget {
 
   const SearchResultsWidget({Key? key, required this.searchResults})
       : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return ListView.separated(
       shrinkWrap: true,
       itemCount: searchResults.length,
+      separatorBuilder: (BuildContext context, int index) {
+        return SizedBox(height: 8);
+      },
       itemBuilder: (BuildContext context, int index) {
         final suggestion = searchResults[index];
-        return ListTile(
-          leading: CircleAvatar(
-            backgroundColor: Colors.orange,
-            //backgroundImage: CachedNetworkImageProvider(''),
-          ),
-          title: Text(suggestion),
-          onTap: () {
-            Navigator.push(
+        return Container(
+          color: Colors.white54,
+          child: ListTile(
+            leading: CircleAvatar(
+              backgroundColor: Colors.white,
+              //backgroundImage: CachedNetworkImageProvider(''),
+            ),
+            title: Text(suggestion),
+            onTap: () {
+              Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => ProfileScaffold(
                     name: suggestion.toString(),
                   ),
-                ));
-          },
+                ),
+              );
+            },
+          ),
         );
       },
     );
   }
+
 }
 
 

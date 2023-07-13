@@ -13,7 +13,6 @@ class RolesUserPage extends StatefulWidget {
   @override
   State<RolesUserPage> createState() => RolesUserState();
 }
-
 class RolesUserState extends State<RolesUserPage> {
   List usersList = [];
 
@@ -30,7 +29,6 @@ class RolesUserState extends State<RolesUserPage> {
     });
     print("Users fetched");
     print(usersList);
-
 
     if (usersList.isEmpty) {
       showDialog(
@@ -62,7 +60,7 @@ class RolesUserState extends State<RolesUserPage> {
     return Scaffold(
       backgroundColor: myBackground,
       body: Container(
-        padding: EdgeInsets.all(16.0),
+        padding: EdgeInsets.fromLTRB(16.0, 40.0, 16.0, 16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -87,8 +85,7 @@ class RolesUserState extends State<RolesUserPage> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => ResponsiveBackOffice()),
+                        MaterialPageRoute(builder: (context) => ResponsiveBackOffice()),
                       );
                     },
                   ),
@@ -110,23 +107,24 @@ class RolesUserState extends State<RolesUserPage> {
               ),
             ),
             SizedBox(height: 10.0),
-            Container(
-              width: 800,
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: usersList.length,
-                itemBuilder: (BuildContext context, int index) {
-                  UserRoleBox userRoleBox = usersList[index];
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 10.0),
-                    child: UserRoleBox(
-                      username: userRoleBox.username,
-                      name: userRoleBox.name,
-                      email: userRoleBox.email,
-                      role: userRoleBox.role,
-                    ),
-                  );
-                },
+            Expanded(
+              child: SingleChildScrollView(
+                child: Container(
+                  width: 800,
+                  child: Column(
+                    children: usersList.map((userRoleBox) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 10.0),
+                        child: UserRoleBox(
+                          username: userRoleBox.username,
+                          name: userRoleBox.name,
+                          email: userRoleBox.email,
+                          role: userRoleBox.role,
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ),
               ),
             ),
           ],

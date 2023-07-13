@@ -12,6 +12,11 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../mainpage/presentation/desktop_main_scaffold.dart';
+import '../../mainpage/presentation/mobile_main_scaffold.dart';
+import '../../mainpage/presentation/responsive_main_page.dart';
+import '../../mainpage/presentation/tablet_main_scaffold.dart';
+
 class ManagingSenhas extends StatefulWidget {
   @override
   ManagingSenhasState createState() => ManagingSenhasState();
@@ -60,6 +65,24 @@ class ManagingSenhasState extends State<ManagingSenhas> {
         child:Center(
         child: Column(
           children: [
+            Align(
+              alignment: Alignment.topRight,
+              child: IconButton(
+                icon: Icon(Icons.close),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ResponsiveLayout(
+                        mobileScaffold: MobileScaffold(),
+                        tabletScaffold: TabletScaffold(),
+                        desktopScaffold: DesktopScaffold(),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
             Padding(padding: EdgeInsets.only(top: 50),
             child:Text("Gestor de Senhas",
             style: TextStyle(
@@ -218,6 +241,7 @@ class _MyQRCodeScanner extends State<MyQRCodePageScanner> {
           Positioned(bottom: 10,child: buildResult())
         ],
       )
+
     );
 
 

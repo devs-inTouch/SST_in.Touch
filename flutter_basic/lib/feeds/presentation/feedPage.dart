@@ -176,8 +176,7 @@ class FeedState extends State<FeedsPage> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final fem = size.width / 1440; // 1440 is the reference width
-
+    final fem = size.width / 1440;
     return Scaffold(
       appBar: MyAppBar(),
       backgroundColor: myBackground,
@@ -196,7 +195,10 @@ class FeedState extends State<FeedsPage> {
                       child: Text(
                         'FEED',
                         textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.black, fontSize: 60),
+                        style:TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                            fontSize: 45),
                       ),
                     ),
                     Padding(
@@ -205,7 +207,8 @@ class FeedState extends State<FeedsPage> {
                         height: 400,
                         width: 500,
                         decoration: BoxDecoration(
-                          color: Color.fromRGBO(217, 217, 217, 1),
+                          color: Colors.blueAccent[200],
+                          borderRadius: BorderRadius.circular(10.0),
                         ),
                         child: Stack(
                           children: [

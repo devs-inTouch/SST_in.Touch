@@ -63,73 +63,68 @@ class NucleosState extends State<NucleosPageMobileSU> {
       appBar: const MyAppBarMobile(),
       backgroundColor: myBackground,
       body: Center(
-        child: Container(
-          padding: EdgeInsets.all(10.0),
-          child: Scrollbar(
-            child: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(height: 10),
+            Text(
+              "LISTA DE NÚCLEOS",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+                fontSize: 35,
+              ),
+            ),
+            SizedBox(height: 10),
+            Padding(
+              padding: EdgeInsets.all(10.0),
               child: Column(
                 children: [
-                  SizedBox(height: 10),
-                  Text(
-                    "LISTA DE NÚCLEOS",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                      fontSize: 35,
+                  Container(
+                    height: 500,
+                    child: PageView.builder(
+                      controller: _pageController,
+                      itemCount: nucleosList.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        NucleosBox nucleosBox = nucleosList[index];
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 10.0),
+                          child: NucleosBox(
+                            title: nucleosBox.title,
+                            description: nucleosBox.description,
+                            faceUrl: nucleosBox.faceUrl,
+                            instaUrl: nucleosBox.instaUrl,
+                            twitterUrl: nucleosBox.twitterUrl,
+                          ),
+                        );
+                      },
+                      onPageChanged: (int index) {
+                        setState(() {
+                          _currentPageIndex = index;
+                        });
+                      },
                     ),
                   ),
                   SizedBox(height: 10),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Center(
-                        child: Container(
-                          width: 500,
-                          padding: const EdgeInsets.fromLTRB(15.0, 20.0, 15.0, 20.0),
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                height: 500,
-                                child: PageView.builder(
-                                  controller: _pageController,
-                                  itemCount: nucleosList.length,
-                                  itemBuilder: (BuildContext context, int index) {
-                                    final nucleos = nucleosList[index];
-                                    nucleos.setFem(fem);
-                                    return nucleos;
-                                  },
-                                  onPageChanged: (int index) {
-                                    setState(() {
-                                      _currentPageIndex = index;
-                                    });
-                                  },
-                                ),
-                              ),
-                              SizedBox(height: 20),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  IconButton(
-                                    onPressed: previousPage,
-                                    icon: Icon(Icons.arrow_back),
-                                  ),
-                                  IconButton(
-                                    onPressed: nextPage,
-                                    icon: Icon(Icons.arrow_forward),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        onPressed: previousPage,
+                        icon: Icon(Icons.arrow_back),
                       ),
-                    ),
+                      IconButton(
+                        onPressed: nextPage,
+                        icon: Icon(Icons.arrow_forward),
+                      ),
+                    ],
                   ),
                 ],
               ),
             ),
-          ),
+          ],
         ),
+
       ),
       bottomNavigationBar: MyBottomAppBar(),
       floatingActionButton: FloatingActionButton(

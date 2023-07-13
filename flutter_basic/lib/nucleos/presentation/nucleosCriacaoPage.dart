@@ -151,7 +151,7 @@ class NucleosState extends State<NucleosCriacaoPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                    padding: EdgeInsets.symmetric(vertical: 10.0),
+                    padding: EdgeInsets.only(top: 40.0),
                     color: Colors.grey[300],
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -183,7 +183,7 @@ class NucleosState extends State<NucleosCriacaoPage> {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(20.0, 40.0, 20.0, 20.0),
                     child: Container(
-                      height: 600,
+                      height: 700,
                       width: 1000,
                       decoration: BoxDecoration(
                         color: Colors.blueAccent[200],
@@ -282,6 +282,7 @@ class NucleosState extends State<NucleosCriacaoPage> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
+                                /**
                                 Padding(
                                   padding: const EdgeInsets.only(right: 10.0),
                                   child: Align(
@@ -303,6 +304,7 @@ class NucleosState extends State<NucleosCriacaoPage> {
                                     ),
                                   ),
                                 ),
+                                **/
                                 Padding(
                                   padding: const EdgeInsets.only(left: 10.0),
                                   child: Align(
