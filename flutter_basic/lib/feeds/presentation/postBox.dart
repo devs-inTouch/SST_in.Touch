@@ -10,8 +10,8 @@ class PostBox extends StatefulWidget {
   final String username;
   final String description;
   final String mediaUrl;
-  final int ups;
-  final int downs;
+  final List ups;
+  final List downs;
   final int creationDate;
   double fem = 0.0;
   late DateTime date;
@@ -64,8 +64,8 @@ class BoxState extends State<PostBox> {
   }
 
   fetchData(String postID) async {
-    List<String> ups = await PostRequests.checkUps(postID);
-    List<String> downs = await PostRequests.checkDowns(postID);
+    List ups = await PostRequests.checkUps(postID);
+    List downs = await PostRequests.checkDowns(postID);
     setState(() {
       numUps = int.parse(ups[1]);
       numDowns = int.parse(downs[1]);
@@ -155,8 +155,8 @@ class BoxState extends State<PostBox> {
                         child: ImageNetwork(
                           image:
                           widget.mediaUrl,
-                          height: 300 * widget.fem,
-                          width: 300 * widget.fem,
+                          height: 300 ,
+                          width: 300 ,
                         ))),
                 Row(children: [
                   Padding(

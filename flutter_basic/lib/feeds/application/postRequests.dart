@@ -70,10 +70,10 @@ class PostRequests {
 
   }
 
-  static Future<List<String>> checkDowns(String postID) async {
+  static Future<List> checkDowns(String postID) async {
     String tokenAuth = await getTokenAuth();
 
-    List<String> list = [];
+    List list = [];
 
     final response = await http.post(
         Uri.parse(
@@ -94,10 +94,10 @@ class PostRequests {
 
   }
 
-  static Future<List<String>> checkUps(String postID) async {
+  static Future<List> checkUps(String postID) async {
     String tokenAuth = await getTokenAuth();
 
-    List<String> list = [];
+    List list = [];
 
     final response = await http.post(
         Uri.parse(

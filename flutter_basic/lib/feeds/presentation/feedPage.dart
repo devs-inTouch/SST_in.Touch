@@ -216,7 +216,7 @@ class FeedState extends State<FeedsPage> {
                             Align(
                               alignment: Alignment(0.0, -0.4),
                               child: Container(
-                                height: 200,
+                                height: 300,
                                 width: 470,
                                 child: Padding(
                                   padding: EdgeInsets.all(15.0),

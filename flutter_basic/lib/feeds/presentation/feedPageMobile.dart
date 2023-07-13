@@ -271,11 +271,13 @@ class FeedState extends State<FeedsPageMobile> {
                       ),
                     ),
                     SizedBox(height: 10),
-                    Container(
+                    SingleChildScrollView(
+                    child: Container(
                       width: 500,
                       child: Padding(
                         padding: EdgeInsets.all(20.0),
                         child: ListView.builder(
+                          physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemCount: _posts.length,
                           itemBuilder: (BuildContext context, int index) {
@@ -285,7 +287,7 @@ class FeedState extends State<FeedsPageMobile> {
                           },
                         ),
                       ),
-                    ),
+                    ),)
                   ],
                 ),
               ),
