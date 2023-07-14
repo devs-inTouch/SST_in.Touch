@@ -113,7 +113,7 @@ class BoxState extends State<PostBox> {
         widget.date.minute.toString();
 
     return Padding(
-        padding: EdgeInsets.symmetric(vertical: 4.0),
+        padding: EdgeInsets.fromLTRB(10.0, 4.0,10.0, 4.0),
         child: Container(
             width: 650 * widget.fem,
             decoration: BoxDecoration(color: Color.fromRGBO(217, 217, 217, 1)),

@@ -144,6 +144,7 @@ class NucleosState extends State<NucleosCriacaoPage> {
       body: Stack(
         children: [
           Container(
+            padding: EdgeInsets.fromLTRB(16.0, 40.0, 16.0, 16.0),
             width: size.width,
             height: size.height,
             child: SingleChildScrollView(
@@ -151,7 +152,7 @@ class NucleosState extends State<NucleosCriacaoPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                    padding: EdgeInsets.only(top: 40.0),
+                    padding: EdgeInsets.symmetric(vertical: 10.0),
                     color: Colors.grey[300],
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

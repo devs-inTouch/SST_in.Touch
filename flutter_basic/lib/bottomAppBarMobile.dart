@@ -101,23 +101,6 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
                   child: Container(
                     color: Colors.white,
                     child: ListTile(
-                      leading: const Icon(Icons.feed),
-                      title: const Text('Feed'),
-                      onTap: () {
-                        Navigator.pop(context);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ResponsiveFeedPage()),
-                        );
-                      },
-                    ),
-                  ),
-                ),
-                PopupMenuItem(
-                  child: Container(
-                    color: Colors.white,
-                    child: ListTile(
                       leading: const Icon(Icons.fastfood_rounded),
                       title: const Text('Senhas para a cantina'),
                       onTap: () {
@@ -156,23 +139,7 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
                     ),
                   ),
                 ),
-                PopupMenuItem(
-                  child: Container(
-                    color: Colors.white,
-                    child: ListTile(
-                      leading: const Icon(Icons.map),
-                      title: const Text('Mapa'),
-                      onTap: () {
-                        Navigator.pop(context);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ResponsiveMap()),
-                        );
-                      },
-                    ),
-                  ),
-                ),
+
 
                 PopupMenuItem(
                   child: Container(
@@ -197,22 +164,6 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
                             ),
                           );
                         }
-                      },
-                    ),
-                  ),
-                ),
-                PopupMenuItem(
-                  child: Container(
-                    color: Colors.white,
-                    child: ListTile(
-                      leading: const Icon(Icons.person_search),
-                      title: const Text('Procura de Users'),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ResponsiveSearchPage()),
-                        );
                       },
                     ),
                   ),
@@ -307,7 +258,7 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
                         ),
                         child: const Icon(Icons.person),
                       ),
-                      title: const Text('Profile'),
+                      title: const Text('Perfil'),
                       onTap: () {
                         Navigator.push(
                           context,

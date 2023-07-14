@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/myAppBarMobile.dart';
 import 'package:flutter_basic/profile/presentation/profileBox.dart';
@@ -105,7 +107,15 @@ class _ProfilePageState extends State<ProfileScaffoldMobile> {
                         SizedBox(
                           height: 10,
                         ),
-                        ProfileBoxMobile(fem: fem, map: userInfo, myProfile: myProfile),
+                        ProfileBoxMobile(
+                          fem: fem,
+                          myProfile: myProfile,
+                          name: utf8.decode(userInfo[4].codeUnits),
+                          department: utf8.decode(userInfo[1].codeUnits),
+                          email: utf8.decode(userInfo[3].codeUnits),
+                          description: utf8.decode(userInfo[2].codeUnits),
+                          follow: 'Seguir',
+                        ),
                         SizedBox(height: 10),
                         Container(
                             width: 650,

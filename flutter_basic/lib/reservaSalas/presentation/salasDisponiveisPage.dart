@@ -35,6 +35,30 @@ class SalasDisponiveisState extends State<SalasDisponiveisPage> {
     });
     print("SalasLivres fetched");
     print(salasDisponiveis);
+
+    if (salasDisponiveis.isEmpty) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Sem salas livres"),
+            content: Text("Nessa hora e data, não há salas disponíveis!"),
+            actions: [
+              TextButton(
+                child: Text("OK"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ResponsiveReservaSalas()),
+                  );
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
   }@override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;

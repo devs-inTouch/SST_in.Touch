@@ -13,7 +13,7 @@ class AnomalyAuth {
 
     final response = await http.post(
       Uri.parse(
-          'https://steel-sequencer-385510.oa.r.appspot.com/rest/anomaly/list'),
+          'https://steel-sequencer-385510.oa.r.appspot.com/rest/anomaly/listapproved'),
       headers: <String, String>{HttpHeaders.authorizationHeader: tokenAuth},
     );
 

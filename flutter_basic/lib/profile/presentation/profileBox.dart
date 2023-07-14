@@ -2,13 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_basic/profile/application/profleRequests.dart';
 import 'package:image_network/image_network.dart';
 
+
 class ProfileBox extends StatefulWidget {
   final double fem;
-  final List map;
+  final String name;
+  final String description;
+  final String department;
+  final String email;
+  final String follow;
   final bool myProfile;
 
-  const ProfileBox(
-      {required this.fem, required this.map, required this.myProfile});
+  const ProfileBox({
+    required this.fem,
+    required this.name,
+    required this.description,
+    required this.follow,
+    required this.myProfile,
+    required this.department,
+    required this.email,
+  });
+
 
   @override
   _ProfileBoxState createState() => _ProfileBoxState();
@@ -28,7 +41,7 @@ class _ProfileBoxState extends State<ProfileBox> {
       isFollowing();
     }
 
-    description = widget.map[2];
+    description = widget.description;
     _textEditingController = TextEditingController(text: description);
   }
 
@@ -42,9 +55,9 @@ class _ProfileBoxState extends State<ProfileBox> {
     List following = await ProfileRequests.getFollowingList();
     print("comeu");
     print(following);
-    print(widget.map[0]);
-    print(following.contains(widget.map[0]));
-    if (following.contains(widget.map[0])) {
+    print(widget.name);
+    print(following.contains(widget.name));
+    if (following.contains(widget.name)) {
       setState(() {
         follow = 'Seguindo';
       });
@@ -59,12 +72,12 @@ class _ProfileBoxState extends State<ProfileBox> {
 
   changeFollow() {
     if (follow == 'Seguindo') {
-      ProfileRequests.unfollowUser(widget.map[0]);
+      ProfileRequests.unfollowUser(widget.name);
       setState(() {
         follow = 'Seguir';
       });
     } else {
-      ProfileRequests.followUser(widget.map[0]);
+      ProfileRequests.followUser(widget.name);
       setState(() {
         follow = 'Seguindo';
       });
@@ -76,7 +89,7 @@ class _ProfileBoxState extends State<ProfileBox> {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.0),
       child: Container(
-        height: 200,
+        height: 250,
         width: 650,
         decoration: BoxDecoration(
           color: Colors.grey.shade200,
@@ -97,19 +110,27 @@ class _ProfileBoxState extends State<ProfileBox> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.map[4],
+                        widget.name,
                         style: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
-                        'Email: ${widget.map[3]} \nDepartamento: ${widget.map[1]}',
+                        'Email: ${widget.email}',
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.grey,
                         ),
                       ),
+                      Text(
+                        'Departamento: ${widget.department}',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey,
+                        ),
+                      ),
+
                     ],
                   ),
                   Spacer(),
@@ -120,7 +141,7 @@ class _ProfileBoxState extends State<ProfileBox> {
                       backgroundColor: Colors.blue,
                     ),
                     child: Text(
-                      widget.myProfile ? 'Editar' : follow,
+                      widget.myProfile ? 'Editar' : widget.follow,
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         color: Colors.white,
@@ -131,21 +152,33 @@ class _ProfileBoxState extends State<ProfileBox> {
                 ],
               ),
             ),
-            Container(
-              padding: EdgeInsets.all(8.0),
-              child: isEditing
-                  ? TextField(
-                      controller: _textEditingController,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        filled: true,
-                        fillColor: Colors.white,
+            Expanded(
+              child: Align(
+                alignment: Alignment.center,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      alignment: Alignment.center,
+                      padding: EdgeInsets.all(8.0),
+                      child: isEditing
+                          ? TextField(
+                        controller: _textEditingController,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          filled: true,
+                          fillColor: Colors.white,
+                        ),
+                      )
+                          : Text(description),
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade200,
                       ),
-                    )
-                  : Text(description),
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.grey.shade200,
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

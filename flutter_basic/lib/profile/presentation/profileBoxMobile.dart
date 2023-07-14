@@ -4,11 +4,22 @@ import 'package:image_network/image_network.dart';
 
 class ProfileBoxMobile extends StatefulWidget {
   final double fem;
-  final List map;
+  final String name;
+  final String description;
+  final String department;
+  final String email;
+  final String follow;
   final bool myProfile;
 
-  const ProfileBoxMobile(
-      {required this.fem, required this.map, required this.myProfile});
+  const ProfileBoxMobile({
+    required this.fem,
+    required this.name,
+    required this.description,
+    required this.follow,
+    required this.myProfile,
+    required this.department,
+    required this.email,
+  });
 
   @override
   _ProfileBoxMobileState createState() => _ProfileBoxMobileState();
@@ -28,7 +39,7 @@ class _ProfileBoxMobileState extends State<ProfileBoxMobile> {
       isFollowing();
     }
 
-    description = widget.map[2];
+    description = widget.description;
     _textEditingController = TextEditingController(text: description);
   }
 
@@ -42,9 +53,9 @@ class _ProfileBoxMobileState extends State<ProfileBoxMobile> {
     List following = await ProfileRequests.getFollowingList();
     print("comeu");
     print(following);
-    print(widget.map[0]);
-    print(following.contains(widget.map[0]));
-    if (following.contains(widget.map[0])) {
+    print(widget.name);
+    print(following.contains(widget.name));
+    if (following.contains(widget.name)) {
       setState(() {
         follow = 'Seguindo';
       });
@@ -59,24 +70,25 @@ class _ProfileBoxMobileState extends State<ProfileBoxMobile> {
 
   changeFollow() {
     if (follow == 'Seguindo') {
-      ProfileRequests.unfollowUser(widget.map[0]);
+      ProfileRequests.unfollowUser(widget.name);
       setState(() {
         follow = 'Seguir';
       });
     } else {
-      ProfileRequests.followUser(widget.map[0]);
+      ProfileRequests.followUser(widget.name);
       setState(() {
         follow = 'Seguindo';
       });
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.0),
       child: Container(
-        height: 200,
-        width: 650,
+        height: 250,
+        width: double.infinity,
         decoration: BoxDecoration(
           color: Colors.grey.shade200,
         ),
@@ -90,8 +102,8 @@ class _ProfileBoxMobileState extends State<ProfileBoxMobile> {
                   child: Row(
                     children: [
                       Container(
-                        height: 120,
-                        width: 120,
+                        height: 150,
+                        width: 150,
                         color: Colors.blue[50],
                         child: Stack(
                           children: [
@@ -108,43 +120,51 @@ class _ProfileBoxMobileState extends State<ProfileBoxMobile> {
                         ),
                       ),
                       SizedBox(width: 8.0),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            widget.map[4],
-                            style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              widget.name,
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                          Text(
-                              widget.map[3],
+                            Text(
+                              widget.email,
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Colors.grey,
                               ),
                             ),
-                          SizedBox(height: 10.0),
-
-                          OutlinedButton(
-                            onPressed: widget.myProfile
-                                ? editProfile
-                                : changeFollow,
-                            style: OutlinedButton.styleFrom(
-                              fixedSize: Size(100, 50),
-                              backgroundColor: Colors.blue,
-                            ),
-                            child: Text(
-                              widget.myProfile ? 'Editar' : follow,
-                              textAlign: TextAlign.left,
+                            Text(
+                              widget.department,
                               style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 15,
+                                fontSize: 14,
+                                color: Colors.grey,
                               ),
                             ),
-                          ),
-                        ],
+                            SizedBox(height: 10.0),
+                            OutlinedButton(
+                              onPressed: widget.myProfile
+                                  ? editProfile
+                                  : changeFollow,
+                              style: OutlinedButton.styleFrom(
+                                fixedSize: Size(120, 50),
+                                backgroundColor: Colors.blue,
+                              ),
+                              child: Text(
+                                widget.myProfile ? 'Editar' : widget.follow,
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
@@ -152,10 +172,10 @@ class _ProfileBoxMobileState extends State<ProfileBoxMobile> {
                 SizedBox(height: 8.0),
                 Expanded(
                   child: Align(
-                    alignment: Alignment.bottomLeft,
+                    alignment: Alignment.center,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
                           alignment: Alignment.center,
@@ -175,7 +195,6 @@ class _ProfileBoxMobileState extends State<ProfileBoxMobile> {
                             color: Colors.grey.shade200,
                           ),
                         ),
-
                       ],
                     ),
                   ),
@@ -187,6 +206,4 @@ class _ProfileBoxMobileState extends State<ProfileBoxMobile> {
       ),
     );
   }
-
-
 }
