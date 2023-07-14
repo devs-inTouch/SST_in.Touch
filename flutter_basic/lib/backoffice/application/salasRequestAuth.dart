@@ -24,37 +24,62 @@ class SalasRequestAuth {
     return map;
   }
 
-  static Future<void> approveReservation() async {
+  static Future<void> approveReservation(
+      String username, String name, String department, String numberStudents, String date, String hour) async {
     List<BookingBox> map = [];
     String tokenAuth = await getTokenAuth();
 
     final response = await http.post(
       Uri.parse(
           'https://steel-sequencer-385510.oa.r.appspot.com/rest/reservation/approve'),
-      headers: <String, String>{HttpHeaders.authorizationHeader: tokenAuth},
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        HttpHeaders.authorizationHeader: tokenAuth
+      },
+      body: jsonEncode(<String, String>{
+        'username': username,
+        'name': name,
+        'department': department,
+        'numberStudents': numberStudents,
+        'date': date,
+        'hour': hour,
+      }),
     );
 
+    print(response.statusCode);
     if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
-      print(jsonDecode(response.body));
-      map = data.map<BookingBox>((item) => BookingBox.fromJson(item)).toList();
+      print("Reservation approved");
+    } else {
+      print("Error");
     }
   }
 
-  static Future<void> denyReservation() async {
-    List<BookingBox> map = [];
+  static Future<void> denyReservation(
+      String username, String name, String department, String numberStudents, String date, String hour) async {
     String tokenAuth = await getTokenAuth();
 
     final response = await http.post(
       Uri.parse(
           'https://steel-sequencer-385510.oa.r.appspot.com/rest/reservation/notapprove'),
-      headers: <String, String>{HttpHeaders.authorizationHeader: tokenAuth},
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        HttpHeaders.authorizationHeader: tokenAuth
+      },
+      body: jsonEncode(<String, dynamic>{
+        'username': username,
+        'name': name,
+        'department': department,
+        'numberStudents': numberStudents,
+        'date': date,
+        'hour': hour,
+      }),
     );
 
+    print(response.statusCode);
     if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
-      print(jsonDecode(response.body));
-      map = data.map<BookingBox>((item) => BookingBox.fromJson(item)).toList();
+      print("Reservation denied");
+    } else {
+      print("Error");
     }
   }
 }

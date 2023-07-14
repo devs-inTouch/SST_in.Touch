@@ -116,7 +116,7 @@ class ReservasState extends State<PedidoReservaSalaPage> {
                     padding: const EdgeInsets.only(bottom: 10.0),
                     child: BookingBox(
                       username: bookingBox.username,
-                      room: bookingBox.room,
+                      name: bookingBox.name,
                       department: bookingBox.department,
                       numberStudents: bookingBox.numberStudents,
                       date: bookingBox.date,

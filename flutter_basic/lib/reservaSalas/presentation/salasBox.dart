@@ -47,17 +47,15 @@ class SalasBox extends StatelessWidget {
             ],
           ),
           trailing: ElevatedButton(
-            onPressed: () {
-              String username = ProfileRequests.getUsername() as String;
-              ReservaAuth.bookRoom(
+            onPressed: () async {
+              String username = await ProfileRequests.getUsername();
+              await ReservaAuth.bookRoom(
                 username,
                 name,
                 department,
-                space,
                 date,
                 hour,
               );
-              print("salaaa");
             },
             style: ElevatedButton.styleFrom(
               primary: Colors.blueAccent[200],

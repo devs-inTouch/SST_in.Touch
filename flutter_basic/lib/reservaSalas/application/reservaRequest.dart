@@ -29,13 +29,12 @@ class ReservaAuth {
     return map;
   }
 
-  static Future<List<SalasBox>> bookRoom(String username, String name,
-      String department, String space, String date, String hour) async {
-    List<SalasBox> map = [];
+  static Future<void> bookRoom(String username, String name,
+      String department, String date, String hour) async {
     String tokenAuth = await getTokenAuth();
+
     final response = await http.post(
-        Uri.parse(
-            'https://steel-sequencer-385510.oa.r.appspot.com/rest/reservation/getroomdate'),
+        Uri.parse('https://steel-sequencer-385510.oa.r.appspot.com/rest/reservation/book'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           HttpHeaders.authorizationHeader: tokenAuth,
@@ -44,16 +43,15 @@ class ReservaAuth {
           'username': username,
           'name': name,
           'department': department,
-          'numberStudents': space,
           'date': date,
           'hour': hour,
         }));
 
+    print(response.statusCode);
     if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
-      print(jsonDecode(response.body));
-      map = data.map<SalasBox>((item) => SalasBox.fromJson(item)).toList();
+      print("pedido feito");
+    }else {
+      print("pedido não correu como planeado");
     }
-    return map;
   }
 }

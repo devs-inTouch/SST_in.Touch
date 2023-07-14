@@ -4,6 +4,7 @@ import 'package:flutter_basic/anomalies/application/anomalyAuth.dart';
 import 'package:flutter_basic/backoffice/application/salasRequestAuth.dart';
 
 import '../anomalies/application/anomaliesAuth.dart';
+import '../presentation/responsive_backOffice.dart';
 
 class AnomalyBoxBO extends StatelessWidget {
   final String id;
@@ -29,27 +30,27 @@ class AnomalyBoxBO extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final borderColor =
-        Colors.blueAccent[200]; // Fallback color if blueAccent[200] is null
+        Colors.blueAccent[200];
 
     return Container(
       decoration: BoxDecoration(
-        color: borderColor, // Setting background color to borderColor
-        border: Border.all(color: Colors.blueGrey), // Adding border
-        borderRadius: BorderRadius.circular(8.0), // Adding border radius
+        color: borderColor,
+        border: Border.all(color: Colors.blueGrey),
+        borderRadius: BorderRadius.circular(8.0),
       ),
       padding: EdgeInsets.all(8.0),
       child: ListTile(
         title: Text(
           'Username: $username',
           style: TextStyle(
-            color: Colors.white, // Setting text color to white
+            color: Colors.white,
             fontWeight: FontWeight.bold,
           ),
         ),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 4.0), // Adding padding between texts
+            SizedBox(height: 4.0),
             Text(
               'Tipo: $type',
               style: TextStyle(color: Colors.white),
@@ -67,13 +68,24 @@ class AnomalyBoxBO extends StatelessWidget {
               icon: Icon(Icons.check),
               onPressed: () {
                 AnomaliesAuth.approveAnomaly(id);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ResponsiveBackOffice()),
+                );
               },
             ),
             IconButton(
               icon: Icon(Icons.close),
               onPressed: () {
                 AnomaliesAuth.deleteAnomaly(id);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ResponsiveBackOffice()),
+                );
               },
+
             ),
           ],
         ),
