@@ -62,7 +62,7 @@ class _ProfilePageState extends State<ProfileScaffoldMobile> {
   }
   //mudar
   Future<void> fetchDataForPosts() async {
-    final response = await PostRequests.getFeed();
+    final response = await PostRequests.getPersonalFeed(userWanted);
     setState(() {
       _posts = response;
     });

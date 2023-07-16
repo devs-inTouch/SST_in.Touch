@@ -122,13 +122,15 @@ class PostRequests {
 
   static Future<List<PostBox>> getFeed() async {
     List<PostBox> map = [];
+    String tokenAuth = await getTokenAuth();
 
     final response = await http.post(
         Uri.parse(
             'https://steel-sequencer-385510.oa.r.appspot.com/rest/post/list'),
         headers: <String, String>{
           'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*'
+          'Access-Control-Allow-Origin': '*',
+          HttpHeaders.authorizationHeader: tokenAuth
         });
 
     if (response.statusCode == 200) {
@@ -138,4 +140,29 @@ class PostRequests {
 
     return map;
   }
+
+  static Future<List<PostBox>> getPersonalFeed(String username) async {
+    List<PostBox> map = [];
+    String tokenAuth = await getTokenAuth();
+
+    final response = await http.post(
+        Uri.parse(
+            'https://steel-sequencer-385510.oa.r.appspot.com/rest/post/listPersonal'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          HttpHeaders.authorizationHeader: tokenAuth
+        },
+        body: jsonEncode(<String, String>{
+          "targetUsername":username
+        }));
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      map = data.map<PostBox>((item) => PostBox.fromJson(item)).toList();
+    }
+
+    return map;
+  }
+
 }

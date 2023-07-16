@@ -26,7 +26,7 @@ class Register extends StatefulWidget {
 class RegisterHome extends State<Register> {
   bool passwordVisible = true;
   bool passwordConfVisible = true;
-  late Uint8List selectedImageInBytes;
+  late Uint8List selectedImageInBytes = Uint8List(0);
   String selectFile = "";
   String postId = Uuid().v4();
 

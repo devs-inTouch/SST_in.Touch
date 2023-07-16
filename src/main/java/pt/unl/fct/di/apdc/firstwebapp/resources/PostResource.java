@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import pt.unl.fct.di.apdc.firstwebapp.util.DatastoreUtil;
 import pt.unl.fct.di.apdc.firstwebapp.util.TokenUtil;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects.TokenData;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects.UserData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.post.PostData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.post.PostDeleteData;
 import pt.unl.fct.di.apdc.firstwebapp.util.entities.post.PostIdData;
@@ -104,10 +105,16 @@ public class PostResource {
     }
 
     @POST
-    @Path("/list")
+    @Path("/listPersonal")
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    public Response listPosts() {
+    public Response listPersonalFeed(@HeaderParam(AUTH) String auth, UserData username) {
         LOG.fine("Attempt to list posts");
+
+        TokenData receivedToken = TokenUtil.validateToken(LOG, auth);
+
+        if(receivedToken == null) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
 
         int hashCode = LIST_POSTS.hashCode();
         if(memcache.contains(hashCode)) {
@@ -117,14 +124,18 @@ public class PostResource {
 
         Query<Entity> query = Query.newEntityQueryBuilder().setKind("Post")
                 .setOrderBy(StructuredQuery.OrderBy.desc("creation_date")).build();
+
+
         QueryResults<Entity> postQuery = datastore.run(query);
 
         List<PostInformationData> list = new ArrayList<>();
 
         postQuery.forEachRemaining(t -> {
-            list.add(new PostInformationData(t.getKey().getName(), t.getString("username"), t.getString("description"),
+            if(t.getString("username").equals(username.getTargetUsername()))
+                list.add(new PostInformationData(t.getKey().getName(), t.getString("username"), t.getString("description"),
                     t.getString("mediaUrl"),  t.getList("ups"),  t.getList("downs"), t.getLong("creation_date")));
         });
+
 
         String finalList = g.toJson(list);
         LOG.fine(String.valueOf(list.size()));
@@ -132,6 +143,59 @@ public class PostResource {
 
 
         return Response.ok(g.toJson(list)).build();
+    }
+
+    @POST
+    @Path("/list")
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    public Response listFeed(@HeaderParam(AUTH) String auth) {
+        LOG.fine("Attempt to list posts");
+
+        TokenData receivedToken = TokenUtil.validateToken(LOG, auth);
+
+        if(receivedToken == null) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+
+        String username = receivedToken.getUsername();
+        Key userKey = datastore.newKeyFactory().setKind("User").newKey(username);
+        Transaction txn = datastore.newTransaction();
+
+
+        try {
+            Entity user = txn.get(userKey);
+            List<Value<String>> following = user.getList("user_following");
+
+            Query<Entity> query = Query.newEntityQueryBuilder().setKind("Post")
+                    .setOrderBy(StructuredQuery.OrderBy.desc("creation_date"))
+                    .build();
+
+
+            QueryResults<Entity> postQuery = datastore.run(query);
+
+            List<PostInformationData> list = new ArrayList<>();
+
+            postQuery.forEachRemaining(t -> {
+                if(following.contains(StringValue.of(t.getString("username"))))
+                    list.add(new PostInformationData(t.getKey().getName(), t.getString("username"), t.getString("description"),
+                        t.getString("mediaUrl"),  t.getList("ups"),  t.getList("downs"), t.getLong("creation_date")));
+            });
+
+
+
+            LOG.fine(String.valueOf(list.size()));
+
+
+
+            return Response.ok(g.toJson(list)).build();
+
+        } finally {
+            if (txn.isActive())
+                txn.rollback();
+        }
+
+
+
     }
 
     private Entity modifyAdd(Entity post, String name, String list) {

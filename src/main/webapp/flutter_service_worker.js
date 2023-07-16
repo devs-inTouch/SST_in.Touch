@@ -3,10 +3,9 @@ const MANIFEST = 'flutter-app-manifest';
 const TEMP = 'flutter-temp-cache';
 const CACHE_NAME = 'flutter-app-cache';
 
-const RESOURCES = {"assets/AssetManifest.bin": "aced38671bc002c0af0f8a39b9a1d873",
-"assets/AssetManifest.json": "36235e82add36c2b69c3d10b4db67535",
+const RESOURCES = {"assets/AssetManifest.bin": "9ddf69f54ad629cc987482afae593c40",
+"assets/AssetManifest.json": "5314aebadfecb169357a738f3ae448c6",
 "assets/assets/campus-1.png": "ac416eeba627faad5008565dc94eacc3",
-"assets/assets/icon.png": "8467fd1a3a870003ede7757416b22a7c",
 "assets/assets/logo-1-RBH.png": "cb58acf66a175dbf6ec339177c540808",
 "assets/assets/logo.png": "d222940002b52e5fa6e24c27bbcec359",
 "assets/assets/logoDics.ico": "107f9a5ba4aec0cd9d2f36f46d2e2b73",
@@ -34,9 +33,9 @@ const RESOURCES = {"assets/AssetManifest.bin": "aced38671bc002c0af0f8a39b9a1d873
 "icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
 "icons/Icon-maskable-192.png": "c457ef57daa1d16f64b27b786ec2ea3c",
 "icons/Icon-maskable-512.png": "301a7604d45b3e739efc881eb04896ea",
-"index.html": "5ed7cf9c6e5ae4e7112fc56662a4a4ac",
-"/": "5ed7cf9c6e5ae4e7112fc56662a4a4ac",
-"main.dart.js": "c49f43cecb9c93ab21e6b6510b5e45e7",
+"index.html": "f28a0587596791d2876bba681bb99726",
+"/": "f28a0587596791d2876bba681bb99726",
+"main.dart.js": "531bdc69b92d4f3c84cb32cee67ec1d5",
 "manifest.json": "a6bec499d258bba1aaac407fbf239a9f",
 "version.json": "0801fd2cd27a956a7348641bc672bf92"};
 // The application shell files that are downloaded before a service worker can
