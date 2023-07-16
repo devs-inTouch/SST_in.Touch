@@ -10,23 +10,40 @@ import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Globals.AUTH;
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Globals.COUNT;
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.Globals.DEFAULT_FORMAT;
 import static pt.unl.fct.di.apdc.firstwebapp.util.enums.TokenAttributes.EXPIRATION_TIME;
-import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.*;
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.CREATION_TIME;
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.DEPARTMENT;
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.DESCRIPTION;
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.EMAIL;
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.NAME;
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.ROLE;
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.STATE;
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.STUDENT_NUMBER;
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserAttributes.USERNAME;
+import static pt.unl.fct.di.apdc.firstwebapp.util.enums.UserRole.*;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import com.google.cloud.datastore.*;
+import com.google.cloud.datastore.AggregationQuery;
+import com.google.cloud.datastore.AggregationResult;
+import com.google.cloud.datastore.Cursor;
+import com.google.cloud.datastore.Datastore;
+import com.google.cloud.datastore.Entity;
+import com.google.cloud.datastore.EntityQuery;
+import com.google.cloud.datastore.Query;
+import com.google.cloud.datastore.QueryResults;
 import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
 import com.google.common.collect.Iterables;
 import com.google.gson.Gson;
@@ -34,13 +51,23 @@ import com.google.gson.Gson;
 import pt.unl.fct.di.apdc.firstwebapp.resources.permissions.PermissionsHolder;
 import pt.unl.fct.di.apdc.firstwebapp.util.DatastoreUtil;
 import pt.unl.fct.di.apdc.firstwebapp.util.TokenUtil;
-import pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects.*;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects.BaseQueryResultData;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects.CompleteQueryResultData;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects.PermissionsInfoData;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects.StaffInfoData;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects.StatsData;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects.StudentInfoData;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects.TokenData;
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects.UserInfoData;
 
 
 @Path("/list")
 public class ListResource {
 
     private static final Logger LOG = Logger.getLogger(ListResource.class.getName());
+
+    private static final String CURSOR = "cursor";
+    private static final String N_RESULTS = "nResults";
 
     private final Gson g = new Gson();
     private final Datastore datastore = DatastoreUtil.getService();
@@ -49,11 +76,10 @@ public class ListResource {
 
     public ListResource() {}
 
-    @POST
+    @GET
     @Path("/users")
-    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON + DEFAULT_FORMAT)
-    public Response listUsers(@HeaderParam(AUTH) String auth) {
+    public Response listUsers(@HeaderParam(AUTH) String auth, @QueryParam(CURSOR) String cursor, @QueryParam(N_RESULTS) int nResults) {
 
         TokenData token = TokenUtil.validateToken(LOG, auth);
 
@@ -62,21 +88,21 @@ public class ListResource {
 
         /*if (!ph.hasAccess(LIST_USERS.value, token.getRole()))
             return Response.status(Status.FORBIDDEN).build();*/
-        Key userKey = datastore.newKeyFactory().setKind(USER.value).newKey(token.getUsername());
-        Entity user = datastore.get(userKey);
 
-        if (user == null)
-            return Response.status(Status.FORBIDDEN).build();
-
-        if(!user.getString(ROLE.value).equals("admin"))
+        if(!token.getRole().equals(ADMIN.value))
             return Response.status(Status.BAD_REQUEST).build();
 
-        EntityQuery query = Query.newEntityQueryBuilder()
-                .setKind(USER.value)
-                .setFilter(
-                        PropertyFilter.eq(STATE.value, true)
-                )
-                .build();
+        EntityQuery.Builder queryBuilder = Query.newEntityQueryBuilder()
+                                                .setKind(USER.value)
+                                                .setLimit(null)
+                                                .setFilter(
+                                                        PropertyFilter.eq(STATE.value, true)
+                                                );
+
+        if (cursor != null)
+            queryBuilder.setStartCursor(Cursor.fromUrlSafe(cursor));
+
+        EntityQuery query = queryBuilder.build();
 
         QueryResults<Entity> users = datastore.run(query);
 
@@ -84,8 +110,10 @@ public class ListResource {
 
         users.forEachRemaining(t -> {
             String role = t.getString(ROLE.value);
-            if (role.equals("ALUNO")){
-                resultList.add(new StudentInfoData(t.getKey().getName(),
+            if (role.equals(STUDENT.value)){
+                resultList.add(new StudentInfoData(
+                        users.getCursorAfter().toUrlSafe(),
+                        t.getKey().getName(),
                         t.getString(NAME.value),
                         t.getString(EMAIL.value),
                         t.getString(ROLE.value),
@@ -93,7 +121,9 @@ public class ListResource {
                         t.getString(DEPARTMENT.value),
                         t.getString(STUDENT_NUMBER.value)));
             }
-            resultList.add(new StaffInfoData(t.getKey().getName(),
+            resultList.add(new StaffInfoData(
+                    users.getCursorAfter().toUrlSafe(),
+                    t.getKey().getName(),
                     t.getString(NAME.value),
                     t.getString(EMAIL.value),
                     t.getString(ROLE.value),
@@ -105,11 +135,10 @@ public class ListResource {
         return Response.ok(g.toJson(resultList)).build();
     }
 
-    @POST
+    @GET
     @Path("/unactivated")
-    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON + DEFAULT_FORMAT)
-    public Response listUnactivatedUsers(@HeaderParam(AUTH) String auth) {
+    public Response listUnactivatedUsers(@HeaderParam(AUTH) String auth, @QueryParam(CURSOR) String cursor, @QueryParam(N_RESULTS) int nResults) {
 
         TokenData token = TokenUtil.validateToken(LOG, auth);
 
@@ -119,21 +148,20 @@ public class ListResource {
         /*if (!ph.hasAccess(LIST_UNNACTIVATED_USERS.value, token.getRole()))
             return Response.status(Status.FORBIDDEN).build();*/
 
-        Key userKey = datastore.newKeyFactory().setKind(USER.value).newKey(token.getUsername());
-        Entity user = datastore.get(userKey);
-
-        if (user == null)
-            return Response.status(Status.FORBIDDEN).build();
-
-        if(!user.getString(ROLE.value).equals("admin"))
+        if(!token.getRole().equals(ADMIN.value))
             return Response.status(Status.BAD_REQUEST).build();
 
-        EntityQuery query = EntityQuery.newEntityQueryBuilder()
-                .setKind(USER.value)
-                .setFilter(
-                        PropertyFilter.eq(STATE.value, false)
-                )
-                .build();
+            EntityQuery.Builder queryBuilder = EntityQuery.newEntityQueryBuilder()
+                                                            .setKind(USER.value)
+                                                            .setLimit(nResults)
+                                                            .setFilter(
+                                                                    PropertyFilter.eq(STATE.value, false)
+                                                            );
+
+        if (cursor != null)
+            queryBuilder.setStartCursor(Cursor.fromUrlSafe(cursor));
+
+        EntityQuery query = queryBuilder.build();
         List<StaffInfoData> resultList = fillUserArray(query);
 
         return Response.ok(g.toJson(resultList)).build();
@@ -145,7 +173,9 @@ public class ListResource {
         List<StaffInfoData> resultList = new ArrayList<>();
 
         unactivatedUsers.forEachRemaining(t -> {
-            resultList.add(new StaffInfoData(t.getKey().getName(),
+            resultList.add(new StaffInfoData(
+                    unactivatedUsers.getCursorAfter().toUrlSafe(),
+                    t.getKey().getName(),
                     t.getString(NAME.value),
                     t.getString(EMAIL.value),
                     t.getString(ROLE.value),
@@ -153,6 +183,29 @@ public class ListResource {
                     t.getString(DEPARTMENT.value)));
         });
         return resultList;
+    }
+
+    @GET
+    @Path("/permissions")
+    public Response listPermissions(@HeaderParam(AUTH) String auth,
+                                    @QueryParam("opID") String operationID,
+                                    @QueryParam("cr") String clientRole) {
+
+        TokenData token = TokenUtil.validateToken(LOG, auth);
+
+        if (token == null)
+            return Response.status(Status.UNAUTHORIZED).build();
+
+        /*if (!ph.hasAccess(LIST_PERMISSIONS.value, token.getRole()))
+            return Response.status(Status.FORBIDDEN).build();*/
+
+        PermissionsInfoData result = new PermissionsInfoData(operationID,
+                                                            clientRole,
+                                                            ph.hasAccess(operationID, clientRole),
+                                                            ph.getPermissions(operationID));
+
+        return Response.ok(g.toJson(result)).build();
+
     }
 
 
@@ -168,13 +221,7 @@ public class ListResource {
         /*if (!ph.hasAccess(STATS.value, token.getRole()))
             return Response.status(Status.FORBIDDEN).build();*/
 
-        Key userKey = datastore.newKeyFactory().setKind(USER.value).newKey(token.getUsername());
-        Entity user = datastore.get(userKey);
-
-        if (user == null)
-            return Response.status(Status.FORBIDDEN).build();
-
-        if(!user.getString(ROLE.value).equals("admin"))
+        if(!token.getRole().equals(ADMIN.value))
             return Response.status(Status.BAD_REQUEST).build();
 
         var stats = new StatsData(

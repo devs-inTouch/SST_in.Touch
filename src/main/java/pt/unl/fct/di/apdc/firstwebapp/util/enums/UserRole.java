@@ -2,20 +2,20 @@ package pt.unl.fct.di.apdc.firstwebapp.util.enums;
 
 public enum UserRole {
     
-    UNASSIGNED("NA"),       //*done
+    UNASSIGNED("NA"),
 
-    STUDENT("ALUNO"),     //*done
+    STUDENT("ALUNO"),
 
-    PROFESSOR("PROFESSOR"), //*done
+    PROFESSOR("PROFESSOR"),
 
-    SECURITY("SEGURANÇA"),   //*done
-    LIBRARY("BIBLIOTECA"),     //*done
-    BOARD("DIREÇÃO"),         //*done
-    ANNOUNCER("DIVULGAÇÃO"), //*done
+    SECURITY("SEGURANÇA"),
+    LIBRARY("BIBLIOTECA"),
+    BOARD("DIREÇÃO"),
+    ANNOUNCER("DIVULGAÇÃO"),
 
-    ADMIN("admin"),         //*done
+    ADMIN("admin"),
 
-    SU("superUser");        //*done
+    SU("superUser");
 
     public final String value;
 
@@ -31,6 +31,19 @@ public enum UserRole {
             if (t.value.equals(role))
                 return t;
         return null;
+    }
+
+    public static boolean isStudent(String role) {
+        return role.equals(STUDENT.value);
+    }
+
+    public static boolean isStaff(String role) {
+        return role.equals(SECURITY.value) ||
+                role.equals(LIBRARY.value) ||
+                role.equals(BOARD.value) ||
+                role.equals(ANNOUNCER.value) ||
+                role.equals(ADMIN.value) ||
+                role.equals(SU.value);
     }
 
 }

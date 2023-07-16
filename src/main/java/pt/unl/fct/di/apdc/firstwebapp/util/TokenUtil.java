@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.Key;
+import com.google.cloud.datastore.KeyFactory;
 import com.google.cloud.datastore.Transaction;
 
 import pt.unl.fct.di.apdc.firstwebapp.resources.authentication.SecretManager;
@@ -19,6 +20,8 @@ import pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects.TokenData;
 public class TokenUtil {
 
     private static final Datastore datastore = DatastoreUtil.getService();
+
+    private static final KeyFactory kf = datastore.newKeyFactory().setKind(TOKEN.value);
 
     public static TokenData validateToken(Logger LOG, String givenToken) {
 
@@ -51,7 +54,7 @@ public class TokenUtil {
             ObjectMapper objectMapper = new ObjectMapper();
             TokenData token = objectMapper.readValue(payload, TokenData.class);
 
-            Key tokenKey = datastore.newKeyFactory().setKind(TOKEN.value).newKey(token.getUsername());
+            Key tokenKey = kf.newKey(token.getUsername());
             Entity storedToken = datastore.get(tokenKey);
 
             String message;
@@ -73,7 +76,7 @@ public class TokenUtil {
             if (token.isExpired()) {
                 message = "Token" + token.getId() + "expired.";
                 LOG.warning(message);
-                deleteToken(tokenKey);
+                deleteIdentifiedToken(tokenKey);
                 // return new TokenData(message, "", 0L, 0L);
                 return null;
             }
@@ -86,7 +89,12 @@ public class TokenUtil {
         }
     }
 
-    private static void deleteToken(Key tokenKey) {
+    public static void deleteToken(String userID) {
+        Key key = kf.newKey(userID);
+        deleteIdentifiedToken(key);
+    }
+
+    private static void deleteIdentifiedToken(Key tokenKey) {
         Transaction txn = datastore.newTransaction();
 
         try {

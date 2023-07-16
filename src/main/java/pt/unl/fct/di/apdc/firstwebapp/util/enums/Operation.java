@@ -5,8 +5,7 @@ public enum Operation {
     // permissions
     EDIT_PERMISSIONS("editPermissions", true),                
     EDIT_ACCESSES("editAccesses", true),
-    PERMISSIONS("showPermissions", false),
-    ACCESSES("showAccesses", false),
+    LIST_PERMISSIONS("showPermissions", false),
 
     //dev
     REGISTER_OPERATION("registerOperation", false),
@@ -76,5 +75,12 @@ public enum Operation {
     private Operation(String value, boolean hasPermissions) {
         this.value = value;
         this.hasPermissions = hasPermissions;
+    }
+
+    public static Operation toOperation(String opID) {
+        for (Operation o : Operation.values())
+            if (o.value.equals(opID))
+                return o;
+        return null;
     }
 }

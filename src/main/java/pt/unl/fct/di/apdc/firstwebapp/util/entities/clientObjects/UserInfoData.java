@@ -1,12 +1,15 @@
 package pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects;
 
-public abstract class  UserInfoData {
+import pt.unl.fct.di.apdc.firstwebapp.util.entities.clientObjects.listing.ListInfoData;
+
+public abstract class UserInfoData extends ListInfoData{
 
     private String username, name, email, role, description, department;
 
     public UserInfoData() {}
 
-    public UserInfoData(String username, String name, String email, String role, String description, String department) {
+    public UserInfoData(String cursor, String username, String name, String email, String role, String description, String department) {
+        super(cursor);
     	this.username = username;
     	this.name = name;
     	this.email = email;

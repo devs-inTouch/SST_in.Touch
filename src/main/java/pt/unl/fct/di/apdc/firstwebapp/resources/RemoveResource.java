@@ -63,6 +63,7 @@ public class RemoveResource {
 
         try {
 			
+            TokenUtil.deleteToken(token.getUsername());
 			txn.delete(targetKey);
 			txn.commit();
 			LOG.info("User'" + data.getTargetUsername() + "' activated successfully.");
